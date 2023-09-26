@@ -22,10 +22,10 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-// Define your routes to fetch data directly from the "Movies" collection
+
 app.get('/movies', async (req, res) => {
   try {
-    const collection = db.collection('Moovies'); // Access the "Movies" collection
+    const collection = db.collection('Moovies'); 
     const movies = await collection.find({}).toArray();
     
     if (movies.length === 0) {

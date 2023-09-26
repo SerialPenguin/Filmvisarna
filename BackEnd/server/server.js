@@ -25,9 +25,11 @@ db.once('open', () => {
 
 app.get('/movies', async (req, res) => {
   try {
-    const collection = db.collection('Movies'); 
+    const collection = db.collection('Moovies');
     const movies = await collection.find({}).toArray();
-    
+
+    console.log('Fetched movies from MongoDB:', movies); 
+
     if (movies.length === 0) {
       res.status(404).json({ message: 'No movies found' });
     } else {
@@ -42,7 +44,5 @@ app.get('/movies', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
 
 

@@ -36,6 +36,7 @@ function App() {
             <div key={movie._id} className="movie-card">
               <h2>{movie.title}</h2>
               <p>{movie.description}</p>
+              <img src={movie.images} alt={movie.title}></img>
             </div>
           ))
         )}

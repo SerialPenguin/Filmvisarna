@@ -25,7 +25,7 @@ db.once('open', () => {
 
 app.get('/movies', async (req, res) => {
   try {
-    const collection = db.collection('Moovies');
+    const collection = db.collection('Movies');
     const movies = await collection.find({}).toArray();
 
     console.log('Fetched movies from MongoDB:', movies); 

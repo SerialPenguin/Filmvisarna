@@ -28,15 +28,18 @@ function App() {
   return (
     <div className="App">
       <h1>Movies</h1>
-      <ul>
+      <div className="movie-grid">
         {movies.length === 0 ? (
-          <li>No movies found</li>
+          <p>No movies found</p>
         ) : (
           movies.map((movie) => (
-            <li key={movie._id}>{movie.title}</li>
+            <div key={movie._id} className="movie-card">
+              <h2>{movie.title}</h2>
+              <p>{movie.description}</p>
+            </div>
           ))
         )}
-      </ul>
+      </div>
     </div>
   );
 }

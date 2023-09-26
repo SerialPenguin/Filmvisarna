@@ -25,7 +25,7 @@ db.once('open', () => {
 // Define your routes to fetch data directly from the "Movies" collection
 app.get('/movies', async (req, res) => {
   try {
-    const collection = db.collection('Movies'); // Access the "Movies" collection
+    const collection = db.collection('Moovies'); // Access the "Movies" collection
     const movies = await collection.find({}).toArray();
     
     if (movies.length === 0) {

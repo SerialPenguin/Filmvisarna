@@ -23,7 +23,7 @@ db.once('open', () => {
 });
 
 
-app.get('/movies', async (req, res) => {
+app.get('/api/movies', async (req, res) => {
   try {
     const collection = db.collection('Movies');
     const movies = await collection.find({}).toArray();

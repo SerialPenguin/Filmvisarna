@@ -7,7 +7,7 @@ function App() {
   useEffect(() => {
     console.log('Fetching movies...');
 
-    fetch('/movies')
+    fetch('/api/movies')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

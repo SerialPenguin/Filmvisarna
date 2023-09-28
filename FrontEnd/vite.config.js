@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/movies': {
+      '/api': {
         target: 'http://localhost:3000', // Specify the address of your Express server
         changeOrigin: true,
         // You can add additional proxy options here if needed

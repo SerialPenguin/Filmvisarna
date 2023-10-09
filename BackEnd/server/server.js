@@ -55,9 +55,7 @@ app.get('/api/screenings', async (req, res) => {
         }
       },
       {
-        $unwind: {
-          path: "$movie"
-        }
+        $unwind: "$movie"
       },
       {
         $lookup: {
@@ -68,10 +66,44 @@ app.get('/api/screenings', async (req, res) => {
         }
       },
       {
-        $unwind: {
-          path: "$salon"
+        $unwind: "$salon"
+      },
+      {
+        
+          $addFields: {
+            "availableSeats": {
+              $reduce: {
+                input: "$salon.seats",
+                initialValue: 0,
+                in: {
+                  $add: [
+                    "$$value",
+                    {
+                      $reduce: {
+                        input: "$$this.rows",
+                        initialValue: 0,
+                        in: {
+                          $add: [
+                            "$$value",
+                            {
+                              $size: {
+                                $filter: {
+                                  input: "$$this.seats",
+                                  as: "seat",
+                                  cond: { $eq: ["$$seat.booked", false] }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
         }
-      }
     ]).toArray();
 
     console.log('Fetched screenings from MongoDB:', screenings); 
@@ -80,6 +112,7 @@ app.get('/api/screenings', async (req, res) => {
       if(screening.movie && screening.salon) {
         console.log('Movie title:', screening.movie.title);
         console.log('Salon name:', screening.salon.name);
+        console.log('Available seats:', screening.availableSeats);
       } else {
         console.error('Incomplete screening data:', screening);
       }
@@ -95,7 +128,6 @@ app.get('/api/screenings', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

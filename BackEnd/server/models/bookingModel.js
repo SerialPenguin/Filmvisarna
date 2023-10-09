@@ -7,8 +7,8 @@ const bookingSchema = new mongoose.Schema({
     rowNumber: { type: Number, required: true },
     seatNumber: { type: Number, required: true }
   }
-});
+}, { collection: 'bookings'});
 
-const Booking = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.model('booking', bookingSchema);
 
 export default Booking;

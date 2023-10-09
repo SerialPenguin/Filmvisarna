@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
+import Booking from '../models/bookingModel.js';
 
 export const getAllScreenings = async (req, res) => {
   try {
-    const screeningsCollection = mongoose.connection.collection('Screenings');
+    const screeningsCollection = mongoose.connection.collection('screenings');
     const screenings = await screeningsCollection.aggregate([
       {
         $lookup: {
-          from: 'Movies',
+          from: 'movies',
           localField: 'movieId',
           foreignField: '_id',
           as: 'movie'
@@ -14,7 +15,7 @@ export const getAllScreenings = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'Seats',
+          from: 'seats',
           localField: 'salonId',
           foreignField: '_id',
           as: 'salon'
@@ -30,7 +31,9 @@ export const getAllScreenings = async (req, res) => {
 
     for (let i = 0; i < screenings.length; i++) {
       const totalCapacity = screenings[i].salon.capacity;
-      const bookedSeatsCount = screenings[i].bookedSeats.length;
+      // Find the number of bookings for this screening.
+      const bookedSeatsCount = await Booking.find({ screeningId: screenings[i]._id }).countDocuments();
+      console.log(`Screening ID: ${screenings[i]._id}, Booked Seats: ${bookedSeatsCount}, Total Capacity: ${totalCapacity}`);
       screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
     }
 

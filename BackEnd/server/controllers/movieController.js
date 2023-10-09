@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export const getAllMovies = async (req, res) => {
   try {
-    const collection = mongoose.connection.collection('Movies');
+    const collection = mongoose.connection.collection('movies');
     const movies = await collection.find({}).toArray();
     res.json(movies);
   } catch (error) {

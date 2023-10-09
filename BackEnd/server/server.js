@@ -45,7 +45,6 @@ app.get('/api/movies', async (req, res) => {
 app.get('/api/screenings', async (req, res) => {
   try {
     const screeningsCollection = db.collection('Screenings');
-    const seatsCollection = db.collection('Seats');
 
     const screenings = await screeningsCollection.aggregate([
       {

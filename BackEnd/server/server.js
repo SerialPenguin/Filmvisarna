@@ -44,8 +44,10 @@ app.get('/api/movies', async (req, res) => {
 
 app.get('/api/screenings', async (req, res) => {
   try {
-    const collection = db.collection('Screenings');
-    const screenings = await collection.aggregate([
+    const screeningsCollection = db.collection('Screenings');
+    const seatsCollection = db.collection('Seats');
+
+    const screenings = await screeningsCollection.aggregate([
       {
         $lookup: {
           from: 'Movies',
@@ -53,9 +55,6 @@ app.get('/api/screenings', async (req, res) => {
           foreignField: '_id',
           as: 'movie'
         }
-      },
-      {
-        $unwind: "$movie"
       },
       {
         $lookup: {
@@ -66,47 +65,21 @@ app.get('/api/screenings', async (req, res) => {
         }
       },
       {
-        $unwind: "$salon"
+        $unwind: "$movie"
       },
       {
-        
-          $addFields: {
-            "availableSeats": {
-              $reduce: {
-                input: "$salon.seats",
-                initialValue: 0,
-                in: {
-                  $add: [
-                    "$$value",
-                    {
-                      $reduce: {
-                        input: "$$this.rows",
-                        initialValue: 0,
-                        in: {
-                          $add: [
-                            "$$value",
-                            {
-                              $size: {
-                                $filter: {
-                                  input: "$$this.seats",
-                                  as: "seat",
-                                  cond: { $eq: ["$$seat.booked", false] }
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
+        $unwind: "$salon"
+      }
     ]).toArray();
 
-    console.log('Fetched screenings from MongoDB:', screenings); 
+    // Calculating available seats dynamically
+    for (let i = 0; i < screenings.length; i++) {
+      const totalCapacity = screenings[i].salon.capacity;
+      const bookedSeatsCount = screenings[i].bookedSeats.length;
+      screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
+    }
+
+    console.log('Fetched screenings from MongoDB:', screenings);
 
     screenings.forEach(screening => {
       if(screening.movie && screening.salon) {

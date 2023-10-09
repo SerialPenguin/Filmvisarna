@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-exports.getAllScreenings = async (req, res) => {
+import mongoose from 'mongoose';
+
+export const getAllScreenings = async (req, res) => {
   try {
     const screeningsCollection = mongoose.connection.collection('Screenings');
     const screenings = await screeningsCollection.aggregate([

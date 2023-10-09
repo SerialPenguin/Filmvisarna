@@ -1,7 +1,8 @@
-const express = require('express');
-const screeningController = require('../controllers/screeningController');
+import express from 'express';
+import { getAllScreenings } from '../controllers/screeningController.js';
+
 const router = express.Router();
 
-router.get('/', screeningController.getAllScreenings);
+router.get('/', getAllScreenings);
 
-module.exports = router;
+export default router;

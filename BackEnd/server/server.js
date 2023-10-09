@@ -41,6 +41,62 @@ app.get('/api/movies', async (req, res) => {
   }
 });
 
+
+app.get('/api/screenings', async (req, res) => {
+  try {
+    const collection = db.collection('Screenings');
+    const screenings = await collection.aggregate([
+      {
+        $lookup: {
+          from: 'Movies',
+          localField: 'movieId',
+          foreignField: '_id',
+          as: 'movie'
+        }
+      },
+      {
+        $unwind: {
+          path: "$movie"
+        }
+      },
+      {
+        $lookup: {
+          from: 'Seats',
+          localField: 'salonId',
+          foreignField: '_id',
+          as: 'salon'
+        }
+      },
+      {
+        $unwind: {
+          path: "$salon"
+        }
+      }
+    ]).toArray();
+
+    console.log('Fetched screenings from MongoDB:', screenings); 
+
+    screenings.forEach(screening => {
+      if(screening.movie && screening.salon) {
+        console.log('Movie title:', screening.movie.title);
+        console.log('Salon name:', screening.salon.name);
+      } else {
+        console.error('Incomplete screening data:', screening);
+      }
+    });
+
+    if (screenings.length === 0) {
+      res.status(404).json({ message: 'No screenings found' });
+    } else {
+      res.json(screenings);
+    }
+  } catch (error) {
+    console.error('Error fetching screenings:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

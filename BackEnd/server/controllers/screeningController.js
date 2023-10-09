@@ -34,7 +34,6 @@ export const getAllScreenings = async (req, res) => {
       screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
     }
 
-    // Logging the desired information
     screenings.forEach(screening => {
       console.log('Movie title:', screening.movie.title);
       console.log('Salon name:', screening.salon.name);

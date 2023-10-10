@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-exports.getAllScreenings = async (req, res) => {
+import mongoose from 'mongoose';
+
+export const getAllScreenings = async (req, res) => {
   try {
     const screeningsCollection = mongoose.connection.collection('Screenings');
     const screenings = await screeningsCollection.aggregate([
@@ -33,7 +34,6 @@ exports.getAllScreenings = async (req, res) => {
       screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
     }
 
-    // Logging the desired information
     screenings.forEach(screening => {
       console.log('Movie title:', screening.movie.title);
       console.log('Salon name:', screening.salon.name);

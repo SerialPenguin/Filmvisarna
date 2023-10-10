@@ -1,7 +1,7 @@
-const express = require("express");
-const movieRoutes = require("./routes/movieRoutes");
-const screeningRoutes = require("./routes/screeningRoutes");
-require("./config/db");
+import express from "express";
+import movieRoutes from "./routes/movieRoutes.js";
+import screeningRoutes from "./routes/screeningRoutes.js";
+import "./config/db.js";
 
 const app = express();
 const port = process.env.PORT || 3000;

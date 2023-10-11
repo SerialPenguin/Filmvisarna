@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Booking from '../models/bookingModel.js';
 import Screening from '../models/screeningModel.js';
+import User from "../models/userModel.js";
 import authService from '../service/authService.js';
 
 
@@ -84,13 +85,20 @@ export const bookSeat = async (req, res) => {
 
       console.log("ScreeningId Type and Value:", typeof screeningId, screeningId);
 
-    
+      const user = await User.findOne({_id: userInfo.id});
+
+      const updateUserBookingHistory = await user.updateOne(
+        { $push: {bookingHistory: screeningId }},
+      );
+
+      console.log("User update Response:", updateUserBookingHistory);
+
       const screeningUpdateResponse = await Screening.updateOne(
         { _id: new mongoose.Types.ObjectId(screeningId) },
         { $push: { bookedSeats: seat } }
       );
 
-      console.log("Update Response:", screeningUpdateResponse);
+      console.log("Screening update Response:", screeningUpdateResponse);
 
       // Fetch updated screening for logging
       const updatedScreening = await Screening.findOne(

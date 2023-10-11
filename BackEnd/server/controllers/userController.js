@@ -11,6 +11,7 @@ export const createUser = async (req, res) => {
     lastName,
     emailAdress,
     password,
+    bookingHistory: [],
   });
 
   try {

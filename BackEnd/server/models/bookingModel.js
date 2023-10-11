@@ -6,7 +6,8 @@ const bookingSchema = new mongoose.Schema({
   seat: {
     rowNumber: { type: Number, required: true },
     seatNumber: { type: Number, required: true }
-  }
+  },
+  bookingNumber: { type: String, required: true}
 }, { collection: 'bookings'});
 
 const Booking = mongoose.model('booking', bookingSchema);

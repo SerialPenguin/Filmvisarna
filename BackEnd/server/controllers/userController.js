@@ -1,5 +1,7 @@
-import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+
+const secretKey = "supersecretkeyforjwt123456789";
 
 export const createUser = async (req, res) => {
   const { firstName, lastName, emailAdress, password } = req.body;
@@ -19,23 +21,21 @@ export const createUser = async (req, res) => {
   }
 };
 
-// try {
-//   const { firstName, lastName, emailAdress } = req.body;
-//   console.log("Request body:", req.body);
+export const login = async (req, res) => {
+  const { emailAdress, password } = req.body;
 
-//   const newUser = new User({
-//     firstName: firstName,
-//     lastName: lastName,
-//     emailAdress: emailAdress,
-//   });
+  const user = await User.findOne({ emailAdress });
 
-//   await newUser.save();
-//   console.log("User saved:", newUser);
+  if (!user) {
+    res.status(401).json({ error: "Invalid email or password" });
+    return;
+  }
 
-//   res
-//     .status(201)
-//     .json({ message: "User created successfully!", user: newUser });
-// } catch (error) {
-//   console.error("Error creating booking:", error);
-//   res.status(500).json({ error: "Internal server error" });
-// }
+  if (user && password != user.password) {
+    res.status(401).json({ error: "Invalid email or password" });
+    return;
+  }
+
+  const token = jwt.sign({ id: user._id }, secretKey);
+  res.json({ token });
+};

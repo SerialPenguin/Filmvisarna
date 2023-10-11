@@ -15,7 +15,7 @@ app.use('/api/movies', movieRoutes);
 app.use('/api/screenings', screeningRoutes);
 app.use('/api/bookings', bookingRoutes);
 
-// Global error handling middleware
+// Middleware, Global error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ error: 'An unexpected error occurred!' });

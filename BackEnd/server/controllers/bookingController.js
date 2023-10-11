@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import Booking from '../models/bookingModel.js';
 import Screening from '../models/screeningModel.js';
+import authService from '../service/authService.js';
 
 
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seat } = req.body;
+    const { screeningId, salonId, seat, bookedBy } = req.body;
     console.log("Request body:", req.body);
 
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
@@ -59,10 +60,22 @@ export const bookSeat = async (req, res) => {
     if(existingBookingNumber) {
       result = generateBookingNumber(min, max);
     }else {
+
+      const authHeader = req.headers["authorization"];
+
+      const userInfo = authService.verifyJwt(authHeader);
+
+      const userID = userInfo.id ? userInfo.id : "GUEST";
+      const userEmail = userInfo.email ? userInfo.email : "email";
+
       const newBooking = new Booking({
         screeningId,
         salonId,
         seat,
+        bookedBy: {
+          user: userID,
+          email: userEmail,
+        },
         bookingNumber: result
       });
 
@@ -71,6 +84,7 @@ export const bookSeat = async (req, res) => {
 
       console.log("ScreeningId Type and Value:", typeof screeningId, screeningId);
 
+    
       const screeningUpdateResponse = await Screening.updateOne(
         { _id: new mongoose.Types.ObjectId(screeningId) },
         { $push: { bookedSeats: seat } }

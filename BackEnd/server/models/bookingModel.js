@@ -7,6 +7,10 @@ const bookingSchema = new mongoose.Schema({
     rowNumber: { type: Number, required: true },
     seatNumber: { type: Number, required: true }
   },
+  bookedBy: {
+    user: { type: String, required: true},
+    email: { type: String, required: true}
+  },
   bookingNumber: { type: String, required: true}
 }, { collection: 'bookings'});
 

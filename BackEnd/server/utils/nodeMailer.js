@@ -1,9 +1,12 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
-export default async function sendEmail(subject, message, send_to, send_from) {
+dotenv.config()
+
+export default async function sendEmail(subject, message, send_to, reply_to) {
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
-        port: "465", // for gmail, 
+        port: "587", // for outlook, 
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
@@ -14,10 +17,10 @@ export default async function sendEmail(subject, message, send_to, send_from) {
     })
 
     const options = {
-        from: send_from,
+        from: "film.visers123@outlook.com",
         to: send_to,
-        subject: subject,
-        html: message
+        subject: "Bokningsbekräftelse Filmvisarna",
+        html: "<p>Din bokningsbekräftelse</p>"
     }
 
     //send email

@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/api/movies', movieRoutes);
 app.use('/api/screenings', screeningRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/sendmail', nodeMailerRoutes); // nodemailer-endpoint
+app.use('/api/sendmail', nodeMailerRoutes); // nodemailer-endpoint - the logic will go into bookingendpoint later perhaps
 
 // Global error handling middleware
 app.use((err, req, res, next) => {

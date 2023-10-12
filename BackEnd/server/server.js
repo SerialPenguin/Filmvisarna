@@ -5,6 +5,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import movieRoutes from './routes/movieRoutes.js';
 import screeningRoutes from './routes/screeningRoutes.js';
 import sendEmail from './utils/nodeMailer.js'
+import nodeMailerRoutes from './routes/nodeMailerRoutes.js';
 
 
 dotenv.config();
@@ -16,32 +17,7 @@ app.use(express.json());
 app.use('/api/movies', movieRoutes);
 app.use('/api/screenings', screeningRoutes);
 app.use('/api/bookings', bookingRoutes);
-
-//nodemailer tryout
-// app.get("/api/sendmail", (req, res) => {
-//   res.send("")
-// })
-
-app.post("/api/sendmail", async (req, res) => {
-  const { email } = req.body;
-
-  const bookingno = "GEE187";
-
-  try {
-    //hardcode email to test
-    const send_to = email;
-    const sent_from = process.env.EMAIL_USER;
-    const reply_to = email;
-    const subject = "";
-    const text = "Din bokningsbekräftelse. Ditt bokningsnummer är " + bookingno + ". Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.";
-    const html = `<h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
-    console.log(send_to, sent_from, reply_to)
-    await sendEmail(send_to, sent_from, reply_to, subject, text, html);
-    res.status(200).json({ success: true, message: "Email sent" });
-  } catch (error) {
-    res.status(500).json(error.message)
-  }
-})
+app.use('/api/sendmail', nodeMailerRoutes); // nodemailer-endpoint
 
 // Global error handling middleware
 app.use((err, req, res, next) => {

@@ -14,8 +14,15 @@ export const createUser = async (req, res) => {
   });
 
   try {
-    await newUser.save();
-    res.status(201).json({ message: "User successfully created!" });
+    const user = await User.findOne({ emailAdress });
+    if (user) {
+      res
+        .status(401)
+        .json({ error: "Email address taken, login or try another email." });
+    } else {
+      await newUser.save();
+      res.status(201).json({ message: "User successfully created!" });
+    }
   } catch (error) {
     res.status(400).json({ error: "Registration failed" });
   }

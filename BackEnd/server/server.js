@@ -25,18 +25,18 @@ app.use('/api/bookings', bookingRoutes);
 app.post("/api/sendmail", async (req, res) => {
   const { email } = req.body;
 
+  const bookingno = "GEE187";
 
   try {
     //hardcode email to test
     const send_to = email;
     const sent_from = process.env.EMAIL_USER;
     const reply_to = email;
-    const subject = "Bokningsbekräftelse Filmvisarna";
-    const message = `
-      <p>Här är din bokningsbekräftelse</p>
-    `
+    const subject = "";
+    const text = "Din bokningsbekräftelse. Ditt bokningsnummer är " + bookingno + ". Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.";
+    const html = `<h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
     console.log(send_to, sent_from, reply_to)
-    await sendEmail(send_to, sent_from, reply_to, subject, message);
+    await sendEmail(send_to, sent_from, reply_to, subject, text, html);
     res.status(200).json({ success: true, message: "Email sent" });
   } catch (error) {
     res.status(500).json(error.message)

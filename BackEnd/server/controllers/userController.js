@@ -12,6 +12,7 @@ export const createUser = async (req, res) => {
     emailAdress,
     password,
     bookingHistory: [],
+    userRole: "USER",
   });
 
   try {

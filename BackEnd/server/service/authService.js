@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-function verifyJwt(authHeader) { 
+function verifyJwt(authHeader) {
   
   if (!authHeader)
     return res.status(401).json({ msg: "Authorization header is missing" });

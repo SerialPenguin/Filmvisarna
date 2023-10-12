@@ -7,7 +7,7 @@ import authService from '../service/authService.js';
 
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seat, bookedBy } = req.body;
+    const { screeningId, salonId, seat } = req.body;
     console.log("Request body:", req.body);
 
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
@@ -25,25 +25,21 @@ export const bookSeat = async (req, res) => {
     }
 
     const randomChars = []
-    const min = 10;
-    const max = 123;
 
-    let result = generateBookingNumber(min, max);
+    let result = generateBookingNumber();
 
-    function generateBookingNumber(min, max) {
+    function generateBookingNumber() {
       for(let i = 0; i < 6; i++) {
-
         let random;
-        let randomModulus = Math.floor(Math.random() * (3 - 1) + 1);
   
-        if(i%randomModulus === 0){
-          random = Math.floor(Math.random() * (max - min) + min);
+        if(i <= 2){
+          random = Math.floor(Math.random() * (90 - 65) + 65);
         }
         else {
-          random = Math.floor(Math.random() * min);
+          random = Math.floor(Math.random() * 10);
         }
   
-        if(random < 10 || random > 65 && random < 91 || random > 96) {
+        if(random < 10 || random > 64) {
           if(random > 64) random = String.fromCharCode(random)
           randomChars.push(random);
         }else i--;
@@ -59,7 +55,7 @@ export const bookSeat = async (req, res) => {
     })
 
     if(existingBookingNumber) {
-      result = generateBookingNumber(min, max);
+      result = generateBookingNumber();
     }else {
 
       const authHeader = req.headers["authorization"];

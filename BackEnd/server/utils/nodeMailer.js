@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config()
 
-export default async function sendEmail({ from, to, replyTo, subject, text, html }) {
+export default async function sendEmail({ from, to, replyTo, subject, text, html, attachments }) {
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: "587", // for outlook, 
@@ -22,7 +22,8 @@ export default async function sendEmail({ from, to, replyTo, subject, text, html
         to: to,
         subject: subject,
         text: text,
-        html: html
+        html: html,
+        attachments: attachments,
     }
 
     //send email

@@ -12,9 +12,15 @@ export default async function sendConfirmation(req, res) {
         const replyTo = email;
         const subject = "Bokningsberäftelse Filmvisarna";
         const text = `Din bokningsbekräftelse. Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.`;
-        const html = `<h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
+        const html = `Embedded image: <img src="cid:logo.ee">
+        <h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
+        const attachments = [{
+            filename: 'FilmvisarnaLogoTwo.png',
+            path: '../assets/FilmvisarnaLogoTwo.png',
+            cid: 'logo.ee'
+        }]
 
-        await sendEmail({ from, to, replyTo, subject, text, html });
+        await sendEmail({ from, to, replyTo, subject, text, html, attachments });
         res.status(200).json({ success: true, message: "Email sent" });
     } catch (error) {
         res.status(500).json(error.message)

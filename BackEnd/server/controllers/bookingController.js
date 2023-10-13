@@ -7,10 +7,9 @@ import authService from '../service/authService.js';
 
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seat} = req.body;
+    const { screeningId, salonId, seat, email} = req.body;
 
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
-    // console.log("Find Screening:", screening);
 
     try {
       const collection = mongoose.connection.collection('seats');
@@ -98,17 +97,16 @@ export const bookSeat = async (req, res) => {
 
       const authHeader = req.headers["authorization"];
 
-      const userInfo = authService.verifyJwt(authHeader);
+      const userInfo = await authService.verifyJwt(authHeader);
 
-      const userID = userInfo.id ? userInfo.id : "GUEST";
-      const userEmail = userInfo.email ? userInfo.email : "email";
+      const userEmail = email ? email : "no email";
 
       const newBooking = new Booking({
         screeningId,
         salonId,
         seat,
         bookedBy: {
-          user: userID,
+          user: userInfo.id ? userInfo.id : userInfo,
           email: userEmail,
         },
         bookingNumber: result
@@ -116,22 +114,17 @@ export const bookSeat = async (req, res) => {
 
       await newBooking.save();
 
-      const user = await User.findOne({_id: userInfo.id});
+      if(userInfo.id) {
+        const user = await User.findOne({_id: userInfo.id});
 
-      const updateUserBookingHistory = await user.updateOne(
-        { $push: {bookingHistory: screeningId }},
-      );
-
-      console.log("User update Response:", updateUserBookingHistory);
+        const updateUserBookingHistory = await user.updateOne(
+          { $push: {bookingHistory: screeningId }},
+        );
+      }
 
       const screeningUpdateResponse = await Screening.updateOne(
         { _id: new mongoose.Types.ObjectId(screeningId) },
         { $push: { bookedSeats: seat } }
-      );
-
-      // Fetch updated screening for logging
-      const updatedScreening = await Screening.findOne(
-        { _id: new mongoose.Types.ObjectId(screeningId) }
       );
 
       res.status(201).json({ message: 'Booking created!', booking: newBooking });

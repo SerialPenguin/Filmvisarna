@@ -1,17 +1,25 @@
 import jwt from 'jsonwebtoken';
 
-function verifyJwt(authHeader) {
-  
-  if (!authHeader)
-    return res.status(401).json({ msg: "Authorization header is missing" });
+async function verifyJwt(authHeader) {
 
-  const secretKey = process.env.SECRET;
-  const authToken = authHeader.replace("Bearer ", "");
-  
+  let user;
+
   try{
-    const authorized = jwt.verify(authToken, secretKey);
-    return authorized;
-  }catch(err) {return console.log(err)};
+
+    if(!authHeader) {
+      user = "GUEST";
+      return user;
+    }else {
+      
+      const secretKey = process.env.SECRET;
+      const authToken = authHeader.replace("Bearer ", "");
+      
+      user = jwt.verify(authToken, secretKey)
+      return user;
+    };
+  }catch(err) {
+    return console.log(err)
+  };
 }
 
 export default { verifyJwt };

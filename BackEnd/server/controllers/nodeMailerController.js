@@ -13,8 +13,18 @@ export default async function sendConfirmation(req, res) {
         const replyTo = email;
         const subject = "Bokningsberäftelse Filmvisarna";
         const text = `Din bokningsbekräftelse. Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.`;
-        const html = `<img src="cid:logo.ee">
-        <h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. <br> Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
+        const html = `
+        <div style="border:purple; border-width:2px; border-style:solid; padding:10px; text-align:center; width:400px; border-radius:15px; font-size:16px;">
+        <h2 style="color:purple;">Din bokningsbekräftelse</h2> 
+        <p>Ditt bokningsnummer är 
+        <br><h1>${bookingno}</h1> 
+        Ta med ditt bokningsnummer till biografen för att kunna betala och få biljetterna till din valda visning.
+        <br>
+        <br>
+        Välkommen på en fantastisk bioupplevelse hos oss på </p> 
+        <br><img src="cid:logo.ee">
+        <br>
+        </div>`
         const attachments = [{
             filename: 'FilmvisarnaLogoTwo.png',
             path: __dirname + '/FilmvisarnaLogoTwo.png',

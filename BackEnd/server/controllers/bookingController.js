@@ -7,7 +7,8 @@ import authService from '../service/authService.js';
 
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seat, email} = req.body;
+    const { screeningId, salonId, seat, email, ticketTypeId} = req.body;
+
 
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
 
@@ -109,7 +110,8 @@ export const bookSeat = async (req, res) => {
           user: userInfo.id ? userInfo.id : userInfo,
           email: userEmail,
         },
-        bookingNumber: result
+        bookingNumber: result,
+        ticketTypeId,
       });
 
       await newBooking.save();

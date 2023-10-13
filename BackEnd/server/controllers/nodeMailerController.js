@@ -1,5 +1,6 @@
 import sendEmail from '../utils/nodeMailer.js'
 import dotenv from 'dotenv';
+import __dirname from '../assets/dir.js';
 
 dotenv.config();
 
@@ -12,11 +13,11 @@ export default async function sendConfirmation(req, res) {
         const replyTo = email;
         const subject = "Bokningsberäftelse Filmvisarna";
         const text = `Din bokningsbekräftelse. Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.`;
-        const html = `Embedded image: <img src="cid:logo.ee">
-        <h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
+        const html = `<img src="cid:logo.ee">
+        <h3>Din bokningsbekräftelse</h3> <br> <p>Ditt bokningsnummer är ${bookingno}. <br> Välkommen på en fantastisk bioupplevelse hos oss på Filmvisarna.</p>`
         const attachments = [{
             filename: 'FilmvisarnaLogoTwo.png',
-            path: '../assets/FilmvisarnaLogoTwo.png',
+            path: __dirname + '/FilmvisarnaLogoTwo.png',
             cid: 'logo.ee'
         }]
 

@@ -5,7 +5,7 @@ import Screening from '../models/screeningModel.js';
 
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seat } = req.body;
+    const { screeningId, salonId, seat, ticketTypeId } = req.body;
     console.log("Request body:", req.body);
 
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
@@ -25,6 +25,7 @@ export const bookSeat = async (req, res) => {
     const newBooking = new Booking({
       screeningId,
       salonId,
+      ticketTypeId,
       seat
     });
 

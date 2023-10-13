@@ -4,6 +4,7 @@ import "./config/db.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import movieRoutes from "./routes/movieRoutes.js";
 import screeningRoutes from "./routes/screeningRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -14,8 +15,9 @@ app.use(express.json());
 app.use("/api/movies", movieRoutes);
 app.use("/api/screenings", screeningRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/auth", userRoutes);
 
-// Global error handling middleware
+// Middleware, Global error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ error: "An unexpected error occurred!" });

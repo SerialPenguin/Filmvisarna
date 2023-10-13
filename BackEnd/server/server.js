@@ -6,7 +6,6 @@ import movieRoutes from "./routes/movieRoutes.js";
 import screeningRoutes from "./routes/screeningRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
-import sendEmail from './utils/nodeMailer.js'
 import nodeMailerRoutes from './routes/nodeMailerRoutes.js';
 
 dotenv.config();

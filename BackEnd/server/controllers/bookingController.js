@@ -9,7 +9,7 @@ export const bookSeat = async (req, res) => {
   try {
     const { screeningId, salonId, seat, email, ticketTypeId} = req.body;
 
-
+    
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
 
     try {

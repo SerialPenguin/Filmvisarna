@@ -5,7 +5,7 @@ function verifyJwt(authHeader) {
   if (!authHeader)
     return res.status(401).json({ msg: "Authorization header is missing" });
 
-  const secretKey = "supersecretkeyforjwt123456789";
+  const secretKey = process.env.SECRET;
   const authToken = authHeader.replace("Bearer ", "");
   
   try{

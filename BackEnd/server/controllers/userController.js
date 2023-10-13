@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
-const secretKey = "supersecretkeyforjwt123456789";
+const secretKey = process.env.SECRET;
 
 export const createUser = async (req, res) => {
   const { firstName, lastName, emailAdress, password } = req.body;

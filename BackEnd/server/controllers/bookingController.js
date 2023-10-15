@@ -5,6 +5,7 @@ import User from "../models/userModel.js";
 import authService from '../service/authService.js';
 
 
+
 export const bookSeat = async (req, res) => {
   try {
     const { screeningId, salonId, seat, email, ticketTypeId} = req.body;
@@ -115,6 +116,7 @@ export const bookSeat = async (req, res) => {
       });
 
       await newBooking.save();
+     
 
       if(userInfo.id) {
         const user = await User.findOne({_id: userInfo.id});
@@ -128,8 +130,11 @@ export const bookSeat = async (req, res) => {
         { _id: new mongoose.Types.ObjectId(screeningId) },
         { $push: { bookedSeats: seat } }
       );
+      
 
       res.status(201).json({ message: 'Booking created!', booking: newBooking });
+      
+      
     }
   } catch (error) {
     console.error('Error creating booking:', error);

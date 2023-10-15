@@ -55,10 +55,10 @@ app.get('/events', (req, res) => {
 };
 
    clients.push(res);
-  // Send updates at a regular interval (e.g., every second)
+  // Send updates a regular interval
   const intervalId = setInterval(sendBookedSeats, 500);
 
-  // Cleanup interval and close SSE channel upon client disconnect
+  // Cleanup and close SSE on disconnect
   req.on('close', () => {
     clients.splice(clients.indexOf(res), 1);
     clearInterval(intervalId);

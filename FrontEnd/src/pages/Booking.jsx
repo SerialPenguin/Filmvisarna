@@ -8,8 +8,11 @@ function Booking() {
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // SSE (Server-Sent Events) useEffect
   useEffect(() => {
-    const eventSource = new EventSource('/api/events');
+    if (!screeningId) return;
+
+    const eventSource = new EventSource(`/api/events/${screeningId}`);
 
     eventSource.onmessage = function (event) {
       try {
@@ -32,7 +35,7 @@ function Booking() {
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [screeningId]);  // Now the effect is dependent on screeningId
 
   const isSeatBooked = (rowNumber, seatNumber) => {
     return screening?.bookedSeats.some(
@@ -51,7 +54,7 @@ function Booking() {
   useEffect(() => {
     const fetchScreening = async () => {
       try {
-        const response = await fetch(`/api/screenings/${screeningId}`);
+        const response = await fetch(`/api/search/screenings/${screeningId}`);
         if (!response.ok) throw new Error('Failed to fetch screening');
         const data = await response.json();
         setScreening(data);
@@ -64,7 +67,7 @@ function Booking() {
 
     const fetchMovie = async (movieId) => {
       try {
-        const response = await fetch(`/api/movies/${movieId}`);
+        const response = await fetch(`/api/search/movies/${movieId}`);
         if (!response.ok) throw new Error('Failed to fetch movie');
         const data = await response.json();
         setMovie(data);
@@ -76,7 +79,7 @@ function Booking() {
 
     const fetchSeats = async (salonId) => {
       try {
-        const response = await fetch(`/api/seats/${salonId}`);
+        const response = await fetch(`/api/search/seats/${salonId}`);
         if (!response.ok) throw new Error('Failed to fetch seats');
         const data = await response.json();
         setSalonLayout(data);

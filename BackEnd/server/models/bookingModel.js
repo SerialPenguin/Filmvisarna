@@ -9,7 +9,7 @@ const bookingSchema = new mongoose.Schema({
     seatNumber: { type: Number, required: true }
   }],
   bookedBy: {
-    user: { type: Schema.Types.Mixed, required: true},
+    user: { type: mongoose.Schema.Types.Mixed, required: true},
     email: { type: String, required: true}
   },
   bookingNumber: { type: String, required: true}

@@ -8,7 +8,6 @@ async function verifyJwt(authHeader) {
   try{
 
     if(!authHeader) {
-      user = "GUEST";
       return user;
     }else {
       

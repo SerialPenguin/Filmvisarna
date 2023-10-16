@@ -71,14 +71,12 @@ export const bookSeat = async (req, res) => {
     const userId = await authService.verifyJwt(authHeader);
     const userEmail = email ? email : "no email";
 
-    console.log(userId);
-
     const newBooking = new Booking({
       screeningId,
       salonId,
       seats, // Save seats as an array
       bookedBy: {
-        user: userId,
+        user: userId === undefined ? "GUEST" : userId,
         email: userEmail,
       },
       bookingNumber: bookingNumber,

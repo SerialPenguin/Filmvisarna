@@ -8,16 +8,25 @@ import generatorService from '../service/generatorService.js.js';
 
 export const bookSeat = async (req, res) => {
   try {
+
     const { screeningId, salonId, seats, email, ticketTypeId } = req.body;
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
     const collection = mongoose.connection.collection('seats');
     const salonSeats = await collection.find({ "_id": screening.salonId }).toArray();
+    const movie = mongoose.connection.collection('movies');
+    const movieInfo = await movie.find({"_id": screening.movieId}).toArray();
 
+    if(movieInfo[0].age >= 15) {
+      if(ticketTypeId.includes("65279fcd702eef67b26ef3c4")) {
+        return res.status(405).json({ msg: "Ticket for children is unavailable, age restriction is applied!"});
+      }
+    }
+    
     let maxRows;
     let minRows;
 
     // Check all seats for availability
-    for (let seat of seats) {
+    for(let seat of seats) {
       if (salonSeats[0].capacity === 55) {
         maxRows = 6;
         minRows = 1;
@@ -59,15 +68,17 @@ export const bookSeat = async (req, res) => {
 
     const authHeader = req.headers["authorization"];
 
-    const userInfo = await authService.verifyJwt(authHeader);
+    const userId = await authService.verifyJwt(authHeader);
     const userEmail = email ? email : "no email";
+
+    console.log(userId);
 
     const newBooking = new Booking({
       screeningId,
       salonId,
       seats, // Save seats as an array
       bookedBy: {
-        user: userInfo.id ? userInfo.id : userInfo,
+        user: userId,
         email: userEmail,
       },
       bookingNumber: bookingNumber,
@@ -84,8 +95,8 @@ export const bookSeat = async (req, res) => {
       { $push: { bookedSeats: { $each: bookedSeats } } }
     );
 
-    if(userInfo.id) {
-      const user = await User.findOne({_id: userInfo.id});
+    if(userId) {
+      const user = await User.findOne({_id: userId});
 
       const booking = await Booking.findOne({
         screeningId,

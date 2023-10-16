@@ -37,6 +37,7 @@ export const getAllScreenings = async (req, res) => {
       screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
     }
 
+
     screenings.forEach(screening => {
       console.log('Movie title:', screening.movie.title);
       console.log('Salon name:', screening.salon.name);
@@ -49,3 +50,5 @@ export const getAllScreenings = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+

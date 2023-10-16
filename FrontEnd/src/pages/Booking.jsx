@@ -9,7 +9,7 @@ function Booking() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3000/events');
+    const eventSource = new EventSource('/api/events');
 
     eventSource.onmessage = function (event) {
       try {

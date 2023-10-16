@@ -37,11 +37,10 @@ app.use("/api/seats", getSeats);
 
 const clients = [];
 
-app.get('/events', (req, res) => {
+app.get('/api/events', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');  // Needed specific route to work
   res.flushHeaders();
 
   const sendBookedSeats = async () => {

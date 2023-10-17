@@ -5,7 +5,6 @@ const bookingSchema = new mongoose.Schema({
   salonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Salon', required: true },
   ticketTypeId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TicketType', required: true }],
   seats: [{
-    rowNumber: { type: Number, required: true },
     seatNumber: { type: Number, required: true }
   }],
   bookedBy: {

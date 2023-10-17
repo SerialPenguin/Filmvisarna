@@ -7,4 +7,5 @@ const router = express.Router();
 router.patch('/', bookSeat);
 router.get('/', getAllBookings);
 
+
 export default router;

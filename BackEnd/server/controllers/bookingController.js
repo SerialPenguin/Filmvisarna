@@ -12,7 +12,7 @@ export const bookSeat = async (req, res) => {
     const { screeningId, salonId, seats, email, ticketTypeId } = req.body;
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
     const collection = mongoose.connection.collection('seats');
-    const salonSeats = await collection.find({ "_id": screening.salonId }).toArray();
+    const salon = await collection.find({ "_id": screening.salonId }).toArray();
     const movie = mongoose.connection.collection('movies');
     const movieInfo = await movie.find({"_id": screening.movieId}).toArray();
 
@@ -21,39 +21,26 @@ export const bookSeat = async (req, res) => {
         return res.status(405).json({ msg: "Ticket for children is unavailable, age restriction is applied!"});
       }
     }
-    
-    let maxRows;
-    let minRows;
-
-    // Check all seats for availability
+  
+    // Controlling that seat number from body is within range of salon
     for(let seat of seats) {
-      if (salonSeats[0].capacity === 55) {
-        maxRows = 6;
-        minRows = 1;
-      } else if (salonSeats[0].capacity === 81) {
-        maxRows = 8;
-        minRows = 1;
-      }
-      
-      if (seat.rowNumber > maxRows || seat.rowNumber < minRows) {
-        return res.status(400).json({ msg: `Row ${seat.rowNumber} does not exist.` });
+      if (salon[0].capacity === 55) {
+        if(seat > 55 || seat < 1) {
+          return res.status(400).json({ msg: `Seat doesnt exist in the ${salon[0].name}`});
+        }
+      } else if (salon[0].capacity === 81) {
+        if(seat > 81 || seat < 1) {
+          return res.status(400).json({ msg: `Seat doesnt exist in the ${salon[0].name}`});
+        }
       }
 
-      const availableSeatsArray = salonSeats[0].rows[seat.rowNumber - 1].seats;
+      // const existingBooking = await Booking.findOne({
+      //   screeningId,
+      // });
 
-      if (!availableSeatsArray.includes(seat.seatNumber)) {
-        return res.status(400).json({ msg: `Seat ${seat.seatNumber} does not exist on chosen row.` });
-      }
-
-      const existingBooking = await Booking.findOne({
-        screeningId,
-        "seat.rowNumber": seat.rowNumber,
-        "seat.seatNumber": seat.seatNumber
-      });
-
-      if (existingBooking) {
-        return res.status(400).json({ error: `Seat ${seat.seatNumber} on row ${seat.rowNumber} is already booked` });
-      }
+      // if (existingBooking) {
+      //   return res.status(400).json({ error: `Seat ${seat.seatNumber} is already booked` });
+      // };
     }
 
     let bookingNumber = generatorService.generateBookingNumber();
@@ -87,22 +74,16 @@ export const bookSeat = async (req, res) => {
     res.status(201).json({ message: 'Booking created!', booking: newBooking });
 
     
-    const bookedSeats = seats.map(seat => ({ rowNumber: seat.rowNumber, seatNumber: seat.seatNumber }));
     await Screening.updateOne(
       { _id: new mongoose.Types.ObjectId(screeningId) },
-      { $push: { bookedSeats: { $each: bookedSeats } } }
+      { $push: { bookings: newBooking._id } }
     );
 
     if(userId) {
       const user = await User.findOne({_id: userId});
 
-      const booking = await Booking.findOne({
-        screeningId,
-        "bookingNumber": bookingNumber,
-      })
-
       const updateUserBookingHistory = await user.updateOne(
-        { $push: {bookingHistory: booking._id}},
+        { $push: {bookingHistory: newBooking._id}},
       );
     }
 

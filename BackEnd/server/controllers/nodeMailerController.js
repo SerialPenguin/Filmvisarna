@@ -32,8 +32,11 @@ export default async function sendConfirmation(req, res) {
         }]
 
         await sendEmail({ from, to, replyTo, subject, text, html, attachments });
-        res.status(200).json({ success: true, message: "Email sent" });
+        return true;  // Indicate success
     } catch (error) {
-        res.status(500).json(error.message)
+        console.error("Error sending confirmation email:", error);
+        return false;  // Indicate failure
     }
 }
+
+

@@ -4,7 +4,7 @@ import Screening from '../models/screeningModel.js';
 import User from "../models/userModel.js";
 import authService from '../service/authService.js';
 import generatorService from '../service/generatorService.js.js';
-
+import sendConfirmation from '../path_to_nodemailer_file/nodemailer.js';
 
 export const bookSeat = async (req, res) => {
   try {
@@ -70,14 +70,17 @@ export const bookSeat = async (req, res) => {
       ticketTypeId,
     });
 
-    await newBooking.save();
-    res.status(201).json({ message: 'Booking created!', booking: newBooking });
+ await newBooking.save();
+res.status(201).json({ message: 'Booking created!', booking: newBooking });
 
-    
-    await Screening.updateOne(
-      { _id: new mongoose.Types.ObjectId(screeningId) },
-      { $push: { bookings: newBooking._id } }
-    );
+// Send email confirmation here
+await sendConfirmation({ body: { email: userEmail, bookingno: bookingNumber } }, res);
+
+await Screening.updateOne(
+  { _id: new mongoose.Types.ObjectId(screeningId) },
+  { $push: { bookings: newBooking._id } }
+);
+
 
     if(userId) {
       const user = await User.findOne({_id: userId});

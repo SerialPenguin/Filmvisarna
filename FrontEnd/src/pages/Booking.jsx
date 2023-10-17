@@ -7,44 +7,35 @@ function Booking() {
   const [screening, setScreening] = useState(null);
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [bookedSeats, setBookedSeats] = useState([]);
+  const [initialSeatsDataReceived, setInitialSeatsDataReceived] = useState(false);
 
-  // SSE (Server-Sent Events) useEffect
-  useEffect(() => {
-    if (!screeningId) return;
 
+    useEffect(() => {
     const eventSource = new EventSource(`/api/events/${screeningId}`);
 
-    eventSource.onmessage = function (event) {
-      try {
-        const bookedSeats = JSON.parse(event.data);
-        // Update the bookedSeats data in the screening state
-        setScreening((prevScreening) => ({
-          ...prevScreening,
-          bookedSeats: bookedSeats,
-        }));
-      } catch (err) {
-        console.error('Error parsing booked seats:', err);
-      }
+    eventSource.onmessage = (event) => {
+      const updatedBookedSeats = JSON.parse(event.data);
+      setBookedSeats(updatedBookedSeats);
+      setInitialSeatsDataReceived(true);
     };
 
-    eventSource.onerror = function (err) {
-      console.error('EventSource failed:', err);
+    eventSource.onerror = (error) => {
+      console.error("EventSource failed:", error);
       eventSource.close();
     };
 
     return () => {
       eventSource.close();
     };
-  }, [screeningId]);  // Now the effect is dependent on screeningId
+  }, [screeningId]);
 
-  const isSeatBooked = (rowNumber, seatNumber) => {
-    return screening?.bookedSeats.some(
-      (seat) => seat.rowNumber === rowNumber && seat.seatNumber === seatNumber
-    ) ?? false;
+  const isSeatBooked = (seatNumber) => {
+    return bookedSeats.includes(seatNumber);
   };
 
   const handleSeatClick = (rowNumber, seatNumber) => {
-    if (isSeatBooked(rowNumber, seatNumber)) {
+    if (isSeatBooked(seatNumber)) {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
     } else {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is available.`);
@@ -93,13 +84,15 @@ function Booking() {
 
   return (
     <div className="App">
-      {loading ? (
+      {loading || !initialSeatsDataReceived ? (
         <p>Loading...</p>
       ) : (
         <>
           <h1>Booking for: {movie?.title}</h1>
           <h2>Director: {movie?.director}</h2>
           <h3>Description: {movie?.description}</h3>
+          <h3>Screening Date: {screening?.startTime}</h3>
+          <h3>Screening Time: {screening?.endTime}</h3>
           <img src={movie?.images?.[0]} alt={movie?.title} />
           <div className="seats-grid">
             {(salonLayout?.rows ?? []).map((row) => (
@@ -107,9 +100,9 @@ function Booking() {
                 {(row.seats ?? []).map((seatNumber) => (
                   <button
                     key={seatNumber}
-                    className={isSeatBooked(row.rowNumber, seatNumber) ? 'booked' : 'available'}
+                    className={isSeatBooked(seatNumber) ? 'booked' : 'available'}
                     onClick={
-                      !isSeatBooked(row.rowNumber, seatNumber)
+                      !isSeatBooked(seatNumber)
                         ? () => handleSeatClick(row.rowNumber, seatNumber)
                         : null
                     }
@@ -127,3 +120,13 @@ function Booking() {
 }
 
 export default Booking;
+
+
+
+
+
+
+
+
+
+

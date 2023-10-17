@@ -8,8 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
 import nodeMailerRoutes from './routes/nodeMailerRoutes.js';
 import { getSeats } from './controllers/seatsController.js'
-import Screening from "./models/screeningModel.js";
-
+import Booking from "./models/bookingModel.js";
 
 
 dotenv.config();
@@ -29,8 +28,9 @@ app.use("/api/seats", getSeats);
 
 const clients = [];
 
-app.get('/api/events/:screeningId', (req, res) => {
-  const { screeningId } = req.params; // Extracting the screeningId from the URL
+app.get('/api/events/:screeningId', async (req, res) => {
+  const { screeningId } = req.params;
+
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
@@ -38,25 +38,27 @@ app.get('/api/events/:screeningId', (req, res) => {
 
   const sendBookedSeats = async () => {
     try {
-      const fetchedScreening = await Screening.findById(screeningId);
-      if (!fetchedScreening) {
-        res.write(`data: NOT_FOUND\n\n`);
-        return;
-      }
-      res.write(`data: ${JSON.stringify(fetchedScreening.bookedSeats)}\n\n`);
+      // Fetch all the bookings for the given screeningId
+      const allBookingsForScreening = await Booking.find({ screeningId: screeningId });
+
+      // Aggregate all booked seats from these bookings
+      const aggregatedBookedSeats = allBookingsForScreening.reduce((acc, booking) => {
+        return [...acc, ...booking.seats.map(seat => seat.seatNumber)];
+      }, []);
+
+      // Log to check which seats are booked and aggregated into the screening.
+      console.log("Aggregated Booked Seats:", aggregatedBookedSeats);
+
+      res.write(`data: ${JSON.stringify(aggregatedBookedSeats)}\n\n`);
     } catch (error) {
       console.error('Error retrieving booked seats:', error);
       res.write(`data: ERROR\n\n`);
     }
   };
 
-  clients.push(res);
-  // Send updates a regular interval
   const intervalId = setInterval(sendBookedSeats, 500);
 
-  // Cleanup and close SSE on disconnect
   req.on('close', () => {
-    clients.splice(clients.indexOf(res), 1);
     clearInterval(intervalId);
     res.end();
   });

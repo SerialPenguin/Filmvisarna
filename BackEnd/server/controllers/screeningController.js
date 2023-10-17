@@ -29,18 +29,9 @@ export const getAllScreenings = async (req, res) => {
       }
     ]).toArray();
 
-    for (let i = 0; i < screenings.length; i++) {
-      const totalCapacity = screenings[i].salon.capacity;
-      // Find the number of bookings for this screening.
-      const bookedSeatsCount = await Booking.find({ screeningId: screenings[i]._id }).countDocuments();
-      console.log(`Screening ID: ${screenings[i]._id}, Booked Seats: ${bookedSeatsCount}, Total Capacity: ${totalCapacity}`);
-      screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
-    }
-
     screenings.forEach(screening => {
       console.log('Movie title:', screening.movie.title);
       console.log('Salon name:', screening.salon.name);
-      console.log('Available seats:', screening.availableSeats);
     });
 
     res.json(screenings);
@@ -49,3 +40,5 @@ export const getAllScreenings = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+

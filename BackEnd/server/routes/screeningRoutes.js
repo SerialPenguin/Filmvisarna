@@ -5,4 +5,5 @@ const router = express.Router();
 
 router.get('/', getAllScreenings);
 
+
 export default router;

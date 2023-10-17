@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+import Booking from '../models/bookingModel.js';
 
 const secretKey = process.env.SECRET;
 
@@ -70,7 +71,7 @@ export const deleteBooking = async (req, res) => {
   try {
     const userId = req.user._id;
     const bookingId = req.params.bookingId;
-
+    console.log('bookingId:', bookingId);
     // Find the user by their ID
     const user = await User.findById(userId);
 
@@ -85,10 +86,20 @@ export const deleteBooking = async (req, res) => {
       return res.status(404).json({ error: 'Booking not found in user history' });
     }
 
+    // Get the booking information
+    const booking = await Booking.findById(bookingId);
+    
+    if (!booking) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+
     // Remove the booking from the user's bookingHistory
     user.bookingHistory.splice(bookingIndex, 1);
 
     await user.save();
+
+    // Remove the booking from the database
+    await Booking.findByIdAndRemove(bookingId);
 
     res.json({ message: 'Booking deleted successfully' });
   } catch (error) {
@@ -96,6 +107,7 @@ export const deleteBooking = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 export const logoutUser = (req, res) => {
   const token = req.headers.authorization; // Assuming the token is passed in the Authorization header

@@ -14,6 +14,5 @@ router.post("/register", createUser);
 router.post("/login", login);
 router.get("/profile", auth, getUserInfo);
 router.delete("/bookings/:bookingId", auth, deleteBooking);
-router.post("/logout", auth, logoutUser);
 
 export default router;

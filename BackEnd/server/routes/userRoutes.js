@@ -4,7 +4,6 @@ import {
   login,
   getUserInfo,
   deleteBooking,
-  logoutUser,
 } from "../controllers/userController.js";
 import auth from "../filter/authFilter.js";
 

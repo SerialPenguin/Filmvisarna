@@ -21,7 +21,7 @@ export const bookSeat = async (req, res) => {
     }
 
     // Validate seat numbers and rows based on salon's capacity
-    const requestedSeats = seats.map(seat => ({ rowNumber: seat.rowNumber, seatNumber: seat.seatNumber }));
+    const requestedSeats = seats.map(seat => ({ seatNumber: seat.seatNumber }));
     
     for (let seat of requestedSeats) {
       if (salon[0].capacity === 55 && (seat.seatNumber > 55 || seat.seatNumber < 1)) {
@@ -33,12 +33,12 @@ export const bookSeat = async (req, res) => {
 
     const existingBookings = await Booking.find({ screeningId });
     const bookedSeats = existingBookings.reduce((acc, booking) => {
-      return acc.concat(booking.seats.map(s => ({ rowNumber: s.rowNumber, seatNumber: s.seatNumber })));
+      return acc.concat(booking.seats.map(s => ({ seatNumber: s.seatNumber })));
     }, []);
 
     for (let seat of requestedSeats) {
       const isSeatBooked = bookedSeats.some(
-        bookedSeat => bookedSeat.rowNumber === seat.rowNumber && bookedSeat.seatNumber === seat.seatNumber
+        bookedSeat => bookedSeat.seatNumber === seat.seatNumber
       );
 
       if (isSeatBooked) {

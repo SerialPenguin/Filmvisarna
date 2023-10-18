@@ -12,6 +12,6 @@ const router = express.Router();
 router.post("/register", createUser);
 router.post("/login", login);
 router.get("/profile", auth, getUserInfo);
-router.delete("/bookings/:bookingId", auth, deleteBooking);
+router.delete("/bookings", auth, deleteBooking);
 
 export default router;

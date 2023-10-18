@@ -2,22 +2,26 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import Booking from '../models/bookingModel.js';
 import Screening from "../models/screeningModel.js";
+import bcrypt from 'bcrypt';
 
 const secretKey = process.env.SECRET;
 
 export const createUser = async (req, res) => {
   const { firstName, lastName, emailAdress, password } = req.body;
 
-  const newUser = new User({
-    firstName,
-    lastName,
-    emailAdress,
-    password,
-    bookingHistory: [],
-    userRole: "USER",
-  });
-
   try {
+    // Hash the user's password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the number of salt rounds
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      emailAdress,
+      password: hashedPassword, // Store the hashed password
+      bookingHistory: [],
+      userRole: "USER",
+    });
+
     const user = await User.findOne({ emailAdress });
     if (user) {
       res
@@ -32,6 +36,7 @@ export const createUser = async (req, res) => {
   }
 };
 
+
 export const login = async (req, res) => {
   const { emailAdress, password } = req.body;
 
@@ -42,7 +47,10 @@ export const login = async (req, res) => {
     return;
   }
 
-  if (user && password != user.password) {
+  // Compare the provided password with the hashed password in the database
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatch) {
     res.status(401).json({ error: "Invalid email or password" });
     return;
   }

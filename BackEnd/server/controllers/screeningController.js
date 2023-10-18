@@ -37,9 +37,9 @@ export const getAllScreenings = async (req, res) => {
       const bookedSeatsCount = await Booking.find({
         screeningId: screenings[i]._id,
       }).countDocuments();
-      console.log(
-        `Screening ID: ${screenings[i]._id}, Booked Seats: ${bookedSeatsCount}, Total Capacity: ${totalCapacity}`
-      );
+      // console.log(
+      //   `Screening ID: ${screenings[i]._id}, Booked Seats: ${bookedSeatsCount}, Total Capacity: ${totalCapacity}`
+      // );
       screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
     }
 

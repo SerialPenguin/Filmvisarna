@@ -10,74 +10,49 @@ export const bookSeat = async (req, res) => {
   try {
     const { screeningId, salonId, seats, email, ticketTypeId } = req.body;
 
-    if (!email)
-      return res
-        .status(400)
-        .json({ msg: "Email is required for booking completion." });
+    if (!email) {
+      return res.status(400).json({ msg: "Email is required for booking completion." });
+    }
 
-    if (!email)
-      return res
-        .status(400)
-        .json({ msg: "Email is required for booking completion." });
+    const screening = await Screening.findById(screeningId);
+    if (!screening) {
+      return res.status(404).json({ msg: "Screening not found." });
+    }
 
-    const screening = await Screening.findById(
-      new mongoose.Types.ObjectId(screeningId)
-    );
     const collection = mongoose.connection.collection("seats");
     const salon = await collection.find({ _id: screening.salonId }).toArray();
-    const movieInfo = await mongoose.connection
-      .collection("movies")
-      .findOne({ _id: screening.movieId });
+    if (!salon || !salon[0]) {
+      return res.status(404).json({ msg: "Salon not found." });
+    }
+
+    const movieInfo = await mongoose.connection.collection("movies").findOne({ _id: screening.movieId });
+    if (!movieInfo) {
+      return res.status(404).json({ msg: "Movie not found." });
+    }
 
     // Check for age restrictions
-    if (
-      movieInfo.age >= 15 &&
-      ticketTypeId.includes("65279fcd702eef67b26ef3c4")
-    ) {
+    if (movieInfo.age >= 15 && ticketTypeId.includes("65279fcd702eef67b26ef3c4")) {
       return res.status(405).json({
         msg: "Ticket for children is unavailable, age restriction is applied!",
       });
     }
 
     // Validate seat numbers and rows based on salon's capacity
-    const requestedSeats = seats.map((seat) => ({
-      seatNumber: seat.seatNumber,
-    }));
-
-    for (let seat of requestedSeats) {
-      if (
-        salon[0].capacity === 55 &&
-        (seat.seatNumber > 55 || seat.seatNumber < 1)
-      ) {
-        return res
-          .status(400)
-          .json({ msg: `Seat doesn't exist in the ${salon[0].name}` });
-      } else if (
-        salon[0].capacity === 81 &&
-        (seat.seatNumber > 81 || seat.seatNumber < 1)
-      ) {
-        return res
-          .status(400)
-          .json({ msg: `Seat doesn't exist in the ${salon[0].name}` });
+    for (let seat of seats) {
+      if ((salon[0].capacity === 55 || salon[0].capacity === 81) && (seat.seatNumber > salon[0].capacity || seat.seatNumber < 1)) {
+        return res.status(400).json({ msg: `Seat doesn't exist in the ${salon[0].name}` });
       }
     }
 
     const existingBookings = await Booking.find({ screeningId });
     const bookedSeats = existingBookings.reduce((acc, booking) => {
-      return acc.concat(
-        booking.seats.map((s) => ({ seatNumber: s.seatNumber }))
-      );
+      return acc.concat(booking.seats.map((s) => ({ seatNumber: s.seatNumber })));
     }, []);
 
-    for (let seat of requestedSeats) {
-      const isSeatBooked = bookedSeats.some(
-        (bookedSeat) => bookedSeat.seatNumber === seat.seatNumber
-      );
-
+    for (let seat of seats) {
+      const isSeatBooked = bookedSeats.some((bookedSeat) => bookedSeat.seatNumber === seat.seatNumber);
       if (isSeatBooked) {
-        return res
-          .status(400)
-          .json({ error: `Seat ${seat.seatNumber} is already booked` });
+        return res.status(400).json({ error: `Seat ${seat.seatNumber} is already booked` });
       }
     }
 
@@ -94,7 +69,7 @@ export const bookSeat = async (req, res) => {
       salonId,
       seats,
       bookedBy: {
-        user: userId === undefined ? "GUEST" : userId,
+        user: userId || "GUEST",
         email: email,
       },
       bookingNumber: bookingNumber,
@@ -103,39 +78,20 @@ export const bookSeat = async (req, res) => {
 
     await newBooking.save();
 
-    if (userInfo.id) {
-      const user = await User.findOne({ _id: userInfo.id });
-
-      const updateUserBookingHistory = await user.updateOne({
-        $push: { bookingHistory: screeningId },
-      });
-    }
-
-    const screeningUpdateResponse = await Screening.updateOne(
-      { _id: new mongoose.Types.ObjectId(screeningId) },
-      { $push: { bookedSeats: seat } }
-    );
-
-    res.status(201).json({ message: "Booking created!", booking: newBooking });
-    await newBooking.save();
-    res.status(201).json({ message: "Booking created!", booking: newBooking });
-
-    await Screening.updateOne(
-      { _id: new mongoose.Types.ObjectId(screeningId) },
-      { $push: { bookings: newBooking._id } }
-    );
+    await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id, bookedSeats: seats } });
 
     // Send email confirmation
     sendConfirmation({ bookingNumber, email });
 
     if (userId) {
-      await User.updateOne(
-        { _id: userId },
-        { $push: { bookingHistory: newBooking._id } }
-      );
+      await User.updateOne({ _id: userId }, { $push: { bookingHistory: newBooking._id } });
     }
+
+    res.status(201).json({ message: "Booking created!", booking: newBooking });
   } catch (error) {
     console.error("Error creating booking:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+

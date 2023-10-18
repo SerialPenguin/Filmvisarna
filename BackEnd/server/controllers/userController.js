@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import Booking from '../models/bookingModel.js';
+import Screening from "../models/screeningModel.js";
 
 const secretKey = process.env.SECRET;
 
@@ -71,7 +72,7 @@ export const deleteBooking = async (req, res) => {
   try {
     const userId = req.user._id;
     const bookingId = req.params.bookingId;
-    console.log('bookingId:', bookingId);
+
     // Find the user by their ID
     const user = await User.findById(userId);
 
@@ -88,10 +89,13 @@ export const deleteBooking = async (req, res) => {
 
     // Get the booking information
     const booking = await Booking.findById(bookingId);
-    
+
     if (!booking) {
       return res.status(404).json({ error: 'Booking not found' });
     }
+
+    // Retrieve the screening ID
+    const screeningId = booking.screeningId;
 
     // Remove the booking from the user's bookingHistory
     user.bookingHistory.splice(bookingIndex, 1);
@@ -101,12 +105,19 @@ export const deleteBooking = async (req, res) => {
     // Remove the booking from the database
     await Booking.findByIdAndRemove(bookingId);
 
+    // Update the screening to remove the deleted booking
+    await Screening.updateOne(
+      { _id: screeningId },
+      { $pull: { bookings: bookingId } }
+    );
+
     res.json({ message: 'Booking deleted successfully' });
   } catch (error) {
     console.error('Error deleting booking:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 
 export const logoutUser = (req, res) => {

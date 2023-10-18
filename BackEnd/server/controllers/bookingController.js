@@ -76,7 +76,7 @@ export const bookSeat = async (req, res) => {
     );
 
     // Send email confirmation
-    sendConfirmation({ email, bookingNumber });
+    sendConfirmation({ bookingNumber, email });
 
 
     if (userId) {

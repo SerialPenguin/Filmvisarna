@@ -42,40 +42,6 @@ export const getAllScreenings = async (req, res) => {
       );
       screenings[i].availableSeats = totalCapacity - bookedSeatsCount;
     }
-    const screeningsCollection = mongoose.connection.collection('screenings');
-    const screenings = await screeningsCollection.aggregate([
-      {
-        $lookup: {
-          from: 'movies',
-          localField: 'movieId',
-          foreignField: '_id',
-          as: 'movie'
-        }
-      },
-      {
-        $lookup: {
-          from: 'seats',
-          localField: 'salonId',
-          foreignField: '_id',
-          as: 'salon'
-        }
-      },
-      {
-        $unwind: "$movie"
-      },
-      {
-        $unwind: "$salon"
-      }
-    ]).toArray();
-
-    screenings.forEach((screening) => {
-      console.log("Movie title:", screening.movie.title);
-      console.log("Salon name:", screening.salon.name);
-      console.log("Available seats:", screening.availableSeats);
-    screenings.forEach(screening => {
-      console.log('Movie title:', screening.movie.title);
-      console.log('Salon name:', screening.salon.name);
-    });
 
     res.json(screenings);
   } catch (error) {

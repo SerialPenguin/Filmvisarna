@@ -31,9 +31,7 @@ export default async function sendConfirmation({bookingNumber, email}) {
         }]
 
         await sendEmail({ from, to, replyTo, subject, text, html, attachments });
-        // res.status(200).json({ success: true, message: "Email sent" });
     } catch (error) {
-        // res.status(500).json(error.message)
         console.log(error.message);
     }
 }

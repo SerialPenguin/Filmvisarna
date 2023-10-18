@@ -13,8 +13,15 @@ async function verifyJwt(authHeader) {
       
       const secretKey = process.env.SECRET;
       const authToken = authHeader.replace("Bearer ", "");
+      let jwtInfo;
       
-      let jwtInfo = jwt.verify(authToken, secretKey)
+      try {
+        jwtInfo = jwt.verify(authToken, secretKey)
+      }catch (err) {
+        user = "invalid signature";
+        return user;
+      }
+
       user = new mongoose.Types.ObjectId(jwtInfo.id);
       return user;
     };

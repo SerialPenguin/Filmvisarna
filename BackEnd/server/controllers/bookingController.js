@@ -10,6 +10,8 @@ export const bookSeat = async (req, res) => {
   try {
     const { screeningId, salonId, seats, email, ticketTypeId } = req.body;
 
+    if(!email) return res.status(400).json({ msg: "Email is required for booking completion." });
+
     const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
     const collection = mongoose.connection.collection('seats');
     const salon = await collection.find({ "_id": screening.salonId }).toArray();
@@ -53,7 +55,6 @@ export const bookSeat = async (req, res) => {
 
     const authHeader = req.headers["authorization"];
     const userId = await authService.verifyJwt(authHeader);
-    const userEmail = email ? email : "no email";
 
     const newBooking = new Booking({
       screeningId,
@@ -61,7 +62,7 @@ export const bookSeat = async (req, res) => {
       seats, 
       bookedBy: {
         user: userId === undefined ? "GUEST" : userId,
-        email: userEmail,
+        email: email,
       },
       bookingNumber: bookingNumber,
       ticketTypeId,

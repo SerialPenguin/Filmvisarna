@@ -82,7 +82,7 @@ export const bookSeat = async (req, res) => {
 
     await newBooking.save();
 
-    await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id, bookedSeats: seats } });
+    await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id } });
 
     // Send email confirmation
     sendConfirmation({ bookingNumber, email });

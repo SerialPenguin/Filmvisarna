@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 async function verifyJwt(authHeader) {
 
@@ -7,14 +8,21 @@ async function verifyJwt(authHeader) {
   try{
 
     if(!authHeader) {
-      user = "GUEST";
       return user;
     }else {
       
       const secretKey = process.env.SECRET;
       const authToken = authHeader.replace("Bearer ", "");
+      let jwtInfo;
       
-      user = jwt.verify(authToken, secretKey)
+      try {
+        jwtInfo = jwt.verify(authToken, secretKey)
+      }catch (err) {
+        user = "invalid signature";
+        return user;
+      }
+
+      user = new mongoose.Types.ObjectId(jwtInfo.id);
       return user;
     };
   }catch(err) {

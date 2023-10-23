@@ -2,6 +2,7 @@ import Booking from '../models/bookingModel.js';
 import Screening from '../models/screeningModel.js';
 import Movie from '../models/movieModel.js';
 import mongoose from 'mongoose';
+import Seat from '../models/seatsModel.js';
 
 
 export const getResourceById = async (req, res) => {
@@ -14,7 +15,9 @@ export const getResourceById = async (req, res) => {
         resource = await Screening.findById(new mongoose.Types.ObjectId(id));
       } else if (type === 'bookings'){
         resource = await Booking.findById(new mongoose.Types.ObjectId(id));
-      } 
+      }  else if (type === 'seats') {
+        resource = await Seat.findById(new mongoose.Types.ObjectId(id));
+      }
       
   
       if (!resource) {

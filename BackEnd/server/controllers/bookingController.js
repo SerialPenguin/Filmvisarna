@@ -1,139 +1,100 @@
-import mongoose from 'mongoose';
-import Booking from '../models/bookingModel.js';
-import Screening from '../models/screeningModel.js';
+import mongoose from "mongoose";
+import Booking from "../models/bookingModel.js";
+import Screening from "../models/screeningModel.js";
 import User from "../models/userModel.js";
-import authService from '../service/authService.js';
-
+import authService from "../service/authService.js";
+import generatorService from "../service/generatorService.js.js";
+import sendConfirmation from "../service/mailService.js";
 
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seat, email, ticketTypeId} = req.body;
+    const { screeningId, salonId, seats, email, ticketTypeId } = req.body;
 
-    
-    const screening = await Screening.findById(new mongoose.Types.ObjectId(screeningId));
-
-    try {
-      const collection = mongoose.connection.collection('seats');
-      const seats = await collection.find({ "_id": screening.salonId }).toArray();
-
-      let maxRows;
-      let minRows;
-      
-      if(seats[0].capacity === 55) {
-        maxRows = 6;
-        minRows = 1;
-
-        if(seat.rowNumber > maxRows || seat.rowNumber < minRows) {
-          return res.status(400).json({ msg: "Row does not exist."})
-        }
-        
-        const availableSeats = seats[0].rows[seat.rowNumber - 1].seats;
-        
-        if(!availableSeats.includes(seat.seatNumber)) {
-          return res.status(400).json({ msg: "Seat does not exist on chosen row." })
-        }
-
-      }else if(seats[0].capacity === 81) {
-        maxRows = 8;
-        minRows = 1;
-
-        if(seat.rowNumber > maxRows || seat.rowNumber < minRows) {
-          return res.status(400).json({ msg: "Row does not exist."})
-        }
-        
-        const availableSeats = seats[0].rows[seat.rowNumber - 1].seats;
-        
-        if(!availableSeats.includes(seat.seatNumber)) {
-          return res.status(400).json({ msg: "Seat does not exist on chosen row." })
-        }
-      }
-
-    }catch(err) {
-        console.log(err)
+    if (!email) {
+      return res.status(400).json({ msg: "Email is required for booking completion." });
     }
 
-    const existingBooking = await Booking.findOne({
+    const screening = await Screening.findById(screeningId);
+    if (!screening) {
+      return res.status(404).json({ msg: "Screening not found." });
+    }
+
+    const collection = mongoose.connection.collection("seats");
+    const salon = await collection.find({ _id: screening.salonId }).toArray();
+    if (!salon || !salon[0]) {
+      return res.status(404).json({ msg: "Salon not found." });
+    }
+
+    const movieInfo = await mongoose.connection.collection("movies").findOne({ _id: screening.movieId });
+    if (!movieInfo) {
+      return res.status(404).json({ msg: "Movie not found." });
+    }
+
+    // Check for age restrictions
+    if (movieInfo.age >= 15 && ticketTypeId.includes("65279fcd702eef67b26ef3c4")) {
+      return res.status(405).json({
+        msg: "Ticket for children is unavailable, age restriction is applied!",
+      });
+    }
+
+    // Validate seat numbers and rows based on salon's capacity
+    for (let seat of seats) {
+      if ((salon[0].capacity === 55 || salon[0].capacity === 81) && (seat.seatNumber > salon[0].capacity || seat.seatNumber < 1)) {
+        return res.status(400).json({ msg: `Seat doesn't exist in the ${salon[0].name}` });
+      }
+    }
+
+    const existingBookings = await Booking.find({ screeningId });
+    const bookedSeats = existingBookings.reduce((acc, booking) => {
+      return acc.concat(booking.seats.map((s) => ({ seatNumber: s.seatNumber })));
+    }, []);
+
+    for (let seat of seats) {
+      const isSeatBooked = bookedSeats.some((bookedSeat) => bookedSeat.seatNumber === seat.seatNumber);
+      if (isSeatBooked) {
+        return res.status(400).json({ error: `Seat ${seat.seatNumber} is already booked` });
+      }
+    }
+
+    let bookingNumber;
+    do {
+      bookingNumber = generatorService.generateBookingNumber();
+    } while (await Booking.findOne({ bookingNumber: bookingNumber }));
+
+    const authHeader = req.headers["authorization"];
+    const userId = await authService.verifyJwt(authHeader);
+
+    if(userId === "invalid signature") {
+      return res.status(400).json({ msg: 'JsonWebTokenError: "Invalid signature". Please check jwt.'});
+    }
+
+    const newBooking = new Booking({
       screeningId,
-      "seat.rowNumber": seat.rowNumber,
-      "seat.seatNumber": seat.seatNumber
+      salonId,
+      seats,
+      bookedBy: {
+        user: userId || "GUEST",
+        email: email,
+      },
+      bookingNumber: bookingNumber,
+      ticketTypeId,
     });
 
-    if (existingBooking) {
-      return res.status(400).json({ error: 'Seat is already booked' });
+    await newBooking.save();
+
+    await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id, bookedSeats: seats } });
+
+    // Send email confirmation
+    sendConfirmation({ bookingNumber, email });
+
+    if (userId) {
+      await User.updateOne({ _id: userId }, { $push: { bookingHistory: newBooking._id } });
     }
 
-    const randomChars = []
-
-    let result = generateBookingNumber();
-
-    function generateBookingNumber() {
-      for(let i = 0; i < 6; i++) {
-        let random;
-  
-        if(i <= 2){
-          random = Math.floor(Math.random() * (90 - 65) + 65);
-        }
-        else {
-          random = Math.floor(Math.random() * 10);
-        }
-  
-        if(random < 10 || random > 64) {
-          if(random > 64) random = String.fromCharCode(random)
-          randomChars.push(random);
-        }else i--;
-      }
-
-      let result = randomChars.join('');
-      console.log("Booking number:" + result);
-      return result;
-    }
-
-    let existingBookingNumber = await Booking.findOne({
-      bookingNumber: result
-    })
-
-    if(existingBookingNumber) {
-      result = generateBookingNumber();
-    }else {
-
-      const authHeader = req.headers["authorization"];
-
-      const userInfo = await authService.verifyJwt(authHeader);
-
-      const userEmail = email ? email : "no email";
-
-      const newBooking = new Booking({
-        screeningId,
-        salonId,
-        seat,
-        bookedBy: {
-          user: userInfo.id ? userInfo.id : userInfo,
-          email: userEmail,
-        },
-        bookingNumber: result,
-        ticketTypeId,
-      });
-
-      await newBooking.save();
-
-      if(userInfo.id) {
-        const user = await User.findOne({_id: userInfo.id});
-
-        const updateUserBookingHistory = await user.updateOne(
-          { $push: {bookingHistory: screeningId }},
-        );
-      }
-
-      const screeningUpdateResponse = await Screening.updateOne(
-        { _id: new mongoose.Types.ObjectId(screeningId) },
-        { $push: { bookedSeats: seat } }
-      );
-
-      res.status(201).json({ message: 'Booking created!', booking: newBooking });
-    }
+    res.status(201).json({ message: "Booking created!", booking: newBooking });
   } catch (error) {
-    console.error('Error creating booking:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error creating booking:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

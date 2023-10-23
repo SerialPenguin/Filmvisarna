@@ -5,12 +5,7 @@ const screeningSchema = new mongoose.Schema({
   salonId: mongoose.Schema.Types.ObjectId,
   startTime: Date,
   endTime: Date,
-  bookedSeats: [
-    {
-      rowNumber: Number,
-      seatNumber: Number,
-    },
-  ],
+  bookings: mongoose.Schema.Types.ObjectId,
 }, { collection: 'screenings'});
 
 const Screening = mongoose.model('screening', screeningSchema, 'screenings');

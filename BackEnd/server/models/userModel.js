@@ -6,7 +6,12 @@ const userSchema = new mongoose.Schema(
     lastName: String,
     emailAdress: String,
     password: String,
-    bookingHistory: Array,
+    bookingHistory: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking", // Reference to the Booking model
+      },
+    ],
     userRole: String,
   },
   { collection: "users" }

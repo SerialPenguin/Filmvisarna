@@ -1,47 +1,16 @@
-import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Booking from './pages/Booking';
 import './App.css';
 
 function App() {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    console.log('Fetching movies...');
-
-    fetch('/api/movies')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json(); 
-      })
-      .then((data) => {
-        console.log('Fetched movies:', data);
-        setMovies(data); 
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
-  console.log('Rendered with movies:', movies); 
-
   return (
-    <div className="App">
-      <h1>Movies</h1>
-      <div className="movie-grid">
-        {movies.length === 0 ? (
-          <p>No movies found</p>
-        ) : (
-          movies.map((movie) => (
-            <div key={movie._id} className="movie-card">
-              <h2>{movie.title}</h2>
-              <p>{movie.description}</p>
-              <img src={movie.images} alt={movie.title}></img>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/booking/:screeningId" element={<Booking />} />
+      </Routes>
+    </Router>
   );
 }
 

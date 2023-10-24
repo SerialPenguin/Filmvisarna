@@ -1,14 +1,13 @@
-import { Outlet } from 'react-router-dom';
 import './App.css';
+import { Outlet, Link } from 'react-router-dom';
 
 function App() {
- 
   return (
     <>
-      <a href="/">Hem</a>
+      <Link to="/">Hem</Link>
       <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

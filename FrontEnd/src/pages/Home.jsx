@@ -30,7 +30,9 @@ function Home() {
             <div key={screening._id} className="screening-card">
               <h2>{screening.movie.title}</h2>
               <p>{screening.movie.description}</p>
-              <img src={screening.movie.images[0]} alt={screening.movie.title} />
+              <Link to={`/search/movies/${screening.movieId}`}>
+                <img src={screening.movie.images[0]} alt={screening.movie.title} />
+              </Link>
               <Link to={`/booking/${screening._id}`}> 
                 <button>Book Now</button>
               </Link>

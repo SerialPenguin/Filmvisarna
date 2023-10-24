@@ -8,6 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
 import { getSeats } from "./controllers/seatsController.js";
 import Booking from "./models/bookingModel.js";
+import { reserveSeats } from "./controllers/reserveSeatsController.js";
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/auth", userRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/seats", getSeats);
+app.use("/api/reserveSeats", reserveSeats);
+
+
 
 app.get("/api/events/:screeningId", async (req, res) => {
   const { screeningId } = req.params;
@@ -32,6 +36,7 @@ app.get("/api/events/:screeningId", async (req, res) => {
 
   const sendBookedSeats = async () => {
     try {
+
       // Fetch all the bookings for the given screeningId
       const allBookingsForScreening = await Booking.find({
         screeningId: screeningId,

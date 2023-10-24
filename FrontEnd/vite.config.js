@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // Specify the address of your Express server
+        target: 'http://127.0.0.1:5000', // Specify the address of your Express server
         changeOrigin: true,
         // You can add additional proxy options here if needed
       },

@@ -3,7 +3,9 @@ import TemporaryBooking from '../models/temporaryBookingModel.js';
 export const getTemporaryBookings = async (req, res) => {
   try {
     const { screeningId } = req.params;
-    const tempBookings = await TemporaryBooking.find({ screeningId });
+    
+    const tempBookings = await TemporaryBooking.find({ screeningId }); // Just fetch existing bookings.
+    
     const tempBookedSeats = tempBookings.reduce((acc, booking) => {
       return [...acc, ...booking.seats.map(seat => seat.seatNumber)];
     }, []);
@@ -18,7 +20,6 @@ export const reserveSeats = async (req, res) => {
   try {
     const { screeningId, seats } = req.body;
     
-
     if (!screeningId || !seats || seats.length === 0) {
       return res.status(400).json({ msg: "Invalid request parameters." });
     }
@@ -33,13 +34,13 @@ export const reserveSeats = async (req, res) => {
       return res.status(400).json({ msg: "Some of the seats are already reserved." });
     }
 
-    // Insert the temporary reservation
-    const newReservation = new TemporaryBooking({
-      screeningId,
-      seats
-    });
+      const newReservation = new TemporaryBooking({
+        screeningId,
+        seats
+      });
+      
+      await newReservation.save();
 
-    await newReservation.save();
 
     return res.status(200).json({ msg: "Seats reserved successfully." });
 

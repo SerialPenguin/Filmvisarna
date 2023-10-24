@@ -5,8 +5,11 @@ const temporaryBookingSchema = new mongoose.Schema({
     seats: [{
         seatNumber: { type: Number, required: true }
     }],
+    createdAt: { type: Date, default: Date.now, expire: 60 } // MongoDB will only remove documents ever 60 seconds, need a workaround.
 }, { collection: 'temporaryBookings' });
 
+
 const TemporaryBooking = mongoose.model('temporaryBooking', temporaryBookingSchema, 'temporaryBookings');
+
 
 export default TemporaryBooking;

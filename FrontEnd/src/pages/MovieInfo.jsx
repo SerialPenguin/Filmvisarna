@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { useState } from "react";
 
@@ -14,6 +14,7 @@ function getYouTubeVideoId(url) {
 
 function MovieInfo() {
     const { movieId } = useParams();
+    const location = useLocation();
     
     const [movie, setMovie] = useState({});
     
@@ -48,7 +49,7 @@ function MovieInfo() {
             <p>Släppte: {movie.productionYear}</p>
             
             <button>
-                <Link to="/">Tillbaka till startsidan</Link>
+                <Link to={location.state ? location.state.from : "/"}>Tillbaka</Link>
             </button>
 
             <button>

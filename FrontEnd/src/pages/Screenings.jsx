@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -12,6 +13,7 @@ function formatTimeToHHMM(dateTimeString) {
 function Screenings() {
   const [screenings, setScreenings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useGet('/api/screenings', (data) => {
     setScreenings(data);
@@ -48,7 +50,13 @@ function Screenings() {
                   <p>Starttid: {formatTimeToHHMM(screening.startTime)}</p>
                   <p>Sluttid: {formatTimeToHHMM(screening.endTime)}</p>
                   <p>Antal tillgängliga platser: {screening.availableSeats}</p>
-                  <Link to={`//${screening.movie._id}`}>Mer info...</Link>
+                  <Link to={`/bookings`}>
+                    <button>Boka</button>
+                  </Link>
+                  <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }}>
+                     Mer info...
+                  </Link>
+
                 </li>
               ))}
             </ul>

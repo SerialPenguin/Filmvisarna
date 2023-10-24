@@ -4,7 +4,14 @@ import { Outlet, Link } from 'react-router-dom';
 function App() {
   return (
     <>
-      <Link to="/">Hem</Link>
+    <ul>
+      <li>
+        <Link to="/">home</Link>
+      </li>
+      <li>
+        <Link to="/screenings">screenings</Link>
+      </li>
+    </ul>
       <Outlet />
     </>
   );

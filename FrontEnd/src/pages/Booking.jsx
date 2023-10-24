@@ -9,14 +9,16 @@ function Booking() {
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] = useState(false);
+  const [temporaryBookedSeats, setTemporaryBookedSeats] = useState([]);
 
 
     useEffect(() => {
     const eventSource = new EventSource(`/api/events/${screeningId}`);
 
     eventSource.onmessage = (event) => {
-      const updatedBookedSeats = JSON.parse(event.data);
-      setBookedSeats(updatedBookedSeats);
+      const { bookedSeats, temporaryBookedSeats } = JSON.parse(event.data);
+      setBookedSeats(bookedSeats);
+      setTemporaryBookedSeats(temporaryBookedSeats);
       setInitialSeatsDataReceived(true);
     };
 
@@ -31,16 +33,36 @@ function Booking() {
   }, [screeningId]);
 
   const isSeatBooked = (seatNumber) => {
-    return bookedSeats.includes(seatNumber);
+    return bookedSeats.includes(seatNumber) || temporaryBookedSeats.includes(seatNumber);
   };
 
-  const handleSeatClick = (rowNumber, seatNumber) => {
+  const handleSeatClick = async (rowNumber, seatNumber) => {
     if (isSeatBooked(seatNumber)) {
-      console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
+        console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
     } else {
-      console.log(`Seat ${seatNumber} in row ${rowNumber} is available.`);
+        try {
+            const response = await fetch(`/api/reserveSeats`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    screeningId,
+                    seats: [{ seatNumber }]
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
+                console.log(`Seat ${seatNumber} in row ${rowNumber} is now temporarily reserved.`);
+            } else {
+                console.log(data.error);
+            }
+        } catch (error) {
+            console.error('Error reserving seat:', error);
+        }
     }
-  };
+};
 
   useEffect(() => {
     const fetchScreening = async () => {

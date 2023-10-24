@@ -16,7 +16,7 @@ function Register() {
     const result = await authService.handleRegister(e, credentials);
 
     if (result === true) {
-      setTimeout(() => navigate(-1), 1000);
+      setTimeout(() => navigate("/"), 1000);
       setRegisterMessage("Du har blivit medlem! Vänligen logga in")
     } else {
       setRegisterMessage("Den angivna e-postadressen finns redan, vänligen logga in eller försök med en annan e-postadress")

@@ -1,22 +1,23 @@
-// export const reserveSeats = async (req, res) => {
-
-//   const reservedSeats = [];
-
-//   const seats = req.body.seats;
-//   console.log("Seats: ", seats);
-
-//   seats.map((seat) => reservedSeats.push(seat));
-
-//   console.log("ReservedSeats: ", reservedSeats);
-
-//   if(seats) res.status(200).json({ msg: "Reserved seats properly"});
-// };
-
 import TemporaryBooking from '../models/temporaryBookingModel.js';
+
+export const getTemporaryBookings = async (req, res) => {
+  try {
+    const { screeningId } = req.params;
+    const tempBookings = await TemporaryBooking.find({ screeningId });
+    const tempBookedSeats = tempBookings.reduce((acc, booking) => {
+      return [...acc, ...booking.seats.map(seat => seat.seatNumber)];
+    }, []);
+    res.status(200).json(tempBookedSeats);
+  } catch (error) {
+    console.error("Error fetching temporary bookings:", error);
+    return res.status(500).json({ msg: "Internal server error." });
+  }
+};
 
 export const reserveSeats = async (req, res) => {
   try {
     const { screeningId, seats } = req.body;
+    
 
     if (!screeningId || !seats || seats.length === 0) {
       return res.status(400).json({ msg: "Invalid request parameters." });

@@ -9,16 +9,14 @@ function Booking() {
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] = useState(false);
-  const [temporaryBookedSeats, setTemporaryBookedSeats] = useState([]);
 
 
     useEffect(() => {
     const eventSource = new EventSource(`/api/events/${screeningId}`);
 
     eventSource.onmessage = (event) => {
-      const { bookedSeats, temporaryBookedSeats } = JSON.parse(event.data);
-      setBookedSeats(bookedSeats);
-      setTemporaryBookedSeats(temporaryBookedSeats);
+      const updatedBookedSeats = JSON.parse(event.data);
+      setBookedSeats(updatedBookedSeats);
       setInitialSeatsDataReceived(true);
     };
 
@@ -33,7 +31,7 @@ function Booking() {
   }, [screeningId]);
 
   const isSeatBooked = (seatNumber) => {
-    return bookedSeats.includes(seatNumber) || temporaryBookedSeats.includes(seatNumber);
+    return bookedSeats.includes(seatNumber);
   };
 
   const handleSeatClick = async (rowNumber, seatNumber) => {
@@ -52,9 +50,9 @@ function Booking() {
 
             const data = await response.json();
 
-            if (data.success) {
+            if (data !== undefined) {
                 setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
-                console.log(`Seat ${seatNumber} in row ${rowNumber} is now temporarily reserved.`);
+                console.log(`Seat ${seatNumber} is now temporarily reserved.`);
             } else {
                 console.log(data.error);
             }
@@ -100,7 +98,7 @@ function Booking() {
         console.error('Error fetching seats data:', error);
       }
     };
-
+ 
     fetchScreening();
   }, [screeningId]);
 
@@ -142,9 +140,6 @@ function Booking() {
 }
 
 export default Booking;
-
-
-
 
 
 

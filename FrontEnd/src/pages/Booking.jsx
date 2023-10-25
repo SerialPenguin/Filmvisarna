@@ -18,6 +18,8 @@ function Booking() {
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
   const [previousSeat, setPreviousSeat] = useState(null);
+  const [ticketCount, setTicketCount] = useState(1);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -81,30 +83,40 @@ function Booking() {
   const handleSeatClick = async (rowNumber, seatNumber) => {
     if (isSeatBooked(seatNumber)) {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
-    } else {
-      try {
-        const response = await fetch(`/api/reserveSeats`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            screeningId,
-            seats: [{ seatNumber }],
-            previousSeat, // Pass the previous seat to the backend
-          }),
-        });
+      return;
+    }
 
-        const data = await response.json();
-
-        if (data !== undefined) {
-          setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
-          setPreviousSeat(seatNumber); // Set the current seat as the previous one for next time
-          console.log(`Seat ${seatNumber} is now temporarily reserved.`);
-        } else {
-          console.log(data.error);
-        }
-      } catch (error) {
-        console.error("Error reserving seat:", error);
+    try {
+      // Determine if we should remove an existing seat from selection
+      let seatToRemove = null;
+      if (selectedSeats.length >= ticketCount) {
+        seatToRemove = selectedSeats.shift(); // remove the first seat
+        setSelectedSeats([...selectedSeats]);
+        setBookedSeats((bookedSeats) =>
+          bookedSeats.filter((seat) => seat !== seatToRemove)
+        );
       }
+
+      const res = await fetch(`/api/reserveSeats`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          screeningId,
+          seats: [{ seatNumber }],
+          previousSeat: seatToRemove, // this seat will be removed from the backend's temporary bookings
+        }),
+      });
+
+      if (!res.ok) throw new Error("Error reserving seat");
+      const data = await res.json();
+
+      if (data) {
+        setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
+        setSelectedSeats((prevSeats) => [...prevSeats, seatNumber]);
+        console.log(`Seat ${seatNumber} is now temporarily reserved.`);
+      }
+    } catch (error) {
+      console.error("Error reserving seat:", error);
     }
   };
 
@@ -186,6 +198,31 @@ function Booking() {
               </option>
             ))}
           </select>
+          <div className="ticket-counter">
+            <h3>Tickets: {ticketCount}</h3>
+            <h3>Selected Seats: {selectedSeats.length}</h3>
+            {selectedSeats.length > 0 && (
+              <button
+                onClick={() => {
+                  setSelectedSeats([]);
+                  setPreviousSeat(null); // Reset the previous seat
+                  // Logic to un-reserve these seats might be necessary.
+                }}>
+                Clear Selected Seats
+              </button>
+            )}
+          </div>
+          <label>
+            Number of Tickets:
+            <input
+              type="number"
+              value={ticketCount}
+              onChange={(e) =>
+                setTicketCount(Math.max(1, parseInt(e.target.value)))
+              }
+            />
+          </label>
+
           <h1>Booking for: {movie?.title}</h1>
           <h2>Director: {movie?.director}</h2>
           <h3>Description: {movie?.description}</h3>
@@ -193,19 +230,15 @@ function Booking() {
           <h3>Screening Time: {screening?.endTime}</h3>
           <img src={movie?.images?.[0]} alt={movie?.title} />
           <div className="seats-grid">
-            {(salonLayout?.rows ?? []).map((row) => (
+            {salonLayout?.rows?.map((row) => (
               <div key={row.rowNumber} className="row">
-                {(row.seats ?? []).map((seatNumber) => (
+                {row.seats?.map((seatNumber) => (
                   <button
                     key={seatNumber}
                     className={
                       isSeatBooked(seatNumber) ? "booked" : "available"
                     }
-                    onClick={
-                      !isSeatBooked(seatNumber)
-                        ? () => handleSeatClick(row.rowNumber, seatNumber)
-                        : null
-                    }>
+                    onClick={() => handleSeatClick(row.rowNumber, seatNumber)}>
                     {seatNumber}
                   </button>
                 ))}

@@ -26,3 +26,8 @@
     background-color: green;
     cursor: pointer;
 }
+
+.selected {
+  background-color: rgb(148, 8, 55);
+    cursor: pointer;
+}

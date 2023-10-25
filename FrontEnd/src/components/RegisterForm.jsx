@@ -18,7 +18,7 @@ function RegisterForm() {
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {
-      setTimeout(() => navigate("/"), 1000);
+      setTimeout(() => navigate("/login"), 1000);
       setRegisterMessage("Du har blivit medlem! Vänligen logga in");
     } else {
       setRegisterMessage(
@@ -75,7 +75,7 @@ function RegisterForm() {
       {registerMessage && <p className="register-msg">{registerMessage}</p>}
 
       <p>
-        Redan medlem? <Link to={"#"}>Klicka här</Link>
+        Redan medlem? <Link to={"/login"}>Klicka här</Link>
       </p>
 
       <button className="register-btn" type="submit" onClick={handleSubmit}>

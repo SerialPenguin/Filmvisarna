@@ -48,7 +48,7 @@ export const login = async (req, res) => {
   }
 
   // Compare the provided password with the hashed password in the database
-  const passwordMatch = await bcrypt.compare(password, user.password);
+  const passwordMatch = bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
     res.status(401).json({ error: "Invalid email or password" });
@@ -79,7 +79,7 @@ export const getUserInfo = async (req, res) => {
 export const deleteBooking = async (req, res) => {
   try {
     const userId = req.user._id;
-    const bookingId = req.params.bookingId;
+    const bookingId = req.body.bookingId;
 
     // Find the user by their ID
     const user = await User.findById(userId);
@@ -124,20 +124,4 @@ export const deleteBooking = async (req, res) => {
     console.error('Error deleting booking:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-};
-
-
-
-export const logoutUser = (req, res) => {
-  const token = req.headers.authorization; // Assuming the token is passed in the Authorization header
-
-  // Check if the token is already invalidated
-  if (invalidatedTokens.has(token)) {
-    return res.status(401).json({ error: 'Token already invalidated' });
-  }
-
-  // Add the token to the blacklist
-  invalidatedTokens.add(token);
-
-  res.json({ message: 'User logged out successfully' });
 };

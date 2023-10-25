@@ -6,9 +6,9 @@ import movieRoutes from "./routes/movieRoutes.js";
 import screeningRoutes from "./routes/screeningRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
-import nodeMailerRoutes from "./routes/nodeMailerRoutes.js";
 import { getSeats } from "./controllers/seatsController.js";
 import Booking from "./models/bookingModel.js";
+import { reserveSeats } from "./controllers/reserveSeatsController.js";
 
 dotenv.config();
 
@@ -19,12 +19,12 @@ app.use(express.json());
 app.use("/api/movies", movieRoutes);
 app.use("/api/screenings", screeningRoutes);
 app.use("/api/bookings", bookingRoutes);
-app.use("/api/sendmail", nodeMailerRoutes); // nodemailer-endpoint - the logic will go into bookingendpoint later perhaps
 app.use("/api/auth", userRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/seats", getSeats);
+app.use("/api/reserveSeats", reserveSeats);
 
-const clients = [];
+
 
 app.get("/api/events/:screeningId", async (req, res) => {
   const { screeningId } = req.params;
@@ -36,6 +36,7 @@ app.get("/api/events/:screeningId", async (req, res) => {
 
   const sendBookedSeats = async () => {
     try {
+
       // Fetch all the bookings for the given screeningId
       const allBookingsForScreening = await Booking.find({
         screeningId: screeningId,

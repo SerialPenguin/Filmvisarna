@@ -12,12 +12,14 @@ export function AboutUs() {
           <img src={counter} alt="Kassa" />
         </div>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+          porttitor dictum libero, in porttitor nulla elementum mattis. Duis
+          pretium consectetur libero quis sodales. In justo dui, dignissim sed
+          magna non, malesuada placerat diam. Vivamus eu dapibus nisi, at
+          scelerisque arcu. Maecenas molestie at dolor eget euismod. Fusce quis
+          iaculis lorem, vel condimentum urna. Nulla augue quam, volutpat non
+          pretium consequat, dapibus at ipsum. Donec rhoncus purus a lectus
+          vehicula, id ornare eros fringilla
         </p>
       </section>
 

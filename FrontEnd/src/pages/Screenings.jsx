@@ -16,6 +16,7 @@ function Screenings() {
   const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
   const [filteredScreenings, setFilteredScreenings] = useState([]);
   const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
+  const [selectedDateOption, setSelectedDateOption] = useState("Alla datum");
   const location = useLocation();
 
   const movieOptions = [
@@ -40,14 +41,22 @@ function Screenings() {
     if (selectedFilterOption !== "Alla filmer") {
       filteredList = filteredList.filter((screening) => screening.movie.title === selectedFilterOption);
     }
-  
-    if (selectedAgeOption === "barn tilllåtna") {
+
+    if (selectedAgeOption === "Barn Filmer") {
       filteredList = filteredList.filter((screening) => screening.movie.age === 7);
+    }
+
+    if (selectedDateOption !== "Alla datum") {
+      filteredList = filteredList.filter((screening) => {
+        const options = { weekday: 'long', month: 'long', day: 'numeric' };
+        const date = new Date(screening.startTime).toLocaleDateString('sv-SE', options);
+        return date === selectedDateOption; // Return the result of the comparison
+      });      
     }
   
     setFilteredScreenings(filteredList);
-  }, [selectedFilterOption, selectedAgeOption, screenings]);
-  
+  }, [selectedFilterOption, selectedAgeOption, screenings, selectedDateOption]);
+  console.log(screenings)
 
   // Organisera screenings efter datum
   const screeningsByDate = filteredScreenings.reduce((acc, screening) => {
@@ -60,6 +69,8 @@ function Screenings() {
     return acc;
   }, {});
   
+  const screeningsDates = screeningsByDate;
+  console.log(screeningsDates)
   return (
     <div>
       <h1>Screenings</h1>
@@ -78,7 +89,19 @@ function Screenings() {
         onChange={(e) => setSelectedAgeOption(e.target.value)}
       >
         <option value="Alla åldrar">Alla åldrar</option>
-        <option value="barn tilllåtna">barn tilllåtna</option>
+        <option value="Barn Filmer">Barn Filmer</option>
+      </select>
+      <select 
+        value={selectedDateOption}
+        onChange={(e) => setSelectedDateOption(e.target.value)}>
+        <option value="Alla datum">
+          Alla datum
+        </option>
+        {Object.keys(screeningsByDate).map((date) => (
+        <option key={date}>
+          {date}
+        </option>
+      ))}
       </select>
       {loading ? (
         <p>Laddar...</p>
@@ -95,9 +118,10 @@ function Screenings() {
                   <p>Starttid: {formatTimeToHHMM(screening.startTime)}</p>
                   <p>Sluttid: {formatTimeToHHMM(screening.endTime)}</p>
                   <p>Antal tillgängliga platser: {screening.availableSeats}</p>
-                  <Link to={`/bookings`}>
-                    <button>Boka</button>
-                  </Link>
+                  
+                    <button>
+                      <Link to={`/bookings`}>Boka</Link>
+                    </button>
                   <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }}>
                     Mer info...
                   </Link>

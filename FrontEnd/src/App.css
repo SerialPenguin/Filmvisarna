@@ -31,3 +31,35 @@
   background-color: rgb(148, 8, 55);
     cursor: pointer;
 }
+
+.ticket-counter-container {
+  display: flex;
+  align-items: center;
+  border: 5px solid #867171;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 120px;
+}
+
+.ticket-counter-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  /* Change the color to your preference */
+  background-color: #f7f7f7;
+}
+
+.ticket-counter-arrow:hover {
+  background-color: #e0e0e0;
+}
+
+.ticket-counter-value {
+  margin: 0 15px;
+  font-size: 1rem;
+}

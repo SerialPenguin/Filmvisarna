@@ -17,7 +17,6 @@ function Booking() {
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [previousSeat, setPreviousSeat] = useState(null);
   const [ticketCount, setTicketCount] = useState(1);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -59,7 +58,6 @@ function Booking() {
       fetch(`/api/screenings`)
         .then((response) => response.json())
         .then((data) => {
-          // Filter the screenings by the selected movieId
           const filteredScreenings = data.filter(
             (screening) => screening.movieId === selectedMovie
           );
@@ -205,23 +203,24 @@ function Booking() {
               <button
                 onClick={() => {
                   setSelectedSeats([]);
-                  setPreviousSeat(null); // Reset the previous seat
-                  // Logic to un-reserve these seats might be necessary.
                 }}>
                 Clear Selected Seats
               </button>
             )}
           </div>
-          <label>
-            Number of Tickets:
-            <input
-              type="number"
-              value={ticketCount}
-              onChange={(e) =>
-                setTicketCount(Math.max(1, parseInt(e.target.value)))
-              }
-            />
-          </label>
+          <div className="ticket-counter-container">
+            <div
+              className="ticket-counter-arrow"
+              onClick={() => setTicketCount((prev) => Math.max(1, prev - 1))}>
+              ←
+            </div>
+            <div className="ticket-counter-value">{ticketCount}</div>
+            <div
+              className="ticket-counter-arrow"
+              onClick={() => setTicketCount((prev) => prev + 1)}>
+              →
+            </div>
+          </div>
 
           <h1>Booking for: {movie?.title}</h1>
           <h2>Director: {movie?.director}</h2>

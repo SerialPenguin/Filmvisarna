@@ -9,6 +9,7 @@ function Booking() {
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] = useState(false);
+  const [previousSeat, setPreviousSeat] = useState(null);  // <-- New state
 
 
     useEffect(() => {
@@ -44,7 +45,8 @@ function Booking() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     screeningId,
-                    seats: [{ seatNumber }]
+                    seats: [{ seatNumber }],
+                    previousSeat   // <-- Pass the previous seat to the backend
                 })
             });
 
@@ -52,6 +54,7 @@ function Booking() {
 
             if (data !== undefined) {
                 setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
+                setPreviousSeat(seatNumber);  // <-- Set the current seat as the previous one for next time
                 console.log(`Seat ${seatNumber} is now temporarily reserved.`);
             } else {
                 console.log(data.error);
@@ -60,7 +63,7 @@ function Booking() {
             console.error('Error reserving seat:', error);
         }
     }
-};
+  };
 
   useEffect(() => {
     const fetchScreening = async () => {

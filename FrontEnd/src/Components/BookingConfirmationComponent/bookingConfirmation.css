@@ -1,0 +1,29 @@
+.main-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ticket-container {
+  position: relative;
+  width: 100%;
+}
+.ticket {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  /* transform: rotateY(180deg); */
+}
+.ticket-back {
+  transform: rotateY(180deg);
+}
+.ticket-front,
+.ticket-back {
+  width: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+}
+.email-input {
+  position: absolute;
+}

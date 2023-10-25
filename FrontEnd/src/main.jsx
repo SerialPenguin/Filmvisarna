@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import Booking from "./pages/Booking.jsx";
 import { Profile } from "./pages/Profile.jsx";
+import { AboutUs } from "./pages/AboutUs.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/booking/:screeningId", element: <Booking /> },
       { path: "/auth/profile", element: <Profile /> },
+      { path: "/aboutUs", element: <AboutUs /> },
     ],
   },
 ]);

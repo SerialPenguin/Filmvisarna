@@ -5,5 +5,5 @@ useGet('/api/products', setProducts);
 
 export function Profile() {
   console.log("profile page");
-  return;
+  return <h1>Profile</h1>;
 }

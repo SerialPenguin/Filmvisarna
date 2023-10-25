@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import cinema from "../assets/img/cinema.jpg";
 import counter from "../assets/img/counter.jpg";
 
@@ -5,9 +6,11 @@ export function AboutUs() {
   return (
     <>
       <section>
-        <h1>Om oss</h1>
         <img src={cinema} alt="Biograf" />
-        <img src={counter} alt="Kassa" />
+        <div>
+          <h1>Om oss</h1>
+          <img src={counter} alt="Kassa" />
+        </div>
         <p>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever

@@ -150,10 +150,14 @@ function Booking() {
       <p>Loading...</p>
     ) : (
       <>
-           <select 
+          <select 
         style={{ width: '300px', height: '30px' }}
         value={selectedMovie}
-        onChange={e => setSelectedMovie(e.target.value)}
+        onChange={e => {
+          const newMovieId = e.target.value;
+          if (newMovieId === "") return; // Prevent further action if it's the placeholder value
+          setSelectedMovie(newMovieId);
+        }}
       >
         <option value="">Select a Movie</option>
         {movies.map(m => (
@@ -162,14 +166,15 @@ function Booking() {
       </select>
 
       <select 
-        style={{ width: '300px', height: '30px' }}
-        value={screeningId}
-        onChange={e => {
-          const newScreeningId = e.target.value;
-          history(`/booking/${newScreeningId}`);
-        }}
+      style={{ width: '300px', height: '30px' }}
+      value={screeningId}
+      onChange={e => {
+      const newScreeningId = e.target.value;
+      if (newScreeningId === "") return; // Prevent navigation if it's the placeholder value
+      history(`/booking/${newScreeningId}`);
+    }}
       >
-        <option value="">Select a Screening</option>
+            <option value="">Select a Screening</option>
         {screenings.map(s => (
           <option key={s._id} value={s._id}>
             {new Date(s.startTime).toLocaleDateString()} at {new Date(s.startTime).toLocaleTimeString()}

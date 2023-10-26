@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import BookingConfirmation from '../Components/BookingConfirmationComponent/BookingConfirmation';
 
 function Booking() {
   const { screeningId } = useParams();
@@ -9,6 +10,7 @@ function Booking() {
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] = useState(false);
+  const [view, setView] = useState('seatPicker');
 
 
     useEffect(() => {
@@ -88,31 +90,39 @@ function Booking() {
         <p>Loading...</p>
       ) : (
         <>
-          <h1>Booking for: {movie?.title}</h1>
-          <h2>Director: {movie?.director}</h2>
-          <h3>Description: {movie?.description}</h3>
-          <h3>Screening Date: {screening?.startTime}</h3>
-          <h3>Screening Time: {screening?.endTime}</h3>
-          <img src={movie?.images?.[0]} alt={movie?.title} />
-          <div className="seats-grid">
-            {(salonLayout?.rows ?? []).map((row) => (
-              <div key={row.rowNumber} className="row">
-                {(row.seats ?? []).map((seatNumber) => (
-                  <button
-                    key={seatNumber}
-                    className={isSeatBooked(seatNumber) ? 'booked' : 'available'}
-                    onClick={
-                      !isSeatBooked(seatNumber)
-                        ? () => handleSeatClick(row.rowNumber, seatNumber)
-                        : null
-                    }
-                  >
-                    {seatNumber}
-                  </button>
+          {view === 'seatPicker' && (
+            <div>
+              <h1>Booking for: {movie?.title}</h1>
+              <h2>Director: {movie?.director}</h2>
+              <h3>Description: {movie?.description}</h3>
+              <h3>Screening Date: {screening?.startTime}</h3>
+              <h3>Screening Time: {screening?.endTime}</h3>
+              <img src={movie?.images?.[0]} alt={movie?.title} />
+              <div className="seats-grid">
+                {(salonLayout?.rows ?? []).map((row) => (
+                  <div key={row.rowNumber} className="row">
+                    {(row.seats ?? []).map((seatNumber) => (
+                      <button
+                        key={seatNumber}
+                        className={isSeatBooked(seatNumber) ? 'booked' : 'available'}
+                        onClick={
+                          !isSeatBooked(seatNumber)
+                            ? () => handleSeatClick(row.rowNumber, seatNumber)
+                            : null
+                        }
+                      >
+                        {seatNumber}
+                      </button>
+                    ))}
+                  </div>
                 ))}
               </div>
-            ))}
-          </div>
+              <button onClick={() => setView('confirmation')}>Boka</button>
+            </div>
+          )}
+          {view === 'confirmation' && (
+            <BookingConfirmation />
+          )}
         </>
       )}
     </div>

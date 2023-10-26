@@ -9,59 +9,22 @@ function formatTimeToHHMM(dateTimeString) {
   return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
 }
 
-function Screenings() {
-  const [screenings, setScreenings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
-  const [filteredScreenings, setFilteredScreenings] = useState([]);
-  const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
-  const [selectedDateOption, setSelectedDateOption] = useState("Alla datum");
-  const [movieOtionFilter, setMovieOtionFilter] = useState(["Alla filmer"])
-  const location = useLocation();
+function getWeekNumber(date) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  const weekNumber = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return weekNumber;
+}
 
-  const movieOptions = [
-    "Alla filmer",
-    "The Blue Hour",
-    "Parasit",
-    "Det sjunde inseglet",
-    "Mio min Mio",
-    "Aliens Abducted My Parents and Now I feel Kinda Left Out"
-  ];
-  
-  useGet('/api/screenings', (data) => {
-    setScreenings(data);
-    setLoading(false);
-    setFilteredScreenings(data);
-  });
-
-  useEffect(() => {
-    // Uppdatera den filtrerade listan när selectedFilterOption eller selectedAgeOption ändras
-    let filteredList = screenings;
-
-    if (selectedFilterOption !== "Alla filmer") {
-      filteredList = filteredList.filter((screening) => screening.movie.title === selectedFilterOption);
-    } else{
-      setMovieOtionFilter(movieOptions)
-    }
-
-    if (selectedAgeOption === "Barn Filmer") {
-      filteredList = filteredList.filter((screening) => screening.movie.age === 7);
-      setMovieOtionFilter(["Alla filmer", "Mio min Mio"])
-    }
-
-    if (selectedDateOption !== "Alla datum") {
-      filteredList = filteredList.filter((screening) => {
-        const options = { weekday: 'long', month: 'long', day: 'numeric' };
-        const date = new Date(screening.startTime).toLocaleDateString('sv-SE', options);
-        return date === selectedDateOption;
-      });
-    }
-  
-    setFilteredScreenings(filteredList);
-  }, [selectedFilterOption, selectedAgeOption, screenings, selectedDateOption]);
-
-  // Organisera screenings efter datum
-  const screeningsByDate = filteredScreenings.reduce((acc, screening) => {
+function fixDateStartTime(screenings) {
+    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+    const date = new Date(screenings).toLocaleDateString('sv-SE', options);
+    return date;
+}
+function organizeScreeningsByDate(screenings) {
+  return screenings.reduce((acc, screening) => {
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     const date = new Date(screening.startTime).toLocaleDateString('sv-SE', options);
     if (!acc[date]) {
@@ -70,6 +33,54 @@ function Screenings() {
     acc[date].push(screening);
     return acc;
   }, {});
+}
+
+
+function Screenings() {
+    const [screenings, setScreenings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
+    const [filteredScreenings, setFilteredScreenings] = useState([]);
+    const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
+    const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
+    const [selectedDate, setSelectedDate] = useState("Alla Datum");
+    const location = useLocation();
+    
+  useGet('/api/screenings', (data) => {
+    setScreenings(data);
+    setLoading(false);
+    setFilteredScreenings(data);
+  });
+
+  useEffect(() => {
+    // Uppdatera den filtrerade listan när selectedFilterOption, selectedAgeOption,selectedDate  eller selectedWeek ändras
+    let filteredList = screenings;
+  
+    if (selectedFilterOption !== "Alla filmer") {
+      filteredList = filteredList.filter((screening) => screening.movie.title === selectedFilterOption);
+    } else{filteredList = screenings}
+  
+    if (selectedAgeOption === "Barn Filmer") {
+      filteredList = filteredList.filter((screening) => screening.movie.age === 7);
+    }
+  
+    if (selectedWeek !== "Alla veckor") {
+      filteredList = filteredList.filter((screening) => {
+        return getWeekNumber(screening.startTime) === parseInt(selectedWeek, 10);
+      });
+    } else {setSelectedDate("Alla Datum")}
+    if (selectedDate !== "Alla Datum"){
+      filteredList = filteredList.filter((screening) => {
+        return fixDateStartTime(screening.startTime) === selectedDate;
+      });
+    }
+  
+    setFilteredScreenings(filteredList);
+  }, [selectedFilterOption, selectedAgeOption, screenings, selectedWeek, selectedDate]);
+
+  // Organisera screenings efter datum
+  const screeningsByDate = organizeScreeningsByDate(filteredScreenings);
+
   
   return (
     <div>
@@ -78,11 +89,12 @@ function Screenings() {
         value={selectedFilterOption}
         onChange={(e) => setSelectedFilterOption(e.target.value)}
       >
-        {movieOtionFilter.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
+        <option key="Alla filmer" value="Alla filmer">Alla Filmer</option>
+      {[...new Set(filteredScreenings.map((screening) => screening.movie.title))].map((title) => (
+      <option key={title} value={title}>
+        {title}
+      </option>
+      ))}
       </select>
       <select
         value={selectedAgeOption}
@@ -91,18 +103,30 @@ function Screenings() {
         <option value="Alla åldrar">Alla åldrar</option>
         <option value="Barn Filmer">Barn Filmer</option>
       </select>
-      <select 
-        value={selectedDateOption}
-        onChange={(e) => setSelectedDateOption(e.target.value)}>
-        <option value="Alla datum">
-          Alla datum
-        </option>
-        {Object.keys(screeningsByDate).map((date) => (
-        <option key={date}>
-          {date}
-        </option>
-      ))}
+      <select
+        value={selectedWeek}
+        onChange={(e) => setSelectedWeek(e.target.value)}
+      >
+        <option value="Alla veckor">Alla veckor</option>
+        {[...new Set(filteredScreenings.map(screening => getWeekNumber(screening.startTime)))].map((weekNumber) => (
+          <option key={weekNumber} value={weekNumber}>
+            Vecka {weekNumber}
+          </option>
+        ))}
       </select>
+      {selectedWeek !== "Alla veckor" && (
+        <select
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+        >
+          <option value="Alla Datum">Alla Datum</option>
+          {Object.keys(screeningsByDate).map((date) => (
+              <option key={date} value={date}>
+                {date}
+              </option>
+            ))}
+        </select>
+      )}
       {loading ? (
         <p>Laddar...</p>
       ) : (

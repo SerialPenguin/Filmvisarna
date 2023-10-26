@@ -1,6 +1,5 @@
 import TemporaryBooking from '../models/temporaryBookingModel.js';
 
-
 export const getTemporaryBookings = async (req, res) => {
   try {
     const { screeningId } = req.params;
@@ -26,10 +25,9 @@ export const reserveSeats = async (req, res) => {
   try {
     const { screeningId, seats, previousSeat } = req.body;
 
-    // If seats is an empty array or not provided, it means we want to clear selected seats
-    if (!screeningId || (!seats || seats.length === 0) && !previousSeat) {
-      await TemporaryBooking.deleteMany({ screeningId }); // Delete all reservations for the screeningId
-      return res.status(200).json({ msg: "Selected seats cleared successfully." });
+    // If seats is an empty array, it means we want to clear selected seats
+    if (!screeningId || (seats.length === 0 && !previousSeat)) {
+      return res.status(400).json({ msg: "Invalid request parameters." });
     }
 
     // If a previous seat is provided, remove its reservation
@@ -47,13 +45,17 @@ export const reserveSeats = async (req, res) => {
       return res.status(400).json({ msg: "Some of the seats are already reserved." });
     }
 
-    // If seats are not empty, create a new reservation
-    const newReservation = new TemporaryBooking({
-      screeningId,
-      seats
-    });
+    // If seats are empty, it means we are clearing selected seats, so delete all reservations
+    if (seats.length === 0) {
+      await TemporaryBooking.deleteMany({ screeningId });
+    } else {
+      const newReservation = new TemporaryBooking({
+        screeningId,
+        seats
+      });
 
-    await newReservation.save();
+      await newReservation.save();
+    }
 
     return res.status(200).json({ msg: "Seats reserved successfully." });
   } catch (error) {
@@ -61,6 +63,7 @@ export const reserveSeats = async (req, res) => {
     return res.status(500).json({ msg: "Internal server error." });
   }
 };
+
 
 const cleanupExpiredBookings = async () => {
   const currentTime = new Date();

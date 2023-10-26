@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import SeatsGrid from "../components/seatsGrid";
 
 function Booking() {
   const { screeningId } = useParams();
@@ -158,6 +159,10 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   return (
     <div className="App">
       {loading || !initialSeatsDataReceived ? (
@@ -189,12 +194,26 @@ function Booking() {
               history(`/booking/${newScreeningId}`);
             }}>
             <option value="">Select a Screening</option>
-            {screenings.map((s) => (
-              <option key={s._id} value={s._id}>
-                {new Date(s.startTime).toLocaleDateString()} at{" "}
-                {new Date(s.startTime).toLocaleTimeString()}
-              </option>
-            ))}
+            {screenings.map((s) => {
+              const dateOptions = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              };
+              const formattedDate = new Date(s.startTime).toLocaleDateString(
+                "sv-SE",
+                dateOptions
+              );
+              const capitalizedDate = capitalizeFirstLetter(formattedDate);
+
+              return (
+                <option key={s._id} value={s._id}>
+                  {capitalizedDate} kl{" "}
+                  {new Date(s.startTime).toLocaleTimeString("sv-SE")}
+                </option>
+              );
+            })}
           </select>
           <div className="ticket-counter">
             <h3>Tickets: {ticketCount}</h3>
@@ -228,22 +247,11 @@ function Booking() {
           <h3>Screening Date: {screening?.startTime}</h3>
           <h3>Screening Time: {screening?.endTime}</h3>
           <img src={movie?.images?.[0]} alt={movie?.title} />
-          <div className="seats-grid">
-            {salonLayout?.rows?.map((row) => (
-              <div key={row.rowNumber} className="row">
-                {row.seats?.map((seatNumber) => (
-                  <button
-                    key={seatNumber}
-                    className={
-                      isSeatBooked(seatNumber) ? "booked" : "available"
-                    }
-                    onClick={() => handleSeatClick(row.rowNumber, seatNumber)}>
-                    {seatNumber}
-                  </button>
-                ))}
-              </div>
-            ))}
-          </div>
+          <SeatsGrid
+            salonLayout={salonLayout}
+            isSeatBooked={isSeatBooked}
+            handleSeatClick={handleSeatClick}
+          />
         </>
       )}
     </div>

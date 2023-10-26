@@ -19,6 +19,7 @@ function Booking() {
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedWeek, setSelectedWeek] = useState("");
   const [tickets, setTickets] = useState({
     adults: { ticketType: "adult", quantity: 0, price: 140 },
     seniors: { ticketType: "senior", quantity: 0, price: 100 },
@@ -55,8 +56,32 @@ function Booking() {
     fetchMovies();
   }, []);
 
-  // Fetch screenings when a movie is selected
   useEffect(() => {
+    // Function to get the week number of a date
+    const getWeekNumber = (date) => {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+      const yearStart = new Date(d.getFullYear(), 0, 1);
+      const weekNumber = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+      return weekNumber;
+    };
+
+    const groupScreeningsByWeek = (screenings) => {
+      const grouped = {};
+      for (const screening of screenings) {
+        const week = getWeekNumber(new Date(screening.startTime));
+        if (!grouped[week]) {
+          grouped[week] = [];
+        }
+        grouped[week].push(screening);
+      }
+      return Object.keys(grouped).map((week) => ({
+        week,
+        screenings: grouped[week],
+      }));
+    };
+
     if (selectedMovie) {
       fetch(`/api/screenings`)
         .then((response) => response.json())
@@ -64,9 +89,17 @@ function Booking() {
           const filteredScreenings = data.filter(
             (screening) => screening.movieId === selectedMovie
           );
-          setScreenings(filteredScreenings);
-          if (filteredScreenings.length > 0) {
-            history(`/booking/${filteredScreenings[0]._id}`);
+
+          const groupedScreenings = groupScreeningsByWeek(filteredScreenings);
+
+          setScreenings(groupedScreenings);
+
+          if (groupedScreenings.length > 0) {
+            // Use history to navigate to the first screening of the first week
+            const firstWeekScreenings = groupedScreenings[0].screenings;
+            if (firstWeekScreenings.length > 0) {
+              history(`/booking/${firstWeekScreenings[0]._id}`);
+            }
           } else {
             setScreenings([]);
           }
@@ -90,7 +123,7 @@ function Booking() {
       setSelectedSeats((prevSeats) =>
         prevSeats.filter((seat) => seat !== seatNumber)
       );
-      return; // Exit after removing the seat
+      return;
     }
 
     // Determine if we should remove an existing seat from selection
@@ -171,7 +204,6 @@ function Booking() {
     localStorage.setItem("bookingData", JSON.stringify(data));
   };
 
-  // Example of saving data after seats selection:
   saveToLocalStorage({
     selectedSeats: selectedSeats,
     screeningId: screeningId,
@@ -226,10 +258,8 @@ function Booking() {
         throw new Error("Error clearing selected seats");
       }
 
-      // Reset the selectedSeats state to an empty array
       setSelectedSeats([]);
 
-      // Update the state of tickets to reset all quantities to 0
       setTickets((prev) => ({
         adults: { ...prev.adults, quantity: 0 },
         seniors: { ...prev.seniors, quantity: 0 },
@@ -258,10 +288,27 @@ function Booking() {
               if (newMovieId === "") return; // Prevent further action if it's the placeholder value
               setSelectedMovie(newMovieId);
             }}>
-            <option value="">Select a Movie</option>
+            <option value="" key="select-movie">
+              Select a Movie
+            </option>
             {movies.map((m) => (
-              <option key={m._id} value={m._id}>
+              <option key={`movie-${m._id}`} value={m._id}>
                 {m.title}
+              </option>
+            ))}
+          </select>
+
+          <select
+            style={{ width: "300px", height: "30px" }}
+            value={selectedWeek}
+            onChange={(e) => {
+              const newSelectedWeek = e.target.value;
+              setSelectedWeek(newSelectedWeek);
+            }}>
+            <option value="">Select a Week</option>
+            {screenings.map((weekData) => (
+              <option key={weekData.week} value={weekData.week}>
+                Week {weekData.week}
               </option>
             ))}
           </select>
@@ -275,26 +322,29 @@ function Booking() {
               history(`/booking/${newScreeningId}`);
             }}>
             <option value="">Select a Screening</option>
-            {screenings.map((s) => {
-              const dateOptions = {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              };
-              const formattedDate = new Date(s.startTime).toLocaleDateString(
-                "sv-SE",
-                dateOptions
-              );
-              const capitalizedDate = capitalizeFirstLetter(formattedDate);
+            {screenings
+              .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
+              .map((weekData) =>
+                weekData.screenings.map((s) => {
+                  const dateOptions = {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  };
+                  const formattedDate = new Date(
+                    s.startTime
+                  ).toLocaleDateString("sv-SE", dateOptions);
+                  const capitalizedDate = capitalizeFirstLetter(formattedDate);
 
-              return (
-                <option key={s._id} value={s._id}>
-                  {capitalizedDate} kl{" "}
-                  {new Date(s.startTime).toLocaleTimeString("sv-SE")}
-                </option>
-              );
-            })}
+                  return (
+                    <option key={s._id} value={s._id}>
+                      {capitalizedDate} kl{" "}
+                      {new Date(s.startTime).toLocaleTimeString("sv-SE")}
+                    </option>
+                  );
+                })
+              )}
           </select>
           <div className="ticket-counter">
             <h3>Total Tickets: {getTotalTicketCount()}</h3>
@@ -310,7 +360,9 @@ function Booking() {
           </div>
 
           {Object.keys(tickets).map((ticketType) => (
-            <div className="ticket-counter-container" key={ticketType}>
+            <div
+              className="ticket-counter-container"
+              key={`ticket-${ticketType}`}>
               <h4>
                 {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
                 Tickets

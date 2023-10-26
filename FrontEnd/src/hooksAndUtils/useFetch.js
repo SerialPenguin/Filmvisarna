@@ -26,8 +26,3 @@ export function usePatch(url, body, stateSetter) {
 export function useDelete(url, stateSetter) {
     FetchHelper(() => del(url), stateSetter, url, 'delete');
 }
-
-/*
-const [products, setProducts] = useState([]);
-useGet('/api/products', setProducts);
-*/

@@ -1,6 +1,6 @@
 .main-container {
   position: relative;
-  width: 100%;
+  width: 250%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,12 +9,37 @@
   position: relative;
   width: 100%;
 }
+
 .ticket {
   position: relative;
   width: 100%;
   transform-style: preserve-3d;
-  /* transform: rotateY(180deg); */
 }
+
+.ticket-animation {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  animation: spin 3s forwards;
+}
+@keyframes spin {
+  0% {
+    transform: rotateY(0deg);
+  }
+  10% {
+    transform: rotateY(180deg);
+  }
+  20% {
+    transform: rotateY(360deg);
+  }
+  30% {
+    transform: rotateY(540deg);
+  }
+  100% {
+    transform: rotateY(900deg);
+  }
+}
+
 .ticket-back {
   transform: rotateY(180deg);
 }
@@ -25,5 +50,7 @@
   backface-visibility: hidden;
 }
 .email-input {
+  display: flex;
+  flex-direction: column;
   position: absolute;
 }

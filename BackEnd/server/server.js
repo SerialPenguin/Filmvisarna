@@ -16,6 +16,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
 app.use("/api/movies", movieRoutes);
 app.use("/api/screenings", screeningRoutes);
 app.use("/api/bookings", bookingRoutes);
@@ -23,8 +24,6 @@ app.use("/api/auth", userRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/seats", getSeats);
 app.use("/api/reserveSeats", reserveSeats);
-
-
 
 app.get("/api/events/:screeningId", async (req, res) => {
   const { screeningId } = req.params;
@@ -36,7 +35,6 @@ app.get("/api/events/:screeningId", async (req, res) => {
 
   const sendBookedSeats = async () => {
     try {
-
       // Fetch all the bookings for the given screeningId
       const allBookingsForScreening = await Booking.find({
         screeningId: screeningId,

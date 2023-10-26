@@ -14,7 +14,7 @@ async function handleRegister(e, credentials) {
     }),
   };
 
-  const res = await fetch("http://127.0.0.1:3000/api/auth/register", options);
+  const res = await fetch("http://localhost:5173/api/auth/register", options);
 
   if (res.status === 201) {
     return true;

@@ -167,6 +167,18 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
+  const saveToLocalStorage = (data) => {
+    localStorage.setItem("bookingData", JSON.stringify(data));
+  };
+
+  // Example of saving data after seats selection:
+  saveToLocalStorage({
+    selectedSeats: selectedSeats,
+    screeningId: screeningId,
+    salonId: screening?.salonId,
+    tickets: tickets,
+  });
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -227,6 +239,7 @@ function Booking() {
       console.error("Error clearing selected seats:", error);
     }
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }

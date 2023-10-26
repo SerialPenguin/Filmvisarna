@@ -12,6 +12,21 @@ function getYouTubeVideoId(url) {
     }
 }
 
+function MinutsToHoursAndMinuts(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+  
+    if (hours > 0) {
+      if (remainingMinutes > 0) {
+        return `${hours} timmar och ${remainingMinutes} minuter`;
+      } else {
+        return `${hours} timmar`;
+      }
+    } else {
+      return `${remainingMinutes} minuter`;
+    }
+  }
+
 function MovieInfo() {
     const { movieId } = useParams();
     const location = useLocation();
@@ -20,7 +35,7 @@ function MovieInfo() {
     
     useGet(`/api/search/movies/${movieId}`, setMovie);
     
-    //console.log(movie);
+    console.log(movie);
 
     const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
     
@@ -42,9 +57,15 @@ function MovieInfo() {
             <h2>Beskrivning</h2>
             <p>{movie.description}</p>
             <p>Genre: {movie.genre}</p>
-            <p>Längd: {movie.length} minuter</p>
-            <p>Språk: {movie.language}</p>
-            <p>Undertext: {movie.subtitles}</p>
+            <p>Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
+            <p>
+            {movie.actors && movie.actors.length > 0
+                ? `Actors: ${movie.actors.join(', ')}`
+                : 'Inga skådespelare lagrade'
+            }
+            </p>
+            <p>Språk: {movie.language ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1) : "Inget språk lagrade"}</p>
+            <p>Undertext: {movie.subtitles ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1) : "Inget undertext lagrade"}</p>
             <p>Regissör: {movie.director}</p>
             <p>Släppte: {movie.productionYear}</p>
             

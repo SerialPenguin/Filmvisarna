@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -17,6 +16,7 @@ function Screenings() {
   const [filteredScreenings, setFilteredScreenings] = useState([]);
   const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
   const [selectedDateOption, setSelectedDateOption] = useState("Alla datum");
+  const [movieOtionFilter, setMovieOtionFilter] = useState(["Alla filmer"])
   const location = useLocation();
 
   const movieOptions = [
@@ -27,7 +27,7 @@ function Screenings() {
     "Mio min Mio",
     "Aliens Abducted My Parents and Now I feel Kinda Left Out"
   ];
-
+  
   useGet('/api/screenings', (data) => {
     setScreenings(data);
     setLoading(false);
@@ -37,26 +37,28 @@ function Screenings() {
   useEffect(() => {
     // Uppdatera den filtrerade listan när selectedFilterOption eller selectedAgeOption ändras
     let filteredList = screenings;
-  
+
     if (selectedFilterOption !== "Alla filmer") {
       filteredList = filteredList.filter((screening) => screening.movie.title === selectedFilterOption);
+    } else{
+      setMovieOtionFilter(movieOptions)
     }
 
     if (selectedAgeOption === "Barn Filmer") {
       filteredList = filteredList.filter((screening) => screening.movie.age === 7);
+      setMovieOtionFilter(["Alla filmer", "Mio min Mio"])
     }
 
     if (selectedDateOption !== "Alla datum") {
       filteredList = filteredList.filter((screening) => {
         const options = { weekday: 'long', month: 'long', day: 'numeric' };
         const date = new Date(screening.startTime).toLocaleDateString('sv-SE', options);
-        return date === selectedDateOption; // Return the result of the comparison
-      });      
+        return date === selectedDateOption;
+      });
     }
   
     setFilteredScreenings(filteredList);
   }, [selectedFilterOption, selectedAgeOption, screenings, selectedDateOption]);
-  console.log(screenings)
 
   // Organisera screenings efter datum
   const screeningsByDate = filteredScreenings.reduce((acc, screening) => {
@@ -69,8 +71,6 @@ function Screenings() {
     return acc;
   }, {});
   
-  const screeningsDates = screeningsByDate;
-  console.log(screeningsDates)
   return (
     <div>
       <h1>Screenings</h1>
@@ -78,7 +78,7 @@ function Screenings() {
         value={selectedFilterOption}
         onChange={(e) => setSelectedFilterOption(e.target.value)}
       >
-        {movieOptions.map((option) => (
+        {movieOtionFilter.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>
@@ -118,10 +118,9 @@ function Screenings() {
                   <p>Starttid: {formatTimeToHHMM(screening.startTime)}</p>
                   <p>Sluttid: {formatTimeToHHMM(screening.endTime)}</p>
                   <p>Antal tillgängliga platser: {screening.availableSeats}</p>
-                  
-                    <button>
-                      <Link to={`/bookings`}>Boka</Link>
-                    </button>
+                  <Link to={`/bookings`}>
+                    <button>Boka</button>
+                  </Link>
                   <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }}>
                     Mer info...
                   </Link>

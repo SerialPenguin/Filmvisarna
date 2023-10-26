@@ -9,17 +9,21 @@ function Booking() {
   const history = useNavigate();
 
   const [movie, setMovie] = useState(null);
-  const [movies, setMovies] = useState([]); // For the dropdown
+  const [movies, setMovies] = useState([]);
   const [screening, setScreening] = useState(null);
-  const [screenings, setScreenings] = useState([]); // For the dropdown
+  const [screenings, setScreenings] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState("");
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [ticketCount, setTicketCount] = useState(1);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [tickets, setTickets] = useState({
+    adults: { ticketType: "adult", quantity: 0, price: 140 },
+    seniors: { ticketType: "senior", quantity: 0, price: 100 },
+    children: { ticketType: "child", quantity: 0, price: 120 },
+  });
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -43,13 +47,11 @@ function Booking() {
         const response = await fetch("/api/movies");
         if (!response.ok) throw new Error("Failed to fetch movies");
         const data = await response.json();
-        console.log(data); // Check the movies data you get
         setMovies(data);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     };
-
     fetchMovies();
   }, []);
 
@@ -63,12 +65,10 @@ function Booking() {
             (screening) => screening.movieId === selectedMovie
           );
           setScreenings(filteredScreenings);
-
-          // Redirect to the first screening for the selected movie
           if (filteredScreenings.length > 0) {
             history(`/booking/${filteredScreenings[0]._id}`);
           } else {
-            setScreenings([]); // No screenings found for selected movie
+            setScreenings([]);
           }
         })
         .catch((err) => console.error("Error fetching screenings:", err));
@@ -85,34 +85,42 @@ function Booking() {
       return;
     }
 
-    try {
-      // Determine if we should remove an existing seat from selection
-      let seatToRemove = null;
-      if (selectedSeats.length >= ticketCount) {
-        seatToRemove = selectedSeats.shift(); // remove the first seat
-        setSelectedSeats([...selectedSeats]);
-        setBookedSeats((bookedSeats) =>
-          bookedSeats.filter((seat) => seat !== seatToRemove)
-        );
-      }
+    // Check if the seat is already in selectedSeats
+    if (selectedSeats.includes(seatNumber)) {
+      setSelectedSeats((prevSeats) =>
+        prevSeats.filter((seat) => seat !== seatNumber)
+      );
+      return; // Exit after removing the seat
+    }
 
+    // Determine if we should remove an existing seat from selection
+    let seatToRemove = null;
+    const totalTicketCount = getTotalTicketCount(); // Use this to check against number of selected seats
+    if (selectedSeats.length >= totalTicketCount) {
+      seatToRemove = selectedSeats[0]; // The first seat in the selectedSeats array
+      setSelectedSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+    }
+
+    setSelectedSeats((prevSeats) => [...prevSeats, seatNumber]);
+    console.log(`Seat ${seatNumber} is now temporarily reserved.`);
+
+    try {
       const res = await fetch(`/api/reserveSeats`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
           seats: [{ seatNumber }],
-          previousSeat: seatToRemove, // this seat will be removed from the backend's temporary bookings
+          previousSeat: seatToRemove, // This seat will be removed from the backend's temporary bookings
         }),
       });
 
       if (!res.ok) throw new Error("Error reserving seat");
       const data = await res.json();
 
-      if (data) {
-        setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
-        setSelectedSeats((prevSeats) => [...prevSeats, seatNumber]);
-        console.log(`Seat ${seatNumber} is now temporarily reserved.`);
+      if (data && data.success) {
+        // If backend logic requires, update frontend state based on the backend response
+        console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
       }
     } catch (error) {
       console.error("Error reserving seat:", error);
@@ -161,6 +169,66 @@ function Booking() {
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const getTotalTicketCount = () => {
+    return Object.values(tickets).reduce(
+      (acc, ticket) => acc + ticket.quantity,
+      0
+    );
+  };
+
+  const getTotalAmount = () => {
+    return Object.values(tickets).reduce(
+      (acc, ticket) => acc + ticket.quantity * ticket.price,
+      0
+    );
+  };
+
+  const handleTicketChange = (type, delta) => {
+    setTickets((prev) => {
+      const updatedQuantity = Math.max(0, prev[type].quantity + delta);
+      return {
+        ...prev,
+        [type]: {
+          ...prev[type],
+          quantity: updatedQuantity,
+        },
+      };
+    });
+  };
+
+  const handleClearSelectedSeats = async () => {
+    try {
+      // Clear all selected seats in the backend by sending an empty array
+      const res = await fetch(`/api/reserveSeats`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          screeningId,
+          seats: [], // An empty array to indicate removal of all selected seats
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Error clearing selected seats");
+      }
+
+      // Reset the selectedSeats state to an empty array
+      setSelectedSeats([]);
+
+      // Update the state of tickets to reset all quantities to 0
+      setTickets((prev) => ({
+        adults: { ...prev.adults, quantity: 0 },
+        seniors: { ...prev.seniors, quantity: 0 },
+        children: { ...prev.children, quantity: 0 },
+      }));
+    } catch (error) {
+      console.error("Error clearing selected seats:", error);
+    }
+  };
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -216,30 +284,39 @@ function Booking() {
             })}
           </select>
           <div className="ticket-counter">
-            <h3>Tickets: {ticketCount}</h3>
+            <h3>Total Tickets: {getTotalTicketCount()}</h3>
             <h3>Selected Seats: {selectedSeats.length}</h3>
             {selectedSeats.length > 0 && (
-              <button
-                onClick={() => {
-                  setSelectedSeats([]);
-                }}>
+              <button onClick={handleClearSelectedSeats}>
                 Clear Selected Seats
               </button>
             )}
           </div>
-          <div className="ticket-counter-container">
-            <div
-              className="ticket-counter-arrow"
-              onClick={() => setTicketCount((prev) => Math.max(1, prev - 1))}>
-              ←
-            </div>
-            <div className="ticket-counter-value">{ticketCount}</div>
-            <div
-              className="ticket-counter-arrow"
-              onClick={() => setTicketCount((prev) => prev + 1)}>
-              →
-            </div>
+          <div className="total-amount">
+            <h3>Total Amount: {getTotalAmount()} SEK</h3>
           </div>
+
+          {Object.keys(tickets).map((ticketType) => (
+            <div className="ticket-counter-container" key={ticketType}>
+              <h4>
+                {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
+                Tickets
+              </h4>
+              <div
+                className="ticket-counter-arrow"
+                onClick={() => handleTicketChange(ticketType, -1)}>
+                ←
+              </div>
+              <div className="ticket-counter-value">
+                {tickets[ticketType].quantity}
+              </div>
+              <div
+                className="ticket-counter-arrow"
+                onClick={() => handleTicketChange(ticketType, 1)}>
+                →
+              </div>
+            </div>
+          ))}
 
           <h1>Booking for: {movie?.title}</h1>
           <h2>Director: {movie?.director}</h2>

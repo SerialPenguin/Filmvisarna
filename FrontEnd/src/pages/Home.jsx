@@ -29,7 +29,9 @@ function Home() {
           screenings.map((screening) => (
             <div key={screening._id} className="screening-card">
               <h2>{screening.movie.title}</h2>
-              <p>{screening.movie.description}</p>
+              <div style={{ height: "20px"}}>
+              <p style={{ textOverflow: "ellipsis", overflow: "hidden"}}>{screening.movie.description}</p>
+              </div>
               <img src={screening.movie.images[0]} alt={screening.movie.title} />
               <Link to={`/booking/${screening._id}`}> 
                 <button>Book Now</button>

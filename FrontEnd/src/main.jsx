@@ -6,6 +6,8 @@ import Home from './pages/Home.jsx';
 import Booking from './pages/Booking.jsx';
 import MovieInfo from './pages/MovieInfo.jsx'
 import Screenings from './pages/Screenings.jsx';
+import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
 import './index.css';
 
 const router = createBrowserRouter([{ 
@@ -16,6 +18,8 @@ const router = createBrowserRouter([{
     {path: '/booking/:screeningId', element: <Booking />},
     {path: '/search/movies/:movieId', element: <MovieInfo />},
     {path: '/screenings', element: <Screenings />},
+    {path: '/register', element: <Register />},
+    {path: '/login', element: <Login />}
   ]
 }])
 

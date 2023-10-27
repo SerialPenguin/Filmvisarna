@@ -18,7 +18,7 @@ function Booking() {
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [seats, setSeats] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState("");
   const [tickets, setTickets] = useState({
     adults: { ticketType: "adult", quantity: 0, price: 140 },
@@ -119,22 +119,20 @@ function Booking() {
     }
 
     // Check if the seat is already in selectedSeats
-    if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats((prevSeats) =>
-        prevSeats.filter((seat) => seat !== seatNumber)
-      );
+    if (seats.includes(seatNumber)) {
+      setSeats((prevSeats) => prevSeats.filter((seat) => seat !== seatNumber));
       return;
     }
 
     // Determine if we should remove an existing seat from selection
     let seatToRemove = null;
     const totalTicketCount = getTotalTicketCount(); // Use this to check against number of selected seats
-    if (selectedSeats.length >= totalTicketCount) {
-      seatToRemove = selectedSeats[0]; // The first seat in the selectedSeats array
-      setSelectedSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+    if (seats.length >= totalTicketCount) {
+      seatToRemove = seats[0]; // The first seat in the selectedSeats array
+      setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
     }
 
-    setSelectedSeats((prevSeats) => [...prevSeats, seatNumber]);
+    setSeats((prevSeats) => [...prevSeats, seatNumber]);
     console.log(`Seat ${seatNumber} is now temporarily reserved.`);
 
     try {
@@ -205,7 +203,7 @@ function Booking() {
   };
 
   saveToLocalStorage({
-    selectedSeats: selectedSeats,
+    seats: seats,
     screeningId: screeningId,
     salonId: screening?.salonId,
     tickets: tickets,
@@ -258,7 +256,7 @@ function Booking() {
         throw new Error("Error clearing selected seats");
       }
 
-      setSelectedSeats([]);
+      setSeats([]);
 
       setTickets((prev) => ({
         adults: { ...prev.adults, quantity: 0 },
@@ -348,8 +346,8 @@ function Booking() {
           </select>
           <div className="ticket-counter">
             <h3>Total Tickets: {getTotalTicketCount()}</h3>
-            <h3>Selected Seats: {selectedSeats.length}</h3>
-            {selectedSeats.length > 0 && (
+            <h3>Selected Seats: {seats.length}</h3>
+            {seats.length > 0 && (
               <button onClick={handleClearSelectedSeats}>
                 Clear Selected Seats
               </button>

@@ -49,7 +49,7 @@ const MovieCardComponent = () => {
               {movie.description}
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Link to={"/booking/:screeningId"}>
+              <Link to={"/booking"}>
                 <button style={{ marginLeft: "1em", padding: "0.4em", backgroundColor: "#C699EA"}}>Boka</button>
               </Link>
               <Link to={`/search/movies/${movie._id}`}>

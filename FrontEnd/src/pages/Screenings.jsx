@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useGet } from "../hooksAndUtils/useFetch";
+import { get } from "../hooksAndUtils/fetchUtil";
 import { Link, useLocation } from "react-router-dom";
 
 function formatTimeToHHMM(dateTimeString) {
@@ -46,7 +46,7 @@ function Screenings() {
     const [selectedDate, setSelectedDate] = useState("Alla Datum");
     const location = useLocation();
     
-  useGet('/api/screenings', (data) => {
+    get('/api/screenings', (data) => {
     setScreenings(data);
     setLoading(false);
     setFilteredScreenings(data);

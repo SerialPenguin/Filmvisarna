@@ -14,7 +14,7 @@ export default function HeaderNavComponent() {
     const closeMenu = () => {
       setActiveMenu(false)
     }
-    
+
   return (
     <div
       style={{
@@ -27,7 +27,7 @@ export default function HeaderNavComponent() {
       }}>
         
       <Link to={"/"}>
-        <img style={{ height: "2.5em", marginTop: "1em" }} src={logo} alt="" />
+        <img style={{ height: "2.5em", marginTop: "1em" }} src={logo} alt=""/>
       </Link>
       <img style={{ height: "2.5em", marginTop: "1.8em" }} src={menu} alt="" onClick={showMenu}/>
       {activeMenu && (<NavComponent onCloseClick={closeMenu}/>)}

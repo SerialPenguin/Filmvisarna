@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import Booking from "./pages/Booking.jsx";
-import BookingConfirmation from "./Components/BookingConfirmationComponent/BookingConfirmation.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -14,7 +13,6 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/booking/:screeningId", element: <Booking /> },
-      { path: "/confirmation", element: <BookingConfirmation /> },
     ],
   },
 ]);

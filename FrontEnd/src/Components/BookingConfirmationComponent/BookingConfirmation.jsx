@@ -25,15 +25,14 @@ export default function BookingConfirmation(props) {
   
   async function handleSendConfirmation() {
 
-    const booking = await patch('/api/bookings', bookingBody)
-
-    console.log("new booking: ", booking.booking.bookingNumber);
-
-    if(booking.message.includes("Booking created!")) {
-        setToggleClassName('ticket-spin-back');
-        setAnimationStage('end');
-        setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
-    }
+    try {
+      const booking = await patch('/api/bookings', bookingBody)
+      if(booking.message.includes("Booking created!")) {
+          setToggleClassName('ticket-spin-back');
+          setAnimationStage('end');
+          setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
+      }
+    }catch(err) {return console.log(err);}
   }
 
   return (

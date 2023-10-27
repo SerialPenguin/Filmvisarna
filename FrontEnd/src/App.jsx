@@ -5,7 +5,6 @@ function App() {
   return (
     <>
       <a href="/">Hem</a>
-      <a href="/confirmation">Confirmation</a>
       <Outlet />
     </>
   );

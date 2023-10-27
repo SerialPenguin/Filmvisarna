@@ -30,26 +30,31 @@ const NavComponent = ({onCloseClick}) => {
 
         <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
           <Link to={"/"}>
-            <li style={{ padding: "2em" }}>HEM</li>
+            <li style={{ padding: "2em" }} onClick={onCloseClick}>HEM</li>
           </Link>
           <Link to={"/booking"}>
-            <li style={{ padding: "2em" }}>BOKA</li>
+            <li style={{ padding: "2em" }} onClick={onCloseClick}>BOKA</li>
           </Link>
+
+          <Link to={"/contactUs"}>
+            <li style={{ padding: "2em" }} onClick={onCloseClick}>KONTAKT</li>
+
           <Link to={"/screenings"}>
             <li style={{ padding: "2em" }}>VISNINGAR</li>
           </Link>
           <Link to={"/aboutUs"}>
             <li style={{ padding: "2em" }}>OM OSS</li>
+
           </Link>
           <Link to={"/profile"}>
-            <li style={{ padding: "2em" }}>PROFIL</li>
+            <li style={{ padding: "2em" }} onClick={onCloseClick}>PROFIL</li>
           </Link>
           <Link to={"/register"}>
-            <li style={{ padding: "2em" }}>BLI MEDLEM</li>
+            <li style={{ padding: "2em" }} onClick={onCloseClick}>BLI MEDLEM</li>
           </Link>
         </ul>
         <Link to={"/login"}>
-          <button style={{ marginBottom: "2em" }}>Logga In</button>
+          <button style={{ marginBottom: "2em" }} onClick={onCloseClick}>Logga In</button>
         </Link>
       </nav>
     </>

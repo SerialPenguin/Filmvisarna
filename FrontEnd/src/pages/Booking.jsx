@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SeatsGrid from "../components/seatsGrid";
 import "./Booking.css";
@@ -8,24 +8,34 @@ import "./Booking.css";
 function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
+  const loadState = (key, defaultValue) => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+  };
 
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [screening, setScreening] = useState(null);
   const [screenings, setScreenings] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState("");
+  const [selectedMovie, setSelectedMovie] = useState(() =>
+    loadState("selectedMovie", "")
+  );
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [seats, setSeats] = useState([]);
-  const [selectedWeek, setSelectedWeek] = useState("");
-  const [tickets, setTickets] = useState({
-    adults: { ticketType: "adult", quantity: 0, price: 140 },
-    seniors: { ticketType: "senior", quantity: 0, price: 100 },
-    children: { ticketType: "child", quantity: 0, price: 120 },
-  });
+  const [seats, setSeats] = useState(() => loadState("seats", []));
+  const [selectedWeek, setSelectedWeek] = useState(() =>
+    loadState("selectedWeek", "")
+  );
+  const [tickets, setTickets] = useState(() =>
+    loadState("tickets", {
+      adults: { ticketType: "adult", quantity: 0, price: 140 },
+      seniors: { ticketType: "senior", quantity: 0, price: 100 },
+      children: { ticketType: "child", quantity: 0, price: 120 },
+    })
+  );
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -198,16 +208,71 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
+  useEffect(() => {
+    localStorage.setItem("selectedMovie", JSON.stringify(selectedMovie));
+  }, [selectedMovie]);
+
+  useEffect(() => {
+    localStorage.setItem("seats", JSON.stringify(seats));
+  }, [seats]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedWeek", JSON.stringify(selectedWeek));
+  }, [selectedWeek]);
+
+  useEffect(() => {
+    localStorage.setItem("tickets", JSON.stringify(tickets));
+  }, [tickets]);
+
+  // Saving the screeningId from the route to localStorage
+  useEffect(() => {
+    localStorage.setItem("screeningId", JSON.stringify(screeningId));
+  }, [screeningId]);
+
+  const hasMounted = useRef(false);
+
   const saveToLocalStorage = (data) => {
     localStorage.setItem("bookingData", JSON.stringify(data));
   };
 
-  saveToLocalStorage({
-    seats: seats,
-    screeningId: screeningId,
-    salonId: screening?.salonId,
-    tickets: tickets,
-  });
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+    saveToLocalStorage({
+      seats,
+      salonId: screening?.salonId,
+      tickets,
+      selectedMovie,
+      selectedWeek,
+    });
+  }, [seats, screening?.salonId, tickets, selectedMovie, selectedWeek]);
+
+  const loadFromLocalStorage = () => {
+    const data = localStorage.getItem("bookingData");
+    if (data) {
+      return JSON.parse(data);
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const storedData = loadFromLocalStorage();
+    if (storedData) {
+      setSeats(storedData.seats);
+      setTickets(storedData.tickets);
+      setSelectedMovie(storedData.selectedMovie);
+      setSelectedWeek(storedData.selectedWeek);
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedScreeningId = loadState("screeningId", "");
+    if (storedScreeningId && storedScreeningId !== screeningId) {
+      history(`/booking/${storedScreeningId}`);
+    }
+  }, [screeningId, history]);
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

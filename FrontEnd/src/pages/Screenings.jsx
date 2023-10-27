@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { get } from "../hooksAndUtils/fetchUtil";
+import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
 
 function formatTimeToHHMM(dateTimeString) {
@@ -37,19 +37,19 @@ function organizeScreeningsByDate(screenings) {
 
 
 function Screenings() {
-    const [screenings, setScreenings] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
-    const [filteredScreenings, setFilteredScreenings] = useState([]);
-    const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
-    const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
-    const [selectedDate, setSelectedDate] = useState("Alla Datum");
-    const location = useLocation();
+  const [screenings, setScreenings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
+  const [filteredScreenings, setFilteredScreenings] = useState([]);
+  const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
+  const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
+  const [selectedDate, setSelectedDate] = useState("Alla Datum");
+  const location = useLocation();
     
-    get('/api/screenings', (data) => {
-    setScreenings(data);
-    setLoading(false);
-    setFilteredScreenings(data);
+  useGet('/api/screenings', (data) => {
+  setScreenings(data);
+  setLoading(false);
+  setFilteredScreenings(data);
   });
 
   useEffect(() => {
@@ -81,7 +81,7 @@ function Screenings() {
   // Organisera screenings efter datum
   const screeningsByDate = organizeScreeningsByDate(filteredScreenings);
 
-  
+
   return (
     <div>
       <h1>Screenings</h1>

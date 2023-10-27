@@ -53,7 +53,7 @@ const MovieCardComponent = () => {
               {movie.description}
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Link to={"/bookings"}>
+              <Link to={"/booking"}>
                 <button
                   style={{
                     marginLeft: "1em",

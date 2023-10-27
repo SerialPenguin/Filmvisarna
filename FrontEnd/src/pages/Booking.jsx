@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SeatsGrid from "../components/seatsGrid";
+import "./Booking.css";
 
 function Booking() {
   const { screeningId } = useParams();
@@ -284,7 +285,7 @@ function Booking() {
       ) : (
         <>
           <select
-            style={{ width: "300px", height: "30px" }}
+            style={{ width: "129px", height: "30px" }}
             value={selectedMovie}
             onChange={(e) => {
               const newMovieId = e.target.value;
@@ -302,7 +303,7 @@ function Booking() {
           </select>
 
           <select
-            style={{ width: "300px", height: "30px" }}
+            style={{ width: "129px", height: "30px" }}
             value={selectedWeek}
             onChange={(e) => {
               const newSelectedWeek = e.target.value;
@@ -317,7 +318,7 @@ function Booking() {
           </select>
 
           <select
-            style={{ width: "300px", height: "30px" }}
+            style={{ width: "129px", height: "30px" }}
             value={screeningId}
             onChange={(e) => {
               const newScreeningId = e.target.value;
@@ -419,11 +420,16 @@ function Booking() {
           <h3>Visningsdatum: {screening?.startTime}</h3>
           <h3>Visningstid: {screening?.endTime}</h3>
           <img src={movie?.images?.[0]} alt={movie?.title} />
-          <SeatsGrid
-            salonLayout={salonLayout}
-            isSeatBooked={isSeatBooked}
-            handleSeatClick={handleSeatClick}
-          />
+          <div className="theatre">
+            <div className="movie-screen"></div>
+            <div className="seats">
+              <SeatsGrid
+                salonLayout={salonLayout}
+                isSeatBooked={isSeatBooked}
+                handleSeatClick={handleSeatClick}
+              />
+            </div>
+          </div>
         </>
       )}
     </div>

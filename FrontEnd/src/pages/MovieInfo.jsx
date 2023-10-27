@@ -34,11 +34,7 @@ function MovieInfo() {
   const { movieId } = useParams();
   const location = useLocation();
 
-  get(`/api/search/movies/${movieId}`, setMovie);
-
-  console.log(movie);
-
-  get(`/api/search/movies/${movieId}`, setMovie);
+  useGet(`/api/search/movies/${movieId}`, setMovie);
 
   console.log(movie);
 

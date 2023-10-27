@@ -12,12 +12,6 @@ function getYouTubeVideoId(url) {
     // Handle invalid URLs
     return "";
   }
-  const match = url.match(/[?&]v=([^?&]+)/);
-  if (match && match[1]) {
-    return match[1];
-  } else {
-    return "";
-  }
 }
 
 function MinutsToHoursAndMinuts(minutes) {
@@ -36,18 +30,14 @@ function MinutsToHoursAndMinuts(minutes) {
 }
 
 function MovieInfo() {
+  const [movie, setMovie] = useState({});
   const { movieId } = useParams();
   const location = useLocation();
 
-  const [movie, setMovie] = useState({});
-
-  useGet(`/api/search/movies/${movieId}`, setMovie);
+  get(`/api/search/movies/${movieId}`, setMovie);
 
   console.log(movie);
-  const { movieId } = useParams();
-  const location = useLocation();
 
-  const [movie, setMovie] = useState({});
   get(`/api/search/movies/${movieId}`, setMovie);
 
   console.log(movie);

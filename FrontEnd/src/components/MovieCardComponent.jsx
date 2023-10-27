@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useGet from "../hooksAndUtils/useFetch.js";
+import { useGet } from "../hooksAndUtils/useFetch.js";
 import { Link } from "react-router-dom";
 
 const MovieCardComponent = () => {

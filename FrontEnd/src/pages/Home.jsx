@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 function Home() {
   const [screenings, setScreenings] = useState([]);
@@ -30,12 +29,8 @@ function Home() {
             <div key={screening._id} className="screening-card">
               <h2>{screening.movie.title}</h2>
               <p>{screening.movie.description}</p>
-              <Link to={`/search/movies/${screening.movieId}`}>
-                <img src={screening.movie.images[0]} alt={screening.movie.title} />
-              </Link>
-              <Link to={`/booking/${screening._id}`}> 
-                <button>Book Now</button>
-              </Link>
+              <img src={screening.movie.images[0]} alt={screening.movie.title} />
+              <button>Book Now</button>
             </div>
           ))
         )}

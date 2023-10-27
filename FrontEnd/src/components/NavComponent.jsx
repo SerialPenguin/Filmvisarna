@@ -17,6 +17,7 @@ const NavComponent = ({onCloseClick}) => {
           textAlign: "center",
           top: "0em",
           left: "0em",
+          zIndex: "1000"
         }}>
         <Link to={"/"}>
           <img

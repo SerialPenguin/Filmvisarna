@@ -370,7 +370,7 @@ function Booking() {
               <div
                 className="ticket-counter-arrow"
                 onClick={() => handleTicketChange(ticketType, -1)}>
-                ←
+                -
               </div>
               <div className="ticket-counter-value">
                 {tickets[ticketType].quantity}
@@ -378,7 +378,7 @@ function Booking() {
               <div
                 className="ticket-counter-arrow"
                 onClick={() => handleTicketChange(ticketType, 1)}>
-                →
+                +
               </div>
             </div>
           ))}

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 const MovieCardComponent = () => {
   const [movies, setMovies] = useState([]);
   const [screenings, setScreenings] = useState([]);
-  const [movieId, setMovieId] = useState();
 
   useGet("/api/movies", setMovies);
   console.log(movies);

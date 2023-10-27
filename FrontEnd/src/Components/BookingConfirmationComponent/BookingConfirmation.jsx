@@ -16,6 +16,8 @@ export default function BookingConfirmation(props) {
   const [ bookingNumber, setBookingNumber ] = useState('QWE123');
   const [displayInput, setDisplayInput] = useState(true);
 
+  const secondHeader = animationStage === "start" ? "Fyll i din mailadress" : animationStage === "middle" ? "Kontrollera att uppgifterna stämmer" : "Tack för din boking!";
+
   function handleBookingBody(e) {
     setEmail(e.target.value);
     setBookingBody({...props.body, email});
@@ -28,24 +30,20 @@ export default function BookingConfirmation(props) {
     console.log("new booking: ", booking.booking.bookingNumber);
 
     if(booking.message.includes("Booking created!")) {
-      setTimeout(() => {
         setToggleClassName('ticket-spin-back');
         setAnimationStage('end');
         setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
-      }, 3200);
     }
   }
 
   return (
     <div className='main-container'>
+      <h2 className='book-page_header'>Boka biljetter</h2>
+      <h3 className='second-header'>{secondHeader}</h3>
       <div className='ticket-container'>
         <div className={toggleClassName}>
-          <img className="ticket-front" src={TicketFront} />
-          <img className="ticket-back" src={TicketBack} />
-        </div>
-      </div>
-      {displayInput === true && (
-        <div className='email-input'>
+        {displayInput === true && (
+        <div className='email-container'>
           <label htmlFor="email">Email:</label>
           <input
             required
@@ -63,11 +61,14 @@ export default function BookingConfirmation(props) {
             <button className='send-btn' onClick={() => {setDisplayInput(false); setAnimationStage('middle'); setToggleClassName("ticket-spin");}}>Skicka bekräftelsen</button>
           )}
         </div>
-      )}
+        )}
+          <img className="ticket-front" src={TicketFront} />
+          <img className="ticket-back" src={TicketBack} />
+        </div>
+      </div>
       <div>
         {animationStage === "middle" && (
           <div>
-            <h3 className='confirm-header'>Kontrollera att uppgifterna stämmer</h3>
             {toggleClassName === 'ticket-spin' && (
               <div className='confirmation-container'>
                 <p className='price'>Pris:</p>
@@ -82,10 +83,7 @@ export default function BookingConfirmation(props) {
       </div>
       {animationStage === "end" && (
         <div>
-        <div className='header-and-para'>
-          <h3 className='thank-you-msg'>Tack för din bokning!</h3>
           <p className='booking-num--para'>Ditt bokningsnummer: </p>
-        </div>
         <div className='booking-done-container'>
           <p className='booking-num'>{bookingNumber}</p>
           <button className='nav-btn' onClick={() => navigate('/')}>Hem</button>

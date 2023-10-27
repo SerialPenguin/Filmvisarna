@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const MovieCardComponent = () => {
   const [movies, setMovies] = useState([]);
   const [screenings, setScreenings] = useState([]);
+  const [movieId, setMovieId] = useState();
 
   useGet("/api/movies", setMovies);
   console.log(movies);
@@ -19,12 +20,14 @@ const MovieCardComponent = () => {
         display: "flex",
         flexDirection: "column",
         gap: "2em",
-        background: "black", 
+        background: "black",
         color: "white",
       }}>
       <h2>Aktuella filmer</h2>
       {movies.map((movie) => (
-        <div key={movie.id} style={{ width: "370px", display: "flex", margin: "10px" }}>
+        <div
+          key={movie._id}
+          style={{ width: "370px", display: "flex", margin: "10px" }}>
           <img src={movie.images} alt="" style={{ width: "100px" }} />
           <div>
             <p style={{ margin: "0.2em", color: "#BA7E36" }}>{movie.title}</p>
@@ -49,11 +52,22 @@ const MovieCardComponent = () => {
               {movie.description}
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Link to={"/booking"}>
-                <button style={{ marginLeft: "1em", padding: "0.4em", backgroundColor: "#C699EA"}}>Boka</button>
-              </Link>
+              {screenings.map((screening) =>
+                movie._id === screening.movieId && screening.startTime < "2023-12-04T19:12:00.000Z" ?  (
+                  <Link key={screening._id} to={`/booking/${screening._id}`}>
+                    <button
+                      style={{
+                        marginLeft: "1em",
+                        padding: "0.4em",
+                        backgroundColor: "#C699EA",
+                      }}>
+                      Boka
+                    </button>
+                  </Link>
+                ) : null
+              )}
               <Link to={`/search/movies/${movie._id}`}>
-                <p style={{ color: "#FFB800"}}>visa mer...</p>
+                <p style={{ color: "#FFB800" }}>visa mer...</p>
               </Link>
             </div>
           </div>

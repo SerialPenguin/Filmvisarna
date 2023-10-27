@@ -1,8 +1,5 @@
-export async function get(url, body) {
-  return await (await fetch(url, {
-    method: 'GET',
-    body: JSON.stringify(body)
-  })).json();
+export async function get(url) {
+  return await (await fetch(url)).json();
 }
 
 export async function post(url, body) {

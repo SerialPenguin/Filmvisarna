@@ -1,5 +1,5 @@
 import { useParams, Link, useLocation } from "react-router-dom";
-import { get } from "../hooksAndUtils/fetchUtil";
+import { useGet } from "../hooksAndUtils/useFetch.js";
 import { useState } from "react";
 
 function getYouTubeVideoId(url) {
@@ -31,7 +31,7 @@ function MovieInfo() {
     const location = useLocation();
     
     const [movie, setMovie] = useState({});
-    get(`/api/search/movies/${movieId}`, setMovie);
+    useGet(`/api/search/movies/${movieId}`, setMovie);
     
     console.log(movie);
 

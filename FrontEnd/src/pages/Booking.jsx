@@ -357,29 +357,61 @@ function Booking() {
             <h3>Total Amount: {getTotalAmount()} SEK</h3>
           </div>
 
-          {Object.keys(tickets).map((ticketType) => (
-            <div
-              className="ticket-counter-container"
-              key={`ticket-${ticketType}`}>
-              <h4>
-                {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
-                Tickets
-              </h4>
+          {/* Render children tickets only if the movie allows children */}
+          {movie && movie.age <= 14 && (
+            <div className="ticket-counter-container" key="ticket-children">
+              <h4>Children Tickets</h4>
               <div
                 className="ticket-counter-arrow"
-                onClick={() => handleTicketChange(ticketType, -1)}>
+                onClick={() => handleTicketChange("children", -1)}>
                 -
               </div>
               <div className="ticket-counter-value">
-                {tickets[ticketType].quantity}
+                {tickets.children.quantity}
               </div>
               <div
                 className="ticket-counter-arrow"
-                onClick={() => handleTicketChange(ticketType, 1)}>
+                onClick={() => handleTicketChange("children", 1)}>
                 +
               </div>
             </div>
-          ))}
+          )}
+
+          {Object.keys(tickets).map((ticketType) => {
+            // Exclude children tickets if the movie age is above 14
+            if (ticketType === "children" && movie.age > 14) {
+              return null;
+            }
+
+            // Exclude children tickets if they have already been rendered
+            if (ticketType === "children" && movie.age <= 14) {
+              return null;
+            }
+
+            return (
+              <div
+                className="ticket-counter-container"
+                key={`ticket-${ticketType}`}>
+                <h4>
+                  {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
+                  Tickets
+                </h4>
+                <div
+                  className="ticket-counter-arrow"
+                  onClick={() => handleTicketChange(ticketType, -1)}>
+                  -
+                </div>
+                <div className="ticket-counter-value">
+                  {tickets[ticketType].quantity}
+                </div>
+                <div
+                  className="ticket-counter-arrow"
+                  onClick={() => handleTicketChange(ticketType, 1)}>
+                  +
+                </div>
+              </div>
+            );
+          })}
 
           <h1>Booking for: {movie?.title}</h1>
           <h2>Director: {movie?.director}</h2>

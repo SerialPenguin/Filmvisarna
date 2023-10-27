@@ -8,7 +8,6 @@ function App() {
   return (
     <>
       <HeaderNavComponent />
-      <a href="/screenings">link</a>
       <Outlet />
     </>
   )

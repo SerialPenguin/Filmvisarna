@@ -356,8 +356,6 @@ function Booking() {
           <div className="total-amount">
             <h3>Total Amount: {getTotalAmount()} SEK</h3>
           </div>
-
-          {/* Render children tickets only if the movie allows children */}
           {movie && movie.age <= 14 && (
             <div className="ticket-counter-container" key="ticket-children">
               <h4>Children Tickets</h4>

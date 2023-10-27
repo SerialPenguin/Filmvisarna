@@ -35,8 +35,11 @@ const NavComponent = ({onCloseClick}) => {
           <Link to={"/booking"}>
             <li style={{ padding: "2em" }}>BOKA</li>
           </Link>
-          <Link to={"/contactUs"}>
-            <li style={{ padding: "2em" }}>KONTAKT</li>
+          <Link to={"/screenings"}>
+            <li style={{ padding: "2em" }}>VISNINGAR</li>
+          </Link>
+          <Link to={"/aboutUs"}>
+            <li style={{ padding: "2em" }}>OM OSS</li>
           </Link>
           <Link to={"/profile"}>
             <li style={{ padding: "2em" }}>PROFIL</li>

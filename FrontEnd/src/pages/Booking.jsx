@@ -267,14 +267,20 @@ function Booking() {
     }
   };
 
+  const ticketTranslations = {
+    adults: "Vuxenbiljetter",
+    seniors: "Pensionärsbiljetter",
+    childrens: "Barnbiljetter",
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Laddar...</div>;
   }
 
   return (
     <div className="App">
       {loading || !initialSeatsDataReceived ? (
-        <p>Loading...</p>
+        <p>Laddar...</p>
       ) : (
         <>
           <select
@@ -286,7 +292,7 @@ function Booking() {
               setSelectedMovie(newMovieId);
             }}>
             <option value="" key="select-movie">
-              Select a Movie
+              Välj Film
             </option>
             {movies.map((m) => (
               <option key={`movie-${m._id}`} value={m._id}>
@@ -302,10 +308,10 @@ function Booking() {
               const newSelectedWeek = e.target.value;
               setSelectedWeek(newSelectedWeek);
             }}>
-            <option value="">Select a Week</option>
+            <option value="">Välj Vecka</option>
             {screenings.map((weekData) => (
               <option key={weekData.week} value={weekData.week}>
-                Week {weekData.week}
+                Vecka {weekData.week}
               </option>
             ))}
           </select>
@@ -318,7 +324,7 @@ function Booking() {
               if (newScreeningId === "") return; // Prevent navigation if it's the placeholder value
               history(`/booking/${newScreeningId}`);
             }}>
-            <option value="">Select a Screening</option>
+            <option value="">Välj Visning</option>
             {screenings
               .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
               .map((weekData) =>
@@ -344,20 +350,20 @@ function Booking() {
               )}
           </select>
           <div className="ticket-counter">
-            <h3>Total Tickets: {getTotalTicketCount()}</h3>
-            <h3>Selected Seats: {seats.length}</h3>
+            <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
+            <h3>Valda Säten: {seats.length}</h3>
             {seats.length > 0 && (
               <button onClick={handleClearSelectedSeats}>
-                Clear Selected Seats
+                Rensa Valda Säten
               </button>
             )}
           </div>
           <div className="total-amount">
-            <h3>Total Amount: {getTotalAmount()} SEK</h3>
+            <h3>Summa: {getTotalAmount()} SEK</h3>
           </div>
           {movie && movie.age <= 14 && (
             <div className="ticket-counter-container" key="ticket-children">
-              <h4>Children Tickets</h4>
+              <h4>Barnbiljetter</h4>
               <div
                 className="ticket-counter-arrow"
                 onClick={() => handleTicketChange("children", -1)}>
@@ -389,10 +395,7 @@ function Booking() {
               <div
                 className="ticket-counter-container"
                 key={`ticket-${ticketType}`}>
-                <h4>
-                  {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
-                  Tickets
-                </h4>
+                <h4>{ticketTranslations[ticketType]}</h4>
                 <div
                   className="ticket-counter-arrow"
                   onClick={() => handleTicketChange(ticketType, -1)}>
@@ -410,11 +413,11 @@ function Booking() {
             );
           })}
 
-          <h1>Booking for: {movie?.title}</h1>
-          <h2>Director: {movie?.director}</h2>
-          <h3>Description: {movie?.description}</h3>
-          <h3>Screening Date: {screening?.startTime}</h3>
-          <h3>Screening Time: {screening?.endTime}</h3>
+          <h1>Bokning för: {movie?.title}</h1>
+          <h2>Direktör: {movie?.director}</h2>
+          <h3>Beskrivning: {movie?.description}</h3>
+          <h3>Visningsdatum: {screening?.startTime}</h3>
+          <h3>Visningstid: {screening?.endTime}</h3>
           <img src={movie?.images?.[0]} alt={movie?.title} />
           <SeatsGrid
             salonLayout={salonLayout}

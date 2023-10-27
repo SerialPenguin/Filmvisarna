@@ -9,17 +9,22 @@ function Booking() {
   const history = useNavigate();
 
   const [movie, setMovie] = useState(null);
-  const [movies, setMovies] = useState([]); // For the dropdown
+  const [movies, setMovies] = useState([]);
   const [screening, setScreening] = useState(null);
-  const [screenings, setScreenings] = useState([]); // For the dropdown
+  const [screenings, setScreenings] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState("");
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [ticketCount, setTicketCount] = useState(1);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [seats, setSeats] = useState([]);
+  const [selectedWeek, setSelectedWeek] = useState("");
+  const [tickets, setTickets] = useState({
+    adults: { ticketType: "adult", quantity: 0, price: 140 },
+    seniors: { ticketType: "senior", quantity: 0, price: 100 },
+    children: { ticketType: "child", quantity: 0, price: 120 },
+  });
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -43,18 +48,40 @@ function Booking() {
         const response = await fetch("/api/movies");
         if (!response.ok) throw new Error("Failed to fetch movies");
         const data = await response.json();
-        console.log(data); // Check the movies data you get
         setMovies(data);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     };
-
     fetchMovies();
   }, []);
 
-  // Fetch screenings when a movie is selected
   useEffect(() => {
+    // Function to get the week number of a date
+    const getWeekNumber = (date) => {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+      const yearStart = new Date(d.getFullYear(), 0, 1);
+      const weekNumber = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+      return weekNumber;
+    };
+
+    const groupScreeningsByWeek = (screenings) => {
+      const grouped = {};
+      for (const screening of screenings) {
+        const week = getWeekNumber(new Date(screening.startTime));
+        if (!grouped[week]) {
+          grouped[week] = [];
+        }
+        grouped[week].push(screening);
+      }
+      return Object.keys(grouped).map((week) => ({
+        week,
+        screenings: grouped[week],
+      }));
+    };
+
     if (selectedMovie) {
       fetch(`/api/screenings`)
         .then((response) => response.json())
@@ -62,13 +89,19 @@ function Booking() {
           const filteredScreenings = data.filter(
             (screening) => screening.movieId === selectedMovie
           );
-          setScreenings(filteredScreenings);
 
-          // Redirect to the first screening for the selected movie
-          if (filteredScreenings.length > 0) {
-            history(`/booking/${filteredScreenings[0]._id}`);
+          const groupedScreenings = groupScreeningsByWeek(filteredScreenings);
+
+          setScreenings(groupedScreenings);
+
+          if (groupedScreenings.length > 0) {
+            // Use history to navigate to the first screening of the first week
+            const firstWeekScreenings = groupedScreenings[0].screenings;
+            if (firstWeekScreenings.length > 0) {
+              history(`/booking/${firstWeekScreenings[0]._id}`);
+            }
           } else {
-            setScreenings([]); // No screenings found for selected movie
+            setScreenings([]);
           }
         })
         .catch((err) => console.error("Error fetching screenings:", err));
@@ -85,34 +118,39 @@ function Booking() {
       return;
     }
 
-    try {
-      // Determine if we should remove an existing seat from selection
-      let seatToRemove = null;
-      if (selectedSeats.length >= ticketCount) {
-        seatToRemove = selectedSeats.shift(); // remove the first seat
-        setSelectedSeats([...selectedSeats]);
-        setBookedSeats((bookedSeats) =>
-          bookedSeats.filter((seat) => seat !== seatToRemove)
-        );
-      }
+    // Check if the seat is already in selectedSeats
+    if (seats.includes(seatNumber)) {
+      setSeats((prevSeats) => prevSeats.filter((seat) => seat !== seatNumber));
+      return;
+    }
 
+    // Determine if we should remove an existing seat from selection
+    let seatToRemove = null;
+    const totalTicketCount = getTotalTicketCount(); // Use this to check against number of selected seats
+    if (seats.length >= totalTicketCount) {
+      seatToRemove = seats[0];
+      setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+    }
+
+    setSeats((prevSeats) => [...prevSeats, seatNumber]);
+    console.log(`Seat ${seatNumber} is now temporarily reserved.`);
+
+    try {
       const res = await fetch(`/api/reserveSeats`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
           seats: [{ seatNumber }],
-          previousSeat: seatToRemove, // this seat will be removed from the backend's temporary bookings
+          previousSeat: seatToRemove, // This seat will be removed from the backend's temporary bookings
         }),
       });
 
       if (!res.ok) throw new Error("Error reserving seat");
       const data = await res.json();
 
-      if (data) {
-        setBookedSeats((prevSeats) => [...prevSeats, seatNumber]);
-        setSelectedSeats((prevSeats) => [...prevSeats, seatNumber]);
-        console.log(`Seat ${seatNumber} is now temporarily reserved.`);
+      if (data && data.success) {
+        console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
       }
     } catch (error) {
       console.error("Error reserving seat:", error);
@@ -159,8 +197,78 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
+  const saveToLocalStorage = (data) => {
+    localStorage.setItem("bookingData", JSON.stringify(data));
+  };
+
+  saveToLocalStorage({
+    seats: seats,
+    screeningId: screeningId,
+    salonId: screening?.salonId,
+    tickets: tickets,
+  });
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const getTotalTicketCount = () => {
+    return Object.values(tickets).reduce(
+      (acc, ticket) => acc + ticket.quantity,
+      0
+    );
+  };
+
+  const getTotalAmount = () => {
+    return Object.values(tickets).reduce(
+      (acc, ticket) => acc + ticket.quantity * ticket.price,
+      0
+    );
+  };
+
+  const handleTicketChange = (type, delta) => {
+    setTickets((prev) => {
+      const updatedQuantity = Math.max(0, prev[type].quantity + delta);
+      return {
+        ...prev,
+        [type]: {
+          ...prev[type],
+          quantity: updatedQuantity,
+        },
+      };
+    });
+  };
+
+  const handleClearSelectedSeats = async () => {
+    try {
+      // Clear all selected seats in the backend by sending an empty array
+      const res = await fetch(`/api/reserveSeats`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          screeningId,
+          seats: [], // Empty array to show removal
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Error clearing selected seats");
+      }
+
+      setSeats([]);
+
+      setTickets((prev) => ({
+        adults: { ...prev.adults, quantity: 0 },
+        seniors: { ...prev.seniors, quantity: 0 },
+        children: { ...prev.children, quantity: 0 },
+      }));
+    } catch (error) {
+      console.error("Error clearing selected seats:", error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -177,10 +285,27 @@ function Booking() {
               if (newMovieId === "") return; // Prevent further action if it's the placeholder value
               setSelectedMovie(newMovieId);
             }}>
-            <option value="">Select a Movie</option>
+            <option value="" key="select-movie">
+              Select a Movie
+            </option>
             {movies.map((m) => (
-              <option key={m._id} value={m._id}>
+              <option key={`movie-${m._id}`} value={m._id}>
                 {m.title}
+              </option>
+            ))}
+          </select>
+
+          <select
+            style={{ width: "300px", height: "30px" }}
+            value={selectedWeek}
+            onChange={(e) => {
+              const newSelectedWeek = e.target.value;
+              setSelectedWeek(newSelectedWeek);
+            }}>
+            <option value="">Select a Week</option>
+            {screenings.map((weekData) => (
+              <option key={weekData.week} value={weekData.week}>
+                Week {weekData.week}
               </option>
             ))}
           </select>
@@ -194,52 +319,96 @@ function Booking() {
               history(`/booking/${newScreeningId}`);
             }}>
             <option value="">Select a Screening</option>
-            {screenings.map((s) => {
-              const dateOptions = {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              };
-              const formattedDate = new Date(s.startTime).toLocaleDateString(
-                "sv-SE",
-                dateOptions
-              );
-              const capitalizedDate = capitalizeFirstLetter(formattedDate);
+            {screenings
+              .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
+              .map((weekData) =>
+                weekData.screenings.map((s) => {
+                  const dateOptions = {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  };
+                  const formattedDate = new Date(
+                    s.startTime
+                  ).toLocaleDateString("sv-SE", dateOptions);
+                  const capitalizedDate = capitalizeFirstLetter(formattedDate);
 
-              return (
-                <option key={s._id} value={s._id}>
-                  {capitalizedDate} kl{" "}
-                  {new Date(s.startTime).toLocaleTimeString("sv-SE")}
-                </option>
-              );
-            })}
+                  return (
+                    <option key={s._id} value={s._id}>
+                      {capitalizedDate} kl{" "}
+                      {new Date(s.startTime).toLocaleTimeString("sv-SE")}
+                    </option>
+                  );
+                })
+              )}
           </select>
           <div className="ticket-counter">
-            <h3>Tickets: {ticketCount}</h3>
-            <h3>Selected Seats: {selectedSeats.length}</h3>
-            {selectedSeats.length > 0 && (
-              <button
-                onClick={() => {
-                  setSelectedSeats([]);
-                }}>
+            <h3>Total Tickets: {getTotalTicketCount()}</h3>
+            <h3>Selected Seats: {seats.length}</h3>
+            {seats.length > 0 && (
+              <button onClick={handleClearSelectedSeats}>
                 Clear Selected Seats
               </button>
             )}
           </div>
-          <div className="ticket-counter-container">
-            <div
-              className="ticket-counter-arrow"
-              onClick={() => setTicketCount((prev) => Math.max(1, prev - 1))}>
-              ←
-            </div>
-            <div className="ticket-counter-value">{ticketCount}</div>
-            <div
-              className="ticket-counter-arrow"
-              onClick={() => setTicketCount((prev) => prev + 1)}>
-              →
-            </div>
+          <div className="total-amount">
+            <h3>Total Amount: {getTotalAmount()} SEK</h3>
           </div>
+          {movie && movie.age <= 14 && (
+            <div className="ticket-counter-container" key="ticket-children">
+              <h4>Children Tickets</h4>
+              <div
+                className="ticket-counter-arrow"
+                onClick={() => handleTicketChange("children", -1)}>
+                -
+              </div>
+              <div className="ticket-counter-value">
+                {tickets.children.quantity}
+              </div>
+              <div
+                className="ticket-counter-arrow"
+                onClick={() => handleTicketChange("children", 1)}>
+                +
+              </div>
+            </div>
+          )}
+
+          {Object.keys(tickets).map((ticketType) => {
+            // Exclude children tickets if the movie age is above 14
+            if (ticketType === "children" && movie.age > 14) {
+              return null;
+            }
+
+            // Exclude children tickets if they have already been rendered
+            if (ticketType === "children" && movie.age <= 14) {
+              return null;
+            }
+
+            return (
+              <div
+                className="ticket-counter-container"
+                key={`ticket-${ticketType}`}>
+                <h4>
+                  {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
+                  Tickets
+                </h4>
+                <div
+                  className="ticket-counter-arrow"
+                  onClick={() => handleTicketChange(ticketType, -1)}>
+                  -
+                </div>
+                <div className="ticket-counter-value">
+                  {tickets[ticketType].quantity}
+                </div>
+                <div
+                  className="ticket-counter-arrow"
+                  onClick={() => handleTicketChange(ticketType, 1)}>
+                  +
+                </div>
+              </div>
+            );
+          })}
 
           <h1>Booking for: {movie?.title}</h1>
           <h2>Director: {movie?.director}</h2>

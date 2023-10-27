@@ -6,5 +6,6 @@ const router = express.Router();
 router.post('/', reserveSeats);
 router.get('/:screeningId', getTemporaryBookings);
 
+
 export default router;
 

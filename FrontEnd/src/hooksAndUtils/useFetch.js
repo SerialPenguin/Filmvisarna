@@ -11,7 +11,7 @@ function FetchHelper(func, stateSetter) {
   }, []);
 }
 
-export default function useGet(url, stateSetter) {
+export function useGet(url, stateSetter) {
   FetchHelper(() => get(url), stateSetter, url, 'get');
 }
 

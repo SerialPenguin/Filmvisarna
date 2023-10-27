@@ -38,11 +38,11 @@ const FrontCarouselComponent = () => {
 
   return (
     <>
-      <div style={{ width: "390px", height: "30vh", background: "black", position: "relative" }}>
+      <div style={{ width: "390px", height: "30vh", background: "black", position: "relative"}}>
         {carouselComponents[currentSlide]}
       </div>
-      <img src={prev} alt="" style={{ position: "absolute", top: "24%", width: "30px"}} onClick={prevComponent}/>
-      <img src={next} alt="" style={{ position: "absolute", top: "24%", right: "0", width: "30px"}} onClick={nextComponent}/>
+      <img src={prev} alt="" style={{ position: "absolute", top: "21%", left: "1%", width: "30px"}} onClick={prevComponent}/>
+      <img src={next} alt="" style={{ position: "absolute", top: "21%", right: "1%", width: "30px"}} onClick={nextComponent}/>
     </>
   );
 };

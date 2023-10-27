@@ -31,7 +31,9 @@ function Home() {
               <h2>{screening.movie.title}</h2>
               <p>{screening.movie.description}</p>
               <img src={screening.movie.images[0]} alt={screening.movie.title} />
-              <button>Book Now</button>
+              <Link to={`/booking/${screening._id}`}> 
+                <button>Book Now</button>
+              </Link>
             </div>
           ))
         )}

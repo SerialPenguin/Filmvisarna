@@ -128,7 +128,7 @@ function Booking() {
     let seatToRemove = null;
     const totalTicketCount = getTotalTicketCount(); // Use this to check against number of selected seats
     if (seats.length >= totalTicketCount) {
-      seatToRemove = seats[0]; // The first seat in the selectedSeats array
+      seatToRemove = seats[0];
       setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
     }
 
@@ -150,7 +150,6 @@ function Booking() {
       const data = await res.json();
 
       if (data && data.success) {
-        // If backend logic requires, update frontend state based on the backend response
         console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
       }
     } catch (error) {
@@ -248,7 +247,7 @@ function Booking() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [], // An empty array to indicate removal of all selected seats
+          seats: [], // Empty array to show removal
         }),
       });
 

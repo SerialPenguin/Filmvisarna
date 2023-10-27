@@ -31,6 +31,7 @@ function Home() {
           screenings.map((screening) => (
             <div key={screening._id} className="screening-card">
               <h2>{screening.movie.title}</h2>
+
               <p>{screening.movie.description}</p>
               <img
                 src={screening.movie.images[0]}

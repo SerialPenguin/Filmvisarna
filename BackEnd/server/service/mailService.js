@@ -4,7 +4,7 @@ import __dirname from '../assets/dir.js';
 
 dotenv.config();
 
-export default async function sendConfirmation({bookingNumber, email}) {
+export default async function sendConfirmation({ bookingNumber, email }) {
 
     try {
         const to = email;

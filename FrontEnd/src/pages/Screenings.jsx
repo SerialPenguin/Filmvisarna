@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
+import "../MovieInfo.css"
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -84,72 +85,81 @@ function Screenings() {
 
   return (
     <div>
-      <h1>Screenings</h1>
-      <select
-        value={selectedFilterOption}
-        onChange={(e) => setSelectedFilterOption(e.target.value)}
-      >
-        <option key="Alla filmer" value="Alla filmer">Alla Filmer</option>
-      {[...new Set(filteredScreenings.map((screening) => screening.movie.title))].map((title) => (
-      <option key={title} value={title}>
-        {title}
-      </option>
-      ))}
-      </select>
-      <select
-        value={selectedAgeOption}
-        onChange={(e) => setSelectedAgeOption(e.target.value)}
-      >
-        <option value="Alla åldrar">Alla åldrar</option>
-        <option value="Barn Filmer">Barn Filmer</option>
-      </select>
-      <select
-        value={selectedWeek}
-        onChange={(e) => setSelectedWeek(e.target.value)}
-      >
-        <option value="Alla veckor">Alla veckor</option>
-        {[...new Set(filteredScreenings.map(screening => getWeekNumber(screening.startTime)))].map((weekNumber) => (
-          <option key={weekNumber} value={weekNumber}>
-            Vecka {weekNumber}
-          </option>
-        ))}
-      </select>
-      {selectedWeek !== "Alla veckor" && (
+      <h1 className="main-text-title">ALLA VISNINGAR</h1>
+      <div className="filters-containers">
         <select
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
+          className="screenings-selectors"
+          value={selectedFilterOption}
+          onChange={(e) => setSelectedFilterOption(e.target.value)}
         >
-          <option value="Alla Datum">Alla Datum</option>
-          {Object.keys(screeningsByDate).map((date) => (
-              <option key={date} value={date}>
-                {date}
-              </option>
-            ))}
+          <option key="Alla filmer" value="Alla filmer">Alla Filmer</option>
+        {[...new Set(filteredScreenings.map((screening) => screening.movie.title))].map((title) => (
+        <option key={title} value={title}>
+          {title}
+        </option>
+        ))}
         </select>
-      )}
+        <select
+          className="screenings-selectors"
+          value={selectedAgeOption}
+          onChange={(e) => setSelectedAgeOption(e.target.value)}
+        >
+          <option value="Alla åldrar">Alla åldrar</option>
+          <option value="Barn Filmer">Barn Filmer</option>
+        </select>
+        <select
+          className="screenings-selectors"
+          value={selectedWeek}
+          onChange={(e) => setSelectedWeek(e.target.value)}
+        >
+          <option value="Alla veckor">Alla veckor</option>
+          {[...new Set(filteredScreenings.map(screening => getWeekNumber(screening.startTime)))].map((weekNumber) => (
+            <option key={weekNumber} value={weekNumber}>
+              Vecka {weekNumber}
+            </option>
+          ))}
+        </select>
+        {selectedWeek !== "Alla veckor" && (
+          <select
+            className="screenings-selectors"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
+            <option value="Alla Datum">Alla Datum</option>
+            {Object.keys(screeningsByDate).map((date) => (
+                <option key={date} value={date}>
+                  {date}
+                </option>
+              ))}
+          </select>
+        )}
+      </div>
       {loading ? (
         <p>Laddar...</p>
       ) : (
         Object.keys(screeningsByDate).map((date) => (
           <div key={date}>
-            <h2>{date}</h2>
-            <ul>
+            <h2 className="date-title">{date.charAt(0).toUpperCase() + date.slice(1)}</h2>
+            <ul className="screenings-list-container">
+              <div className="seperator"></div>
               {screeningsByDate[date].map((screening) => (
-                <li key={screening._id}>
+                <li key={screening._id} className="screenings-list">
                   {/* Rendera här informationen för varje screening */}
-                  <h3>{screening.movie.title}</h3>
-                  <p>Salong: {screening.salon.name}</p>
-                  <p>Starttid: {formatTimeToHHMM(screening.startTime)}</p>
-                  <p>Sluttid: {formatTimeToHHMM(screening.endTime)}</p>
-                  <p>Antal tillgängliga platser: {screening.availableSeats}</p>
-                  <Link to={`/bookings`}>
-                    <button>Boka</button>
-                  </Link>
-                  <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }}>
-                    Mer info...
-                  </Link>
+                  
+                    <h3 className="list-movie-title" >
+                      <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }} className="link-color">
+                        {screening.movie.title}
+                      </Link>
+                    </h3>
+                  
+                  <p className="screenings-p">Salong: {screening.salon.name}</p>
+                  <p className="screenings-p">Start: {formatTimeToHHMM(screening.startTime)}</p>
+                  <button className="main-btn-color">
+                    <Link to={`/booking/${screening._id}`} className="main-btn-text">Boka</Link>
+                  </button>
                 </li>
               ))}
+              <div className="seperator"></div>
             </ul>
           </div>
         ))

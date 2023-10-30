@@ -1,30 +1,41 @@
 /** @format */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SeatsGrid from "../components/seatsGrid";
+import "./Booking.css";
 
 function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
+  const loadState = (key, defaultValue) => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+  };
 
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [screening, setScreening] = useState(null);
   const [screenings, setScreenings] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState("");
+  const [selectedMovie, setSelectedMovie] = useState(() =>
+    loadState("selectedMovie", "")
+  );
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [seats, setSeats] = useState([]);
-  const [selectedWeek, setSelectedWeek] = useState("");
-  const [tickets, setTickets] = useState({
-    adults: { ticketType: "adult", quantity: 0, price: 140 },
-    seniors: { ticketType: "senior", quantity: 0, price: 100 },
-    children: { ticketType: "child", quantity: 0, price: 120 },
-  });
+  const [seats, setSeats] = useState(() => loadState("seats", []));
+  const [selectedWeek, setSelectedWeek] = useState(() =>
+    loadState("selectedWeek", "")
+  );
+  const [tickets, setTickets] = useState(() =>
+    loadState("tickets", {
+      adults: { ticketType: "adult", quantity: 0, price: 140 },
+      seniors: { ticketType: "senior", quantity: 0, price: 100 },
+      children: { ticketType: "child", quantity: 0, price: 120 },
+    })
+  );
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -197,16 +208,73 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
-  const saveToLocalStorage = (data) => {
-    localStorage.setItem("bookingData", JSON.stringify(data));
+  // This function will convert the array of seat numbers into the required format
+  const formatSeats = (seatsArray) => {
+    return seatsArray.map((seat) => ({ seatNumber: seat }));
   };
 
-  saveToLocalStorage({
-    seats: seats,
-    screeningId: screeningId,
-    salonId: screening?.salonId,
-    tickets: tickets,
-  });
+  // This function extracts only seat numbers from the formatted seats array
+  const extractSeatNumbers = (seatsArray) => {
+    return seatsArray.map((seatObj) => seatObj.seatNumber);
+  };
+
+  const saveToLocalStorage = useCallback((data) => {
+    const formattedSeats = formatSeats(data.seats);
+    localStorage.setItem(
+      "bookingData",
+      JSON.stringify({ ...data, seats: formattedSeats })
+    );
+  }, []);
+
+  const hasMounted = useRef(false);
+
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+
+    saveToLocalStorage({
+      seats,
+      salonId: screening?.salonId,
+      tickets,
+      selectedMovie,
+      selectedWeek,
+    });
+  }, [
+    seats,
+    screening?.salonId,
+    tickets,
+    selectedMovie,
+    selectedWeek,
+    saveToLocalStorage,
+  ]);
+
+  const loadFromLocalStorage = () => {
+    const data = localStorage.getItem("bookingData");
+    if (data) {
+      return JSON.parse(data);
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const storedData = loadFromLocalStorage();
+    if (storedData) {
+      setSeats(extractSeatNumbers(storedData.seats));
+      setTickets(storedData.tickets);
+      setSelectedMovie(storedData.selectedMovie);
+      setSelectedWeek(storedData.selectedWeek);
+    }
+  }, []);
+
+  // Check if the screeningId in the route matches the stored one
+  useEffect(() => {
+    const storedScreeningId = JSON.parse(localStorage.getItem("screeningId"));
+    if (storedScreeningId && storedScreeningId !== screeningId) {
+      history(`/booking/${storedScreeningId}`);
+    }
+  }, [screeningId, history]);
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -284,7 +352,7 @@ function Booking() {
       ) : (
         <>
           <select
-            style={{ width: "300px", height: "30px" }}
+            style={{ width: "129px", height: "30px" }}
             value={selectedMovie}
             onChange={(e) => {
               const newMovieId = e.target.value;
@@ -302,7 +370,7 @@ function Booking() {
           </select>
 
           <select
-            style={{ width: "300px", height: "30px" }}
+            style={{ width: "129px", height: "30px" }}
             value={selectedWeek}
             onChange={(e) => {
               const newSelectedWeek = e.target.value;
@@ -317,7 +385,7 @@ function Booking() {
           </select>
 
           <select
-            style={{ width: "300px", height: "30px" }}
+            style={{ width: "129px", height: "30px" }}
             value={screeningId}
             onChange={(e) => {
               const newScreeningId = e.target.value;
@@ -419,11 +487,16 @@ function Booking() {
           <h3>Visningsdatum: {screening?.startTime}</h3>
           <h3>Visningstid: {screening?.endTime}</h3>
           <img src={movie?.images?.[0]} alt={movie?.title} />
-          <SeatsGrid
-            salonLayout={salonLayout}
-            isSeatBooked={isSeatBooked}
-            handleSeatClick={handleSeatClick}
-          />
+          <div className="theatre">
+            <div className="movie-screen"></div>
+            <div className="seats">
+              <SeatsGrid
+                salonLayout={salonLayout}
+                isSeatBooked={isSeatBooked}
+                handleSeatClick={handleSeatClick}
+              />
+            </div>
+          </div>
         </>
       )}
     </div>

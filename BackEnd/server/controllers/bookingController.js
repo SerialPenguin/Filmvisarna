@@ -6,6 +6,22 @@ import authService from "../service/authService.js";
 import generatorService from "../service/generatorService.js.js";
 import sendConfirmation from "../service/mailService.js";
 
+    // Define ticket prices
+    const TICKET_PRICES = {
+      "65279fcd702eef67b26ef3c4": 80,  // child
+      "6527a006702eef67b26ef3c5": 140, // adult
+      "6527a045702eef67b26ef3c6": 120   // senior
+    };
+
+    // Calculate total price based on ticket type and quantity
+    const calculateTotalPrice = (tickets) => {
+      let totalPrice = 0;
+      for(let ticket of tickets) {
+        totalPrice += (TICKET_PRICES[ticket.ticketType] || 0) * ticket.quantity;
+      }
+      return totalPrice;
+    };
+
 export const bookSeat = async (req, res) => {
   try {
     const { screeningId, salonId, seats, email, tickets } = req.body;
@@ -33,6 +49,7 @@ export const bookSeat = async (req, res) => {
     let ticketIds = [];
     let remodeledTicketType;
     let quantity = 0;
+    
 
     for(let i = 0; i < tickets.length; i++) {
       if(tickets[i].ticketType === "child") {
@@ -111,8 +128,10 @@ export const bookSeat = async (req, res) => {
 
     await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id } });
 
+    const totalPrice = calculateTotalPrice(ticketIds);
+
     // Send email confirmation
-    sendConfirmation({ bookingNumber, email });
+    sendConfirmation({ bookingNumber, email, totalPrice });
     
     if(userId) {
       const checkUser = await User.findOne({ _id: userId });

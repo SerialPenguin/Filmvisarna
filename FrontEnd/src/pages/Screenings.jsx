@@ -154,9 +154,10 @@ function Screenings() {
                   
                   <p className="screenings-p">Salong: {screening.salon.name}</p>
                   <p className="screenings-p">Start: {formatTimeToHHMM(screening.startTime)}</p>
-                  <button className="main-btn-color">
-                    <Link to={`/booking/${screening._id}`} className="main-btn-text">Boka</Link>
-                  </button>
+                    <Link to={`/booking/${screening._id}`}>
+                      <button className="main-btn-color">Boka</button>
+                    </Link>
+                  
                 </li>
               ))}
               <div className="seperator"></div>

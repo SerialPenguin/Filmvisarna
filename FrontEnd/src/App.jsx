@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <a href="/">Hem</a>
-      <a href="/auth/profile">Profil</a>
+      <a href="/profile">Profil</a>
       <a href="/aboutus">Om oss</a>
 
       <Outlet />

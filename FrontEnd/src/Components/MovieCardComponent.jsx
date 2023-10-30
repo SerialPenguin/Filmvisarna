@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState } from "react";
 import { useGet } from "../hooksAndUtils/useFetch.js";
 import { Link } from "react-router-dom";
@@ -27,7 +25,7 @@ const MovieCardComponent = () => {
       <h2>Aktuella filmer</h2>
       {movies.map((movie) => (
         <div
-          key={movie.id}
+          key={movie._id}
           style={{ width: "370px", display: "flex", margin: "10px" }}>
           <img src={movie.images} alt="" style={{ width: "100px" }} />
           <div>
@@ -53,16 +51,20 @@ const MovieCardComponent = () => {
               {movie.description}
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Link to={"/booking"}>
-                <button
-                  style={{
-                    marginLeft: "1em",
-                    padding: "0.4em",
-                    backgroundColor: "#C699EA",
-                  }}>
-                  Boka
-                </button>
-              </Link>
+              {screenings.map((screening) =>
+                movie._id === screening.movieId && screening.startTime < "2023-12-04T19:12:00.000Z" ?  (
+                  <Link key={screening._id} to={`/booking/${screening._id}`}>
+                    <button
+                      style={{
+                        marginLeft: "1em",
+                        padding: "0.4em",
+                        backgroundColor: "#C699EA",
+                      }}>
+                      Boka
+                    </button>
+                  </Link>
+                ) : null
+              )}
               <Link to={`/search/movies/${movie._id}`}>
                 <p style={{ color: "#FFB800" }}>visa mer...</p>
               </Link>

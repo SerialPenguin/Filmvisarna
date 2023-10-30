@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SeatsGrid from "../components/seatsGrid";
 import "./Booking.css";
@@ -208,38 +208,32 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
-  useEffect(() => {
-    localStorage.setItem("selectedMovie", JSON.stringify(selectedMovie));
-  }, [selectedMovie]);
+  // This function will convert the array of seat numbers into the required format
+  const formatSeats = (seatsArray) => {
+    return seatsArray.map((seat) => ({ seatNumber: seat }));
+  };
 
-  useEffect(() => {
-    localStorage.setItem("seats", JSON.stringify(seats));
-  }, [seats]);
+  // This function extracts only seat numbers from the formatted seats array
+  const extractSeatNumbers = (seatsArray) => {
+    return seatsArray.map((seatObj) => seatObj.seatNumber);
+  };
 
-  useEffect(() => {
-    localStorage.setItem("selectedWeek", JSON.stringify(selectedWeek));
-  }, [selectedWeek]);
-
-  useEffect(() => {
-    localStorage.setItem("tickets", JSON.stringify(tickets));
-  }, [tickets]);
-
-  // Saving the screeningId from the route to localStorage
-  useEffect(() => {
-    localStorage.setItem("screeningId", JSON.stringify(screeningId));
-  }, [screeningId]);
+  const saveToLocalStorage = useCallback((data) => {
+    const formattedSeats = formatSeats(data.seats);
+    localStorage.setItem(
+      "bookingData",
+      JSON.stringify({ ...data, seats: formattedSeats })
+    );
+  }, []);
 
   const hasMounted = useRef(false);
-
-  const saveToLocalStorage = (data) => {
-    localStorage.setItem("bookingData", JSON.stringify(data));
-  };
 
   useEffect(() => {
     if (!hasMounted.current) {
       hasMounted.current = true;
       return;
     }
+
     saveToLocalStorage({
       seats,
       salonId: screening?.salonId,
@@ -247,7 +241,14 @@ function Booking() {
       selectedMovie,
       selectedWeek,
     });
-  }, [seats, screening?.salonId, tickets, selectedMovie, selectedWeek]);
+  }, [
+    seats,
+    screening?.salonId,
+    tickets,
+    selectedMovie,
+    selectedWeek,
+    saveToLocalStorage,
+  ]);
 
   const loadFromLocalStorage = () => {
     const data = localStorage.getItem("bookingData");
@@ -260,15 +261,16 @@ function Booking() {
   useEffect(() => {
     const storedData = loadFromLocalStorage();
     if (storedData) {
-      setSeats(storedData.seats);
+      setSeats(extractSeatNumbers(storedData.seats));
       setTickets(storedData.tickets);
       setSelectedMovie(storedData.selectedMovie);
       setSelectedWeek(storedData.selectedWeek);
     }
   }, []);
 
+  // Check if the screeningId in the route matches the stored one
   useEffect(() => {
-    const storedScreeningId = loadState("screeningId", "");
+    const storedScreeningId = JSON.parse(localStorage.getItem("screeningId"));
     if (storedScreeningId && storedScreeningId !== screeningId) {
       history(`/booking/${storedScreeningId}`);
     }

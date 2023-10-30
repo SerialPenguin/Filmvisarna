@@ -23,5 +23,30 @@ async function handleRegister(e, credentials) {
   }
 }
 
-const authService = { handleRegister };
+async function handleLogin(e, credentials) {
+  e.preventDefault();
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      emailAdress: credentials.emailAdress,
+      password: credentials.password,
+    }),
+  };
+
+  const res = await fetch("http://localhost:5173/api/auth/login", options);
+
+  if (res.status === 200) {
+    const data = await res.json();
+    sessionStorage.setItem("JWT_TOKEN", data.token);
+    return true;
+  } else {
+    return await res.text();
+  }
+}
+
+const authService = { handleRegister, handleLogin };
 export default authService;

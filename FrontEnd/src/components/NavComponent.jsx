@@ -38,7 +38,7 @@ const NavComponent = ({onCloseClick}) => {
 
           <Link to={"/contactUs"}>
             <li style={{ padding: "2em" }} onClick={onCloseClick}>KONTAKT</li>
-
+        </Link>
           <Link to={"/screenings"}>
             <li style={{ padding: "2em" }}>VISNINGAR</li>
           </Link>

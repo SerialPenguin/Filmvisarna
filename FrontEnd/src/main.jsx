@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import App from './App.jsx';
-import Home from './pages/Home.jsx';
+import HomePage from './pages/HomePage.jsx';
 import Booking from './pages/Booking.jsx';
 import MovieInfo from './pages/MovieInfo.jsx'
 import Screenings from './pages/Screenings.jsx';
@@ -14,7 +14,7 @@ const router = createBrowserRouter([{
   path: '/',
   element: <App />,
   children: [
-    {path: '/', element: <Home />},
+    {path: '/', element: <HomePage />},
     {path: '/booking/:screeningId', element: <Booking />},
     {path: '/search/movies/:movieId', element: <MovieInfo />},
     {path: '/screenings', element: <Screenings />},

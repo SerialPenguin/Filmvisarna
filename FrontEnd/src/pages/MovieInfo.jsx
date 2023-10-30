@@ -4,12 +4,12 @@ import { useState } from "react";
 
 function getYouTubeVideoId(url) {
     const match = url.match(/[?&]v=([^?&]+)/);
-    if (match && match[1]) {
-        return match[1];
-    } else {
-        // Handle invalid URLs
-        return '';
-    }
+  if (match && match[1]) {
+    return match[1];
+  } else {
+    // Handle invalid URLs
+    return "";
+  }
 }
 
 function MinutsToHoursAndMinuts(minutes) {
@@ -28,10 +28,9 @@ function MinutsToHoursAndMinuts(minutes) {
   }
 
 function MovieInfo() {
+    const [movie, setMovie] = useState({});
     const { movieId } = useParams();
     const location = useLocation();
-    
-    const [movie, setMovie] = useState({});
     
     useGet(`/api/search/movies/${movieId}`, setMovie);
     
@@ -51,7 +50,7 @@ function MovieInfo() {
                     allowFullScreen
                 />
             ) : (
-                <p>No trailer available</p>
+                <p>Denna film har ingen trailer</p>
             )}
 
             <h2>Beskrivning</h2>

@@ -63,6 +63,8 @@ export default function BookingConfirmation(props) {
     try {
       const booking = await patch('/api/bookings', bookingBody)
 
+      console.log("new booking: ", booking)
+
       if(booking.message.includes("Booking created!")) {
           setToggleClassName('ticket-spin-back');
           setAnimationStage('end');

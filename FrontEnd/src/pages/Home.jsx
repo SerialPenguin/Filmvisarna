@@ -21,18 +21,21 @@ function Home() {
 
   return (
     <div className="App">
-      <h1>Screenings</h1>
+      <h1>Visningar</h1>
       <div className="screening-grid">
         {screenings.length === 0 ? (
-          <p>No screenings found</p>
+          <p>Inga visningar hittades</p>
         ) : (
           screenings.map((screening) => (
             <div key={screening._id} className="screening-card">
               <h2>{screening.movie.title}</h2>
               <p>{screening.movie.description}</p>
-              <img src={screening.movie.images[0]} alt={screening.movie.title} />
-              <Link to={`/booking/${screening._id}`}> 
-                <button>Book Now</button>
+              <img
+                src={screening.movie.images[0]}
+                alt={screening.movie.title}
+              />
+              <Link to={`/booking/${screening._id}`}>
+                <button>Boka Nu</button>
               </Link>
             </div>
           ))

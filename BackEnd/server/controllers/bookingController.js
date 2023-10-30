@@ -6,6 +6,14 @@ import authService from "../service/authService.js";
 import generatorService from "../service/generatorService.js.js";
 import sendConfirmation from "../service/mailService.js";
 
+const calculateTotalPrice = (tickets) => {
+  let totalPrice = 0;
+  for(let ticket of tickets) {
+    totalPrice += (TICKET_PRICES[ticket.ticketType] || 0) * ticket.quantity;
+  }
+  return totalPrice;
+};
+
 export const bookSeat = async (req, res) => {
   try {
     const { screeningId, salonId, seats, email, tickets } = req.body;
@@ -110,8 +118,10 @@ export const bookSeat = async (req, res) => {
 
     await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id } });
 
+    const totalPrice = calculateTotalPrice(ticketIds);
+
     // Send email confirmation
-    sendConfirmation({ bookingNumber, email });
+    sendConfirmation({ bookingNumber, email, totalPrice });
     
     if(userId) {
       const checkUser = await User.findOne({ _id: userId });

@@ -33,7 +33,7 @@ export function Profile() {
       const url = `/api/search/bookings/`;
 
       try {
-        const dataPromise = bookingHistory.map(async (id) => {
+        const mapData = bookingHistory.map(async (id) => {
           const response = await fetch(`${url}${id}`);
           if (!response.ok) {
             throw new Error("error");
@@ -41,7 +41,7 @@ export function Profile() {
           return response.json();
         });
 
-        const data = await Promise.all(dataPromise);
+        const data = await Promise.all(mapData);
         const extract = data.map((item) => item.screeningId);
         setScreeningId(extract);
       } catch (error) {
@@ -52,14 +52,14 @@ export function Profile() {
     const fetchScreenings = async () => {
       const url = `/api/search/screenings/`;
       try {
-        const dataPromise = screeningId.map(async (id) => {
+        const mapData = screeningId.map(async (id) => {
           const response = await fetch(`${url}${id}`);
           if (!response.ok) {
             throw new Error("error");
           }
           return response.json();
         });
-        const data = await Promise.all(dataPromise);
+        const data = await Promise.all(mapData);
         const extract = data.map((item) => item.movieId);
         setMovieId(extract);
       } catch (error) {
@@ -70,14 +70,14 @@ export function Profile() {
     const fetchMovies = async () => {
       const url = `/api/search/movies/`;
       try {
-        const dataPromise = movieId.map(async (id) => {
+        const mapData = movieId.map(async (id) => {
           const response = await fetch(`${url}${id}`);
           if (!response.ok) {
             throw new Error("error");
           }
           return response.json();
         });
-        const data = await Promise.all(dataPromise);
+        const data = await Promise.all(mapData);
         const mapMovie = data.map((item) => item);
 
         setMovieInfo(mapMovie);

@@ -30,6 +30,13 @@ export const bookSeat = async (req, res) => {
       return res.status(404).json({ msg: "Movie not found." });
     }
 
+     // Check for age restrictions
+     if (movieInfo.age >= 15 && tickets[2]?.quantity !== 0) {
+      return res.status(405).json({
+        msg: "Ticket for children is unavailable, age restriction is applied!",
+      });
+    }
+
     let ticketIds = [];
     let remodeledTicketType;
     let quantity = 0;
@@ -51,14 +58,6 @@ export const bookSeat = async (req, res) => {
         ticketIds.push(remodeledTicketType);
       }
     }
-    
-    // Check for age restrictions
-    if (movieInfo.age >= 15 && ticketIds.some(e => e.ticketType === "65279fcd702eef67b26ef3c4")) {
-      return res.status(405).json({
-        msg: "Ticket for children is unavailable, age restriction is applied!",
-      });
-    }
-
 
     if(quantity !== seats.length) {
       return res.status(400).json({ msg: "The quantity of tickets or number of seats does not match each other"});

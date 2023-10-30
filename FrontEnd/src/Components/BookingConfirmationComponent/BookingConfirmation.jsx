@@ -1,36 +1,78 @@
 import './bookingConfirmation.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import TicketFront from '../../img/ticketFront.png';
 import TicketBack from '../../img/ticketBack.png';
-import {patch} from '../../hooksAndUtils/fetchUtil';
+import {get, patch} from '../../hooksAndUtils/fetchUtil';
 
 export default function BookingConfirmation(props) {
 
   const navigate = useNavigate();
 
   const [ email, setEmail ] = useState("");
-  const [ bookingBody, setBookingBody ] = useState({});
+  const [ bookingBody, setBookingBody ] = useState();
   const [ toggleClassName, setToggleClassName] = useState("ticket");
   const [ animationStage, setAnimationStage ] = useState("start");
-  const [ bookingNumber, setBookingNumber ] = useState('QWE123');
+  const [ bookingNumber, setBookingNumber ] = useState("");
   const [displayInput, setDisplayInput] = useState(true);
+  const [movie, setMovie] = useState();
+  const [price, setPrice] = useState();
+  const [date, setDate] = useState();
 
-  const secondHeader = animationStage === "start" ? "Fyll i din mailadress" : animationStage === "middle" ? "Kontrollera att uppgifterna stämmer" : "Tack för din boking!";
+  const secondHeader = animationStage === "start" ? "Fyll i din mailadress" 
+  : animationStage === "middle" ? "Kontrollera att uppgifterna stämmer" 
+  : "Tack för din boking!";
+
+  useEffect(() => {
+      setBookingBody(JSON.parse(localStorage.getItem("bookingData")));
+  }, [])
+
+  useEffect(() => {
+    props.filter[0].map((screening)=> {
+      if(screening.key === props.screening.toString()) {
+        setDate(screening.props.children.toString().split(",").join(" "));
+      }
+    })
+
+    props.movies.map((movie) => {
+      if(movie._id === props.movieId){
+        setMovie(movie.title)
+      }
+    })
+
+    if(bookingBody) {
+      let adults = bookingBody.tickets.adults;
+      let children = bookingBody.tickets.children;
+      let seniors = bookingBody.tickets.seniors;
+
+      let adultsSum = adults.price * adults.quantity;
+      let childrenSum = children.price * children.quantity;
+      let seniorsSum = seniors.price * seniors.quantity;
+
+      setPrice(adultsSum += childrenSum += seniorsSum);
+      console.log("Price: ",price);
+    }
+  }, [bookingBody]);
 
   function handleBookingBody(e) {
+    console.log("BB: ", bookingBody);
     setEmail(e.target.value);
-    setBookingBody({...props.body, email});
+    setBookingBody({...bookingBody, email});
+    console.log("BB 2: ", bookingBody)
   }
   
   async function handleSendConfirmation() {
-
+    
     try {
       const booking = await patch('/api/bookings', bookingBody)
+
+      console.log("New Booking: ", booking)
+
       if(booking.message.includes("Booking created!")) {
           setToggleClassName('ticket-spin-back');
           setAnimationStage('end');
           setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
+          localStorage.removeItem("bookingData");
       }
     }catch(err) {return console.log(err);}
   }
@@ -46,8 +88,8 @@ export default function BookingConfirmation(props) {
           <label htmlFor="email">Email:</label>
           <input
             required
-            autoFocus
             type="email"
+            autoFocus
             className="email-field"
             placeholder="example.mail@example.com"
             onChange={handleBookingBody}
@@ -57,7 +99,7 @@ export default function BookingConfirmation(props) {
             id="email">
           </input>
           {email.includes('@') && (
-            <button className='send-btn' onClick={() => {setDisplayInput(false); setAnimationStage('middle'); setToggleClassName("ticket-spin");}}>Skicka bekräftelsen</button>
+            <button className='send-btn' onClick={() => {handleBookingBody; setDisplayInput(false); setAnimationStage('middle'); setToggleClassName("ticket-spin");}}>Skicka bekräftelsen</button>
           )}
         </div>
         )}
@@ -70,10 +112,10 @@ export default function BookingConfirmation(props) {
           <div>
             {toggleClassName === 'ticket-spin' && (
               <div className='confirmation-container'>
-                <p className='price'>Pris:</p>
-                <p className='movie'>Film:</p>
-                <p className='tickets'>Biljetter:</p>
-                <p className='date'>Datum:</p>
+                <p className='price'>Pris: {price} kr</p>
+                <p className='movie'>Film: {movie}</p>
+                <p className='tickets'>Biljetter: {`Vuxna: ${bookingBody.tickets.adults.quantity}, Barn: ${bookingBody.tickets.children.quantity}, Pensionär: ${bookingBody.tickets.seniors.quantity} `}</p>
+                <p className='date'>Datum: {date.slice(0, 30)}</p>
                 <button className="confirm-btn" onClick={handleSendConfirmation}>Bekräfta</button>
               </div>
             )}

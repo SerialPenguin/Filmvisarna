@@ -26,3 +26,4 @@ export function usePatch(url, body, stateSetter) {
 export function useDelete(url, stateSetter) {
     FetchHelper(() => del(url), stateSetter, url, 'delete');
 }
+

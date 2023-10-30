@@ -8,9 +8,9 @@ import sendConfirmation from "../service/mailService.js";
 
     // Define ticket prices
     const TICKET_PRICES = {
-      "65279fcd702eef67b26ef3c4": 5,  // child
-      "6527a006702eef67b26ef3c5": 10, // adult
-      "6527a045702eef67b26ef3c6": 8   // senior
+      "65279fcd702eef67b26ef3c4": 80,  // child
+      "6527a006702eef67b26ef3c5": 140, // adult
+      "6527a045702eef67b26ef3c6": 120   // senior
     };
 
     // Calculate total price based on ticket type and quantity

@@ -1,42 +1,32 @@
 /** @format */
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BookingConfirmation from '../Components/BookingConfirmationComponent/BookingConfirmation';
 import SeatsGrid from "../components/seatsGrid";
-import "./Booking.css";
+
 
 function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
-  const loadState = (key, defaultValue) => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
-  };
 
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [screening, setScreening] = useState(null);
   const [screenings, setScreenings] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(() =>
-    loadState("selectedMovie", "")
-  );
+  const [selectedMovie, setSelectedMovie] = useState("");
   const [salonLayout, setSalonLayout] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [view, setView] = useState('seatPicker');
   const [initialSeatsDataReceived, setInitialSeatsDataReceived] =
     useState(false);
-  const [seats, setSeats] = useState(() => loadState("seats", []));
-  const [selectedWeek, setSelectedWeek] = useState(() =>
-    loadState("selectedWeek", "")
-  );
-  const [tickets, setTickets] = useState(() =>
-    loadState("tickets", {
-      adults: { ticketType: "adult", quantity: 0, price: 140 },
-      seniors: { ticketType: "senior", quantity: 0, price: 100 },
-      children: { ticketType: "child", quantity: 0, price: 120 },
-    })
-  );
+  const [seats, setSeats] = useState([]);
+  const [selectedWeek, setSelectedWeek] = useState("");
+  const [tickets, setTickets] = useState({
+    adults: { ticketType: "adult", quantity: 0, price: 140 },
+    seniors: { ticketType: "senior", quantity: 0, price: 100 },
+    children: { ticketType: "child", quantity: 0, price: 120 },
+  });
   const [chosenScreening, setChosenScreening] = useState();
   const inputRef = useRef(null);
   const [onBlur, setOnBlur] = useState(false);
@@ -212,73 +202,16 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
-  // This function will convert the array of seat numbers into the required format
-  const formatSeats = (seatsArray) => {
-    return seatsArray.map((seat) => ({ seatNumber: seat }));
+  const saveToLocalStorage = (data) => {
+    localStorage.setItem("bookingData", JSON.stringify(data));
   };
 
-  // This function extracts only seat numbers from the formatted seats array
-  const extractSeatNumbers = (seatsArray) => {
-    return seatsArray.map((seatObj) => seatObj.seatNumber);
-  };
-
-  const saveToLocalStorage = useCallback((data) => {
-    const formattedSeats = formatSeats(data.seats);
-    localStorage.setItem(
-      "bookingData",
-      JSON.stringify({ ...data, seats: formattedSeats })
-    );
-  }, []);
-
-  const hasMounted = useRef(false);
-
-  useEffect(() => {
-    if (!hasMounted.current) {
-      hasMounted.current = true;
-      return;
-    }
-
-    saveToLocalStorage({
-      seats,
-      salonId: screening?.salonId,
-      tickets,
-      selectedMovie,
-      selectedWeek,
-    });
-  }, [
-    seats,
-    screening?.salonId,
-    tickets,
-    selectedMovie,
-    selectedWeek,
-    saveToLocalStorage,
-  ]);
-
-  const loadFromLocalStorage = () => {
-    const data = localStorage.getItem("bookingData");
-    if (data) {
-      return JSON.parse(data);
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    const storedData = loadFromLocalStorage();
-    if (storedData) {
-      setSeats(extractSeatNumbers(storedData.seats));
-      setTickets(storedData.tickets);
-      setSelectedMovie(storedData.selectedMovie);
-      setSelectedWeek(storedData.selectedWeek);
-    }
-  }, []);
-
-  // Check if the screeningId in the route matches the stored one
-  useEffect(() => {
-    const storedScreeningId = JSON.parse(localStorage.getItem("screeningId"));
-    if (storedScreeningId && storedScreeningId !== screeningId) {
-      history(`/booking/${storedScreeningId}`);
-    }
-  }, [screeningId, history]);
+  saveToLocalStorage({
+    seats: seats,
+    screeningId: screeningId,
+    salonId: screening?.salonId,
+    tickets: tickets,
+  });
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -339,8 +272,37 @@ function Booking() {
     }
   };
 
+  const filterScreenings = screenings
+  .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
+  .map((weekData) =>
+    weekData.screenings.map((s) => {
+      const dateOptions = {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
+      const formattedDate = new Date(
+        s.startTime
+      ).toLocaleDateString("sv-SE", dateOptions);
+      const capitalizedDate = capitalizeFirstLetter(formattedDate);
+
+      return (
+        <option key={s._id} value={s._id}>
+          {capitalizedDate} kl{" "}
+          {new Date(s.startTime).toLocaleTimeString("sv-SE")}
+        </option>
+      );
+    })
+  )
+
+  if(selectedMovie && selectedWeek && !onBlur) {
+    inputRef.current.focus();
+  }
+  
+
   if (loading) {
-    return <div>Laddar...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -348,11 +310,11 @@ function Booking() {
       {view === 'seatPicker' && (
       <div className="App">
         {loading || !initialSeatsDataReceived ? (
-          <p>Laddar...</p>
+          <p>Loading...</p>
         ) : (
           <>
             <select
-              style={{ width: "129px", height: "30px" }}
+              style={{ width: "300px", height: "30px" }}
               value={selectedMovie}
               onChange={(e) => {
                 const newMovieId = e.target.value;
@@ -362,7 +324,7 @@ function Booking() {
                 setOnBlur(false);
               }}>
               <option value="" key="select-movie">
-                Välj Film
+                Select a Movie
               </option>
               {movies.map((m) => (
                 <option key={`movie-${m._id}`} value={m._id}>
@@ -372,23 +334,23 @@ function Booking() {
             </select>
 
             <select
-              style={{ width: "129px", height: "30px" }}
+              style={{ width: "300px", height: "30px" }}
               value={selectedWeek}
               onChange={(e) => {
                 const newSelectedWeek = e.target.value;
                 setSelectedWeek(newSelectedWeek);
                 setOnBlur(false);
               }}>
-              <option value="">Välj Vecka</option>
+              <option value="">Select a Week</option>
               {screenings.map((weekData) => (
                 <option key={weekData.week} value={weekData.week}>
-                  Vecka {weekData.week}
+                  Week {weekData.week}
                 </option>
               ))}
             </select>
 
             <select
-              style={{ width: "129px", height: "30px" }}
+              style={{ width: "300px", height: "30px" }}
               value={screeningId}
               ref={inputRef}
               onBlur={(e) => {setOnBlur(true); setChosenScreening(e.target.value)}}
@@ -397,24 +359,24 @@ function Booking() {
                 if (newScreeningId === "") return; // Prevent navigation if it's the placeholder value
                 history(`/booking/${newScreeningId}`);
               }}>
-              <option value="">Välj Visning</option>
+              <option value="">Select a Screening</option>
               {filterScreenings}
             </select>
             <div className="ticket-counter">
-              <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
-              <h3>Valda Säten: {seats.length}</h3>
+              <h3>Total Tickets: {getTotalTicketCount()}</h3>
+              <h3>Selected Seats: {seats.length}</h3>
               {seats.length > 0 && (
                 <button onClick={handleClearSelectedSeats}>
-                  Rensa Valda Säten
+                  Clear Selected Seats
                 </button>
               )}
             </div>
             <div className="total-amount">
-              <h3>Summa: {getTotalAmount()} SEK</h3>
+              <h3>Total Amount: {getTotalAmount()} SEK</h3>
             </div>
             {movie && movie.age <= 14 && (
               <div className="ticket-counter-container" key="ticket-children">
-                <h4>Barnbiljetter</h4>
+                <h4>Children Tickets</h4>
                 <div
                   className="ticket-counter-arrow"
                   onClick={() => handleTicketChange("children", -1)}>
@@ -442,47 +404,45 @@ function Booking() {
                 return null;
               }
 
-            return (
-              <div
-                className="ticket-counter-container"
-                key={`ticket-${ticketType}`}>
-                <h4>{ticketTranslations[ticketType]}</h4>
+              return (
                 <div
-                  className="ticket-counter-arrow"
-                  onClick={() => handleTicketChange(ticketType, -1)}>
-                  -
+                  className="ticket-counter-container"
+                  key={`ticket-${ticketType}`}>
+                  <h4>
+                    {ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}{" "}
+                    Tickets
+                  </h4>
+                  <div
+                    className="ticket-counter-arrow"
+                    onClick={() => handleTicketChange(ticketType, -1)}>
+                    -
+                  </div>
+                  <div className="ticket-counter-value">
+                    {tickets[ticketType].quantity}
+                  </div>
+                  <div
+                    className="ticket-counter-arrow"
+                    onClick={() => handleTicketChange(ticketType, 1)}>
+                    +
+                  </div>
                 </div>
-                <div className="ticket-counter-value">
-                  {tickets[ticketType].quantity}
-                </div>
-                <div
-                  className="ticket-counter-arrow"
-                  onClick={() => handleTicketChange(ticketType, 1)}>
-                  +
-                </div>
-              </div>
-            );
-          })}
-
-          <h1>Bokning för: {movie?.title}</h1>
-          <h2>Direktör: {movie?.director}</h2>
-          <h3>Beskrivning: {movie?.description}</h3>
-          <h3>Visningsdatum: {screening?.startTime}</h3>
-          <h3>Visningstid: {screening?.endTime}</h3>
-          <img src={movie?.images?.[0]} alt={movie?.title} />
-          <div className="theatre">
-            <div className="movie-screen"></div>
-            <div className="seats">
-              <SeatsGrid
-                salonLayout={salonLayout}
-                isSeatBooked={isSeatBooked}
-                handleSeatClick={handleSeatClick}
-              />
-            </div>
-          </div>
-        </>
-      )}
-       <button onClick={() => setView('confirmation')}>Boka</button>
+              );
+            })}
+            
+            <h1>Booking for: {movie?.title}</h1>
+            <h2>Director: {movie?.director}</h2>
+            <h3>Description: {movie?.description}</h3>
+            <h3>Screening Date: {screening?.startTime}</h3>
+            <h3>Screening Time: {screening?.endTime}</h3>
+            <img src={movie?.images?.[0]} alt={movie?.title} />
+            <SeatsGrid
+              salonLayout={salonLayout}
+              isSeatBooked={isSeatBooked}
+              handleSeatClick={handleSeatClick}
+            />
+          </>
+        )}
+        <button onClick={() => setView('confirmation')}>Boka</button>
       </div> 
       )};
       {view === 'confirmation' && (

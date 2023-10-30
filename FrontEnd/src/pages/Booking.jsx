@@ -9,8 +9,12 @@ function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
   const loadState = (key, defaultValue) => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+    const bookingData = localStorage.getItem("bookingData");
+    if (bookingData) {
+      const parsedData = JSON.parse(bookingData);
+      return key in parsedData ? parsedData[key] : defaultValue;
+    }
+    return defaultValue;
   };
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
@@ -241,6 +245,7 @@ function Booking() {
       tickets,
       selectedMovie,
       selectedWeek,
+      screeningId: screeningId, // Storing the screeningId
     });
   }, [
     seats,
@@ -248,6 +253,7 @@ function Booking() {
     tickets,
     selectedMovie,
     selectedWeek,
+    screeningId, // Add this dependency
     saveToLocalStorage,
   ]);
 
@@ -495,12 +501,12 @@ function Booking() {
               );
             })}
             
-          <h1>Bokning för: {movie?.title}</h1>
+          <h2>Bokning för: {movie?.title}</h2>
           <h2>Direktör: {movie?.director}</h2>
           <h3>Beskrivning: {movie?.description}</h3>
           <h3>Visningsdatum: {screening?.startTime}</h3>
           <h3>Visningstid: {screening?.endTime}</h3>
-          <img src={movie?.images?.[0]} alt={movie?.title} />
+          <img className="images" src={movie?.images?.[0]} alt={movie?.title} />
           <div className="theatre">
             <div className="movie-screen"></div>
             <div className="seats">

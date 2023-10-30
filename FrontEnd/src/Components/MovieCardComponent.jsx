@@ -1,3 +1,5 @@
+/** @format */
+
 import { useState } from "react";
 import { useGet } from "../hooksAndUtils/useFetch.js";
 import { Link } from "react-router-dom";
@@ -52,7 +54,8 @@ const MovieCardComponent = () => {
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               {screenings.map((screening) =>
-                movie._id === screening.movieId && screening.startTime < "2023-12-04T19:12:00.000Z" ?  (
+                movie._id === screening.movieId &&
+                screening.startTime < "2023-12-04T19:12:00.000Z" ? (
                   <Link key={screening._id} to={`/booking/${screening._id}`}>
                     <button
                       style={{

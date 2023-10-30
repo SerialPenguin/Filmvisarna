@@ -36,8 +36,8 @@ function Booking() {
   const [tickets, setTickets] = useState(() =>
     loadState("tickets", {
       adults: { ticketType: "adult", quantity: 0, price: 140 },
-      seniors: { ticketType: "senior", quantity: 0, price: 100 },
-      children: { ticketType: "child", quantity: 0, price: 120 },
+      seniors: { ticketType: "senior", quantity: 0, price: 120 },
+      children: { ticketType: "child", quantity: 0, price: 100 },
     })
   );
 

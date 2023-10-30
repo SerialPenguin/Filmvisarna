@@ -367,7 +367,7 @@ function Booking() {
   )
 
   if(selectedMovie && selectedWeek && !onBlur) {
-    inputRef.current.focus();
+    // inputRef.current.focus();
   }
   
   const ticketTranslations = {

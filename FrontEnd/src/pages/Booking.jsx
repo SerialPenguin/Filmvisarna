@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import BookingConfirmation from "../Components/BookingConfirmationComponent/BookingConfirmation";
 import SeatsGrid from "../components/seatsGrid";
 import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
+import DropdownSelect from "../components/DropdownSelectComponent";
+import TicketCounter from "../components/TicketCounterComponent";
 import "./Booking.css";
 
 function Booking() {
@@ -349,14 +351,14 @@ function Booking() {
       })
     );
 
-  if (selectedMovie && selectedWeek && !onBlur) {
+  if (selectedMovie && selectedWeek && !onBlur && inputRef.current) {
     inputRef.current.focus();
   }
 
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",
-    childrens: "Barnbiljetter",
+    children: "Barnbiljetter",
   };
 
   return (
@@ -367,58 +369,39 @@ function Booking() {
             <p>Laddar...</p>
           ) : (
             <>
-              <select
-                style={{ width: "129px", height: "30px" }}
+              <DropdownSelect
                 value={selectedMovie}
-                onChange={(e) => {
-                  const newMovieId = e.target.value;
-                  if (newMovieId === "") return; // Prevent further action if it's the placeholder value
+                options={movies}
+                placeholder="Välj film"
+                onChangeHandler={(newMovieId) => {
+                  if (newMovieId === "") return;
                   setSelectedMovie(newMovieId);
                   setSelectedWeek("");
                   setOnBlur(false);
-                }}>
-                <option value="" key="select-movie">
-                  Välj film
-                </option>
-                {movies.map((m) => (
-                  <option key={`movie-${m._id}`} value={m._id}>
-                    {m.title}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                style={{ width: "129px", height: "30px" }}
+                }}
+              />
+              <DropdownSelect
                 value={selectedWeek}
-                onChange={(e) => {
-                  const newSelectedWeek = e.target.value;
+                options={screenings}
+                placeholder="Välj vecka"
+                onChangeHandler={(newSelectedWeek) => {
                   setSelectedWeek(newSelectedWeek);
                   setOnBlur(false);
-                }}>
-                <option value="">Välj vecka</option>
-                {screenings.map((weekData) => (
-                  <option key={weekData.week} value={weekData.week}>
-                    Vecka {weekData.week}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                style={{ width: "129px", height: "30px" }}
-                value={screeningId}
-                ref={inputRef}
-                onBlur={(e) => {
-                  setOnBlur(true);
-                  setChosenScreening(e.target.value);
                 }}
-                onChange={(e) => {
-                  const newScreeningId = e.target.value;
-                  if (newScreeningId === "") return; // Prevent navigation if it's the placeholder value
+              />
+              <DropdownSelect
+                value={screeningId}
+                customOptions={filterScreenings}
+                placeholder="Välj visning"
+                onChangeHandler={(newScreeningId) => {
+                  if (newScreeningId === "") return;
                   history(`/booking/${newScreeningId}`);
-                }}>
-                <option value="">Välj visning</option>
-                {filterScreenings}
-              </select>
+                }}
+                onBlurHandler={(value) => {
+                  setOnBlur(true);
+                  setChosenScreening(value);
+                }}
+              />
               <div className="ticket-counter">
                 <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
                 <h3>Valda Säten: {seats.length}</h3>
@@ -432,54 +415,30 @@ function Booking() {
                 <h3>Summa: {getTotalAmount()} Kr</h3>
               </div>
               {movie && movie.age <= 14 && (
-                <div className="ticket-counter-container" key="ticket-children">
-                  <h4>Barnbiljetter</h4>
-                  <div
-                    className="ticket-counter-arrow"
-                    onClick={() => handleTicketChange("children", -1)}>
-                    -
-                  </div>
-                  <div className="ticket-counter-value">
-                    {tickets.children.quantity}
-                  </div>
-                  <div
-                    className="ticket-counter-arrow"
-                    onClick={() => handleTicketChange("children", 1)}>
-                    +
-                  </div>
-                </div>
+                <TicketCounter
+                  type="children"
+                  label="Barnbiljetter"
+                  quantity={tickets.children.quantity}
+                  onChange={handleTicketChange}
+                />
               )}
 
               {Object.keys(tickets).map((ticketType) => {
-                // Exclude children tickets if the movie age is above 14
-                if (ticketType === "children" && movie.age > 14) {
+                // Exclude children tickets if the movie age is above 14 or below
+                if (
+                  ticketType === "children" &&
+                  (movie?.age > 14 || movie?.age <= 14)
+                ) {
                   return null;
                 }
-
-                // Exclude children tickets if they have already been rendered
-                if (ticketType === "children" && movie.age <= 14) {
-                  return null;
-                }
-
                 return (
-                  <div
-                    className="ticket-counter-container"
-                    key={`ticket-${ticketType}`}>
-                    <h4>{ticketTranslations[ticketType]}</h4>
-                    <div
-                      className="ticket-counter-arrow"
-                      onClick={() => handleTicketChange(ticketType, -1)}>
-                      -
-                    </div>
-                    <div className="ticket-counter-value">
-                      {tickets[ticketType].quantity}
-                    </div>
-                    <div
-                      className="ticket-counter-arrow"
-                      onClick={() => handleTicketChange(ticketType, 1)}>
-                      +
-                    </div>
-                  </div>
+                  <TicketCounter
+                    key={ticketType}
+                    type={ticketType}
+                    label={ticketTranslations[ticketType]}
+                    quantity={tickets[ticketType].quantity}
+                    onChange={handleTicketChange}
+                  />
                 );
               })}
               <h2>Bokning för: {movie?.title}</h2>

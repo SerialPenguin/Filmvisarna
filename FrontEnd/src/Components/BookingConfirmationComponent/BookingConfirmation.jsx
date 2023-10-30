@@ -32,7 +32,7 @@ export default function BookingConfirmation(props) {
       delete body.selectedWeek;
 
       console.log("Body: ", body)
-      setBookingBody({...{screeningId: props.screening}, ...body});
+      setBookingBody(body);
     }
 
     getBody();

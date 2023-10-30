@@ -6,21 +6,19 @@ import authService from "../service/authService.js";
 import generatorService from "../service/generatorService.js.js";
 import sendConfirmation from "../service/mailService.js";
 
-    // Define ticket prices
-    const TICKET_PRICES = {
-      "65279fcd702eef67b26ef3c4": 80,  // child
-      "6527a006702eef67b26ef3c5": 140, // adult
-      "6527a045702eef67b26ef3c6": 120   // senior
-    };
+const TICKET_PRICES = {
+  "65279fcd702eef67b26ef3c4": 80,  // child
+  "6527a006702eef67b26ef3c5": 140, // adult
+  "6527a045702eef67b26ef3c6": 120   // senior
+};
 
-    // Calculate total price based on ticket type and quantity
-    const calculateTotalPrice = (tickets) => {
-      let totalPrice = 0;
-      for(let ticket of tickets) {
-        totalPrice += (TICKET_PRICES[ticket.ticketType] || 0) * ticket.quantity;
-      }
-      return totalPrice;
-    };
+const calculateTotalPrice = (tickets) => {
+  let totalPrice = 0;
+  for(let ticket of tickets) {
+    totalPrice += (TICKET_PRICES[ticket.ticketType] || 0) * ticket.quantity;
+  }
+  return totalPrice;
+};
 
 export const bookSeat = async (req, res) => {
   try {
@@ -49,14 +47,8 @@ export const bookSeat = async (req, res) => {
     let ticketIds = [];
     let remodeledTicketType;
     let quantity = 0;
-    
 
     for(let i = 0; i < tickets.length; i++) {
-      if(tickets[i].ticketType === "child") {
-        remodeledTicketType = {...tickets[i], ticketType: "65279fcd702eef67b26ef3c4" }
-        quantity += tickets[i].quantity;
-        ticketIds.push(remodeledTicketType);
-      }
       if(tickets[i].ticketType === "adult") {
         remodeledTicketType = {...tickets[i], ticketType: "6527a006702eef67b26ef3c5" }
         quantity += tickets[i].quantity;
@@ -67,18 +59,19 @@ export const bookSeat = async (req, res) => {
         quantity += tickets[i].quantity;
         ticketIds.push(remodeledTicketType);
       }
+      if(tickets[i].ticketType === "child") {
+        remodeledTicketType = {...tickets[i], ticketType: "65279fcd702eef67b26ef3c4" }
+        quantity += tickets[i].quantity;
+        ticketIds.push(remodeledTicketType);
+      }
     }
     
+    
     // Check for age restrictions
-    if (movieInfo.age >= 15 && ticketIds.some(e => e.ticketType === "65279fcd702eef67b26ef3c4")) {
+    if (movieInfo.age >= 15 && tickets[2]?.quantity !== 0) {
       return res.status(405).json({
         msg: "Ticket for children is unavailable, age restriction is applied!",
       });
-    }
-
-
-    if(quantity !== seats.length) {
-      return res.status(400).json({ msg: "The quantity of tickets or number of seats does not match each other"});
     }
 
     // Validate seat numbers and rows based on salon's capacity

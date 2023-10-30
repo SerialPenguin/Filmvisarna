@@ -9,8 +9,12 @@ function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
   const loadState = (key, defaultValue) => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+    const bookingData = localStorage.getItem("bookingData");
+    if (bookingData) {
+      const parsedData = JSON.parse(bookingData);
+      return key in parsedData ? parsedData[key] : defaultValue;
+    }
+    return defaultValue;
   };
 
   const [movie, setMovie] = useState(null);
@@ -240,6 +244,7 @@ function Booking() {
       tickets,
       selectedMovie,
       selectedWeek,
+      screeningId: screeningId, // Storing the screeningId
     });
   }, [
     seats,
@@ -247,6 +252,7 @@ function Booking() {
     tickets,
     selectedMovie,
     selectedWeek,
+    screeningId, // Add this dependency
     saveToLocalStorage,
   ]);
 

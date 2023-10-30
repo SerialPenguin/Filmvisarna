@@ -144,7 +144,11 @@ function Booking() {
 
     // Determine if we should remove an existing seat from selection
     let seatToRemove = null;
-    const totalTicketCount = getTotalTicketCount(); // Use this to check against number of selected seats
+    const totalTicketCount = getTotalTicketCount();
+    if (totalTicketCount <= 0) {
+      console.log("Please select a ticket before choosing a seat.");
+      return;
+    } // Use this to check against number of selected seats
     if (seats.length >= totalTicketCount) {
       seatToRemove = seats[0];
       setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat

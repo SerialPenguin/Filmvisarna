@@ -33,6 +33,7 @@ app.get("/api/events/:screeningId", async (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
+  
 
 
   const sendBookedSeats = async () => {
@@ -51,11 +52,19 @@ app.get("/api/events/:screeningId", async (req, res) => {
       res.write(`data: ERROR\n\n`);
     }
 };
+  sendBookedSeats();
+  // const intervalId = setInterval(sendBookedSeats, 500);
 
-  const intervalId = setInterval(sendBookedSeats, 500);
+  const bookingChangeStream = Booking.watch();
+  const tempBookingChangeStream = TemporaryBooking.watch();
+
+  bookingChangeStream.on('change', sendBookedSeats);
+  tempBookingChangeStream.on('change', sendBookedSeats);
 
   req.on("close", () => {
-    clearInterval(intervalId);
+    // clearInterval(intervalId);
+    bookingChangeStream.close();
+    tempBookingChangeStream.close();
     res.end();
   });
 });

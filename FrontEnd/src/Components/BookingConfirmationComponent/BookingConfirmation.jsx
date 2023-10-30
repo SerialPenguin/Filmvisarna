@@ -31,14 +31,10 @@ export default function BookingConfirmation(props) {
       delete body.selectedMovie;
       delete body.selectedWeek;
 
-      console.log("Body: ", body)
       setBookingBody(body);
     }
 
     getBody();
-    
-
-      console.log("BB 1: ", bookingBody)
   }, [])
 
   useEffect(() => {
@@ -78,9 +74,16 @@ export default function BookingConfirmation(props) {
   }
   
   async function handleSendConfirmation() {
+
+
     
     try {
-      const booking = await patch('/api/bookings', bookingBody)
+
+      let bodyCopy = JSON.parse(JSON.stringify(bookingBody));
+
+      bodyCopy.tickets = Object.values(bodyCopy.tickets);
+
+      const booking = await patch('/api/bookings', bodyCopy);
 
       console.log("new booking: ", booking)
 

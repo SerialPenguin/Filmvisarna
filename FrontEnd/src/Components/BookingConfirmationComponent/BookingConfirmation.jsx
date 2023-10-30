@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import TicketFront from '../../img/ticketFront.png';
 import TicketBack from '../../img/ticketBack.png';
-import {get, patch} from '../../hooksAndUtils/fetchUtil';
+import {patch} from '../../hooksAndUtils/fetchUtil';
 
 export default function BookingConfirmation(props) {
 
@@ -50,15 +50,12 @@ export default function BookingConfirmation(props) {
       let seniorsSum = seniors.price * seniors.quantity;
 
       setPrice(adultsSum += childrenSum += seniorsSum);
-      console.log("Price: ",price);
     }
   }, [bookingBody]);
 
   function handleBookingBody(e) {
-    console.log("BB: ", bookingBody);
     setEmail(e.target.value);
     setBookingBody({...bookingBody, email});
-    console.log("BB 2: ", bookingBody)
   }
   
   async function handleSendConfirmation() {
@@ -66,15 +63,13 @@ export default function BookingConfirmation(props) {
     try {
       const booking = await patch('/api/bookings', bookingBody)
 
-      console.log("New Booking: ", booking)
-
       if(booking.message.includes("Booking created!")) {
           setToggleClassName('ticket-spin-back');
           setAnimationStage('end');
           setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
           localStorage.removeItem("bookingData");
       }
-    }catch(err) {return console.log(err);}
+    }catch(err) {return alert(err);}
   }
 
   return (

@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BookingConfirmation from "../Components/BookingConfirmationComponent/BookingConfirmation";
 import SeatsGrid from "../components/seatsGrid";
+import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import "./Booking.css";
 
 function Booking() {
@@ -74,32 +75,33 @@ function Booking() {
     fetchMovies();
   }, []);
 
+  // useEffect(() => {
+  //   // Function to get the week number of a date
+  //   const getWeekNumber = (date) => {
+  //     const d = new Date(date);
+  //     d.setHours(0, 0, 0, 0);
+  //     d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  //     const yearStart = new Date(d.getFullYear(), 0, 1);
+  //     const weekNumber = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  //     return weekNumber;
+  //   };
+
+  //   const groupScreeningsByWeek = (screenings) => {
+  //     const grouped = {};
+  //     for (const screening of screenings) {
+  //       const week = getWeekNumber(new Date(screening.startTime));
+  //       if (!grouped[week]) {
+  //         grouped[week] = [];
+  //       }
+  //       grouped[week].push(screening);
+  //     }
+  //     return Object.keys(grouped).map((week) => ({
+  //       week,
+  //       screenings: grouped[week],
+  //     }));
+  //   };
+
   useEffect(() => {
-    // Function to get the week number of a date
-    const getWeekNumber = (date) => {
-      const d = new Date(date);
-      d.setHours(0, 0, 0, 0);
-      d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-      const yearStart = new Date(d.getFullYear(), 0, 1);
-      const weekNumber = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-      return weekNumber;
-    };
-
-    const groupScreeningsByWeek = (screenings) => {
-      const grouped = {};
-      for (const screening of screenings) {
-        const week = getWeekNumber(new Date(screening.startTime));
-        if (!grouped[week]) {
-          grouped[week] = [];
-        }
-        grouped[week].push(screening);
-      }
-      return Object.keys(grouped).map((week) => ({
-        week,
-        screenings: grouped[week],
-      }));
-    };
-
     if (selectedMovie) {
       fetch(`/api/screenings`)
         .then((response) => response.json())
@@ -362,17 +364,19 @@ function Booking() {
         );
         const capitalizedDate = capitalizeFirstLetter(formattedDate);
 
+        const endTime = new Date(s.endTime).toLocaleTimeString("sv-SE");
+
         return (
           <option key={s._id} value={s._id}>
             {capitalizedDate} kl{" "}
-            {new Date(s.startTime).toLocaleTimeString("sv-SE")}
+            {new Date(s.startTime).toLocaleTimeString("sv-SE")} - {endTime}
           </option>
         );
       })
     );
 
   if (selectedMovie && selectedWeek && !onBlur) {
-    // inputRef.current.focus();
+    inputRef.current.focus();
   }
 
   const ticketTranslations = {
@@ -380,10 +384,6 @@ function Booking() {
     seniors: "Pensionärsbiljetter",
     childrens: "Barnbiljetter",
   };
-
-  if (loading) {
-    return <div>Laddar...</div>;
-  }
 
   return (
     <div>
@@ -508,12 +508,18 @@ function Booking() {
                   </div>
                 );
               })}
-
               <h2>Bokning för: {movie?.title}</h2>
-              <h2>Direktör: {movie?.director}</h2>
-              <h3>Beskrivning: {movie?.description}</h3>
-              <h3>Visningsdatum: {screening?.startTime}</h3>
-              <h3>Visningstid: {screening?.endTime}</h3>
+              <h3>
+                Visningsdatum:{" "}
+                {capitalizeFirstLetter(
+                  new Date(screening?.startTime).toLocaleDateString("sv-SE")
+                )}
+              </h3>
+              <h3>
+                Visningstid:{" "}
+                {new Date(screening?.startTime).toLocaleTimeString("sv-SE")} -
+                {new Date(screening?.endTime).toLocaleTimeString("sv-SE")}
+              </h3>
               <img
                 className="images"
                 src={movie?.images?.[0]}

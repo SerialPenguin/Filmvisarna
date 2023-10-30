@@ -6,6 +6,7 @@ import SeatsGrid from "../components/seatsGrid";
 import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";
+import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
 import "./Booking.css";
 
 function Booking() {
@@ -296,34 +297,6 @@ function Booking() {
     });
   };
 
-  const handleClearSelectedSeats = async () => {
-    try {
-      // Clear all selected seats in the backend by sending an empty array
-      const res = await fetch(`/api/reserveSeats`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          screeningId,
-          seats: [], // Empty array to show removal
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Error clearing selected seats");
-      }
-
-      setSeats([]);
-
-      setTickets((prev) => ({
-        adults: { ...prev.adults, quantity: 0 },
-        seniors: { ...prev.seniors, quantity: 0 },
-        children: { ...prev.children, quantity: 0 },
-      }));
-    } catch (error) {
-      console.error("Error clearing selected seats:", error);
-    }
-  };
-
   const filterScreenings = screenings
     .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
     .map((weekData) =>
@@ -406,9 +379,11 @@ function Booking() {
                 <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
                 <h3>Valda Säten: {seats.length}</h3>
                 {seats.length > 0 && (
-                  <button onClick={handleClearSelectedSeats}>
-                    Rensa Valda Säten
-                  </button>
+                  <ClearSeatsButton
+                    screeningId={screeningId}
+                    setSeats={setSeats}
+                    setTickets={setTickets}
+                  />
                 )}
               </div>
               <div className="total-amount">

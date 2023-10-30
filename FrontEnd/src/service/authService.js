@@ -41,7 +41,8 @@ async function handleLogin(e, credentials) {
 
   if (res.status === 200) {
     const data = await res.json();
-    sessionStorage.setItem("JWT_TOKEN", data.token);
+    const token = data.token;
+    sessionStorage.setItem("JWT_TOKEN", token);
     return true;
   } else {
     return await res.text();

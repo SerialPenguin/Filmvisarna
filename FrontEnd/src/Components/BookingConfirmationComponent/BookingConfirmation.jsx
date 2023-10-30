@@ -24,7 +24,21 @@ export default function BookingConfirmation(props) {
   : "Tack för din boking!";
 
   useEffect(() => {
-      setBookingBody(JSON.parse(localStorage.getItem("bookingData")));
+    async function getBody() {
+
+      const body = await JSON.parse(localStorage.getItem("bookingData"))
+      
+      delete body.selectedMovie;
+      delete body.selectedWeek;
+
+      console.log("Body: ", body)
+      setBookingBody({...{screeningId: props.screening}, ...body});
+    }
+
+    getBody();
+    
+
+      console.log("BB 1: ", bookingBody)
   }, [])
 
   useEffect(() => {
@@ -50,12 +64,17 @@ export default function BookingConfirmation(props) {
       let seniorsSum = seniors.price * seniors.quantity;
 
       setPrice(adultsSum += childrenSum += seniorsSum);
+
+      console.log("Price: ", price)
     }
+    console.log("BB 2: " ,bookingBody)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
 
   function handleBookingBody(e) {
     setEmail(e.target.value);
     setBookingBody({...bookingBody, email});
+    console.log("BB 3: ", bookingBody)
   }
   
   async function handleSendConfirmation() {

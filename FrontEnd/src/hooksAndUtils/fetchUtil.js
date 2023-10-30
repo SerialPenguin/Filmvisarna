@@ -1,5 +1,5 @@
 export async function get(url) {
-  return await (await fetch(url)).json();
+return await (await fetch(url)).json();
 }
 
 export async function post(url, body) {

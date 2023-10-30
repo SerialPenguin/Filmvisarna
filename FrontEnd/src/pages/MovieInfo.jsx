@@ -1,8 +1,7 @@
-/** @format */
-
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useGet } from "../hooksAndUtils/useFetch.js";
 import { useState } from "react";
+import "../MovieInfo.css"
 
 function getYouTubeVideoId(url) {
   const match = url.match(/[?&]v=([^?&]+)/);
@@ -29,67 +28,72 @@ function MinutsToHoursAndMinuts(minutes) {
   }
 }
 
+function findAScreeningUrl(movieId, screenings){
+    const screeningsForMovie = screenings.find((screening) => screening.movieId === movieId)
+
+    let bookingLink = '';
+    if (screeningsForMovie) {
+      bookingLink = `/booking/${screeningsForMovie._id}`;
+    } else {
+      bookingLink = '/booking'; // Default link if no matching screening is found
+    }
+
+    return bookingLink;
+}
+
 function MovieInfo() {
-  const [movie, setMovie] = useState({});
-  const { movieId } = useParams();
-  const location = useLocation();
+    const { movieId } = useParams();
+    const location = useLocation();
+    
+    const [movie, setMovie] = useState({});
+    const [screenings, setScreenings] = useState([]);
 
-  useGet(`/api/search/movies/${movieId}`, setMovie);
-
-  console.log(movie);
-
-  const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
-
-  return (
-    <div>
-      <h1>{movie.title}</h1>
-      {hasTrailers ? (
-        <iframe
-          width="350"
-          height="200"
-          src={`https://www.youtube.com/embed/${getYouTubeVideoId(
-            movie.youtubeTrailers[0]
-          )}`}
-          title="Trailer"
-          allowFullScreen
-        />
-      ) : (
-        <p>No trailer available</p>
-      )}
-
-      <h2>Beskrivning</h2>
-      <p>{movie.description}</p>
-      <p>Genre: {movie.genre}</p>
-      <p>Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
-      <p>
-        {movie.actors && movie.actors.length > 0
-          ? `Actors: ${movie.actors.join(", ")}`
-          : "Inga skådespelare lagrade"}
-      </p>
-      <p>
-        Språk:{" "}
-        {movie.language
-          ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1)
-          : "Inget språk lagrade"}
-      </p>
-      <p>
-        Undertext:{" "}
-        {movie.subtitles
-          ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1)
-          : "Inget undertext lagrade"}
-      </p>
-      <p>Regissör: {movie.director}</p>
-      <p>Släppte: {movie.productionYear}</p>
-
-      <button>
-        <Link to={location.state ? location.state.from : "/"}>Tillbaka</Link>
-      </button>
-
-      <button>
-        <Link to={`/booking/${movieId}`}>Boka film</Link>
-      </button>
-    </div>
-  );
+    useGet(`/api/search/movies/${movieId}`, setMovie);
+    useGet(`/api/screenings`, setScreenings);
+   
+    const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
+    
+    return (
+        <div className="movieinfo-container">
+            <h1 className="main-text-title">{movie.title}</h1>
+            
+            {hasTrailers ? (
+                <div className="iframe-container">
+                <iframe
+                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(movie.youtubeTrailers[0])}`}
+                    title="Trailer"
+                    allowFullScreen
+                />
+                </div>
+            ) : (
+                <p>No trailer available</p>
+            )}
+            <div className="text-containers">
+                <h2 className="text-title">Beskrivning</h2>
+                <p className="normal-text">{movie.description}</p>
+                <p>Genre: {movie.genre}</p>
+                <p>Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
+                <p>
+                {movie.actors && movie.actors.length > 0
+                    ? `Actors: ${movie.actors.join(', ')}`
+                    : 'Inga skådespelare lagrade'
+                }
+                </p>
+                <p>Språk: {movie.language ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1) : "Inget språk lagrade"}</p>
+                <p>Undertext: {movie.subtitles ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1) : "Inget undertext lagrade"}</p>
+                <p>Regissör: {movie.director}</p>
+                <p>Släppte: {movie.productionYear}</p>
+            </div>
+            <div className="button-container">
+                <Link to={findAScreeningUrl(movie._id, screenings)}>
+                    <button className="main-btn">Boka film</button>
+                </Link>
+                <Link to={location.state ? location.state.from : "/" }>
+                    <button className="sec-btn">Tillbaka</button>
+                </Link>
+            </div>
+        </div>
+    );
 }
 
 export default MovieInfo;

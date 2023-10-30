@@ -481,12 +481,8 @@ function Booking() {
             );
           })}
 
-          <h1>Bokning för: {movie?.title}</h1>
-          <h2>Direktör: {movie?.director}</h2>
-          <h3>Beskrivning: {movie?.description}</h3>
-          <h3>Visningsdatum: {screening?.startTime}</h3>
-          <h3>Visningstid: {screening?.endTime}</h3>
-          <img src={movie?.images?.[0]} alt={movie?.title} />
+          <h2>Bokning för: {movie?.title}</h2>
+          <img className="images" src={movie?.images?.[0]} alt={movie?.title} />
           <div className="theatre">
             <div className="movie-screen"></div>
             <div className="seats">

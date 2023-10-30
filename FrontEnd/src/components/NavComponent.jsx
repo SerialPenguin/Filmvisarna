@@ -62,6 +62,7 @@ const NavComponent = ({ onCloseClick }) => {
               KONTAKT
             </li>
           </Link>
+
           <Link to={"/screenings"}>
             <li style={{ padding: "2em" }}>VISNINGAR</li>
           </Link>

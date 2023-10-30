@@ -256,6 +256,9 @@ function Booking() {
       setSelectedMovie(storedData.selectedMovie);
       setSelectedWeek(storedData.selectedWeek);
     }
+    return () => {
+      localStorage.removeItem("bookingData");
+    };
   }, []);
 
   // Check if the screeningId in the route matches the stored one

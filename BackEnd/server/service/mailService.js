@@ -2,9 +2,11 @@ import sendEmail from '../utils/nodeMailer.js'
 import dotenv from 'dotenv';
 import __dirname from '../assets/dir.js';
 
+
+
 dotenv.config();
 
-export default async function sendConfirmation({bookingNumber, email}) {
+export default async function sendConfirmation({ bookingNumber, email, totalPrice }) {
 
     try {
         const to = email;
@@ -22,6 +24,7 @@ export default async function sendConfirmation({bookingNumber, email}) {
         <br>
         Välkommen på en fantastisk bioupplevelse hos oss på </p> 
         <br><img src="cid:logo.ee">
+        <h1>${totalPrice}</h1>
         <br>
         </div>`
         const attachments = [{

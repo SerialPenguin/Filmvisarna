@@ -13,9 +13,8 @@ async function verifyJwt(authHeader) {
       let jwtInfo;
 
       try {
-        jwtInfo = jwt.verify(authToken, secretKey);
-      } catch (err) {
-        user = "invalid signature";
+        jwtInfo = jwt.verify(authToken, secretKey)
+      }catch (err) {
         return user;
       }
 

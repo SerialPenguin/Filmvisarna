@@ -101,10 +101,6 @@ export const bookSeat = async (req, res) => {
     const authHeader = req.headers["authorization"];
     const userId = await authService.verifyJwt(authHeader);
 
-    if(userId === "invalid signature") {
-      return res.status(400).json({ msg: 'JsonWebTokenError: "Invalid signature". Please check jwt.'});
-    }
-
     const newBooking = new Booking({
       screeningId,
       salonId,

@@ -45,8 +45,6 @@ function Booking() {
     })
   );
   const [chosenScreening, setChosenScreening] = useState();
-  const inputRef = useRef(null);
-  const [onBlur, setOnBlur] = useState(false);
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -333,6 +331,11 @@ function Booking() {
     children: "Barnbiljetter",
   };
 
+  function handleScreeningInput(e) {
+    setChosenScreening(e.target.parentNode.children[3].firstChild.value);
+    setView('confirmation')
+  }
+
   return (
     <div>
       {view === "seatPicker" && (
@@ -351,7 +354,6 @@ function Booking() {
                     if (newMovieId === "") return;
                     setSelectedMovie(newMovieId);
                     setSelectedWeek("");
-                    setOnBlur(false);
                   }}
                 />
               </div>
@@ -362,7 +364,6 @@ function Booking() {
                   placeholder="Välj vecka"
                   onChangeHandler={(newSelectedWeek) => {
                     setSelectedWeek(newSelectedWeek);
-                    setOnBlur(false);
                   }}
                 />
               </div>
@@ -374,10 +375,6 @@ function Booking() {
                   onChangeHandler={(newScreeningId) => {
                     if (newScreeningId === "") return;
                     history(`/booking/${newScreeningId}`);
-                  }}
-                  onBlurHandler={(value) => {
-                    setOnBlur(true);
-                    setChosenScreening(value);
                   }}
                 />
               </div>
@@ -454,7 +451,7 @@ function Booking() {
           )}
           <button
             className="book-button"
-            onClick={() => setView("confirmation")}>
+            onClick={handleScreeningInput}>
             Boka Film
           </button>
         </div>

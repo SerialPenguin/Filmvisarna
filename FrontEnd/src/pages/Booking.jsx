@@ -327,10 +327,6 @@ function Booking() {
       })
     );
 
-  if (selectedMovie && selectedWeek && !onBlur && inputRef.current) {
-    inputRef.current.focus();
-  }
-
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",

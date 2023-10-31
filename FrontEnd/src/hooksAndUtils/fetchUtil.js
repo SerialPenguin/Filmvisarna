@@ -10,10 +10,13 @@ export async function post(url, body) {
   })).json();
 }
 
-export async function patch(url, body) {
+export async function patch(url, body, token) {
   return await (await fetch(url, {
     method: 'PATCH', /* Or PATCH */
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+   },
     body: JSON.stringify(body)
   })).json();
 }

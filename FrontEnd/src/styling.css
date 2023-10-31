@@ -76,9 +76,6 @@ body{
     display: flex;
     flex-direction: row;
 }
-.logo-img-nav{
-    min-width: ;
-}
 div#root{
     width: 100%;
 }

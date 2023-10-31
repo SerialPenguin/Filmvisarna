@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-const bearerToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
+// const token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
+
+const token = sessionStorage.getItem("JWT_TOKEN");
 
 export function Profile() {
   const [userData, setUserData] = useState("");
@@ -13,7 +15,7 @@ export function Profile() {
         const fetchUser = await fetch("/api/auth/profile", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${bearerToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 

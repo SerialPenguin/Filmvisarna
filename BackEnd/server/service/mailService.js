@@ -19,7 +19,7 @@ export default async function sendConfirmation({bookingNumber, email, totalPrice
         <br><h1>${bookingNumber}</h1> 
         Ta med ditt bokningsnummer till biografen för att kunna betala och få biljetterna till din valda visning.
         <br>
-        <h3>${totalPrice}</h3>
+        <h3>Pris: ${totalPrice} Kr</h3>
         <br>
         Välkommen på en fantastisk bioupplevelse hos oss på </p> 
         <br><img src="cid:logo.ee">

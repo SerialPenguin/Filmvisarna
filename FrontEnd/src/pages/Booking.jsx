@@ -45,8 +45,7 @@ function Booking() {
     })
   );
   const [chosenScreening, setChosenScreening] = useState();
-  const inputRef = useRef(null);
-  const [onBlur, setOnBlur] = useState(false);
+  const selectedMovieRef = useRef(null);
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -166,6 +165,8 @@ function Booking() {
         const data = await response.json();
         setScreening(data);
         fetchMovie(data.movieId);
+        setSelectedMovie(data.movieId);
+        selectedMovieRef.current = data.movieId;
         if (data.salonId) fetchSeats(data.salonId);
       } catch (error) {
         console.error("Error fetching screening data:", error);
@@ -351,7 +352,6 @@ function Booking() {
                     if (newMovieId === "") return;
                     setSelectedMovie(newMovieId);
                     setSelectedWeek("");
-                    setOnBlur(false);
                   }}
                 />
               </div>
@@ -362,7 +362,6 @@ function Booking() {
                   placeholder="Välj vecka"
                   onChangeHandler={(newSelectedWeek) => {
                     setSelectedWeek(newSelectedWeek);
-                    setOnBlur(false);
                   }}
                 />
               </div>
@@ -376,7 +375,6 @@ function Booking() {
                     history(`/booking/${newScreeningId}`);
                   }}
                   onBlurHandler={(value) => {
-                    setOnBlur(true);
                     setChosenScreening(value);
                   }}
                 />

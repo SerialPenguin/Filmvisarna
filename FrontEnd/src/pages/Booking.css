@@ -141,16 +141,16 @@ h3 {
 }
 
 .seats-grid button {
-    width: 32px; 
-    height: 32px; 
+    width: 7.7vw; 
+    height: 4.3vh; 
     padding: 5px; 
-    margin: 1.2px; 
+    margin: 1.3px; 
  }
 
  .row {
     display: flex;
     justify-content: center; 
-    padding: 2px;
+    padding: 1.5px;
 }
 
 .book-button {

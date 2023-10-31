@@ -42,8 +42,18 @@
 }
 
 .available {
-    background-color:#BA7E36;
-    cursor: pointer;
+  background-color: #BA7E36;
+  background-image: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+  cursor: pointer;
+  border: none;
+  border-radius: 4px; /* to give rounded corners if desired */
+  padding: 10px 20px; /* adjust for your design */
+  transition: all 0.3s; /* smooth transition effect for interactions */
+  color: white; /* adjust for your design, maybe text color on the button */
+}
+
+.available:hover {
+  background-color: darken(#BA7E36, 10%); /* slightly darken on hover for interactive feedback */
 }
 
 .selected {

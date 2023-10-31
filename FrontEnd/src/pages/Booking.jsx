@@ -46,9 +46,7 @@ function Booking() {
   );
   const [chosenScreening, setChosenScreening] = useState();
 
-
   const selectedMovieRef = useRef(null);
-
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -110,7 +108,8 @@ function Booking() {
         })
         .catch((err) => console.error("Error fetching screenings:", err));
     }
-  }, [selectedMovie, history, screeningId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMovie, history]);
 
   const isSeatBooked = (seatNumber) => {
     return bookedSeats.includes(seatNumber);
@@ -344,7 +343,7 @@ function Booking() {
 
   function handleScreeningInput(e) {
     setChosenScreening(e.target.parentNode.children[3].firstChild.value);
-    setView('confirmation')
+    setView("confirmation");
   }
 
   return (
@@ -387,7 +386,6 @@ function Booking() {
                     if (newScreeningId === "") return;
                     history(`/booking/${newScreeningId}`);
                   }}
-
                 />
               </div>
               <div className="ticket-counter">
@@ -464,9 +462,7 @@ function Booking() {
               </div>
             </>
           )}
-          <button
-            className="book-button"
-            onClick={handleScreeningInput}>
+          <button className="book-button" onClick={handleScreeningInput}>
             Boka Film
           </button>
         </div>

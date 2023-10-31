@@ -46,7 +46,7 @@ body{
 .seperator{
     margin: auto;
     height: 2px;
-    width: 90%;
+    width: 95%;
     background-color: #BA7E36;
 }
 .screenings-list-container{
@@ -77,9 +77,6 @@ div#root{
 }
 
 @media (min-width: 600px){
-    .movieinfo-container{
-        background-color: #462d47;
-    }
     .iframe-container, iframe{
         width: 500px;
         height: 281.25px;
@@ -96,9 +93,11 @@ div#root{
 }
 @media (min-width: 800px){
     .iframe-container, iframe{
-        position: absolute;
         width: 700px;
         height: 393.75px;
+    }
+    .text-containers, .button-container, .main-text-title{
+        width: 700px;
     }
     .return-container{
         margin: auto;

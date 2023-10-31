@@ -400,10 +400,7 @@ function Booking() {
                   }}
                 />
               </div>
-              <div className="ticket-counter">
-                {/* <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
-                <h3>Valda Säten: {seats.length}</h3> */}
-              </div>
+              <div className="ticket-counter"></div>
 
               {movie && movie.age <= 14 && (
                 <TicketCounter
@@ -442,23 +439,6 @@ function Booking() {
               <div className="total-amount">
                 <h3>Summa: {getTotalAmount()} Kr</h3>
               </div>
-              {/* <h2>Bokning för: {movie?.title}</h2>
-              <h3>
-                Visningsdatum:{" "}
-                {capitalizeFirstLetter(
-                  new Date(screening?.startTime).toLocaleDateString("sv-SE")
-                )}
-              </h3>
-              <h3>
-                Visningstid:{" "}
-                {new Date(screening?.startTime).toLocaleTimeString("sv-SE")} -
-                {new Date(screening?.endTime).toLocaleTimeString("sv-SE")}
-              </h3> */}
-              {/* <img
-                className="images"
-                src={movie?.images?.[0]}
-                alt={movie?.title}
-              /> */}
               <div className="theatre">
                 <div className="movie-screen">
                   <div className="drape-left"></div>

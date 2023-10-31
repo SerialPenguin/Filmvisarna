@@ -20,7 +20,6 @@ function Booking() {
     }
     return defaultValue;
   };
-  const [errorMessage, setErrorMessage] = useState(null);
   const [movie, setMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [screening, setScreening] = useState(null);

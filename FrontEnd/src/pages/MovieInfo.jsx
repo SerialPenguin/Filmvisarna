@@ -1,10 +1,10 @@
 import { useParams, Link, useLocation } from "react-router-dom";
-import { useGet } from "../hooksAndUtils/useFetch.js";
+import { useGet } from "../hooksAndUtils/useFetch";
 import { useState } from "react";
 import "../MovieInfo.css"
 
 function getYouTubeVideoId(url) {
-  const match = url.match(/[?&]v=([^?&]+)/);
+    const match = url.match(/[?&]v=([^?&]+)/);
   if (match && match[1]) {
     return match[1];
   } else {
@@ -14,19 +14,19 @@ function getYouTubeVideoId(url) {
 }
 
 function MinutsToHoursAndMinuts(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-
-  if (hours > 0) {
-    if (remainingMinutes > 0) {
-      return `${hours} timmar och ${remainingMinutes} minuter`;
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+  
+    if (hours > 0) {
+      if (remainingMinutes > 0) {
+        return `${hours} timmar och ${remainingMinutes} minuter`;
+      } else {
+        return `${hours} timmar`;
+      }
     } else {
-      return `${hours} timmar`;
+      return `${remainingMinutes} minuter`;
     }
-  } else {
-    return `${remainingMinutes} minuter`;
   }
-}
 
 function findAScreeningUrl(movieId, screenings){
     const screeningsForMovie = screenings.find((screening) => screening.movieId === movieId)

@@ -38,19 +38,19 @@ function organizeScreeningsByDate(screenings) {
 
 
 function Screenings() {
-  const [screenings, setScreenings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
-  const [filteredScreenings, setFilteredScreenings] = useState([]);
-  const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
-  const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
-  const [selectedDate, setSelectedDate] = useState("Alla Datum");
-  const location = useLocation();
+    const [screenings, setScreenings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedFilterOption, setSelectedFilterOption] = useState("Alla filmer");
+    const [filteredScreenings, setFilteredScreenings] = useState([]);
+    const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
+    const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
+    const [selectedDate, setSelectedDate] = useState("Alla Datum");
+    const location = useLocation();
     
   useGet('/api/screenings', (data) => {
-  setScreenings(data);
-  setLoading(false);
-  setFilteredScreenings(data);
+    setScreenings(data);
+    setLoading(false);
+    setFilteredScreenings(data);
   });
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function Screenings() {
   // Organisera screenings efter datum
   const screeningsByDate = organizeScreeningsByDate(filteredScreenings);
 
-
+  
   return (
     <div className="return-container">
       <h1 className="main-text-title">ALLA VISNINGAR</h1>

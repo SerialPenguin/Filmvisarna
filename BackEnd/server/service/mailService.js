@@ -2,11 +2,9 @@ import sendEmail from '../utils/nodeMailer.js'
 import dotenv from 'dotenv';
 import __dirname from '../assets/dir.js';
 
-
-
 dotenv.config();
 
-export default async function sendConfirmation({ bookingNumber, email, totalPrice }) {
+export default async function sendConfirmation({bookingNumber, email, totalPrice}) {
 
     try {
         const to = email;
@@ -21,10 +19,10 @@ export default async function sendConfirmation({ bookingNumber, email, totalPric
         <br><h1>${bookingNumber}</h1> 
         Ta med ditt bokningsnummer till biografen för att kunna betala och få biljetterna till din valda visning.
         <br>
+        <h3>${totalPrice}</h3>
         <br>
         Välkommen på en fantastisk bioupplevelse hos oss på </p> 
         <br><img src="cid:logo.ee">
-        <h1>${totalPrice}</h1>
         <br>
         </div>`
         const attachments = [{

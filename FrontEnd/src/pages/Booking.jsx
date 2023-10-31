@@ -333,7 +333,7 @@ function Booking() {
   };
 
   function handleScreeningInput(e) {
-    setChosenScreening(e.target.parentNode.children[2].value);
+    setChosenScreening(e.target.parentNode.children[3].firstChild.value);
     setView('confirmation')
   }
 

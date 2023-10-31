@@ -105,7 +105,6 @@ export default function BookingConfirmation(props) {
         <div className={toggleClassName}>
         {displayInput === true && (
         <div className='email-container'>
-          <label htmlFor="email">Email:</label>
           <input
             required
             type="email"

@@ -212,14 +212,20 @@ function Booking() {
 
   const hasMounted = useRef(false);
 
+  const isTransformed = (obj) =>
+    Object.prototype.hasOwnProperty.call(obj, "seatNumber");
+
   useEffect(() => {
     if (!hasMounted.current) {
       hasMounted.current = true;
       return;
     }
 
-    // Transform the seats to the desired format
-    const transformedSeats = seats.map((seat) => ({ seatNumber: seat }));
+    const alreadyTransformed = seats.length > 0 && isTransformed(seats[0]);
+
+    const transformedSeats = alreadyTransformed
+      ? seats
+      : seats.map((seat) => ({ seatNumber: seat }));
 
     saveToSessionStorage({
       seats: transformedSeats,
@@ -239,10 +245,25 @@ function Booking() {
     saveToSessionStorage,
   ]);
 
+  const isSeatObject = (seatObj) =>
+    Object.prototype.hasOwnProperty.call(seatObj, "seatNumber");
+
   const loadFromSessionStorage = () => {
     const data = sessionStorage.getItem("bookingData");
     if (data) {
-      return JSON.parse(data);
+      const parsedData = JSON.parse(data);
+
+      if (
+        parsedData.seats &&
+        parsedData.seats.length > 0 &&
+        isSeatObject(parsedData.seats[0])
+      ) {
+        parsedData.seats = parsedData.seats.map(
+          (seatObj) => seatObj.seatNumber
+        );
+      }
+
+      return parsedData;
     }
     return null;
   };

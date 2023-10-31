@@ -1,7 +1,7 @@
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { useState } from "react";
-import "../MovieInfo.css"
+import "../styling.css"
 
 function getYouTubeVideoId(url) {
     const match = url.match(/[?&]v=([^?&]+)/);

@@ -3,6 +3,8 @@
 }
 .main-text-title{
     text-align: center;
+    width: 350px;
+    margin: 20px auto;
 }
 .date-title{
     margin-left: 5%;
@@ -22,7 +24,7 @@ body{
     width: 100%;
 }
 .movieinfo-container{
-    margin: 5%;
+    margin: auto;
 }
 .main-btn{
     width: 100%;
@@ -70,14 +72,21 @@ body{
     display: flex;
     flex-direction: row;
 }
-.return-container{
-    max-width: 100%;
-}
 div#root{
     width: 100%;
 }
 
 @media (min-width: 600px){
+    .movieinfo-container{
+        background-color: #462d47;
+    }
+    .iframe-container, iframe{
+        width: 500px;
+        height: 281.25px;
+    }
+    .text-containers, .button-container, .main-text-title{
+        width: 500px;
+    }
     .screenings-selectors{
         width: 23.5%;
     }
@@ -86,6 +95,11 @@ div#root{
     }
 }
 @media (min-width: 800px){
+    .iframe-container, iframe{
+        position: absolute;
+        width: 700px;
+        height: 393.75px;
+    }
     .return-container{
         margin: auto;
         width: 800px;

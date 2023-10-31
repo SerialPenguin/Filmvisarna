@@ -4,121 +4,106 @@ const bearerToken =
 
 export function Profile() {
   const [userData, setUserData] = useState("");
-  const [bookingHistory, setBookingHistory] = useState([]);
-  const [screeningId, setScreeningId] = useState([]);
-  const [movieId, setMovieId] = useState([]);
+  const [bookingId, setBookingId] = useState([]);
   const [movieInfo, setMovieInfo] = useState([]);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("/api/auth/profile", {
+        const fetchUser = await fetch("/api/auth/profile", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${bearerToken}`,
           },
         });
 
-        if (!response.ok) throw new Error("Fel");
-        const data = await response.json();
-        setUserData(data);
+        if (!fetchUser.ok) {
+          throw new Error("Error fetching user data");
+        }
+
+        const userData = await fetchUser.json();
+        setUserData(userData);
+
+        const bookingId = userData.bookingHistory;
+        if (bookingId.length === 0) {
+          setBookingId(false);
+        }
+
+        const fetchBookings = await Promise.all(
+          bookingId.map(async (bookingId) => {
+            const response = await fetch(`/api/search/bookings/${bookingId}`);
+            if (!response.ok) {
+              throw new Error("Error fetching booking data");
+            }
+            const bookingData = await response.json();
+            return bookingData.screeningId;
+          })
+        );
+
+        const fetchScreenings = await Promise.all(
+          fetchBookings.map(async (screeningId) => {
+            const response = await fetch(
+              `/api/search/screenings/${screeningId}`
+            );
+            if (!response.ok) {
+              throw new Error("Error fetching screening data");
+            }
+            const screeningData = await response.json();
+            return screeningData.movieId;
+          })
+        );
+
+        const fetchMovies = await Promise.all(
+          fetchScreenings.map(async (movieId) => {
+            const response = await fetch(`/api/search/movies/${movieId}`);
+            if (!response.ok) {
+              throw new Error("Error fetching movie data");
+            }
+            const movie = await response.json();
+            return movie;
+          })
+        );
+
+        setMovieInfo(fetchMovies);
       } catch (error) {
-        console.log("Error " + error);
-      }
-
-      setBookingHistory(userData.bookingHistory);
-    };
-
-    const fetchBookings = async () => {
-      const url = `/api/search/bookings/`;
-
-      try {
-        const mapData = bookingHistory.map(async (id) => {
-          const response = await fetch(`${url}${id}`);
-          if (!response.ok) {
-            throw new Error("error");
-          }
-          return response.json();
-        });
-
-        const data = await Promise.all(mapData);
-        const extract = data.map((item) => item.screeningId);
-        setScreeningId(extract);
-      } catch (error) {
-        console.log("error");
-      }
-    };
-
-    const fetchScreenings = async () => {
-      const url = `/api/search/screenings/`;
-      try {
-        const mapData = screeningId.map(async (id) => {
-          const response = await fetch(`${url}${id}`);
-          if (!response.ok) {
-            throw new Error("error");
-          }
-          return response.json();
-        });
-        const data = await Promise.all(mapData);
-        const extract = data.map((item) => item.movieId);
-        setMovieId(extract);
-      } catch (error) {
-        console.log("error");
-      }
-    };
-
-    const fetchMovies = async () => {
-      const url = `/api/search/movies/`;
-      try {
-        const mapData = movieId.map(async (id) => {
-          const response = await fetch(`${url}${id}`);
-          if (!response.ok) {
-            throw new Error("error");
-          }
-          return response.json();
-        });
-        const data = await Promise.all(mapData);
-        const mapMovie = data.map((item) => item);
-
-        setMovieInfo(mapMovie);
-      } catch (error) {
-        console.log("error");
+        console.error("Error: " + error);
       }
     };
 
-    fetchUser();
-    fetchBookings();
-    fetchScreenings();
-    fetchMovies();
+    fetchData();
   }, []);
 
-  console.table(movieId);
-
   return (
-    <div>
+    <>
       <h2>Profil</h2>
       <h3>Dina uppgifter:</h3>
-      <tr>
-        <td>Förnamn:</td>
-        <td>{userData.firstName}</td>
-      </tr>
-      <tr>
-        <td>Efternamn:</td>
-        <td>{userData.lastName}</td>
-      </tr>
-      <tr>
-        <td>E-post:</td>
-        <td>{userData.emailAdress}</td>
-      </tr>
+      <table>
+        <tbody>
+          <tr>
+            <td>Förnamn:</td>
+            <td>{userData.firstName}</td>
+          </tr>
+          <tr>
+            <td>Efternamn:</td>
+            <td>{userData.lastName}</td>
+          </tr>
+          <tr>
+            <td>E-post:</td>
+            <td>{userData.emailAdress}</td>
+          </tr>
+        </tbody>
+      </table>
 
       <h3>Tidigare bokningar:</h3>
       <ul>
-        {movieInfo.length === 0 ? (
-          <p>Inga tidiagre bokningar hittades</p>
+        {bookingId === false ? (
+          <p>Inga tidigare bokningar hittades</p>
+        ) : movieInfo.length === 0 ? (
+          <p>Laddar tidigare bokningar...</p>
         ) : (
           movieInfo.map((movie, i) => <li key={i}>{movie.title}</li>)
         )}
       </ul>
-    </div>
+    </>
   );
 }

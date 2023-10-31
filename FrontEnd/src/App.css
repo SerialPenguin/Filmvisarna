@@ -1,19 +1,19 @@
 .movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-  }
-  
-  .movie-card {
-    border: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .movie-card img {
-    max-width: 100%;
-    height: 30%;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.movie-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: center;
+}
+
+.movie-card img {
+  max-width: 100%;
+  height: 30%;
+}
 
   .booked {
     background-color:#8027CE;

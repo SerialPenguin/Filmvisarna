@@ -18,11 +18,10 @@
   .booked {
     background-color:#8027CE;
     color: rgb(255, 255, 255);
-    cursor: not-allowed; /* Changes cursor on hover to indicate non-clickability */
+    cursor: not-allowed; 
 }
 
 .available {
-    /* Your styles for available seats */
     background-color: rgb(255, 255, 255);
     cursor: pointer;
 }

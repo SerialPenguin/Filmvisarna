@@ -20,7 +20,7 @@ iframe, .iframe-container {
     color: #DB00FF;
 }
 body{
-    background-color: rgba(21, 3, 22, 1);
+    background: radial-gradient(circle at center, rgb(70, 10, 73), black);
     width: 100%;
 }
 .movieinfo-container{

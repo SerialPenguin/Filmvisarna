@@ -46,6 +46,10 @@ function Booking() {
   );
   const [chosenScreening, setChosenScreening] = useState();
 
+
+  const selectedMovieRef = useRef(null);
+
+
   // EventSource for live booking updates
   useEffect(() => {
     const eventSource = new EventSource(`/api/events/${screeningId}`);
@@ -90,10 +94,15 @@ function Booking() {
           setScreenings(groupedScreenings);
 
           if (groupedScreenings.length > 0) {
-            // Use history to navigate to the first screening of the first week
-            const firstWeekScreenings = groupedScreenings[0].screenings;
-            if (firstWeekScreenings.length > 0) {
-              history(`/booking/${firstWeekScreenings[0]._id}`);
+            // Check if the current screeningId is in the available screenings
+            const isScreeningAvailable = groupedScreenings.some((week) =>
+              week.screenings.some((screening) => screening._id === screeningId)
+            );
+
+            if (!isScreeningAvailable) {
+              // If the current screeningId isn't available, navigate to the first screening of the first week
+              const targetScreeningId = groupedScreenings[0].screenings[0]._id;
+              history(`/booking/${targetScreeningId}`);
             }
           } else {
             setScreenings([]);
@@ -101,7 +110,7 @@ function Booking() {
         })
         .catch((err) => console.error("Error fetching screenings:", err));
     }
-  }, [selectedMovie, history]);
+  }, [selectedMovie, history, screeningId]);
 
   const isSeatBooked = (seatNumber) => {
     return bookedSeats.includes(seatNumber);
@@ -164,6 +173,8 @@ function Booking() {
         const data = await response.json();
         setScreening(data);
         fetchMovie(data.movieId);
+        setSelectedMovie(data.movieId);
+        selectedMovieRef.current = data.movieId;
         if (data.salonId) fetchSeats(data.salonId);
       } catch (error) {
         console.error("Error fetching screening data:", error);
@@ -376,6 +387,7 @@ function Booking() {
                     if (newScreeningId === "") return;
                     history(`/booking/${newScreeningId}`);
                   }}
+
                 />
               </div>
               <div className="ticket-counter">
@@ -438,7 +450,10 @@ function Booking() {
                 alt={movie?.title}
               /> */}
               <div className="theatre">
-                <div className="movie-screen"></div>
+                <div className="movie-screen">
+                  <div className="drape-left"></div>
+                  <div className="drape-right"></div>
+                </div>
                 <div className="seats">
                   <SeatsGrid
                     salonLayout={salonLayout}

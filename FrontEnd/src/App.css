@@ -15,14 +15,34 @@
   height: 30%;
 }
 
-  .booked {
-    background-color:#8027CE;
-    color: rgb(255, 255, 255);
-    cursor: not-allowed; 
+.booked {
+  position: relative; 
+  background-color: #ffffff;
+  color: black;
+  cursor: not-allowed;
+}
+
+.booked::before, .booked::after {
+  content: ""; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%; 
+  height: 2px; 
+  background-color: black;
+  transform-origin: center center;
+}
+
+.booked::before {
+  transform: translate(-50%, -50%) rotate(45deg); 
+}
+
+.booked::after {
+  transform: translate(-50%, -50%) rotate(-45deg); 
 }
 
 .available {
-    background-color: rgb(255, 255, 255);
+    background-color:#BA7E36;
     cursor: pointer;
 }
 

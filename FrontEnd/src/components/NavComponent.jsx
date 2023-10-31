@@ -1,93 +1,64 @@
-/** @format */
-
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import close from "../assets/close.png";
 import logo from "../assets/FilmvisarnaLogoTwo.png";
 
 const NavComponent = ({ onCloseClick }) => {
+  const location = useLocation();
   return (
     <>
-      <nav
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          width: "390px",
-          height: "100vh",
-          background: "black",
-          position: "absolute",
-          textAlign: "center",
-          top: "0em",
-          left: "0em",
-          zIndex: "1000",
-        }}>
+      <nav className="nav-container">
         <Link to={"/"}>
           <img
-            style={{
-              height: "2.5em",
-              top: "2em",
-              position: "absolute",
-              left: "2em",
-            }}
+            className="logo-img-nav"
             src={logo}
             alt=""
           />
         </Link>
         <img
-          style={{
-            position: "absolute",
-            right: 0,
-            margin: "2.5em",
-            height: "2em",
-          }}
+          className="hmbrg-img-nav"
           src={close}
           alt=""
           onClick={onCloseClick}
         />
-
-        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        <div className="nav-div-container">
+        <ul className="nav-list-container">
           <Link to={"/"}>
-            <li style={{ padding: "2em" }} onClick={onCloseClick}>
+            <li className={`nav-list-item ${location.pathname === '/' ? 'active' : ''}`} onClick={onCloseClick}>
               HEM
             </li>
           </Link>
-          <Link to={"/booking"}>
-            <li style={{ padding: "2em" }} onClick={onCloseClick}>
+          <Link to={"/booking/6523d4ca1451567f3ed4cebe"}>
+            <li className={`nav-list-item ${location.pathname === '/booking' ? 'active' : ''}`} onClick={onCloseClick}>
               BOKA
             </li>
           </Link>
-          <Link to={"/contactUs"}>
-            <li style={{ padding: "2em" }} onClick={onCloseClick}>
-              KONTAKT
-            </li>
-          </Link>
-
           <Link to={"/screenings"}>
-            <li style={{ padding: "2em" }}  onClick={onCloseClick}>
+            <li className={`nav-list-item ${location.pathname === '/screenings' ? 'active' : ''}`} onClick={onCloseClick}>
               VISNINGAR
             </li>
           </Link>
           <Link to={"/aboutUs"}>
-            <li style={{ padding: "2em" }}  onClick={onCloseClick}>
+            <li className={`nav-list-item ${location.pathname === '/aboutUs' ? 'active' : ''}`} onClick={onCloseClick}>
               OM OSS
             </li>
           </Link>
           <Link to={"/profile"}>
-            <li style={{ padding: "2em" }} onClick={onCloseClick}>
+            <li className={`nav-list-item ${location.pathname === '/profile' ? 'active' : ''}`} onClick={onCloseClick}>
               PROFIL
             </li>
           </Link>
           <Link to={"/register"}>
-            <li style={{ padding: "2em" }} onClick={onCloseClick}>
+            <li className={`nav-list-item ${location.pathname === '/register' ? 'active' : ''}`} onClick={onCloseClick}>
               BLI MEDLEM
             </li>
           </Link>
         </ul>
         <Link to={"/login"}>
-          <button style={{ marginBottom: "2em" }} onClick={onCloseClick}>
+          <button className="nav-login-btn" onClick={onCloseClick}>
             Logga In
           </button>
         </Link>
+        </div>
       </nav>
     </>
   );

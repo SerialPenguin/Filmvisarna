@@ -11,13 +11,14 @@ export default function BookingConfirmation(props) {
 
   const [ email, setEmail ] = useState("");
   const [ bookingBody, setBookingBody ] = useState();
-  const [ toggleClassName, setToggleClassName] = useState("ticket");
+  const [ toggleClassName, setToggleClassName ] = useState("ticket");
   const [ animationStage, setAnimationStage ] = useState("start");
   const [ bookingNumber, setBookingNumber ] = useState("");
-  const [displayInput, setDisplayInput] = useState(true);
-  const [movie, setMovie] = useState();
-  const [price, setPrice] = useState();
-  const [date, setDate] = useState();
+  const [ displayInput, setDisplayInput ] = useState(true);
+  const [ movie, setMovie ] = useState();
+  const [ price, setPrice ] = useState();
+  const [ date, setDate ] = useState();
+  const [ user, setUser ] = useState();
 
   const secondHeader = animationStage === "start" ? "Fyll i din mailadress" 
   : animationStage === "middle" ? "Kontrollera att uppgifterna stämmer" 
@@ -26,12 +27,14 @@ export default function BookingConfirmation(props) {
   useEffect(() => {
     async function getBody() {
 
-      const body = await JSON.parse(localStorage.getItem("bookingData"))
-      
+      const body = await JSON.parse(localStorage.getItem("bookingData"));
+      const user = sessionStorage.getItem("JWT_TOKEN");
+
       delete body.selectedMovie;
       delete body.selectedWeek;
 
       setBookingBody(body);
+      setUser(user);
     }
 
     getBody();
@@ -74,8 +77,6 @@ export default function BookingConfirmation(props) {
   }
   
   async function handleSendConfirmation() {
-
-
     
     try {
 
@@ -83,7 +84,7 @@ export default function BookingConfirmation(props) {
 
       bodyCopy.tickets = Object.values(bodyCopy.tickets);
 
-      const booking = await patch('/api/bookings', bodyCopy);
+      const booking = await patch('/api/bookings', bodyCopy, user);
 
       console.log("new booking: ", booking)
 
@@ -104,7 +105,6 @@ export default function BookingConfirmation(props) {
         <div className={toggleClassName}>
         {displayInput === true && (
         <div className='email-container'>
-          <label htmlFor="email">Email:</label>
           <input
             required
             type="email"

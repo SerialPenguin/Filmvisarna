@@ -32,5 +32,9 @@ export default function ClearSeatsButton({
     }
   };
 
-  return <button onClick={handleClearSelectedSeats}>Rensa Valda Säten</button>;
+  return (
+    <button className="clear-button" onClick={handleClearSelectedSeats}>
+      Rensa Valda Säten
+    </button>
+  );
 }

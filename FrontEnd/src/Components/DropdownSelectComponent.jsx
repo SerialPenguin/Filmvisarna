@@ -1,4 +1,5 @@
 /** @format */
+import "../pages/Booking.css";
 
 function DropdownSelect({
   value,
@@ -11,7 +12,7 @@ function DropdownSelect({
 }) {
   return (
     <select
-      style={{ width: "129px", height: "30px" }}
+      style={{ width: "100%", height: "30px" }}
       value={value}
       onBlur={(e) => {
         if (onBlurHandler) {

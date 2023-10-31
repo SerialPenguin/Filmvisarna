@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #333; /* Dark background to simulate a theater ambience */
+    background-color: #333; 
     padding: 50px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -11,36 +11,89 @@
 .movie-screen {
     margin-left: 8px;
     width: 95%; 
-    height: 60px; 
+    height: 120px; 
     background-color: #fff; 
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: -15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: hidden; 
+    overflow: hidden;
+
+    /* Transformations for perspective */
+    transform-origin: center top;
+    transform: perspective(500px) rotateX(-45deg);
+    box-shadow: 0 0 30px 10px rgba(255, 255, 255, 0.7);
+    filter: brightness(1.1);  /* Slightly boost the brightness */
 }
 
 
-.movie-screen:before, .movie-screen:after {
+/* The previous glow effect is removed from the .movie-screen and the pseudo-element for reflective shine is omitted. */
+
+.movie-screen::before, .movie-screen::after, .movie-screen .drape-left, .movie-screen .drape-right {
     content: "";
     position: absolute;
     top: -5%; 
     bottom: -5%;
     width: 30%; 
-    background: #a00; 
     z-index: 1;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.movie-screen::before, .movie-screen::after, .movie-screen .drape-left, .movie-screen .drape-right {
+    content: "";
+    position: absolute;
+    top: -5%; 
+    bottom: -5%;
+    width: 30%; 
+    z-index: 1;
 }
 
 
-.movie-screen:before {
-    left: -20%; 
-    transform: skewY(-7deg);
+.movie-screen::before, .movie-screen::after {
+    background: rgb(131, 10, 10);
+    z-index: 0;
 }
 
-.movie-screen:after {
+.movie-screen .drape-left, .movie-screen .drape-right {
+    background: 
+        repeating-linear-gradient(
+            to bottom, 
+            rgb(70, 10, 73) 0%, 
+            rgb(70, 10, 73) 5%, 
+            rgb(121, 3, 3) 5%, 
+            rgb(121, 3, 3) 10%
+        );
+    background-size: 100% 20px;
+}
+
+.movie-screen .drape-left {
+    left: -40%; 
+    transform: skewY(-5deg) scaleX(1.1);
+    clip-path: path('M 100% 0 Q 90% 50% 100% 100%'); 
+}
+
+.movie-screen .drape-right {
     right: -20%; 
-    transform: skewY(7deg); 
+    transform: skewY(5deg) scaleX(1.1);
+    clip-path: path('M 0 0 Q 10% 50% 0 100%');
+}
+
+
+.movie-screen::before, .movie-screen .drape-left {
+    left: -20%; 
+    transform: skewY(-5deg);
+}
+
+.movie-screen::after, .movie-screen .drape-right {
+    right: -20%; 
+    transform: skewY(5deg);
+}
+
+.movie-screen::before {
+    box-shadow: 8px 5px 15px rgba(0, 0, 0, 0.5); 
+}
+
+.movie-screen::after {
+    box-shadow: -8px 5px 15px rgba(0, 0, 0, 0.5); 
 }
 
 .images {
@@ -70,17 +123,19 @@ h3 {
 
 .ticket-counter-arrow-plus {
     color: #C699EA;
+    font-size: 1.5rem;
 }
 
 .ticket-counter-arrow-minus {
     margin-left: 15px;
     color: #C699EA;
+    font-size: 1.5rem;
 }
   
   
   .ticket-counter-value {
     margin: 0 15px;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
 .seats-grid {

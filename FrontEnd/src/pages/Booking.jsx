@@ -444,7 +444,10 @@ function Booking() {
                 alt={movie?.title}
               /> */}
               <div className="theatre">
-                <div className="movie-screen"></div>
+                <div className="movie-screen">
+                  <div className="drape-left"></div>
+                  <div className="drape-right"></div>
+                </div>
                 <div className="seats">
                   <SeatsGrid
                     salonLayout={salonLayout}

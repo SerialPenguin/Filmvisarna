@@ -13,11 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+/*
+ fix classname on what it needs to be on
 img {
   width: 10%;
 }
-
+*/
 a {
   font-weight: 500;
   color: #646cff;

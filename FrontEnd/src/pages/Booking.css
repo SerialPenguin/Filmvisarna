@@ -141,8 +141,8 @@ h3 {
 }
 
 .seats-grid button {
-    width: 30px; 
-    height: 30px; 
+    width: 32px; 
+    height: 32px; 
     padding: 5px; 
     margin: 1.2px; 
  }
@@ -174,3 +174,68 @@ h3 {
     margin-right: auto;  
     display: block;      
   }
+
+
+@media (min-width: 768px) { 
+
+    .theater {
+        justify-content: center; 
+    }
+
+    .movie-screen {
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%; 
+        height: 250px; 
+    }
+
+    .ticket-counter-container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .seats-grid {
+        width: 100vw; 
+        align-items: center; 
+    }
+
+    .seats-grid button {
+        width: 55px; 
+        height: 50px; 
+        padding: 10px; 
+        margin: 7px; 
+     }
+
+    .total-amount {
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 1.5vh;
+    }
+
+    .book-button {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 15px;
+    }
+    
+    .clear-button {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 2.5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .dropdown-container {
+        margin-bottom: 10px; 
+        width: 15%;          
+        margin-left: auto;  
+        margin-right: auto;  
+    }
+}

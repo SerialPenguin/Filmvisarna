@@ -13,7 +13,7 @@ function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
   const loadState = (key, defaultValue) => {
-    const bookingData = localStorage.getItem("bookingData");
+    const bookingData = sessionStorage.getItem("bookingData");
     if (bookingData) {
       const parsedData = JSON.parse(bookingData);
       return key in parsedData ? parsedData[key] : defaultValue;
@@ -206,20 +206,8 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
-  const formatSeats = (seatsArray) => {
-    return seatsArray.map((seat) => ({ seatNumber: seat }));
-  };
-
-  const extractSeatNumbers = (seatsArray) => {
-    return seatsArray.map((seatObj) => seatObj.seatNumber);
-  };
-
-  const saveToLocalStorage = useCallback((data) => {
-    const formattedSeats = formatSeats(data.seats);
-    localStorage.setItem(
-      "bookingData",
-      JSON.stringify({ ...data, seats: formattedSeats })
-    );
+  const saveToSessionStorage = useCallback((data) => {
+    sessionStorage.setItem("bookingData", JSON.stringify(data));
   }, []);
 
   const hasMounted = useRef(false);
@@ -230,7 +218,7 @@ function Booking() {
       return;
     }
 
-    saveToLocalStorage({
+    saveToSessionStorage({
       seats,
       salonId: screening?.salonId,
       tickets,
@@ -245,11 +233,11 @@ function Booking() {
     selectedMovie,
     selectedWeek,
     screeningId, // Add this dependency
-    saveToLocalStorage,
+    saveToSessionStorage,
   ]);
 
-  const loadFromLocalStorage = () => {
-    const data = localStorage.getItem("bookingData");
+  const loadFromSessionStorage = () => {
+    const data = sessionStorage.getItem("bookingData");
     if (data) {
       return JSON.parse(data);
     }
@@ -257,21 +245,21 @@ function Booking() {
   };
 
   useEffect(() => {
-    const storedData = loadFromLocalStorage();
+    const storedData = loadFromSessionStorage();
     if (storedData) {
-      setSeats(extractSeatNumbers(storedData.seats));
+      setSeats(storedData.seats);
       setTickets(storedData.tickets);
       setSelectedMovie(storedData.selectedMovie);
       setSelectedWeek(storedData.selectedWeek);
     }
     return () => {
-      localStorage.removeItem("bookingData");
+      sessionStorage.removeItem("bookingData");
     };
   }, []);
 
   // Check if the screeningId in the route matches the stored one
   useEffect(() => {
-    const storedScreeningId = JSON.parse(localStorage.getItem("screeningId"));
+    const storedScreeningId = JSON.parse(sessionStorage.getItem("screeningId"));
     if (storedScreeningId && storedScreeningId !== screeningId) {
       history(`/booking/${storedScreeningId}`);
     }

@@ -13,13 +13,13 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await authService.handleRegister(e, credentials);
+    const result = await authService.handleLogin(e, credentials);
     
     if (result === true) {
       navigate("/");
     } else {
       setLoginMessage(
-        "fel e-postadresseller lösenord, försök igen"
+        "Fel e-postadress eller lösenord, var god försök igen"
       );
     }
   };
@@ -54,7 +54,7 @@ function LoginForm() {
       </p>
 
       <button className="register-btn" type="submit" onClick={handleSubmit}>
-        Bli medlem
+        Logga in
       </button>
       <Link to={"/"}>
         <button>Avbryt</button>

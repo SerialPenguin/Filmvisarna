@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./profile.css";
 // const token =
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
 
@@ -103,7 +104,12 @@ export function Profile() {
         ) : movieInfo.length === 0 ? (
           <p>Laddar tidigare bokningar...</p>
         ) : (
-          movieInfo.map((movie, i) => <li key={i}>{movie.title}</li>)
+          movieInfo.map((movie, i) => (
+            <li key={i}>
+              <img src={movie.images} />
+              {movie.title}
+            </li>
+          ))
         )}
       </ul>
     </>

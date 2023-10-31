@@ -41,8 +41,7 @@ function Booking() {
     })
   );
   const [chosenScreening, setChosenScreening] = useState();
-  const inputRef = useRef(null);
-  const [onBlur, setOnBlur] = useState(false);
+  
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -365,16 +364,17 @@ function Booking() {
       );
     })
   )
-
-  if(selectedMovie && selectedWeek && !onBlur) {
-    // inputRef.current.focus();
-  }
   
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",
     childrens: "Barnbiljetter",
   };
+
+  function handleScreeningInput(e) {  
+    setChosenScreening(e.target.parentNode.children[2].value);
+    setView('confirmation');
+  }
 
   if (loading) {
     return <div>Laddar...</div>;
@@ -396,7 +396,7 @@ function Booking() {
                 if (newMovieId === "") return; // Prevent further action if it's the placeholder value
                 setSelectedMovie(newMovieId);
                 setSelectedWeek("");
-                setOnBlur(false);
+                (false);
               }}>
               <option value="" key="select-movie">
                 Välj film
@@ -414,7 +414,6 @@ function Booking() {
               onChange={(e) => {
                 const newSelectedWeek = e.target.value;
                 setSelectedWeek(newSelectedWeek);
-                setOnBlur(false);
               }}>
               <option value="">Välj vecka</option>
               {screenings.map((weekData) => (
@@ -427,10 +426,10 @@ function Booking() {
             <select
               style={{ width: "129px", height: "30px" }}
               value={screeningId}
-              ref={inputRef}
-              onBlur={(e) => {setOnBlur(true); setChosenScreening(e.target.value)}}
+              onBlur={(e) => setChosenScreening(e.target.value)}
               onChange={(e) => {
                 const newScreeningId = e.target.value;
+                setChosenScreening(e.target.value);
                 if (newScreeningId === "") return; // Prevent navigation if it's the placeholder value
                 history(`/booking/${newScreeningId}`);
               }}>
@@ -519,7 +518,7 @@ function Booking() {
           </div>
         </>
       )}
-       <button onClick={() => setView('confirmation')}>Boka</button>
+       <button onClick={handleScreeningInput}>Boka</button>
       </div> 
       )};
       {view === 'confirmation' && (

@@ -19,6 +19,7 @@ iframe, .iframe-container {
 }
 body{
     background-color: rgba(21, 3, 22, 1);
+    width: 100%;
 }
 .movieinfo-container{
     margin: 5%;
@@ -68,4 +69,25 @@ body{
 .filters-containers{
     display: flex;
     flex-direction: row;
+}
+.return-container{
+    max-width: 100%;
+}
+div#root{
+    width: 100%;
+}
+
+@media (min-width: 600px){
+    .screenings-selectors{
+        width: 23.5%;
+    }
+    .filters-containers{
+        padding-left: 5%;
+    }
+}
+@media (min-width: 800px){
+    .return-container{
+        margin: auto;
+        width: 800px;
+    }
 }

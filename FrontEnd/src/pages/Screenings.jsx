@@ -84,7 +84,7 @@ function Screenings() {
 
 
   return (
-    <div>
+    <div className="return-container">
       <h1 className="main-text-title">ALLA VISNINGAR</h1>
       <div className="filters-containers">
         <select

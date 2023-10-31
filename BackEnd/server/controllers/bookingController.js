@@ -6,9 +6,23 @@ import authService from "../service/authService.js";
 import generatorService from "../service/generatorService.js.js";
 import sendConfirmation from "../service/mailService.js";
 
+const TICKET_PRICES = {
+  "65279fcd702eef67b26ef3c4": 80,  // child
+  "6527a006702eef67b26ef3c5": 140, // adult
+  "6527a045702eef67b26ef3c6": 120   // senior
+};
+
+const calculateTotalPrice = (tickets) => {
+  let totalPrice = 0;
+  for(let ticket of tickets) {
+    totalPrice += (TICKET_PRICES[ticket.ticketType] || 0) * ticket.quantity;
+  }
+  return totalPrice;
+};
+
 export const bookSeat = async (req, res) => {
   try {
-    const { screeningId, salonId, seats, email, ticketTypeId } = req.body;
+    const { screeningId, salonId, seats, email, tickets } = req.body;
 
     if (!email) {
       return res.status(400).json({ msg: "Email is required for booking completion." });
@@ -30,8 +44,31 @@ export const bookSeat = async (req, res) => {
       return res.status(404).json({ msg: "Movie not found." });
     }
 
+    let ticketIds = [];
+    let remodeledTicketType;
+    let quantity = 0;
+
+    for(let i = 0; i < tickets.length; i++) {
+      if(tickets[i].ticketType === "adult") {
+        remodeledTicketType = {...tickets[i], ticketType: "6527a006702eef67b26ef3c5" }
+        quantity += tickets[i].quantity;
+        ticketIds.push(remodeledTicketType);
+      }
+      if(tickets[i].ticketType === "senior") {
+        remodeledTicketType = {...tickets[i], ticketType: "6527a045702eef67b26ef3c6" }
+        quantity += tickets[i].quantity;
+        ticketIds.push(remodeledTicketType);
+      }
+      if(tickets[i].ticketType === "child") {
+        remodeledTicketType = {...tickets[i], ticketType: "65279fcd702eef67b26ef3c4" }
+        quantity += tickets[i].quantity;
+        ticketIds.push(remodeledTicketType);
+      }
+    }
+    
+    
     // Check for age restrictions
-    if (movieInfo.age >= 15 && ticketTypeId.includes("65279fcd702eef67b26ef3c4")) {
+    if (movieInfo.age >= 15 && tickets[2]?.quantity !== 0) {
       return res.status(405).json({
         msg: "Ticket for children is unavailable, age restriction is applied!",
       });
@@ -77,18 +114,24 @@ export const bookSeat = async (req, res) => {
         email: email,
       },
       bookingNumber: bookingNumber,
-      ticketTypeId,
+      tickets,
     });
 
     await newBooking.save();
 
     await Screening.updateOne({ _id: screeningId }, { $push: { bookings: newBooking._id } });
 
-    // Send email confirmation
-    sendConfirmation({ bookingNumber, email });
+    const totalPrice = calculateTotalPrice(ticketIds);
 
-    if (userId) {
-      await User.updateOne({ _id: userId }, { $push: { bookingHistory: newBooking._id } });
+    // Send email confirmation
+    sendConfirmation({ bookingNumber, email, totalPrice });
+    
+    if(userId) {
+      const checkUser = await User.findOne({ _id: userId });
+
+      if(checkUser) await User.updateOne({ _id: userId }, { $push: { bookingHistory: newBooking._id } });
+      else return res.status(400).json({ msg: "User does not exist anymore" });
+      
     }
 
     res.status(201).json({ message: "Booking created!", booking: newBooking });

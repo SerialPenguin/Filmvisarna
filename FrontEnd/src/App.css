@@ -15,14 +15,19 @@
   height: 30%;
 }
 
-.booked {
-  background-color: grey;
-  color: white;
-  cursor: not-allowed; /* Changes cursor on hover to indicate non-clickability */
+  .booked {
+    background-color:#8027CE;
+    color: rgb(255, 255, 255);
+    cursor: not-allowed; /* Changes cursor on hover to indicate non-clickability */
 }
 
 .available {
-  /* Your styles for available seats */
-  background-color: green;
-  cursor: pointer;
+    /* Your styles for available seats */
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.selected {
+  background-color: rgb(148, 8, 55);
+    cursor: pointer;
 }

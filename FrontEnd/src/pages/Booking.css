@@ -20,3 +20,33 @@
 .images {
     height: 200px;
 }
+
+body {
+    background-color: black;
+}
+
+
+h2 {
+    color: white;
+}
+
+h3 {
+    color: white;
+}
+
+.ticket-counter-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+    width: 60vw;
+}
+
+.ticket-counter-arrow-plus {
+    color: rgb(255, 255, 255);
+}
+
+.ticket-counter-arrow-minus {
+    color: white;
+    margin-left: 15px;
+    
+}

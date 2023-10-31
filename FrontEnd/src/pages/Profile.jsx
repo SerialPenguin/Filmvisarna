@@ -1,8 +1,10 @@
+/** @format */
+
 import { useEffect, useState } from "react";
 const bearerToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
 
-export function Profile() {
+export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [movieInfo, setMovieInfo] = useState([]);

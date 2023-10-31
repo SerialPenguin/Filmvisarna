@@ -91,10 +91,15 @@ function Booking() {
           setScreenings(groupedScreenings);
 
           if (groupedScreenings.length > 0) {
-            // Use history to navigate to the first screening of the first week
-            const firstWeekScreenings = groupedScreenings[0].screenings;
-            if (firstWeekScreenings.length > 0) {
-              history(`/booking/${firstWeekScreenings[0]._id}`);
+            // Check if the current screeningId is in the available screenings
+            const isScreeningAvailable = groupedScreenings.some((week) =>
+              week.screenings.some((screening) => screening._id === screeningId)
+            );
+
+            if (!isScreeningAvailable) {
+              // If the current screeningId isn't available, navigate to the first screening of the first week
+              const targetScreeningId = groupedScreenings[0].screenings[0]._id;
+              history(`/booking/${targetScreeningId}`);
             }
           } else {
             setScreenings([]);
@@ -102,7 +107,7 @@ function Booking() {
         })
         .catch((err) => console.error("Error fetching screenings:", err));
     }
-  }, [selectedMovie, history]);
+  }, [selectedMovie, history, screeningId]);
 
   const isSeatBooked = (seatNumber) => {
     return bookedSeats.includes(seatNumber);

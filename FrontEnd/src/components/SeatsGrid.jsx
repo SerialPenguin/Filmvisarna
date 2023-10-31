@@ -1,4 +1,5 @@
 /** @format */
+import "../pages/Booking.css";
 import PropTypes from "prop-types";
 
 function SeatsGrid({ salonLayout, isSeatBooked, handleSeatClick }) {

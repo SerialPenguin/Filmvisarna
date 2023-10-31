@@ -218,13 +218,16 @@ function Booking() {
       return;
     }
 
+    // Transform the seats to the desired format
+    const transformedSeats = seats.map((seat) => ({ seatNumber: seat }));
+
     saveToSessionStorage({
-      seats,
+      seats: transformedSeats,
       salonId: screening?.salonId,
       tickets,
       selectedMovie,
       selectedWeek,
-      screeningId: screeningId, // Storing the screeningId
+      screeningId: screeningId,
     });
   }, [
     seats,
@@ -232,7 +235,7 @@ function Booking() {
     tickets,
     selectedMovie,
     selectedWeek,
-    screeningId, // Add this dependency
+    screeningId,
     saveToSessionStorage,
   ]);
 

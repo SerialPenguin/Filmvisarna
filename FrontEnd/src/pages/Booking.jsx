@@ -394,6 +394,18 @@ function Booking() {
             <p>Laddar...</p>
           ) : (
             <>
+              <div>
+                <h2 className="booking-poster-title">{movie?.title}</h2>
+                <img
+                  className="booking-poster"
+                  src={movie.images[0]}
+                  alt={movie.title}
+                />
+                <h2 className="booking-poster-text">
+                  <h3 className="showing-text"> Visas:</h3>{" "}
+                  <h3 className="showing-second-text">{filterScreenings}</h3>
+                </h2>
+              </div>
               <h2>Boka Biljetter</h2>
               <div className="dropdown-container">
                 <DropdownSelect

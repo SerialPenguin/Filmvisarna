@@ -7,13 +7,14 @@ import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";
 import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
+import { getWeekNumber } from "../hooksAndUtils/weekUtil";
 import "./Booking.css";
 
 function Booking() {
   const { screeningId } = useParams();
   const history = useNavigate();
   const loadState = (key, defaultValue) => {
-    const bookingData = localStorage.getItem("bookingData");
+    const bookingData = sessionStorage.getItem("bookingData");
     if (bookingData) {
       const parsedData = JSON.parse(bookingData);
       return key in parsedData ? parsedData[key] : defaultValue;
@@ -45,8 +46,8 @@ function Booking() {
     })
   );
   const [chosenScreening, setChosenScreening] = useState();
-  const inputRef = useRef(null);
-  const [onBlur, setOnBlur] = useState(false);
+
+  const selectedMovieRef = useRef(null);
 
   // EventSource for live booking updates
   useEffect(() => {
@@ -92,10 +93,15 @@ function Booking() {
           setScreenings(groupedScreenings);
 
           if (groupedScreenings.length > 0) {
-            // Use history to navigate to the first screening of the first week
-            const firstWeekScreenings = groupedScreenings[0].screenings;
-            if (firstWeekScreenings.length > 0) {
-              history(`/booking/${firstWeekScreenings[0]._id}`);
+            // Check if the current screeningId is in the available screenings
+            const isScreeningAvailable = groupedScreenings.some((week) =>
+              week.screenings.some((screening) => screening._id === screeningId)
+            );
+
+            if (!isScreeningAvailable) {
+              // If the current screeningId isn't available, navigate to the first screening of the first week
+              const targetScreeningId = groupedScreenings[0].screenings[0]._id;
+              history(`/booking/${targetScreeningId}`);
             }
           } else {
             setScreenings([]);
@@ -103,6 +109,7 @@ function Booking() {
         })
         .catch((err) => console.error("Error fetching screenings:", err));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMovie, history]);
 
   const isSeatBooked = (seatNumber) => {
@@ -166,6 +173,10 @@ function Booking() {
         const data = await response.json();
         setScreening(data);
         fetchMovie(data.movieId);
+        const weekNumber = getWeekNumber(data.startTime);
+        setSelectedWeek(weekNumber.toString());
+        setSelectedMovie(data.movieId);
+        selectedMovieRef.current = data.movieId;
         if (data.salonId) fetchSeats(data.salonId);
       } catch (error) {
         console.error("Error fetching screening data:", error);
@@ -198,23 +209,14 @@ function Booking() {
     fetchScreening();
   }, [screeningId]);
 
-  const formatSeats = (seatsArray) => {
-    return seatsArray.map((seat) => ({ seatNumber: seat }));
-  };
-
-  const extractSeatNumbers = (seatsArray) => {
-    return seatsArray.map((seatObj) => seatObj.seatNumber);
-  };
-
-  const saveToLocalStorage = useCallback((data) => {
-    const formattedSeats = formatSeats(data.seats);
-    localStorage.setItem(
-      "bookingData",
-      JSON.stringify({ ...data, seats: formattedSeats })
-    );
+  const saveToSessionStorage = useCallback((data) => {
+    sessionStorage.setItem("bookingData", JSON.stringify(data));
   }, []);
 
   const hasMounted = useRef(false);
+
+  const isTransformed = (obj) =>
+    Object.prototype.hasOwnProperty.call(obj, "seatNumber");
 
   useEffect(() => {
     if (!hasMounted.current) {
@@ -222,13 +224,19 @@ function Booking() {
       return;
     }
 
-    saveToLocalStorage({
-      seats,
+    const alreadyTransformed = seats.length > 0 && isTransformed(seats[0]);
+
+    const transformedSeats = alreadyTransformed
+      ? seats
+      : seats.map((seat) => ({ seatNumber: seat }));
+
+    saveToSessionStorage({
+      seats: transformedSeats,
       salonId: screening?.salonId,
       tickets,
       selectedMovie,
       selectedWeek,
-      screeningId: screeningId, // Storing the screeningId
+      screeningId: screeningId,
     });
   }, [
     seats,
@@ -236,34 +244,50 @@ function Booking() {
     tickets,
     selectedMovie,
     selectedWeek,
-    screeningId, // Add this dependency
-    saveToLocalStorage,
+    screeningId,
+    saveToSessionStorage,
   ]);
 
-  const loadFromLocalStorage = () => {
-    const data = localStorage.getItem("bookingData");
+  const isSeatObject = (seatObj) =>
+    Object.prototype.hasOwnProperty.call(seatObj, "seatNumber");
+
+  const loadFromSessionStorage = () => {
+    const data = sessionStorage.getItem("bookingData");
     if (data) {
-      return JSON.parse(data);
+      const parsedData = JSON.parse(data);
+
+      if (
+        parsedData.seats &&
+        parsedData.seats.length > 0 &&
+        isSeatObject(parsedData.seats[0])
+      ) {
+        parsedData.seats = parsedData.seats.map(
+          (seatObj) => seatObj.seatNumber
+        );
+      }
+
+      return parsedData;
     }
     return null;
   };
 
   useEffect(() => {
-    const storedData = loadFromLocalStorage();
+    const storedData = loadFromSessionStorage();
     if (storedData) {
-      setSeats(extractSeatNumbers(storedData.seats));
+      setSeats(storedData.seats);
       setTickets(storedData.tickets);
       setSelectedMovie(storedData.selectedMovie);
       setSelectedWeek(storedData.selectedWeek);
     }
     return () => {
-      localStorage.removeItem("bookingData");
+      sessionStorage.removeItem("bookingData");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check if the screeningId in the route matches the stored one
   useEffect(() => {
-    const storedScreeningId = JSON.parse(localStorage.getItem("screeningId"));
+    const storedScreeningId = JSON.parse(sessionStorage.getItem("screeningId"));
     if (storedScreeningId && storedScreeningId !== screeningId) {
       history(`/booking/${storedScreeningId}`);
     }
@@ -333,8 +357,18 @@ function Booking() {
     children: "Barnbiljetter",
   };
 
+  function handleScreeningInput(e) {
+    if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
+      // Here, notify the user about the mismatch
+      alert("Please select the same number of seats as tickets.");
+      return;
+    }
+    setChosenScreening(e.target.parentNode.children[3].firstChild.value);
+    setView("confirmation");
+  }
+
   return (
-    <div>
+    <div className="booking-page-container">
       {view === "seatPicker" && (
         <div className="booking">
           {loading || !initialSeatsDataReceived ? (
@@ -351,7 +385,6 @@ function Booking() {
                     if (newMovieId === "") return;
                     setSelectedMovie(newMovieId);
                     setSelectedWeek("");
-                    setOnBlur(false);
                   }}
                 />
               </div>
@@ -362,7 +395,6 @@ function Booking() {
                   placeholder="Välj vecka"
                   onChangeHandler={(newSelectedWeek) => {
                     setSelectedWeek(newSelectedWeek);
-                    setOnBlur(false);
                   }}
                 />
               </div>
@@ -375,16 +407,9 @@ function Booking() {
                     if (newScreeningId === "") return;
                     history(`/booking/${newScreeningId}`);
                   }}
-                  onBlurHandler={(value) => {
-                    setOnBlur(true);
-                    setChosenScreening(value);
-                  }}
                 />
               </div>
-              <div className="ticket-counter">
-                {/* <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
-                <h3>Valda Säten: {seats.length}</h3> */}
-              </div>
+              <div className="ticket-counter"></div>
 
               {movie && movie.age <= 14 && (
                 <TicketCounter
@@ -423,25 +448,11 @@ function Booking() {
               <div className="total-amount">
                 <h3>Summa: {getTotalAmount()} Kr</h3>
               </div>
-              {/* <h2>Bokning för: {movie?.title}</h2>
-              <h3>
-                Visningsdatum:{" "}
-                {capitalizeFirstLetter(
-                  new Date(screening?.startTime).toLocaleDateString("sv-SE")
-                )}
-              </h3>
-              <h3>
-                Visningstid:{" "}
-                {new Date(screening?.startTime).toLocaleTimeString("sv-SE")} -
-                {new Date(screening?.endTime).toLocaleTimeString("sv-SE")}
-              </h3> */}
-              {/* <img
-                className="images"
-                src={movie?.images?.[0]}
-                alt={movie?.title}
-              /> */}
               <div className="theatre">
-                <div className="movie-screen"></div>
+                <div className="movie-screen">
+                  <div className="drape-left"></div>
+                  <div className="drape-right"></div>
+                </div>
                 <div className="seats">
                   <SeatsGrid
                     salonLayout={salonLayout}
@@ -452,14 +463,11 @@ function Booking() {
               </div>
             </>
           )}
-          <button
-            className="book-button"
-            onClick={() => setView("confirmation")}>
-            Boka Film
+          <button className="book-button" onClick={handleScreeningInput}>
+            Boka biljetter
           </button>
         </div>
       )}
-      ;
       {view === "confirmation" && (
         <BookingConfirmation
           movies={movies}

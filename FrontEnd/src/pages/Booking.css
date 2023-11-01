@@ -2,45 +2,95 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #333; /* Dark background to simulate a theater ambience */
+    background-color: #333; 
     padding: 50px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
+.booking-page-container{
+    height: 100%;
+}
 .movie-screen {
     margin-left: 8px;
     width: 95%; 
-    height: 60px; 
-    background-color: #fff; 
+    height: 120px; 
+    background-color: #ffffff; 
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: -15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     position: relative;
-    overflow: hidden; 
+    overflow: hidden;
+    transform-origin: center top;
+    transform: perspective(500px) rotateX(-45deg);
+    box-shadow: 0 0 30px 10px rgba(255, 255, 255, 0.7);
+    filter: brightness(1.1);  
 }
 
-
-.movie-screen:before, .movie-screen:after {
+.movie-screen::before, .movie-screen::after, .movie-screen .drape-left, .movie-screen .drape-right {
     content: "";
     position: absolute;
     top: -5%; 
     bottom: -5%;
     width: 30%; 
-    background: #a00; 
     z-index: 1;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.movie-screen::before, .movie-screen::after, .movie-screen .drape-left, .movie-screen .drape-right {
+    content: "";
+    position: absolute;
+    top: -5%; 
+    bottom: -5%;
+    width: 30%; 
+    z-index: 1;
 }
 
 
-.movie-screen:before {
-    left: -20%; 
-    transform: skewY(-7deg);
+.movie-screen::before, .movie-screen::after {
+    background: rgb(131, 10, 10);
+    z-index: 0;
 }
 
-.movie-screen:after {
+.movie-screen .drape-left, .movie-screen .drape-right {
+    background: 
+        repeating-linear-gradient(
+            to bottom, 
+            rgb(70, 10, 73) 0%, 
+            rgb(70, 10, 73) 5%, 
+            rgb(121, 3, 3) 5%, 
+            rgb(121, 3, 3) 10%
+        );
+    background-size: 100% 20px;
+}
+
+.movie-screen .drape-left {
+    left: -40%; 
+    transform: skewY(-5deg) scaleX(1.1);
+    clip-path: path('M 100% 0 Q 90% 50% 100% 100%'); 
+}
+
+.movie-screen .drape-right {
     right: -20%; 
-    transform: skewY(7deg); 
+    transform: skewY(5deg) scaleX(1.1);
+    clip-path: path('M 0 0 Q 10% 50% 0 100%');
+}
+
+
+.movie-screen::before, .movie-screen .drape-left {
+    left: -20%; 
+    transform: skewY(-5deg);
+}
+
+.movie-screen::after, .movie-screen .drape-right {
+    right: -20%; 
+    transform: skewY(5deg);
+}
+
+.movie-screen::before {
+    box-shadow: 8px 5px 15px rgba(0, 0, 0, 0.5); 
+}
+
+.movie-screen::after {
+    box-shadow: -8px 5px 15px rgba(0, 0, 0, 0.5); 
 }
 
 .images {
@@ -70,17 +120,21 @@ h3 {
 
 .ticket-counter-arrow-plus {
     color: #C699EA;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .ticket-counter-arrow-minus {
     margin-left: 15px;
     color: #C699EA;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
   
   
   .ticket-counter-value {
     margin: 0 15px;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
 .seats-grid {
@@ -91,20 +145,21 @@ h3 {
 }
 
 .seats-grid button {
-    width: 30px; 
-    height: 30px; 
+    width: 7.7vw; 
+    height: 4.3vh; 
     padding: 5px; 
-    margin: 1.2px; 
+    margin: 1.3px; 
  }
 
  .row {
     display: flex;
     justify-content: center; 
-    padding: 2px;
+    padding: 1.5px;
 }
 
 .book-button {
-    margin-left: 36vw;
+    width: 250px;
+    margin-left: 20vw;
     margin-top: 10px;
 }
 
@@ -118,9 +173,129 @@ h3 {
 }
 
 .dropdown-container {
-    margin-bottom: 10px; /* spacing between dropdowns */
-    width: 80%;          /* cover 80% of the screen width */
-    margin-left: auto;   /* centering */
-    margin-right: auto;  /* centering */
-    display: block;      /* ensures the element is block-level */
-  }
+    margin-bottom: 10px; 
+    width: 75%;          
+    margin-left: auto;  
+    margin-right: auto;  
+}
+
+.dropdown-container select {
+    width: 100%;
+    background-color: #d9d9d9; 
+    border: none; 
+    border-radius: 7px; 
+    padding-left: 13px;
+    box-sizing: border-box; 
+    font-size: 14px; 
+    color: #000000; 
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.dropdown-container select:hover {
+    background-color: #d9d9d9; 
+}
+
+.dropdown-container select:focus {
+    outline: none; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); 
+}
+
+
+
+@media (min-width: 768px) { 
+
+    .theater {
+        justify-content: center; 
+    }
+
+    .movie-screen {
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%; 
+        height: 250px; 
+    }
+
+    .ticket-counter-container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .seats-grid {
+        width: 100vw; 
+        align-items: center; 
+    }
+
+    .seats-grid button {
+        width: 55px; 
+        height: 50px; 
+        padding: 10px; 
+        margin: 7px; 
+     }
+
+    .total-amount {
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 1.5vh;
+    }
+
+    .book-button {
+        width: 400px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 15px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .clear-button {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 2.5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .dropdown-container {
+        margin-bottom: 10px; 
+        width: 21.5%;          
+        margin-left: auto;  
+        margin-right: auto;  
+    }
+
+    .dropdown-container select {
+        width: 100%;
+        background-color: #d9d9d9; 
+        border: none; 
+        border-radius: 7px; 
+        padding-left: 10px;
+        box-sizing: border-box; 
+        font-size: 13.5px; 
+        color: #000000; 
+        appearance: none; 
+        -webkit-appearance: none; 
+        -moz-appearance: none; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+    }
+    
+    .dropdown-container select:hover {
+        background-color: #d9d9d9; /
+    }
+    
+    .dropdown-container select:focus {
+        outline: none; 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); 
+    }
+    
+}
+

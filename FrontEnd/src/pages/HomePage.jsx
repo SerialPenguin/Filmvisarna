@@ -1,3 +1,4 @@
+import FooterComponent from "../components/FooterComponent";
 import FrontCarouselComponent from "../components/FrontCarouselComponent";
 import MovieCardComponent from "../components/MovieCardComponent";
 
@@ -6,6 +7,7 @@ const HomePage = () => {
     <>
       <FrontCarouselComponent />
       <MovieCardComponent />
+      <FooterComponent />
     </>
   );
 };

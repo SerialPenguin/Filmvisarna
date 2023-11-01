@@ -1,7 +1,7 @@
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { useState } from "react";
-import "../MovieInfo.css"
+import "../styling.css"
 
 function getYouTubeVideoId(url) {
     const match = url.match(/[?&]v=([^?&]+)/);
@@ -35,7 +35,7 @@ function findAScreeningUrl(movieId, screenings){
     if (screeningsForMovie) {
       bookingLink = `/booking/${screeningsForMovie._id}`;
     } else {
-      bookingLink = '/booking'; // Default link if no matching screening is found
+      bookingLink = ''; // Default link if no matching screening is found
     }
 
     return bookingLink;

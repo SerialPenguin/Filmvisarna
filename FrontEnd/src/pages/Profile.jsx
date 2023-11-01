@@ -1,3 +1,5 @@
+/** @format */
+
 import { useEffect, useState } from "react";
 import "./profile.css";
 // const token =
@@ -5,7 +7,7 @@ import "./profile.css";
 
 const token = sessionStorage.getItem("JWT_TOKEN");
 
-export function Profile() {
+export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [movieInfo, setMovieInfo] = useState([]);

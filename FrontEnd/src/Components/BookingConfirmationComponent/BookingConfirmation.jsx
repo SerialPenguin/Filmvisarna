@@ -1,4 +1,7 @@
 import "./bookingConfirmation.css";
+/** @format */
+
+import "./bookingConfirmation.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TicketFront from "../../img/ticketFront.png";
@@ -29,6 +32,7 @@ export default function BookingConfirmation(props) {
   useEffect(() => {
     async function getBody() {
       const body = await JSON.parse(localStorage.getItem("bookingData"));
+      const body = await JSON.parse(sessionStorage.getItem("bookingData"));
       const user = sessionStorage.getItem("JWT_TOKEN");
 
       delete body.selectedMovie;
@@ -66,7 +70,11 @@ export default function BookingConfirmation(props) {
       setPrice((adultsSum += childrenSum += seniorsSum));
 
       console.log("Price: ", price);
+      setPrice((adultsSum += childrenSum += seniorsSum));
     }
+    console.log("BB 2: ", bookingBody);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
     console.log("BB 2: ", bookingBody);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
@@ -86,6 +94,8 @@ export default function BookingConfirmation(props) {
       const booking = await patch("/api/bookings", bodyCopy, user);
 
       console.log("new booking: ", booking);
+      console.log("new booking: ", booking);
+      console.log(bookingBody);
 
       if (booking.message.includes("Booking created!")) {
         setToggleClassName("ticket-spin-back");
@@ -94,6 +104,11 @@ export default function BookingConfirmation(props) {
           booking.booking.bookingNumber ? booking.booking.bookingNumber : ""
         );
         localStorage.removeItem("bookingData");
+      if(booking.message.includes("Booking created!")) {
+          setToggleClassName('ticket-spin-back');
+          setAnimationStage('end');
+          setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
+          sessionStorage.removeItem("bookingData");
       }
     } catch (err) {
       return alert(err);
@@ -136,6 +151,31 @@ export default function BookingConfirmation(props) {
               )}
             </div>
           )}
+          {displayInput === true && (
+            <div className="email-container">
+              <input
+                required
+                type="email"
+                className="email-field"
+                onChange={handleBookingBody}
+                onBlur={handleBookingBody}
+                value={email || ""}
+                name="email"
+                id="email"></input>
+              {email.includes("@") && (
+                <button
+                  className="send-btn"
+                  onClick={() => {
+                    handleBookingBody;
+                    setDisplayInput(false);
+                    setAnimationStage("middle");
+                    setToggleClassName("ticket-spin");
+                  }}>
+                  Skicka bekräftelsen
+                </button>
+              )}
+            </div>
+          )}
           <img className="ticket-front" src={TicketFront} />
           <img className="ticket-back" src={TicketBack} />
         </div>
@@ -143,21 +183,13 @@ export default function BookingConfirmation(props) {
       <div>
         {animationStage === "middle" && (
           <div>
-            {toggleClassName === "ticket-spin" && (
-              <div className="confirmation-container">
-                <p className="price">Pris: {price} kr</p>
-                <p className="movie">Film: {movie}</p>
-                <p className="tickets">
-                  Biljetter:{" "}
-                  {`Vuxna: ${bookingBody.tickets.adults.quantity}, Barn: ${bookingBody.tickets.children.quantity}, Pensionär: ${bookingBody.tickets.seniors.quantity} `}
-                </p>
-                <p className="date">Datum: {date.slice(0, 30)}</p>
-                <button
-                  className="confirm-btn"
-                  onClick={handleSendConfirmation}
-                >
-                  Bekräfta
-                </button>
+            {toggleClassName === 'ticket-spin' && (
+              <div className='confirmation-container'>
+                <p className='price'>Pris: {price} kr</p>
+                <p className='movie'>{movie.length > 25 ? `Film: ${movie.slice(0, 25)}...` : `Film: ${movie}`}</p>
+                <p className='tickets'>{bookingBody.seats.length === 1 ? `Stol: ${bookingBody.seats.map((seat) => seat.seatNumber)}` : `Stolar: ${bookingBody.seats.map((seat) => seat.seatNumber).sort().join(", ")}`}</p>
+                <p className='date'>Datum: {date.slice(0, 30)}</p>
+                <button className="confirm-btn" onClick={handleSendConfirmation}>Bekräfta</button>
               </div>
             )}
           </div>

@@ -80,10 +80,10 @@ export default function Profile() {
 
   return (
     <>
-      <h2>Profil</h2>
+      <h2 className="profile-h2">Profil</h2>
       <div className="profilepage-content">
         <table className="profile-table">
-          <h3>Dina uppgifter</h3>
+          <h3 className="profile-h3">Dina uppgifter</h3>
           <tbody className="profile-tbody">
             <tr>
               <td>Förnamn:</td>
@@ -100,7 +100,7 @@ export default function Profile() {
           </tbody>
         </table>
         <div className="bookinghistory-container">
-          <h3>Tidigare bokningar</h3>
+          <h3 className="profile-h3">Tidigare bokningar</h3>
           <ul className="profile-ul">
             {bookingId === false ? (
               <p>Inga tidigare bokningar hittades</p>

@@ -10,10 +10,10 @@ export function AboutUs() {
         <img className="cinema-img" src={cinema} alt="Biograf" />
         <div className="img-h2-text-container">
           <div className="img-h2-container">
-            <h2>Om oss</h2>
+            <h2 className="about-us-h2">Om oss</h2>
             <img className="counter-img" src={counter} alt="Kassa" />
           </div>
-          <p>
+          <p className="about-us-p">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
             porttitor dictum libero, in porttitor nulla elementum mattis. Duis
             pretium consectetur libero quis sodales. In justo dui, dignissim sed

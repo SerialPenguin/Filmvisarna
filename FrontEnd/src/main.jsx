@@ -10,7 +10,7 @@ import MovieInfo from "./pages/MovieInfo.jsx";
 import Screenings from "./pages/Screenings.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
-import { Profile } from "./pages/Profile.jsx";
+import Profile from "./pages/Profile.jsx";
 import { AboutUs } from "./pages/AboutUs.jsx";
 import "./index.css";
 

@@ -1,21 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Jost:wght@200;300;400&display=swap");
 /* font-family: 'Alegreya', serif;
 font-family: 'Jost', sans-serif; */
-* {
+/* * {
   padding: 0;
   margin: 0;
 }
 
 body {
   background: radial-gradient(circle at center, rgb(70, 10, 73), black);
-}
+} */
 
-h2 {
+.about-us-h2 {
   font-family: "Jost", sans-serif;
   text-transform: uppercase;
 }
 
-p {
+.about-us-p {
   font-family: "Alegreya", serif;
   color: #c699ea;
 }

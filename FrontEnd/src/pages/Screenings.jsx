@@ -168,7 +168,7 @@ function Screenings() {
         <p>Laddar...</p>
       ) : (
         Object.keys(screeningsByDate).map((date) => (
-          <div key={date}>
+          <div key={date} className="screening-date-container">
             <h2 className="date-title">
               {date.charAt(0).toUpperCase() + date.slice(1)}
             </h2>

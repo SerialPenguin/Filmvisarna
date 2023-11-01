@@ -10,6 +10,10 @@ import { getSeats } from "./controllers/seatsController.js";
 import Booking from "./models/bookingModel.js";
 import { reserveSeats } from "./controllers/temporarySeatsController.js";
 import TemporaryBooking from "./models/temporaryBookingModel.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 
@@ -17,6 +21,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.use("/api/movies", movieRoutes);
 app.use("/api/screenings", screeningRoutes);
@@ -75,6 +81,11 @@ app.get("/api/events/:screeningId", async (req, res) => {
     res.end();
   });
 });
+
+app.get("*", async (req, res) => {
+  res.sendFile(path.join(__dirname, "./dist/index.html"))
+});
+  
 
 // Middleware, Global error handling
 app.use((err, req, res, next) => {

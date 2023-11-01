@@ -73,7 +73,7 @@ const FooterComponent = () => {
           }}
         />
 
-        <button style={{ marginTop: "2em", marginBottom: "2em"}}>Bli medlem</button>
+        <button style={{ marginTop: "2em", marginBottom: "2em"}}>Bli medlem</button>
       </form>
     </div>
   );

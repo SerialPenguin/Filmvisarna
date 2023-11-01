@@ -111,9 +111,7 @@ export default function BookingConfirmation(props) {
               <input
                 required
                 type="email"
-                autoFocus
                 className="email-field"
-                placeholder="example.mail@example.com"
                 onChange={handleBookingBody}
                 onBlur={handleBookingBody}
                 value={email || ""}

@@ -335,7 +335,7 @@ function Booking() {
   }
 
   return (
-    <div>
+    <div className="booking-page-container">
       {view === "seatPicker" && (
         <div className="booking">
           {loading || !initialSeatsDataReceived ? (
@@ -455,7 +455,6 @@ function Booking() {
           </button>
         </div>
       )}
-      ;
       {view === "confirmation" && (
         <BookingConfirmation
           movies={movies}

@@ -6,7 +6,7 @@ import NavComponent from "./NavComponent.jsx";
 import "../styling.css"
 
 export default function HeaderNavComponent() {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 800);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
   const [activeMenu, setActiveMenu] = useState(false);
 
   const showMenu = () => {
@@ -18,12 +18,12 @@ export default function HeaderNavComponent() {
 
   useEffect(() => {
     const handleResize = () => {
-      const isWindowDesktop = window.innerWidth >= 800;
+      const isWindowDesktop = window.innerWidth >= 768;
       setIsDesktop(isWindowDesktop);
 
       // Close the menu if window width is greater than or equal to 800 pixels
       if (isWindowDesktop) {
-        setActiveMenu(false);
+        closeMenu();
       }
     };
 

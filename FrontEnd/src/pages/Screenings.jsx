@@ -189,7 +189,7 @@ function Screenings() {
 
                   <p className="screenings-p">Salong: {screening.salon.name}</p>
                   <p className="screenings-p">
-                    Start: {formatTimeToHHMM(screening.startTime)}
+                    Börjar: {formatTimeToHHMM(screening.startTime)}
                   </p>
                   <Link to={`/booking/${screening._id}`}>
                     <button className="main-btn-color">Boka</button>

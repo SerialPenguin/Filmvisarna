@@ -27,7 +27,7 @@ export default function BookingConfirmation(props) {
   useEffect(() => {
     async function getBody() {
 
-      const body = await JSON.parse(localStorage.getItem("bookingData"));
+      const body = await JSON.parse(sessionStorage.getItem("bookingData"));
       const user = sessionStorage.getItem("JWT_TOKEN");
 
       delete body.selectedMovie;
@@ -92,7 +92,7 @@ export default function BookingConfirmation(props) {
           setToggleClassName('ticket-spin-back');
           setAnimationStage('end');
           setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
-          localStorage.removeItem("bookingData");
+          sessionStorage.removeItem("bookingData");
       }
     }catch(err) {return alert(err);}
   }
@@ -133,7 +133,7 @@ export default function BookingConfirmation(props) {
               <div className='confirmation-container'>
                 <p className='price'>Pris: {price} kr</p>
                 <p className='movie'>Film: {movie}</p>
-                <p className='tickets'>Biljetter: {`Vuxna: ${bookingBody.tickets.adults.quantity}, Barn: ${bookingBody.tickets.children.quantity}, Pensionär: ${bookingBody.tickets.seniors.quantity} `}</p>
+                <p className='tickets'>{bookingBody.seats.length === 1 ? `Stol: ${bookingBody.seats}` : `Stolar: ${bookingBody.seats.join(", ")}`}</p>
                 <p className='date'>Datum: {date.slice(0, 30)}</p>
                 <button className="confirm-btn" onClick={handleSendConfirmation}>Bekräfta</button>
               </div>

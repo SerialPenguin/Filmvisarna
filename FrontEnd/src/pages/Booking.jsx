@@ -7,6 +7,7 @@ import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";
 import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
+import { getWeekNumber } from "../hooksAndUtils/weekUtil";
 import "./Booking.css";
 
 function Booking() {
@@ -172,6 +173,8 @@ function Booking() {
         const data = await response.json();
         setScreening(data);
         fetchMovie(data.movieId);
+        const weekNumber = getWeekNumber(data.startTime);
+        setSelectedWeek(weekNumber.toString());
         setSelectedMovie(data.movieId);
         selectedMovieRef.current = data.movieId;
         if (data.salonId) fetchSeats(data.salonId);

@@ -14,10 +14,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-img {
-  width: 10%;
-}
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -68,6 +64,6 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #C699EA;
+    background-color: #c699ea;
   }
 }

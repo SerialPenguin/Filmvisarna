@@ -1,12 +1,98 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Jost:wght@200;300;400&display=swap");
 /* font-family: 'Alegreya', serif;
 font-family: 'Jost', sans-serif; */
+* {
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at center, rgb(70, 10, 73), black);
+}
 
 h2,
 h3 {
   font-family: "Jost", sans-serif;
 }
 
+h2 {
+  text-transform: uppercase;
+}
+
 h3 {
   text-decoration: underline;
+  font-weight: 300;
+  font-size: 1.3rem;
+}
+
+.profilepage-content img {
+  width: 40%;
+  margin-right: 0.6em;
+}
+
+.profilepage-content {
+  margin-left: 1em;
+  /* display: flex; */
+  /* background-color: aqua; */
+}
+
+.profile-table {
+  /* background-color: yellow; */
+  width: 80%;
+}
+
+.bookinghistory-container {
+  /* background-color: red; */
+  /* margin: 3em 0 0 1.3em; */
+  margin-top: 4em;
+}
+
+.profile-ul {
+  /* background-color: blueviolet; */
+  display: flex;
+  flex-direction: column;
+  /* align-self: center; */
+  margin: 0px;
+}
+
+li {
+  list-style: none;
+  display: flex;
+  align-items: start;
+  margin-top: 1em;
+}
+
+li,
+table {
+  color: #c699ea;
+}
+
+@media (min-width: 800px) {
+  .profilepage-content {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 3em;
+  }
+
+  .profile-table {
+    flex: 1 0 50%;
+    max-height: 10em;
+    padding-left: 5em;
+  }
+
+  .bookinghistory-container {
+    margin-top: 0em;
+  }
+
+  .profilepage-content img {
+    margin-right: 0.6em;
+  }
+
+  .profile-ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  li {
+    flex: 50%;
+  }
 }

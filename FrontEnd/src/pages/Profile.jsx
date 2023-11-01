@@ -79,39 +79,42 @@ export function Profile() {
   return (
     <>
       <h2>Profil</h2>
-      <h3>Dina uppgifter:</h3>
-      <table>
-        <tbody>
-          <tr>
-            <td>Förnamn:</td>
-            <td>{userData.firstName}</td>
-          </tr>
-          <tr>
-            <td>Efternamn:</td>
-            <td>{userData.lastName}</td>
-          </tr>
-          <tr>
-            <td>E-post:</td>
-            <td>{userData.emailAdress}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>Tidigare bokningar:</h3>
-      <ul>
-        {bookingId === false ? (
-          <p>Inga tidigare bokningar hittades</p>
-        ) : movieInfo.length === 0 ? (
-          <p>Laddar tidigare bokningar...</p>
-        ) : (
-          movieInfo.map((movie, i) => (
-            <li key={i}>
-              <img src={movie.images} />
-              {movie.title}
-            </li>
-          ))
-        )}
-      </ul>
+      <div className="profilepage-content">
+        <table className="profile-table">
+          <h3>Dina uppgifter</h3>
+          <tbody className="profile-tbody">
+            <tr>
+              <td>Förnamn:</td>
+              <td>{userData.firstName}</td>
+            </tr>
+            <tr>
+              <td>Efternamn:</td>
+              <td>{userData.lastName}</td>
+            </tr>
+            <tr>
+              <td>E-post:</td>
+              <td>{userData.emailAdress}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="bookinghistory-container">
+          <h3>Tidigare bokningar</h3>
+          <ul className="profile-ul">
+            {bookingId === false ? (
+              <p>Inga tidigare bokningar hittades</p>
+            ) : movieInfo.length === 0 ? (
+              <p>Laddar tidigare bokningar...</p>
+            ) : (
+              movieInfo.map((movie, i) => (
+                <li key={i}>
+                  <img src={movie.images} />
+                  <p>{movie.title}</p>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+      </div>
     </>
   );
 }

@@ -71,18 +71,18 @@ function MovieInfo() {
             <div className="text-containers">
                 <h2 className="text-title">Beskrivning</h2>
                 <p className="normal-text">{movie.description}</p>
-                <p>Genre: {movie.genre}</p>
-                <p>Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
-                <p>
+                <p className="normal-text">Genre: {movie.genre}</p>
+                <p className="normal-text">Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
+                <p className="normal-text">
                 {movie.actors && movie.actors.length > 0
                     ? `Actors: ${movie.actors.join(', ')}`
                     : 'Inga skådespelare lagrade'
                 }
                 </p>
-                <p>Språk: {movie.language ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1) : "Inget språk lagrade"}</p>
-                <p>Undertext: {movie.subtitles ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1) : "Inget undertext lagrade"}</p>
-                <p>Regissör: {movie.director}</p>
-                <p>Släppte: {movie.productionYear}</p>
+                <p className="normal-text">Språk: {movie.language ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1) : "Inget språk lagrade"}</p>
+                <p className="normal-text">Undertext: {movie.subtitles ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1) : "Inget undertext lagrade"}</p>
+                <p className="normal-text">Regissör: {movie.director}</p>
+                <p className="normal-text">Släppte: {movie.productionYear}</p>
             </div>
             <div className="button-container">
                 <Link to={findAScreeningUrl(movie._id, screenings)}>

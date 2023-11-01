@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import "./bookingConfirmation.css";
-=======
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
 /** @format */
 
 import "./bookingConfirmation.css";
@@ -34,10 +30,6 @@ export default function BookingConfirmation(props) {
 
   useEffect(() => {
     async function getBody() {
-<<<<<<< HEAD
-      const body = await JSON.parse(localStorage.getItem("bookingData"));
-=======
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
       const body = await JSON.parse(sessionStorage.getItem("bookingData"));
       const user = sessionStorage.getItem("JWT_TOKEN");
 
@@ -74,18 +66,8 @@ export default function BookingConfirmation(props) {
       let seniorsSum = seniors.price * seniors.quantity;
 
       setPrice((adultsSum += childrenSum += seniorsSum));
-<<<<<<< HEAD
-
-      console.log("Price: ", price);
-      setPrice((adultsSum += childrenSum += seniorsSum));
-    }
-    console.log("BB 2: ", bookingBody);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    
-=======
     }
 
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
     console.log("BB 2: ", bookingBody);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
@@ -105,10 +87,6 @@ export default function BookingConfirmation(props) {
       const booking = await patch("/api/bookings", bodyCopy, user);
 
       console.log("new booking: ", booking);
-<<<<<<< HEAD
-      console.log("new booking: ", booking);
-=======
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
       console.log(bookingBody);
 
       if (booking.message.includes("Booking created!")) {
@@ -117,16 +95,7 @@ export default function BookingConfirmation(props) {
         setBookingNumber(
           booking.booking.bookingNumber ? booking.booking.bookingNumber : ""
         );
-<<<<<<< HEAD
-        localStorage.removeItem("bookingData");
-      if(booking.message.includes("Booking created!")) {
-          setToggleClassName('ticket-spin-back');
-          setAnimationStage('end');
-          setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
-          sessionStorage.removeItem("bookingData");
-=======
         sessionStorage.removeItem("bookingData");
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
       }
     } catch (err) {
       return alert(err);
@@ -141,30 +110,16 @@ export default function BookingConfirmation(props) {
         <div className={toggleClassName}>
           {displayInput === true && (
             <div className="email-container">
-<<<<<<< HEAD
-              <label htmlFor="email">Email:</label>
-              <input
-                required
-                type="email"
-                autoFocus
-                className="email-field"
-                placeholder="example.mail@example.com"
-=======
               <input
                 required
                 type="email"
                 className="email-field"
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
                 onChange={handleBookingBody}
                 onBlur={handleBookingBody}
                 value={email || ""}
                 name="email"
-<<<<<<< HEAD
                 id="email"
               ></input>
-=======
-                id="email"></input>
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
               {email.includes("@") && (
                 <button
                   className="send-btn"
@@ -173,36 +128,8 @@ export default function BookingConfirmation(props) {
                     setDisplayInput(false);
                     setAnimationStage("middle");
                     setToggleClassName("ticket-spin");
-<<<<<<< HEAD
                   }}
                 >
-                  Skicka bekräftelsen
-                </button>
-              )}
-            </div>
-          )}
-          {displayInput === true && (
-            <div className="email-container">
-              <input
-                required
-                type="email"
-                className="email-field"
-                onChange={handleBookingBody}
-                onBlur={handleBookingBody}
-                value={email || ""}
-                name="email"
-                id="email"></input>
-              {email.includes("@") && (
-                <button
-                  className="send-btn"
-                  onClick={() => {
-                    handleBookingBody;
-                    setDisplayInput(false);
-                    setAnimationStage("middle");
-                    setToggleClassName("ticket-spin");
-=======
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
-                  }}>
                   Skicka bekräftelsen
                 </button>
               )}
@@ -211,23 +138,6 @@ export default function BookingConfirmation(props) {
           <img className="ticket-front" src={TicketFront} />
           <img className="ticket-back" src={TicketBack} />
         </div>
-<<<<<<< HEAD
-      </div>
-      <div>
-        {animationStage === "middle" && (
-          <div>
-            {toggleClassName === 'ticket-spin' && (
-              <div className='confirmation-container'>
-                <p className='price'>Pris: {price} kr</p>
-                <p className='movie'>{movie.length > 25 ? `Film: ${movie.slice(0, 25)}...` : `Film: ${movie}`}</p>
-                <p className='tickets'>{bookingBody.seats.length === 1 ? `Stol: ${bookingBody.seats.map((seat) => seat.seatNumber)}` : `Stolar: ${bookingBody.seats.map((seat) => seat.seatNumber).sort().join(", ")}`}</p>
-                <p className='date'>Datum: {date.slice(0, 30)}</p>
-                <button className="confirm-btn" onClick={handleSendConfirmation}>Bekräfta</button>
-              </div>
-            )}
-          </div>
-        )}
-=======
         <div>
           {animationStage === "middle" && (
             <div>
@@ -252,7 +162,8 @@ export default function BookingConfirmation(props) {
                   <p className="date">Datum: {date.slice(0, 30)}</p>
                   <button
                     className="confirm-btn"
-                    onClick={handleSendConfirmation}>
+                    onClick={handleSendConfirmation}
+                  >
                     Bekräfta
                   </button>
                 </div>
@@ -260,7 +171,6 @@ export default function BookingConfirmation(props) {
             </div>
           )}
         </div>
->>>>>>> 4dd2809f5b97fc88c1cf00651bd463bc8d583a42
       </div>
       {animationStage === "end" && (
         <div>

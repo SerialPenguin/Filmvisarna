@@ -35,7 +35,7 @@ function findAScreeningUrl(movieId, screenings){
     if (screeningsForMovie) {
       bookingLink = `/booking/${screeningsForMovie._id}`;
     } else {
-      bookingLink = '/booking'; // Default link if no matching screening is found
+      bookingLink = ''; // Default link if no matching screening is found
     }
 
     return bookingLink;

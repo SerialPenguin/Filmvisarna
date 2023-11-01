@@ -1,4 +1,4 @@
-.main-text-title, .date-title{
+.main-text-title, .date-title, .redan-medlem{
     color: #BA7E36;
 }
 .main-text-title{
@@ -18,9 +18,6 @@
 }
 iframe, .iframe-container {
     height: 200px;
-}
-.text-title{
-    color: #DB00FF;
 }
 body{
     background: radial-gradient(circle at center, rgb(70, 10, 73), black);
@@ -80,7 +77,7 @@ div#root{
     width: 100%;
 }
 
-/* HeaderNavComponent css*/
+/* HeaderNavComponent css --------------------------------------------------------------------------------------------------------------------*/
 .header-nav-bar{
     display: flex;
     justify-content: space-between;
@@ -97,7 +94,7 @@ div#root{
     margin-right: 1em;
     height: 2.5em;
 }
-/* NavComponent css*/
+/* NavComponent css  --------------------------------------------------------------------------------------------------------------------*/
 .logo-img-nav{
     height: 2.5em;
     top: 1em;
@@ -147,6 +144,64 @@ div#root{
     background-image: linear-gradient(to right, #BA7E36 2%, #8027CE 2%);
     text-shadow: #150316;
 }
+.nav-div-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+}
+/*register login page  ------------------------------------------------------------------------------------------*/
+.form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 350px;
+    margin: auto;
+}
+.register-lbl, .login-lbl{
+    color:#C699EA;
+    font-weight: 500;
+    margin-left: 1em;
+}
+.input-container{
+    display: flex;
+    flex-direction: column;
+}
+.register-field, .login-field{
+    background-color: #2C142E;
+    border: 2px#150316;
+    border-style: solid;
+    width: 100%;
+    height: 3em;
+
+    border-radius: 1em;
+    margin: auto;
+}
+.page-wrapper{
+    height: 100vh;
+}
+.welcome-text{
+    font-weight: 300;
+    font-size: 2.5rem;
+    width: 350px;
+    margin: auto;
+    text-align: center;
+}
+::placeholder {
+    padding-left: 1em;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    padding-left: 1em;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    padding-left: 1em;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    padding-left: 1em;
+}
+:-moz-placeholder { /* Firefox 18- */
+    padding-left: 1em;
+}
 @media (max-width: 350px){
     .iframe-container, .button-container, .text-containers, iframe, .main-text-title{
         margin: auto;
@@ -170,9 +225,13 @@ div#root{
     .filters-containers{
         padding-left: 5%;
     }
+    /*login register*/
+    .welcome-text, .form-container{
+        width: 450px;
+    }
 }
 @media (min-width: 800px){
-    /* header nav component*/
+    /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
     .hmbrg-img, .hmbrg-img-nav{
         display: none;
     }
@@ -221,7 +280,7 @@ div#root{
         background-image: linear-gradient(black, black);
         color:#BA7E36;
     }
-    /*more info page*/
+    /*more info page  --------------------------------------------------------------------------------------------------------------------*/
     .iframe-container, iframe{
         width: 700px;
         height: 393.75px;
@@ -235,11 +294,13 @@ div#root{
     }
 }
 @media (min-width: 1500px){
+    /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
     .nav-div-container{
         width: 50%;
     }
 }
 @media (min-width: 2000px){
+     /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
     .nav-div-container{
         width: 30%;
     }

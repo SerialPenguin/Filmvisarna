@@ -28,61 +28,63 @@ function RegisterForm() {
   };
 
   return (
-    <form>
+    <form className="form-container">
       <label className="register-lbl">Förnamn</label>
-      <input
-        type="text"
-        name="first-name"
-        placeholder="John"
-        className="register-field"
-        onChange={(e) =>
-          setCredentials({ ...credentials, firstName: e.target.value })
-        }
-      />
+      <div className="input-container">
+        <input
+          type="text"
+          name="first-name"
+          placeholder="John"
+          className="register-field"
+          onChange={(e) =>
+            setCredentials({ ...credentials, firstName: e.target.value })
+          }
+        />
 
-      <label className="register-lbl">Efternamn</label>
-      <input
-        type="text"
-        name="last-name"
-        placeholder="Andersson"
-        className="register-field"
-        onChange={(e) =>
-          setCredentials({ ...credentials, lastName: e.target.value })
-        }
-      />
+        <label className="register-lbl">Efternamn</label>
+        <input
+          type="text"
+          name="last-name"
+          placeholder="Andersson"
+          className="register-field"
+          onChange={(e) =>
+            setCredentials({ ...credentials, lastName: e.target.value })
+          }
+        />
 
-      <label className="register-lbl">E-postadress</label>
-      <input
-        type="email"
-        name="mail"
-        placeholder="namn@example.com"
-        className="register-field"
-        onChange={(e) =>
-          setCredentials({ ...credentials, emailAdress: e.target.value })
-        }
-      />
+        <label className="register-lbl">E-postadress</label>
+        <input
+          type="email"
+          name="mail"
+          placeholder="namn@example.com"
+          className="register-field"
+          onChange={(e) =>
+            setCredentials({ ...credentials, emailAdress: e.target.value })
+          }
+        />
 
-      <label className="register-lbl">Lösenord</label>
-      <input
-        type="password"
-        name="password"
-        className="register-field"
-        onChange={(e) =>
-          setCredentials({ ...credentials, password: e.target.value })
-        }
-      />
+        <label className="register-lbl">Lösenord</label>
+        <input
+          type="password"
+          name="password"
+          className="register-field"
+          onChange={(e) =>
+            setCredentials({ ...credentials, password: e.target.value })
+          }
+        />
+      </div>
 
       {registerMessage && <p className="register-msg">{registerMessage}</p>}
 
-      <p>
-        Redan medlem? <Link to={"/login"}>Klicka här</Link>
+      <p className="redan-medlem">
+        Redan medlem? <Link to={"/login"} className="redan-medlem">Klicka här</Link>
       </p>
 
-      <button className="register-btn" type="submit" onClick={handleSubmit}>
+      <button className="main-btn" type="submit" onClick={handleSubmit}>
         Bli medlem
       </button>
       <Link to={"/"}>
-        <button>Avbryt</button>
+        <button className="sec-btn">Avbryt</button>
       </Link>
     </form>
   );

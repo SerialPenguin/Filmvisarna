@@ -70,6 +70,8 @@
     text-align: center;
 }
 
+
+
 @media (min-width: 800px) {
   .front-carousel {
     height: 100vh;
@@ -96,6 +98,7 @@
     width: 400px;
     height: 400px;
     opacity: 0.8;
+    border-radius: 4px;
   }
 
   .movie-card-img:hover {

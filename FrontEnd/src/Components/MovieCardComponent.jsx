@@ -17,10 +17,10 @@ const MovieCardComponent = () => {
   console.log(screenings);
 
   return (
-    <div
-      >
+    <div>
+      <div>
       <h2>Aktuella filmer</h2>
-      <div className="movie-card-container show">
+      <div className="movie-card-container">
       {movies.map((movie) => (
         <div
           key={movie._id}
@@ -60,6 +60,7 @@ const MovieCardComponent = () => {
           </div>
         </div>
       ))}
+      </div>
       </div>
     </div>
   );

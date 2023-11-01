@@ -25,39 +25,41 @@ function LoginForm() {
   };
 
   return (
-    <form>
+    <form className="form-container">
       <label className="login-lbl">E-postadress</label>
-      <input
-        type="email"
-        name="mail"
-        placeholder="namn@example.com"
-        className="login-field"
-        onChange={(e) =>
-          setCredentials({ ...credentials, emailAdress: e.target.value })
-        }
-      />
+      <div className="input-container">
+        <input
+          type="email"
+          name="mail"
+          placeholder="namn@example.com"
+          className="login-field"
+          onChange={(e) =>
+            setCredentials({ ...credentials, emailAdress: e.target.value })
+          }
+        />
 
-      <label className="login-lbl">Lösenord</label>
-      <input
-        type="password"
-        name="password"
-        className="login-field"
-        onChange={(e) =>
-          setCredentials({ ...credentials, password: e.target.value })
-        }
-      />
+        <label className="login-lbl">Lösenord</label>
+        <input
+          type="password"
+          name="password"
+          className="login-field"
+          onChange={(e) =>
+            setCredentials({ ...credentials, password: e.target.value })
+          }
+        />
+      </div>
 
       {loginMessage && <p className="login-msg">{loginMessage}</p>}
 
-      <p>
-        Inte medlem ännu? <Link to={"/register"}>Klicka här</Link>
+      <p className="redan-medlem">
+        Inte medlem ännu? <Link to={"/register"} className="redan-medlem">Klicka här</Link>
       </p>
 
-      <button className="register-btn" type="submit" onClick={handleSubmit}>
+      <button className="main-btn" type="submit" onClick={handleSubmit}>
         Logga in
       </button>
       <Link to={"/"}>
-        <button>Avbryt</button>
+        <button className="sec-btn">Avbryt</button>
       </Link>
     </form>
   );

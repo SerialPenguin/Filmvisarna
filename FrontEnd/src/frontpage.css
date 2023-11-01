@@ -1,0 +1,131 @@
+.front-carousel {
+  width: 390px;
+  height: 30vh;
+  background: black;
+  position: relative;
+}
+
+.front-carousel-icon {
+  position: absolute;
+  top: 21%;
+  width: 30px;
+}
+
+.movie-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  background: radial-gradient(circle at center, rgb(70, 10, 73), black);
+  color: white;
+}
+
+.movie-card {
+  width: 360px;
+  display: flex;
+  border: none;
+}
+
+.movie-card-img {
+  width: 100px;
+}
+
+.movie-card-title {
+  margin: 0.2em;
+  color: #ba7e36;
+}
+
+.movie-card-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -1em;
+  margin-bottom: -1em;
+}
+
+.movie-card-description {
+  padding: 0.5em;
+  font-size: 0.7em;
+  height: 47px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.welcome-carousel-container {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+
+.welcome-carousel-title {
+    position: absolute; 
+    color: #C699EA; 
+    font-size: 3em;
+    text-align: center;
+}
+
+
+
+@media (min-width: 800px) {
+  .front-carousel {
+    height: 100vh;
+    width: 100%;
+    /* width: 70vw; 
+        margin: 0 auto;   */
+  }
+
+  .front-carousel-icon {
+    top: 50%;
+  }
+
+  .movie-card-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .movie-card {
+    width: 500px;
+    height: 700px;
+  }
+
+  .movie-card-img {
+    width: 400px;
+    height: 400px;
+    opacity: 0.8;
+    border-radius: 4px;
+  }
+
+  .movie-card-img:hover {
+    opacity: 1.3;
+  }
+
+  .movie-card-title,
+  .movie-card-description,
+  .movie-card-info,
+  .movie-card-links {
+    display: none;
+  }
+
+  .welcome-carousel-container {
+    width: 90%; 
+  }
+
+  .welcome-carousel-title {
+  left: 0;
+  right: 0;
+  top: 35%;
+  bottom: 0;
+  margin: auto;
+  font-size: 6em;
+  }
+
+  .welcome-carousel-img {
+    opacity: 0.6;
+  }
+}

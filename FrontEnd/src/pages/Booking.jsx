@@ -7,6 +7,7 @@ import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";
 import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
+import { getWeekNumber } from "../hooksAndUtils/weekUtil";
 import "./Booking.css";
 
 function Booking() {
@@ -172,6 +173,8 @@ function Booking() {
         const data = await response.json();
         setScreening(data);
         fetchMovie(data.movieId);
+        const weekNumber = getWeekNumber(data.startTime);
+        setSelectedWeek(weekNumber.toString());
         setSelectedMovie(data.movieId);
         selectedMovieRef.current = data.movieId;
         if (data.salonId) fetchSeats(data.salonId);
@@ -212,19 +215,28 @@ function Booking() {
 
   const hasMounted = useRef(false);
 
+  const isTransformed = (obj) =>
+    Object.prototype.hasOwnProperty.call(obj, "seatNumber");
+
   useEffect(() => {
     if (!hasMounted.current) {
       hasMounted.current = true;
       return;
     }
 
+    const alreadyTransformed = seats.length > 0 && isTransformed(seats[0]);
+
+    const transformedSeats = alreadyTransformed
+      ? seats
+      : seats.map((seat) => ({ seatNumber: seat }));
+
     saveToSessionStorage({
-      seats,
+      seats: transformedSeats,
       salonId: screening?.salonId,
       tickets,
       selectedMovie,
       selectedWeek,
-      screeningId: screeningId, // Storing the screeningId
+      screeningId: screeningId,
     });
   }, [
     seats,
@@ -232,14 +244,29 @@ function Booking() {
     tickets,
     selectedMovie,
     selectedWeek,
-    screeningId, // Add this dependency
+    screeningId,
     saveToSessionStorage,
   ]);
+
+  const isSeatObject = (seatObj) =>
+    Object.prototype.hasOwnProperty.call(seatObj, "seatNumber");
 
   const loadFromSessionStorage = () => {
     const data = sessionStorage.getItem("bookingData");
     if (data) {
-      return JSON.parse(data);
+      const parsedData = JSON.parse(data);
+
+      if (
+        parsedData.seats &&
+        parsedData.seats.length > 0 &&
+        isSeatObject(parsedData.seats[0])
+      ) {
+        parsedData.seats = parsedData.seats.map(
+          (seatObj) => seatObj.seatNumber
+        );
+      }
+
+      return parsedData;
     }
     return null;
   };
@@ -330,6 +357,11 @@ function Booking() {
   };
 
   function handleScreeningInput(e) {
+    if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
+      // Here, notify the user about the mismatch
+      alert("Please select the same number of seats as tickets.");
+      return;
+    }
     setChosenScreening(e.target.parentNode.children[3].firstChild.value);
     setView("confirmation");
   }
@@ -376,10 +408,7 @@ function Booking() {
                   }}
                 />
               </div>
-              <div className="ticket-counter">
-                {/* <h3>Antal Biljetter: {getTotalTicketCount()}</h3>
-                <h3>Valda Säten: {seats.length}</h3> */}
-              </div>
+              <div className="ticket-counter"></div>
 
               {movie && movie.age <= 14 && (
                 <TicketCounter
@@ -418,23 +447,6 @@ function Booking() {
               <div className="total-amount">
                 <h3>Summa: {getTotalAmount()} Kr</h3>
               </div>
-              {/* <h2>Bokning för: {movie?.title}</h2>
-              <h3>
-                Visningsdatum:{" "}
-                {capitalizeFirstLetter(
-                  new Date(screening?.startTime).toLocaleDateString("sv-SE")
-                )}
-              </h3>
-              <h3>
-                Visningstid:{" "}
-                {new Date(screening?.startTime).toLocaleTimeString("sv-SE")} -
-                {new Date(screening?.endTime).toLocaleTimeString("sv-SE")}
-              </h3> */}
-              {/* <img
-                className="images"
-                src={movie?.images?.[0]}
-                alt={movie?.title}
-              /> */}
               <div className="theatre">
                 <div className="movie-screen">
                   <div className="drape-left"></div>
@@ -451,7 +463,7 @@ function Booking() {
             </>
           )}
           <button className="book-button" onClick={handleScreeningInput}>
-            Boka Film
+            Boka biljetter
           </button>
         </div>
       )}

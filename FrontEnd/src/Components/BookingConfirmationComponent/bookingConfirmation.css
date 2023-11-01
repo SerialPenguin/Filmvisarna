@@ -45,21 +45,28 @@
 .email-field:focus {
   outline: none;
 }
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 174, 0, 0.469) inset !important;
+}
+
 .send-btn {
-  margin-top: 4em;
+  margin-top: 50%;
   width: 102%;
 }
 .ticket {
   position: absolute;
   width: 98%;
+  right: 0;
+  left: 0;
+  margin: 20% auto;
   transform-style: preserve-3d;
 }
 .ticket-spin {
   position: absolute;
-  width: 95%;
+  width: 98%;
   left: 0;
   right: 0;
-  margin: 0 auto;
+  margin: 20% auto;
   transform-style: preserve-3d;
   animation: spin 2s forwards;
 }
@@ -74,10 +81,10 @@
 
 .ticket-spin-back {
   position: absolute;
-  width: 95%;
+  width: 98%;
   left: 0;
   right: 0;
-  margin: 0 auto;
+  margin: 20% auto;
   transform-style: preserve-3d;
   animation: spin-back 2s forwards;
 }
@@ -100,9 +107,8 @@
   backface-visibility: hidden;
 }
 .confirmation-container {
-  position: absolute;
-  margin-left: -10%;
-  margin-top: 2%;
+  position: relative;
+  margin-top: 38%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,12 +119,12 @@
 .movie,
 .tickets,
 .date {
-  transform: translateX(-110px);
+  font-size: 1.2rem;
+  font-weight: 700;
   margin-bottom: -1em;
 }
 .confirm-btn {
-  margin-right: 65%;
-  margin-top: 35%;
+  margin-top: 28%;
 }
 
 @keyframes spin-text {
@@ -147,20 +153,19 @@
   font-size: 2rem;
 }
 .booking-num--para {
+  color: #ba7e36;
   font-size: 1.5rem;
-  margin-top: -2.5em;
 }
 .booking-done-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 4em;
-  transform: translateZ(5px);
+  margin-top: 40%;
   animation: spin-text-back 2s forwards;
 }
 .booking-num {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
 }
 @keyframes spin-text-back {
@@ -179,7 +184,7 @@
   }
 }
 .nav-btn {
-  margin-top: 1.4em;
+  margin-top: 12%;
 }
 
 @media screen and (min-width: 800px) {
@@ -231,12 +236,15 @@
     outline: none;
   }
   .send-btn {
-    margin-top: 4em;
+    margin-top: 40%;
     width: 102%;
   }
   .ticket {
     position: absolute;
-    width: 95%;
+    width: 98%;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
     transform-style: preserve-3d;
   }
   .ticket-spin {
@@ -285,9 +293,8 @@
     backface-visibility: hidden;
   }
   .confirmation-container {
-    position: absolute;
-    margin-left: -1%;
-    margin-top: 2%;
+    position: relative;
+    margin-top: 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -298,11 +305,11 @@
   .movie,
   .tickets,
   .date {
-    transform: translateX(-110px);
+    font-size: 1.2rem;
+    font-weight: 700;
     margin-bottom: -1em;
   }
   .confirm-btn {
-    margin-right: 80%;
     margin-top: 25%;
   }
 

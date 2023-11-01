@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useGet } from "../hooksAndUtils/useFetch.js";
 import { Link } from "react-router-dom";
+import '../frontpage.css'
 
 const MovieCardComponent = () => {
   const [movies, setMovies] = useState([]);
@@ -16,43 +17,27 @@ const MovieCardComponent = () => {
   console.log(screenings);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "2em",
-        background: "black",
-        color: "white",
-      }}>
+    <div>
+      <div>
       <h2>Aktuella filmer</h2>
+      <div className="movie-card-container">
       {movies.map((movie) => (
         <div
           key={movie._id}
-          style={{ width: "370px", display: "flex", margin: "10px" }}>
-          <img src={movie.images} alt="" style={{ width: "100px" }} />
+          className="movie-card">
+          <img src={movie.images} alt="" className="movie-card-img" />
           <div>
-            <p style={{ margin: "0.2em", color: "#BA7E36" }}>{movie.title}</p>
+            <p className="movie-card-title">{movie.title}</p>
             <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: "-1em",
-                marginBottom: "-1em",
-              }}>
+              className="movie-card-info">
               <p style={{ fontSize: "0.7rem" }}>{movie.productionYear}</p>
               <p style={{ fontSize: "0.7rem" }}>{movie.length} min</p>
             </div>
             <p
-              style={{
-                padding: ".5em",
-                fontSize: "0.7rem",
-                height: "47px",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}>
+              className="movie-card-description">
               {movie.description}
             </p>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="movie-card-links">
               {screenings.map((screening) =>
                 movie._id === screening.movieId &&
                 screening.startTime < "2023-12-04T19:12:00.000Z" ? (
@@ -75,6 +60,8 @@ const MovieCardComponent = () => {
           </div>
         </div>
       ))}
+      </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,8 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/41efa3fc-9a22-4694-9641-c152029e0194/resourceGroups/MyResourceGroup/providers/Microsoft.Web/sites/Filmvisarna",
+    "appService.deploySubpath": "BackEnd\\server",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}

@@ -1,7 +1,7 @@
 const FooterComponent = () => {
   return (
     <div style={{ padding: "1em", background: "#C699EA", color: "white" }}>
-      <h3 style={{ textAlign: "center" }}>Visste du att</h3>
+      <h3 style={{ textAlign: "center", color: "white" }}>Visste du att</h3>
       <p style={{ textAlign: "center" }}>
         Som medlem får du exklusiva erbjudanden
       </p>
@@ -12,6 +12,8 @@ const FooterComponent = () => {
           flexDirection: "column",
           gap: ".3em",
           background: "black",
+          borderRadius: "8px",
+          padding: "1em", 
         }}>
         <h3 style={{ textAlign: "center" }}>Bli Medlem</h3>
         <label htmlFor="">Förnamn</label>
@@ -71,7 +73,7 @@ const FooterComponent = () => {
           }}
         />
 
-        <button>Bli medlem</button>
+        <button style={{ marginTop: "2em", marginBottom: "2em"}}>Bli medlem</button>
       </form>
     </div>
   );

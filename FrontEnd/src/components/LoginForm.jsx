@@ -25,43 +25,45 @@ function LoginForm() {
   };
 
   return (
-    <form className="form-container">
-      <label className="login-lbl">E-postadress</label>
-      <div className="input-container">
-        <input
-          type="email"
-          name="mail"
-          placeholder="namn@example.com"
-          className="login-field"
-          onChange={(e) =>
-            setCredentials({ ...credentials, emailAdress: e.target.value })
-          }
-        />
+    <>
+      <form className="form-container">
+        {loginMessage && <p className="login-msg">{loginMessage}</p>} 
+        <div className="input-container">
+          <label className="login-lbl">E-postadress</label>
+          <input
+            type="email"
+            name="mail"
+            placeholder="namn@example.com"
+            className="login-field first"
+            onChange={(e) =>
+              setCredentials({ ...credentials, emailAdress: e.target.value })
+            }
+          />
 
-        <label className="login-lbl">Lösenord</label>
-        <input
-          type="password"
-          name="password"
-          className="login-field"
-          onChange={(e) =>
-            setCredentials({ ...credentials, password: e.target.value })
-          }
-        />
+          <label className="login-lbl">Lösenord</label>
+          <input
+            type="password"
+            name="password"
+            className="login-field"
+            onChange={(e) =>
+              setCredentials({ ...credentials, password: e.target.value })
+            }
+          />
+          <p className="register-p">
+            Inte medlem ännu? <Link to={"/register"} className="register-p-link">Klicka här</Link>
+          </p>
+        </div>
+      </form>
+      <div className="btn-container">
+        <button className="main-btn" type="submit" onClick={handleSubmit}>
+          Logga in
+        </button>
+        <Link to={"/"}>
+          <button className="sec-btn">Avbryt</button>
+        </Link>
       </div>
-
-      {loginMessage && <p className="login-msg">{loginMessage}</p>}
-
-      <p className="redan-medlem">
-        Inte medlem ännu? <Link to={"/register"} className="redan-medlem">Klicka här</Link>
-      </p>
-
-      <button className="main-btn" type="submit" onClick={handleSubmit}>
-        Logga in
-      </button>
-      <Link to={"/"}>
-        <button className="sec-btn">Avbryt</button>
-      </Link>
-    </form>
+    </>
+    
   );
 }
 

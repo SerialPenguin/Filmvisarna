@@ -5,6 +5,7 @@ import CarouselMemberComponent from "./CarouselMemberComponent";
 import CarouselEventComponent from "./CarouselEventComponent";
 import prev from '../assets/prev.png';
 import next from '../assets/next.png';
+import '../frontpage.css'
 
 const FrontCarouselComponent = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -38,11 +39,11 @@ const FrontCarouselComponent = () => {
 
   return (
     <>
-      <div style={{ width: "390px", height: "30vh", background: "black", position: "relative"}}>
+      <div className="front-carousel">
         {carouselComponents[currentSlide]}
       </div>
-      <img src={prev} alt="" style={{ position: "absolute", top: "21%", left: "1%", width: "30px"}} onClick={prevComponent}/>
-      <img src={next} alt="" style={{ position: "absolute", top: "21%", right: "1%", width: "30px"}} onClick={nextComponent}/>
+      <img src={prev} alt="" className="front-carousel-icon" onClick={prevComponent}/>
+      <img src={next} alt="" className="front-carousel-icon" style={{ right: "1%"}}onClick={nextComponent}/>
     </>
   );
 };

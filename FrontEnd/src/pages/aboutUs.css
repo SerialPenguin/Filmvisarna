@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Jost:wght@200;300;400&display=swap");
+/* font-family: 'Alegreya', serif;
+font-family: 'Jost', sans-serif; */
+/* * {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(circle at center, rgb(70, 10, 73), black);
+} */
+
+.about-us-h2 {
+  font-family: "Jost", sans-serif;
+  text-transform: uppercase;
+}
+
+.about-us-p {
+  font-family: "Alegreya", serif;
+  color: #c699ea;
+}
+
+.about-us-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0.8em;
+  align-items: center;
+}
+
+.cinema-img,
+.counter-img {
+  width: 0%;
+}
+
+.find-us-section {
+  height: 40em;
+}
+
+@media (min-width: 800px) {
+  .counter-img {
+    width: 70%;
+    border-radius: 1em;
+  }
+
+  .cinema-img {
+    width: 60%;
+    border-radius: 1em;
+  }
+
+  .about-us-section {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .img-h2-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .img-h2-container h2 {
+    margin-top: 1em;
+  }
+
+  .img-h2-text-container {
+    flex: 0 1 40%;
+  }
+  .img-h2-text-container p {
+    padding: 1em;
+  }
+
+  .find-us-section {
+    margin-top: 5em;
+  }
+
+  .find-us-section h2 {
+    margin-bottom: 1em;
+  }
+}

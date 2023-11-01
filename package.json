@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies": {
+    "sessionstorage": "^0.1.0"
+  }
+}

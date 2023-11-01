@@ -1,8 +1,11 @@
 /** @format */
 
 import { useEffect, useState } from "react";
-const bearerToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
+import "./profile.css";
+// const token =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
+
+const token = sessionStorage.getItem("JWT_TOKEN");
 
 export default function Profile() {
   const [userData, setUserData] = useState("");
@@ -15,7 +18,7 @@ export default function Profile() {
         const fetchUser = await fetch("/api/auth/profile", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${bearerToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -77,35 +80,43 @@ export default function Profile() {
 
   return (
     <>
-      <h2>Profil</h2>
-      <h3>Dina uppgifter:</h3>
-      <table>
-        <tbody>
-          <tr>
-            <td>Förnamn:</td>
-            <td>{userData.firstName}</td>
-          </tr>
-          <tr>
-            <td>Efternamn:</td>
-            <td>{userData.lastName}</td>
-          </tr>
-          <tr>
-            <td>E-post:</td>
-            <td>{userData.emailAdress}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>Tidigare bokningar:</h3>
-      <ul>
-        {bookingId === false ? (
-          <p>Inga tidigare bokningar hittades</p>
-        ) : movieInfo.length === 0 ? (
-          <p>Laddar tidigare bokningar...</p>
-        ) : (
-          movieInfo.map((movie, i) => <li key={i}>{movie.title}</li>)
-        )}
-      </ul>
+      <h2 className="profile-h2">Profil</h2>
+      <div className="profilepage-content">
+        <table className="profile-table">
+          <h3 className="profile-h3">Dina uppgifter</h3>
+          <tbody className="profile-tbody">
+            <tr>
+              <td>Förnamn:</td>
+              <td>{userData.firstName}</td>
+            </tr>
+            <tr>
+              <td>Efternamn:</td>
+              <td>{userData.lastName}</td>
+            </tr>
+            <tr>
+              <td>E-post:</td>
+              <td>{userData.emailAdress}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="bookinghistory-container">
+          <h3 className="profile-h3">Tidigare bokningar</h3>
+          <ul className="profile-ul">
+            {bookingId === false ? (
+              <p>Inga tidigare bokningar hittades</p>
+            ) : movieInfo.length === 0 ? (
+              <p>Laddar tidigare bokningar...</p>
+            ) : (
+              movieInfo.map((movie, i) => (
+                <li key={i}>
+                  <img src={movie.images} />
+                  <p>{movie.title}</p>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+      </div>
     </>
   );
 }

@@ -111,9 +111,7 @@ export default function BookingConfirmation(props) {
               <input
                 required
                 type="email"
-                autoFocus
                 className="email-field"
-                placeholder="example.mail@example.com"
                 onChange={handleBookingBody}
                 onBlur={handleBookingBody}
                 value={email || ""}
@@ -136,8 +134,7 @@ export default function BookingConfirmation(props) {
           <img className="ticket-front" src={TicketFront} />
           <img className="ticket-back" src={TicketBack} />
         </div>
-      </div>
-      <div>
+        <div>
         {animationStage === "middle" && (
           <div>
             {toggleClassName === 'ticket-spin' && (
@@ -151,6 +148,7 @@ export default function BookingConfirmation(props) {
             )}
           </div>
         )}
+      </div>
       </div>
       {animationStage === "end" && (
         <div>

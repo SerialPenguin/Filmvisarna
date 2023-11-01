@@ -58,15 +58,15 @@ input:-webkit-autofill {
   width: 98%;
   right: 0;
   left: 0;
-  margin: 0 auto;
+  margin: 20% auto;
   transform-style: preserve-3d;
 }
 .ticket-spin {
   position: absolute;
-  width: 95%;
+  width: 98%;
   left: 0;
   right: 0;
-  margin: 0 auto;
+  margin: 20% auto;
   transform-style: preserve-3d;
   animation: spin 2s forwards;
 }
@@ -81,10 +81,10 @@ input:-webkit-autofill {
 
 .ticket-spin-back {
   position: absolute;
-  width: 95%;
+  width: 98%;
   left: 0;
   right: 0;
-  margin: 0 auto;
+  margin: 20% auto;
   transform-style: preserve-3d;
   animation: spin-back 2s forwards;
 }
@@ -108,7 +108,7 @@ input:-webkit-autofill {
 }
 .confirmation-container {
   position: relative;
-  margin-top: 5%;
+  margin-top: 38%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,7 +124,7 @@ input:-webkit-autofill {
   margin-bottom: -1em;
 }
 .confirm-btn {
-  margin-top: 25%;
+  margin-top: 28%;
 }
 
 @keyframes spin-text {
@@ -153,20 +153,19 @@ input:-webkit-autofill {
   font-size: 2rem;
 }
 .booking-num--para {
+  color: #ba7e36;
   font-size: 1.5rem;
-  margin-top: -2.5em;
 }
 .booking-done-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 4em;
-  transform: translateZ(5px);
+  margin-top: 40%;
   animation: spin-text-back 2s forwards;
 }
 .booking-num {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
 }
 @keyframes spin-text-back {
@@ -185,7 +184,7 @@ input:-webkit-autofill {
   }
 }
 .nav-btn {
-  margin-top: 1.4em;
+  margin-top: 12%;
 }
 
 @media screen and (min-width: 800px) {

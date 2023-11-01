@@ -282,6 +282,7 @@ function Booking() {
     return () => {
       sessionStorage.removeItem("bookingData");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check if the screeningId in the route matches the stored one

@@ -154,7 +154,8 @@ h3 {
 }
 
 .book-button {
-    margin-left: 36vw;
+    width: 250px;
+    margin-left: 20vw;
     margin-top: 10px;
 }
 
@@ -213,10 +214,13 @@ h3 {
     }
 
     .book-button {
+        width: 400px;
         display: block;
         margin-left: auto;
         margin-right: auto;
         padding: 15px;
+        margin-top: 50px;
+        margin-bottom: 40px;
     }
     
     .clear-button {

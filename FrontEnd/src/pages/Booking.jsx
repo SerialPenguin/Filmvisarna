@@ -460,7 +460,7 @@ function Booking() {
             </>
           )}
           <button className="book-button" onClick={handleScreeningInput}>
-            Boka Film
+            Boka biljetter
           </button>
         </div>
       )}

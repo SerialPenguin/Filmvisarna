@@ -3,10 +3,10 @@ import rubber from '../assets/halloween-rubber.jpeg';
 
 const CarouselEventComponent = () => {
   return (
-      <div style={{ width: "70%", height: "100%", background: "black", margin: "0 auto", textAlign: "center"}}>
-      <p style={{ color: "orange", margin: 0}}>Halloween Extravaganza</p>
-      <img src={bluehour} alt="" style={{ height: "70%"}}/>
-      <img src={rubber} alt="" style={{ height: "70%"}}/>
+      <div className='event-carousel-container'>
+      <p className='event-carousel-title'>Halloween Extravaganza</p>
+      <img src={bluehour} alt="" className='event-carousel-img'/>
+      <img src={rubber} alt="" className='event-carousel-img'/>
     </div>
     
   )

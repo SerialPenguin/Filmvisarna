@@ -1,16 +1,14 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import close from "../assets/close.png";
 import logo from "../assets/FilmvisarnaLogoTwo.png";
 
 const NavComponent = ({ onCloseClick }) => {
   const location = useLocation();
   const jwtToken = sessionStorage.getItem('JWT_TOKEN');
-  const navigate = useNavigate();
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning
     sessionStorage.removeItem('JWT_TOKEN');
-
-    navigate('/');
+    onCloseClick();
   };
   return (
     <>
@@ -66,13 +64,15 @@ const NavComponent = ({ onCloseClick }) => {
           </ul>
           {jwtToken ? (
         // Om jwtToken finns, visa logout-knapp
-        <button className="nav-login-btn" onClick={handleLogout}>
-          Logga Ut
-        </button>
+        <Link to="/">
+          <button className="nav-login-btn" onClick={handleLogout}>
+            Logga Ut
+          </button>
+        </Link>
       ) : (
         // Om jwtToken inte finns, visa login-knapp som länkar till /login
         <Link to="/login">
-          <button className="nav-login-btn">
+          <button className="nav-login-btn" onClick={onCloseClick}>
             Logga In
           </button>
         </Link>

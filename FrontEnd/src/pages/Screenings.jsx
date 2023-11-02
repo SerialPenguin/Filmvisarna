@@ -168,7 +168,7 @@ function Screenings() {
         <p>Laddar...</p>
       ) : (
         Object.keys(screeningsByDate).map((date) => (
-          <div key={date}>
+          <div key={date} className="screening-date-container">
             <h2 className="date-title">
               {date.charAt(0).toUpperCase() + date.slice(1)}
             </h2>
@@ -189,7 +189,7 @@ function Screenings() {
 
                   <p className="screenings-p">Salong: {screening.salon.name}</p>
                   <p className="screenings-p">
-                    Start: {formatTimeToHHMM(screening.startTime)}
+                    Börjar: {formatTimeToHHMM(screening.startTime)}
                   </p>
                   <Link to={`/booking/${screening._id}`}>
                     <button className="main-btn-color">Boka</button>

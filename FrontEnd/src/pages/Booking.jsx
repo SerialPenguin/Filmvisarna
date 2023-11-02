@@ -357,14 +357,33 @@ function Booking() {
     children: "Barnbiljetter",
   };
 
+  // function handleScreeningInput(e) {
+  //   if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
+  //     // Here, notify the user about the mismatch
+  //     alert("Please select the same number of seats as tickets.");
+  //     return;
+  //   }
+  //   setChosenScreening(e.target.parentNode.children[3].firstChild.value);
+  //   setView("confirmation");
+  // }
+
   function handleScreeningInput(e) {
     if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
-      // Here, notify the user about the mismatch
-      alert("Please select the same number of seats as tickets.");
+      showAlert("Vänligen välj lika många säten som biljetter.");
       return;
     }
     setChosenScreening(e.target.parentNode.children[3].firstChild.value);
     setView("confirmation");
+  }
+
+  function showAlert(message) {
+    document.getElementById("alertMessage").textContent = message;
+    let modal = document.getElementById("customAlert");
+    modal.style.display = "block";
+
+    document.querySelector(".close-btn").onclick = function () {
+      modal.style.display = "none";
+    };
   }
 
   return (
@@ -375,6 +394,18 @@ function Booking() {
             <p>Laddar...</p>
           ) : (
             <>
+              <div>
+                <h2 className="booking-poster-title">{movie?.title}</h2>
+                <img
+                  className="booking-poster"
+                  src={movie.images[0]}
+                  alt={movie.title}
+                />
+                <h2 className="booking-poster-text">
+                  <h3 className="showing-text"> Visas:</h3>{" "}
+                  <h3 className="showing-second-text">{filterScreenings}</h3>
+                </h2>
+              </div>
               <h2>Boka Biljetter</h2>
               <div className="dropdown-container">
                 <DropdownSelect
@@ -463,6 +494,14 @@ function Booking() {
               </div>
             </>
           )}
+          <div id="customAlert" className="alert-modal">
+            <div className="alert-content">
+              <span className="close-btn">Stäng</span>
+              <p id="alertMessage">
+                Vänligen välj lika många säten som biljetter.
+              </p>
+            </div>
+          </div>
           <button className="book-button" onClick={handleScreeningInput}>
             Boka biljetter
           </button>

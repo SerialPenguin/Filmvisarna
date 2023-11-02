@@ -5,6 +5,7 @@
     text-align: center;
     width: 350px;
     margin: 20px auto;
+    font-weight: 100;
 }
 .date-title{
     margin-left: 5%;
@@ -22,6 +23,7 @@ iframe, .iframe-container {
 body{
     background: radial-gradient(circle at center, rgb(70, 10, 73), black);
     width: 100%;
+    background-attachment: fixed;
 }
 .movieinfo-container{
     margin: auto;
@@ -53,7 +55,8 @@ body{
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background: radial-gradient(circle at center, rgb(70, 10, 73), black);
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 20px;
 }
 .screenings-list{
     margin: 5%;
@@ -67,14 +70,23 @@ body{
     color:rgb(204, 211, 218);
 }
 .screenings-selectors{
-    width: 25%;
+    width: 23.5%;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    color: black;
+    font-size: large;
+    margin: auto;
 }
 .filters-containers{
     display: flex;
     flex-direction: row;
+    margin-bottom: 1em;
 }
 div#root{
     width: 100%;
+}
+.normal-text, .screenings-p, .link-color{
+    color:#BA7E36;
 }
 
 /* HeaderNavComponent css --------------------------------------------------------------------------------------------------------------------*/
@@ -169,13 +181,17 @@ div#root{
 }
 .register-field, .login-field{
     background-color: #2C142E;
-    border: 2px#150316;
-    border-style: solid;
+    border: 2px solid #150316;
     width: 100%;
     height: 3em;
-
+    padding-left: 1em;
+    box-sizing: border-box;
     border-radius: 1em;
     margin: auto;
+    outline: none;
+}
+.register-field:focus, .login-field:focus{
+    border: 2px solid #BA7E36;
 }
 .page-wrapper{
     height: 100vh;
@@ -186,21 +202,6 @@ div#root{
     width: 350px;
     margin: auto;
     text-align: center;
-}
-::placeholder {
-    padding-left: 1em;
-}
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    padding-left: 1em;
-}
-::-moz-placeholder { /* Firefox 19+ */
-    padding-left: 1em;
-}
-:-ms-input-placeholder { /* IE 10+ */
-    padding-left: 1em;
-}
-:-moz-placeholder { /* Firefox 18- */
-    padding-left: 1em;
 }
 @media (max-width: 350px){
     .iframe-container, .button-container, .text-containers, iframe, .main-text-title{
@@ -222,15 +223,12 @@ div#root{
     .screenings-selectors{
         width: 23.5%;
     }
-    .filters-containers{
-        padding-left: 5%;
-    }
     /*login register*/
     .welcome-text, .form-container{
         width: 450px;
     }
 }
-@media (min-width: 800px){
+@media (min-width: 768px){
     /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
     .hmbrg-img, .hmbrg-img-nav{
         display: none;
@@ -247,7 +245,11 @@ div#root{
     .nav-container{
         flex-direction: row;
         height: 4em;
-        background: black;
+        /* From https://css.glass */
+        background: rgba(44, 20, 46, 0.18);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(2.6px);
+        border: 1px solid rgba(44, 20, 46, 0.29);
     }
     .nav-login-btn{
         width: 80%;
@@ -277,7 +279,7 @@ div#root{
         margin-right: 1em;
     }
     .active{
-        background-image: linear-gradient(black, black);
+        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
         color:#BA7E36;
     }
     /*more info page  --------------------------------------------------------------------------------------------------------------------*/
@@ -290,7 +292,7 @@ div#root{
     }
     .return-container{
         margin: auto;
-        width: 800px;
+        width: 750px;
     }
 }
 @media (min-width: 1500px){

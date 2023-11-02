@@ -67,7 +67,7 @@ export default function BookingConfirmation(props) {
 
       setPrice((adultsSum += childrenSum += seniorsSum));
     }
-    
+
     console.log("BB 2: ", bookingBody);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
@@ -89,11 +89,13 @@ export default function BookingConfirmation(props) {
       console.log("new booking: ", booking);
       console.log(bookingBody);
 
-      if(booking.message.includes("Booking created!")) {
-          setToggleClassName('ticket-spin-back');
-          setAnimationStage('end');
-          setBookingNumber(booking.booking.bookingNumber ? booking.booking.bookingNumber : "");
-          sessionStorage.removeItem("bookingData");
+      if (booking.message.includes("Booking created!")) {
+        setToggleClassName("ticket-spin-back");
+        setAnimationStage("end");
+        setBookingNumber(
+          booking.booking.bookingNumber ? booking.booking.bookingNumber : ""
+        );
+        sessionStorage.removeItem("bookingData");
       }
     } catch (err) {
       return alert(err);
@@ -116,7 +118,8 @@ export default function BookingConfirmation(props) {
                 onBlur={handleBookingBody}
                 value={email || ""}
                 name="email"
-                id="email"></input>
+                id="email"
+              ></input>
               {email.includes("@") && (
                 <button
                   className="send-btn"
@@ -125,7 +128,8 @@ export default function BookingConfirmation(props) {
                     setDisplayInput(false);
                     setAnimationStage("middle");
                     setToggleClassName("ticket-spin");
-                  }}>
+                  }}
+                >
                   Skicka bekräftelsen
                 </button>
               )}
@@ -135,20 +139,38 @@ export default function BookingConfirmation(props) {
           <img className="ticket-back" src={TicketBack} />
         </div>
         <div>
-        {animationStage === "middle" && (
-          <div>
-            {toggleClassName === 'ticket-spin' && (
-              <div className='confirmation-container'>
-                <p className='price'>Pris: {price} kr</p>
-                <p className='movie'>{movie.length > 25 ? `Film: ${movie.slice(0, 25)}...` : `Film: ${movie}`}</p>
-                <p className='tickets'>{bookingBody.seats.length === 1 ? `Stol: ${bookingBody.seats.map((seat) => seat.seatNumber)}` : `Stolar: ${bookingBody.seats.map((seat) => seat.seatNumber).sort().join(", ")}`}</p>
-                <p className='date'>Datum: {date.slice(0, 30)}</p>
-                <button className="confirm-btn" onClick={handleSendConfirmation}>Bekräfta</button>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          {animationStage === "middle" && (
+            <div>
+              {toggleClassName === "ticket-spin" && (
+                <div className="confirmation-container">
+                  <p className="price">Pris: {price} kr</p>
+                  <p className="movie">
+                    {movie.length > 25
+                      ? `Film: ${movie.slice(0, 25)}...`
+                      : `Film: ${movie}`}
+                  </p>
+                  <p className="tickets">
+                    {bookingBody.seats.length === 1
+                      ? `Stol: ${bookingBody.seats.map(
+                          (seat) => seat.seatNumber
+                        )}`
+                      : `Stolar: ${bookingBody.seats
+                          .map((seat) => seat.seatNumber)
+                          .sort()
+                          .join(", ")}`}
+                  </p>
+                  <p className="date">Datum: {date.slice(0, 30)}</p>
+                  <button
+                    className="confirm-btn"
+                    onClick={handleSendConfirmation}
+                  >
+                    Bekräfta
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       {animationStage === "end" && (
         <div>

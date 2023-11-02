@@ -1,20 +1,18 @@
 const FooterComponent = () => {
   return (
-    <div style={{ padding: "1em", background: "#C699EA", color: "white" }}>
-      <h3 style={{ textAlign: "center", color: "white" }}>Visste du att</h3>
-      <p style={{ textAlign: "center" }}>
+    <div className="footer-container">
+        <div className="footer-info-container">
+      <h3 className="footer-title">Visste du att</h3>
+      <p className="footer-text">
         Som medlem får du exklusiva erbjudanden
       </p>
+      <p className="footer-text-desktop">
+      Fyll i formuläret för att bli medlem hos oss och få tillgång till dina exklusiva erbjudanden redan idag! Det tar bara några sekunder, och du kan vara lugn, vi kommer inte skicka några spam-mejl och dina användaruppgifter är säkra hos oss.
+      </p>
+      </div>
       <form
         action=""
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: ".3em",
-          background: "black",
-          borderRadius: "8px",
-          padding: "1em", 
-        }}>
+        className="footer-form-style">
         <h3 style={{ textAlign: "center" }}>Bli Medlem</h3>
         <label htmlFor="">Förnamn</label>
         <input
@@ -22,13 +20,7 @@ const FooterComponent = () => {
           name="name"
           id=""
           placeholder="John"
-          style={{
-            padding: ".6em",
-            borderRadius: "8px",
-            border: "none",
-            background: "#704561",
-            color: "#EED9FF",
-          }}
+          className="footer-input"
         />
         <label htmlFor="">Efternamn</label>
         <input
@@ -36,13 +28,7 @@ const FooterComponent = () => {
           name="surname"
           id=""
           placeholder="Andersson"
-          style={{
-            padding: ".6em",
-            borderRadius: "8px",
-            border: "none",
-            background: "#704561",
-            color: "#EED9FF",
-          }}
+          className="footer-input"
         />
         <label htmlFor="">E-postadress</label>
         <input
@@ -50,13 +36,7 @@ const FooterComponent = () => {
           name="email"
           id=""
           placeholder="namn@exempel.se"
-          style={{
-            padding: ".6em",
-            borderRadius: "8px",
-            border: "none",
-            background: "#704561",
-            color: "#EED9FF",
-          }}
+          className="footer-input"
         />
         <label htmlFor="">Lösenord</label>
         <input
@@ -64,16 +44,10 @@ const FooterComponent = () => {
           name="name"
           id=""
           placeholder="John"
-          style={{
-            padding: ".6em",
-            borderRadius: "8px",
-            border: "none",
-            background: "#704561",
-            color: "#EED9FF",
-          }}
+          className="footer-input"
         />
 
-        <button style={{ marginTop: "2em", marginBottom: "2em"}}>Bli medlem</button>
+        <button className="footer-btn">Bli medlem</button>
       </form>
     </div>
   );

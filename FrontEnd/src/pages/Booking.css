@@ -29,16 +29,7 @@
     
     
 }
-.showing-text {
-    margin-right: 5px; 
-    font-size: 17px;
-    margin-bottom: -20px;
-}
 
-.showing-second-text {
-    font-size: 17px;
-    margin-top: 21.5px;
-}
 
 .alert-modal {
     display: none;
@@ -422,12 +413,7 @@ h3 {
         font-size: 20px;
         
     }
-    .showing-text {
-        margin-right: 5px; 
-        font-size: 20px;
-        margin-bottom: -17px;
-    }
-    
+
 }
 
 

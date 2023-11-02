@@ -27,10 +27,12 @@
     padding: 10px; 
     font-size: 18px;
     
+    
 }
 .showing-text {
     margin-right: 5px; 
     font-size: 17px;
+    margin-bottom: -20px;
 }
 
 .showing-second-text {
@@ -423,6 +425,7 @@ h3 {
     .showing-text {
         margin-right: 5px; 
         font-size: 20px;
+        margin-bottom: -17px;
     }
     
 }

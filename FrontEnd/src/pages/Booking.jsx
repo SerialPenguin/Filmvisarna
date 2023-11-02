@@ -40,7 +40,7 @@ function Booking() {
   );
   const [tickets, setTickets] = useState(() =>
     loadState("tickets", {
-      adults: { ticketType: "adult", quantity: 0, price: 140 },
+      adults: { ticketType: "adult", quantity: 2, price: 140 },
       seniors: { ticketType: "senior", quantity: 0, price: 120 },
       children: { ticketType: "child", quantity: 0, price: 100 },
     })
@@ -375,7 +375,7 @@ function Booking() {
       showAlert("Vänligen välj lika många säten som biljetter.");
       return;
     }
-    setChosenScreening(e.target.parentNode.children[3].firstChild.value);
+    setChosenScreening(e.target.parentNode.children[4].firstChild.value);
     setView("confirmation");
   }
 

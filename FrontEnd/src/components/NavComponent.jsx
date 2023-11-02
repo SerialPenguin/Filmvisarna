@@ -1,9 +1,17 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import close from "../assets/close.png";
 import logo from "../assets/FilmvisarnaLogoTwo.png";
 
 const NavComponent = ({ onCloseClick }) => {
   const location = useLocation();
+  const jwtToken = sessionStorage.getItem('JWT_TOKEN');
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // Ta bort JWT-token från sessionStorage vid utloggning
+    sessionStorage.removeItem('JWT_TOKEN');
+
+    navigate('/');
+  };
   return (
     <>
       <nav className="nav-container">
@@ -42,22 +50,33 @@ const NavComponent = ({ onCloseClick }) => {
                 OM OSS
               </li>
             </Link>
+            {jwtToken ? (
             <Link to={"/profile"}>
               <li className={`nav-list-item ${location.pathname === '/profile' ? 'active' : ''}`} onClick={onCloseClick}>
                 PROFIL
               </li>
             </Link>
+            ):(
             <Link to={"/register"}>
               <li className={`nav-list-item ${location.pathname === '/register' ? 'active' : ''}`} onClick={onCloseClick}>
                 BLI MEDLEM
               </li>
             </Link>
+            )}
           </ul>
-        <Link to={"/login"}>
-          <button className={`nav-login-btn ${location.pathname === '/login' ? 'active' : ''}`} onClick={onCloseClick}>
+          {jwtToken ? (
+        // Om jwtToken finns, visa logout-knapp
+        <button className="nav-login-btn" onClick={handleLogout}>
+          Logga Ut
+        </button>
+      ) : (
+        // Om jwtToken inte finns, visa login-knapp som länkar till /login
+        <Link to="/login">
+          <button className="nav-login-btn">
             Logga In
           </button>
         </Link>
+      )}
         </div>
       </nav>
     </>

@@ -42,7 +42,7 @@ const FrontCarouselComponent = () => {
       <div className="front-carousel">
         {carouselComponents[currentSlide]}
       </div>
-      <img src={prev} alt="" className="front-carousel-icon" onClick={prevComponent}/>
+      <img src={prev} alt="" className="front-carousel-icon" style={{ left: "1%"}}onClick={prevComponent}/>
       <img src={next} alt="" className="front-carousel-icon" style={{ right: "1%"}}onClick={nextComponent}/>
     </>
   );

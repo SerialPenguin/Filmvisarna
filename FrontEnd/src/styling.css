@@ -5,6 +5,7 @@
     text-align: center;
     width: 350px;
     margin: 20px auto;
+    font-weight: 100;
 }
 .date-title{
     margin-left: 5%;
@@ -162,7 +163,7 @@ div#root{
     height: 90%;
 }
 /*register login page  ------------------------------------------------------------------------------------------*/
-.form-container{
+/* .form-container{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -201,7 +202,8 @@ div#root{
     width: 350px;
     margin: auto;
     text-align: center;
-}
+} */
+
 @media (max-width: 350px){
     .iframe-container, .button-container, .text-containers, iframe, .main-text-title{
         margin: auto;
@@ -223,9 +225,9 @@ div#root{
         width: 23.5%;
     }
     /*login register*/
-    .welcome-text, .form-container{
+    /* .welcome-text, .form-container{
         width: 450px;
-    }
+    } */
 }
 @media (min-width: 768px){
     /* header nav component  --------------------------------------------------------------------------------------------------------------------*/

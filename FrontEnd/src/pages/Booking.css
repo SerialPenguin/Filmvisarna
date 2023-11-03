@@ -1,3 +1,45 @@
+.booking-poster-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0 auto; 
+    padding: 10px; 
+}
+
+.booking-poster {
+    display: flex;  
+    justify-content: center; 
+    align-items: center;  
+    width: 20vw;
+    margin: 0 auto;  
+}
+
+.booking-poster-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width: 200px;
+    color: #C699EA;
+    margin: 0 auto;  
+    padding: 10px; 
+    font-size: 18px;
+    
+    
+}
+.showing-text {
+    margin-right: 5px; 
+    font-size: 17px;
+    margin-bottom: -20px;
+}
+
+.showing-second-text {
+    font-size: 17px;
+    margin-top: 21.5px;
+}
+
 .alert-modal {
     display: none;
     position: fixed;
@@ -149,6 +191,11 @@ h2 {
     display: flex;
     justify-content: center;
     color: #BA7E36;
+    font-weight: 300;
+    font-size: 2.5rem;
+    margin-left: auto;
+     margin-right: auto;
+    
 }
 
 h3 {
@@ -345,5 +392,43 @@ h3 {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); 
     }
     
+    .booking-poster-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        margin: 0 auto; 
+        padding: 10px; 
+    }
+    
+    .booking-poster {
+        display: flex;  
+        justify-content: center; 
+        align-items: center;  
+        width: 10vw;
+        margin: 0 auto;  
+    }
+    
+    .booking-poster-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        padding: 5px 10px;
+        width: 200px;
+        color: #C699EA;
+        margin: 0 auto;  
+        padding: 10px; 
+        font-size: 20px;
+        
+    }
+    .showing-text {
+        margin-right: 5px; 
+        font-size: 20px;
+        margin-bottom: -17px;
+    }
+    
 }
+
+
 

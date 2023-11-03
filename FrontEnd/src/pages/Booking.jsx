@@ -340,17 +340,20 @@ function Booking() {
         );
         const capitalizedDate = capitalizeFirstLetter(formattedDate);
 
-        const endTime = new Date(s.endTime).toLocaleTimeString("sv-SE");
+        const startTime = new Date(s.startTime)
+          .toLocaleTimeString("sv-SE")
+          .slice(0, -3);
+        const endTime = new Date(s.endTime)
+          .toLocaleTimeString("sv-SE")
+          .slice(0, -3);
 
         return (
           <option key={s._id} value={s._id}>
-            {capitalizedDate} kl{" "}
-            {new Date(s.startTime).toLocaleTimeString("sv-SE")} - {endTime}
+            {capitalizedDate} kl {startTime} - {endTime}
           </option>
         );
       })
     );
-
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",
@@ -394,6 +397,18 @@ function Booking() {
             <p>Laddar...</p>
           ) : (
             <>
+              <div>
+                <h2 className="booking-poster-title">{movie?.title}</h2>
+                <img
+                  className="booking-poster"
+                  src={movie.images[0]}
+                  alt={movie.title}
+                />
+                <h2 className="booking-poster-text">
+                  <h3 className="showing-text"> Visas:</h3>{" "}
+                  <h3 className="showing-second-text">{filterScreenings}</h3>
+                </h2>
+              </div>
               <h2>Boka Biljetter</h2>
               <div className="dropdown-container">
                 <DropdownSelect

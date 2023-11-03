@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
-import "../styling.css"
+import "./Screenings.css"
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -165,10 +165,10 @@ function Screenings() {
         )}
       </div>
       {loading ? (
-        <p>Laddar...</p>
+        <p className="Laddar">Laddar...</p>
       ) : (
         Object.keys(screeningsByDate).map((date) => (
-          <div key={date} className="screening-date-container">
+          <div key={date}>
             <h2 className="date-title">
               {date.charAt(0).toUpperCase() + date.slice(1)}
             </h2>

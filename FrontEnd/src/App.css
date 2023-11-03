@@ -4,16 +4,6 @@
   gap: 20px;
 }
 
-.movie-card {
-  border: 1px solid #ccc;
-  padding: 20px;
-  text-align: center;
-}
-
-.movie-card img {
-  max-width: 100%;
-  height: 30%;
-}
 
 .booked {
   position: relative; 

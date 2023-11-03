@@ -172,93 +172,7 @@ div#root {
   height: 90%;
 }
 /*register login page  ------------------------------------------------------------------------------------------*/
-.form-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 350px;
-  margin: auto;
-}
-.register-lbl,
-.login-lbl {
-  color: #c699ea;
-  font-weight: 500;
-  margin-left: 1em;
-}
-.input-container {
-  display: flex;
-  flex-direction: column;
-}
-.register-field,
-.login-field {
-  background-color: #2c142e;
-  border: 2px solid #150316;
-  width: 100%;
-  height: 3em;
-  padding-left: 1em;
-  box-sizing: border-box;
-  border-radius: 1em;
-  margin: auto;
-  outline: none;
-}
-.register-field:focus,
-.login-field:focus {
-  border: 2px solid #ba7e36;
-}
-.page-wrapper {
-  height: 100vh;
-}
-.welcome-text {
-  font-weight: 300;
-  font-size: 2.5rem;
-  width: 350px;
-  margin: auto;
-  text-align: center;
-}
-@media (max-width: 350px) {
-  .iframe-container,
-  .button-container,
-  .text-containers,
-  iframe,
-  .main-text-title {
-    margin: auto;
-    width: 250px;
-  }
-  iframe,
-  .iframe-container {
-    height: 141px;
-  }
-}
-@media (min-width: 600px) {
-  .iframe-container,
-  iframe {
-    width: 500px;
-    height: 281.25px;
-  }
-  .text-containers,
-  .button-container,
-  .main-text-title {
-    width: 500px;
-  }
-  .screenings-selectors {
-    width: 23.5%;
-  }
-  /*login register*/
-  .welcome-text,
-  .form-container {
-    width: 450px;
-  }
-}
-@media (min-width: 768px) {
-  /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
-  .hmbrg-img,
-  .hmbrg-img-nav {
-    display: none;
-  }
-  .header-nav-bar {
-    background-color: rgba(0, 0, 0, 0);
-  }
-  .nav-list-container {
+/* .form-container{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -331,4 +245,116 @@ div#root {
   .nav-div-container {
     width: 30%;
   }
+}
+.welcome-text{
+    font-weight: 300;
+    font-size: 2.5rem;
+    width: 350px;
+    margin: auto;
+    text-align: center;
+} */
+
+@media (max-width: 350px){
+    .iframe-container, .button-container, .text-containers, iframe, .main-text-title{
+        margin: auto;
+        width: 250px;
+    }
+    iframe, .iframe-container {
+        height: 141px;
+    }
+}
+@media (min-width: 600px){
+    .iframe-container, iframe{
+        width: 500px;
+        height: 281.25px;
+    }
+    .text-containers, .button-container, .main-text-title{
+        width: 500px;
+    }
+    .screenings-selectors{
+        width: 23.5%;
+    }
+    /*login register*/
+    /* .welcome-text, .form-container{
+        width: 450px;
+    } */
+}
+@media (min-width: 768px){
+    /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
+    .hmbrg-img, .hmbrg-img-nav{
+        display: none;
+    }
+    .header-nav-bar{
+        background-color: rgba(0, 0, 0, 0);
+    }
+    .nav-list-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+    .nav-container{
+        flex-direction: row;
+        height: 4em;
+        /* From https://css.glass */
+        background: rgba(44, 20, 46, 0.18);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(2.6px);
+        border: 1px solid rgba(44, 20, 46, 0.29);
+    }
+    .nav-login-btn{
+        width: 80%;
+        margin-bottom: 0em;
+    }
+    .nav-list-item{
+        padding: 1em 0;
+        width: 100%;
+        font-size: 1em;
+        font-weight: 500;
+    }
+    .nav-div-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        width: 70%;
+        align-items: baseline;
+    }
+    .nav-login-btn{
+        margin: 0;
+        background-color: black;
+        color:#C699EA;
+        border-color: #C699EA;
+        height: 2em;
+        width: 7em;
+        padding: 0;
+        margin-right: 1em;
+    }
+    .active{
+        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+        color:#BA7E36;
+    }
+    /*more info page  --------------------------------------------------------------------------------------------------------------------*/
+    .iframe-container, iframe{
+        width: 700px;
+        height: 393.75px;
+    }
+    .text-containers, .button-container, .main-text-title{
+        width: 700px;
+    }
+    .return-container{
+        margin: auto;
+        width: 750px;
+    }
+}
+@media (min-width: 1500px){
+    /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
+    .nav-div-container{
+        width: 50%;
+    }
+}
+@media (min-width: 2000px){
+     /* header nav component  --------------------------------------------------------------------------------------------------------------------*/
+    .nav-div-container{
+        width: 30%;
+    }
 }

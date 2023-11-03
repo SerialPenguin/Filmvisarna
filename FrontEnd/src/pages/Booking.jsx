@@ -340,17 +340,20 @@ function Booking() {
         );
         const capitalizedDate = capitalizeFirstLetter(formattedDate);
 
-        const endTime = new Date(s.endTime).toLocaleTimeString("sv-SE");
+        const startTime = new Date(s.startTime)
+          .toLocaleTimeString("sv-SE")
+          .slice(0, -3);
+        const endTime = new Date(s.endTime)
+          .toLocaleTimeString("sv-SE")
+          .slice(0, -3);
 
         return (
           <option key={s._id} value={s._id}>
-            {capitalizedDate} kl{" "}
-            {new Date(s.startTime).toLocaleTimeString("sv-SE")} - {endTime}
+            {capitalizedDate} kl {startTime} - {endTime}
           </option>
         );
       })
     );
-
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",

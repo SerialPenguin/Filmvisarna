@@ -1,0 +1,121 @@
+*, body, html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.register-wrapper {
+  background: linear-gradient(#150316, #3F1441) ;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3.5%;
+  z-index: 1001;
+}
+
+.login-header {
+  width: 100%;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo {
+  background-image: url(../assets/FilmvisarnaLogoTwo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 350px;
+  height: 86px;
+}
+
+.welcome-text {
+  color: #C699EA;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 768px;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-lbl {
+  font-size: 16px;
+  font-weight: 500;
+  color: #C699EA;
+  margin-bottom: 8px;
+}
+
+.login-field {
+  background-color: #2D142E;
+  color: #C699EA;
+  height: 44px;
+  padding: 0 8px;
+  font-size: 16px;
+  border: 1px solid #C699EA;
+  border-radius: 8px;
+}
+
+.first {
+  margin-bottom: 16px;
+}
+
+.register-p {
+  color: #BA7E36;
+  align-self: flex-end;
+  margin-top: 8px;
+}
+
+.register-p-link {
+  color: #BA7E36;
+}
+
+.register-p-link:hover {
+  color: #e0a966;
+}
+
+
+.login-field:focus {
+  outline: none;
+  border: 2px solid #BA7E36;
+}
+
+.login-field::placeholder {
+  color: #c699ea5e;
+}
+
+.login-field:-webkit-autofill {
+  -webkit-text-fill-color: #C699EA;
+  -webkit-box-shadow: 0 0 0px 1000px #2D142E inset !important;
+}
+
+.login-msg {
+  color: rgb(182, 37, 71);
+  font-size: 16px;
+}
+
+.btn-container {
+  width: 100%;
+  max-width: 768px;
+  padding: 0 8px;
+}
+
+.copyright {
+  font-size: 14px;
+  color: #C699EA;
+}

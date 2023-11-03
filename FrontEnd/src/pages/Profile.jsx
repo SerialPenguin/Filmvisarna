@@ -83,7 +83,6 @@ export default function Profile() {
       <h2 className="profile-h2">Profil</h2>
       <div className="profilepage-content">
         <table className="profile-table">
-          <h3 className="profile-h3">Dina uppgifter</h3>
           <tbody className="profile-tbody">
             <tr>
               <td>Förnamn:</td>

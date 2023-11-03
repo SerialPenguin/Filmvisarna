@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import logo from "../assets/FilmvisarnaLogoTwo.png";
 import menu from "../assets/menu.png";
 import NavComponent from "./NavComponent.jsx";
-import "../styling.css"
 
 export default function HeaderNavComponent() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);

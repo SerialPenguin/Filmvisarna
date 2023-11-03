@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
-import "../styling.css"
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);

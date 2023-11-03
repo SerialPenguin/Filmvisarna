@@ -62,7 +62,6 @@ export default function BookingConfirmation(props) {
         setEmail(profile.emailAdress)
         if(email === profile.emailAdress) {
           setDisplayConfirmBtn(true);
-          setBookingBody({...bookingBody, email})
         }
 
       }
@@ -140,15 +139,17 @@ export default function BookingConfirmation(props) {
   }
 
   function handleBacking() {
-    setAnimationStage("start");
-    setToggleClassName("ticket-spin-back"); 
-    if(token) {
-      setDisplayInput(false); 
-      setDisplayConfirmBtn(true);
-    }else {
-      setDisplayInput(true);
-      setDisplayConfirmBtn(true);
-    }
+    setToggleClassName("ticket-spin-back");
+    setTimeout(() => {
+      setAnimationStage("start");
+      if(token) {
+        setDisplayInput(false);
+        setDisplayConfirmBtn(true);
+      }else {
+        setDisplayInput(true);
+        setDisplayConfirmBtn(true);
+      }
+    }, 700)
   }
 
   return (
@@ -182,9 +183,11 @@ export default function BookingConfirmation(props) {
               className="send-btn"
               onClick={() => {
                 setDisplayInput();
-                setAnimationStage("middle");
                 setToggleClassName("ticket-spin");
-                setDisplayConfirmBtn(false);
+                setTimeout(() => {
+                  setDisplayConfirmBtn(false);
+                  setAnimationStage("middle");
+                }, 600)
               }}
             >
               Till bekräftelse
@@ -200,7 +203,7 @@ export default function BookingConfirmation(props) {
           {animationStage === "middle" && (
             <div>
               {toggleClassName === "ticket-spin" && (
-                <div className="confirmation-container">
+                <div className={"confirmation-container"}>
                   <p className="price">Pris: {price} kr</p>
                   <p className="movie">
                     {movie.length > 25

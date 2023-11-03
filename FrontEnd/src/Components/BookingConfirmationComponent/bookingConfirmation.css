@@ -12,13 +12,27 @@
   margin-bottom: 5%;
 }
 .second-header {
+  text-align: center;
   font-weight: 300;
   font-size: 1.6rem;
-  margin-bottom: 10%;
+}
+.second-header-email {
+  text-align: center;
+  font-weight: 300;
+  font-size: 1.4rem;
+  margin-top: -8%;
 }
 .ticket-container {
   position: relative;
   width: 350px;
+}
+.change-email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.change-email-btn {
+  font-size: 0.6rem;
 }
 .email-container {
   position: absolute;
@@ -46,13 +60,24 @@
 .email-field:focus {
   outline: none;
 }
-input:-webkit-autofill {
+.email-field:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px rgba(255, 174, 0, 0.469) inset !important;
 }
-
 .send-btn {
-  margin-top: 30%;
-  width: 102%;
+  position: absolute;
+  transform: translateZ(1px);
+  width: 52.5%;
+  left: 0;
+  right: 0;
+  margin: 45% auto;
+}
+.cancel-btn {
+  position: absolute;
+  transform: translateZ(1px);
+  width: 52.5%;
+  left: 0;
+  right: 0;
+  margin: 62% auto;
 }
 .ticket {
   position: absolute;
@@ -109,6 +134,7 @@ input:-webkit-autofill {
 }
 .confirmation-container {
   position: absolute;
+  height: 16em;
   margin-top: 19%;
   left: 0;
   right: 0;
@@ -127,9 +153,13 @@ input:-webkit-autofill {
   margin-bottom: -1em;
 }
 .confirm-btn {
-  margin-top: 20%;
+  margin-top: 17%;
 }
-
+.back-middle-btn {
+  position: absolute;
+  width: 30%;
+  bottom: 0;
+}
 @keyframes spin-text {
   0% {
     opacity: 0;
@@ -205,13 +235,28 @@ input:-webkit-autofill {
     font-weight: 300;
   }
   .second-header {
-    margin-bottom: 5%;
-    font-size: 2rem;
+    text-align: center;
     font-weight: 300;
+    font-size: 1.8rem;
+  }
+  .second-header-email {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.6rem;
+    margin-top: -8%;
   }
   .ticket-container {
     position: relative;
     width: 600px;
+    margin-top: 3%;
+  }
+  .change-email-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .change-email-btn {
+    font-size: 0.7rem;
   }
   .email-container {
     position: absolute;
@@ -240,8 +285,20 @@ input:-webkit-autofill {
     outline: none;
   }
   .send-btn {
-    margin-top: 50%;
-    width: 102%;
+    position: absolute;
+    transform: translateZ(1px);
+    width: 52.5%;
+    left: 0;
+    right: 0;
+    margin: 45% auto;
+  }
+  .cancel-btn {
+    position: absolute;
+    transform: translateZ(1px);
+    width: 52.5%;
+    left: 0;
+    right: 0;
+    margin: 57% auto;
   }
   .ticket {
     position: absolute;
@@ -297,8 +354,11 @@ input:-webkit-autofill {
     backface-visibility: hidden;
   }
   .confirmation-container {
-    position: relative;
-    margin-top: 2%;
+    position: absolute;
+    height: 23em;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -309,12 +369,20 @@ input:-webkit-autofill {
   .movie,
   .tickets,
   .date {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 700;
     margin-bottom: -1em;
   }
   .confirm-btn {
-    margin-top: 18%;
+    margin-top: 17%;
+  }
+  .back-middle-btn {
+    position: absolute;
+    width: 17%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0;
   }
 
   @keyframes spin-text {

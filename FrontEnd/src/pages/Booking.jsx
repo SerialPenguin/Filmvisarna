@@ -372,7 +372,7 @@ function Booking() {
       showAlert("Vänligen välj lika många säten som biljetter.");
       return;
     }
-    setChosenScreening(e.target.parentNode.children[3].firstChild.value);
+    setChosenScreening(e.target.parentNode.children[4].firstChild.value);
     setView("confirmation");
   }
 
@@ -401,10 +401,6 @@ function Booking() {
                   src={movie.images[0]}
                   alt={movie.title}
                 />
-                <h2 className="booking-poster-text">
-                  <h3 className="showing-text"> Visas:</h3>{" "}
-                  <h3 className="showing-second-text">{filterScreenings}</h3>
-                </h2>
               </div>
               <h2>Boka Biljetter</h2>
               <div className="dropdown-container">
@@ -513,6 +509,7 @@ function Booking() {
           movieId={selectedMovie}
           screening={chosenScreening}
           filter={filterScreenings}
+          setView={setView}
         />
       )}
     </div>

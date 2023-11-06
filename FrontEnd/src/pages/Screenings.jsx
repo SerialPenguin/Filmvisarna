@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
+import "./Screenings.css"
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -48,7 +49,7 @@ function Screenings() {
   const [selectedFilterOption, setSelectedFilterOption] =
     useState("Alla filmer");
   const [filteredScreenings, setFilteredScreenings] = useState([]);
-  const [selectedAgeOption, setSelectedAgeOption] = useState("Alla åldrar");
+  const [selectedAgeOption, setSelectedAgeOption] = useState("Ålder Filter");
   const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
   const [selectedDate, setSelectedDate] = useState("Alla Datum");
   const location = useLocation();
@@ -71,9 +72,9 @@ function Screenings() {
       filteredList = screenings;
     }
 
-    if (selectedAgeOption === "Barn Filmer") {
+    if (selectedAgeOption !== "Ålder Filter") {
       filteredList = filteredList.filter(
-        (screening) => screening.movie.age === 7
+        (screening) => screening.movie.age <= selectedAgeOption
       );
     }
 
@@ -129,8 +130,10 @@ function Screenings() {
           className="screenings-selectors"
           value={selectedAgeOption}
           onChange={(e) => setSelectedAgeOption(e.target.value)}>
-          <option value="Alla åldrar">Alla åldrar</option>
-          <option value="Barn Filmer">Barn Filmer</option>
+          <option value="Ålder Filter">Ålder Filter</option>
+          <option value="7">7</option>
+          <option value="11">11</option>
+          <option value="15">15</option>
         </select>
         <select
           className="screenings-selectors"
@@ -164,10 +167,10 @@ function Screenings() {
         )}
       </div>
       {loading ? (
-        <p>Laddar...</p>
+        <p className="Laddar">Laddar...</p>
       ) : (
         Object.keys(screeningsByDate).map((date) => (
-          <div key={date} className="screening-date-container">
+          <div key={date}>
             <h2 className="date-title">
               {date.charAt(0).toUpperCase() + date.slice(1)}
             </h2>

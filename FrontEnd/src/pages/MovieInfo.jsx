@@ -1,6 +1,7 @@
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { useState } from "react";
+import "./MovieInfo.css"
 
 function getYouTubeVideoId(url) {
     const match = url.match(/[?&]v=([^?&]+)/);
@@ -74,7 +75,7 @@ function MovieInfo() {
                 <p className="normal-text">Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
                 <p className="normal-text">
                 {movie.actors && movie.actors.length > 0
-                    ? `Actors: ${movie.actors.join(', ')}`
+                    ? `Skådespelare: ${movie.actors.join(', ')}`
                     : 'Inga skådespelare lagrade'
                 }
                 </p>

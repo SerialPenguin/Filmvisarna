@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import close from "../assets/close.png";
-import logo from "../assets/FilmvisarnaLogoTwo.png";
+import close from "../../assets/close.png";
+import logo from "../../assets/FilmvisarnaLogoTwo.png";
+import "./NavComponent.css"
 
 const NavComponent = ({ onCloseClick }) => {
   const location = useLocation();

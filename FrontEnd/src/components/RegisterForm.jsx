@@ -18,8 +18,8 @@ function RegisterForm() {
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {
-      setTimeout(() => navigate("/login"), 1000);
-      setRegisterMessage("Du har blivit medlem! Vänligen logga in");
+      setTimeout(() => navigate("/"), 1500);
+      setRegisterMessage("Du har blivit medlem!");
     } else {
       setRegisterMessage(
         "Den angivna e-postadressen finns redan, vänligen logga in eller försök med en annan e-postadress"

@@ -1,17 +1,20 @@
 .movie-card-container {
+    font-family: "Jost", sans-serif;
     display: flex;
     flex-direction: column;
-    gap: 3em;
+    gap: 1em;
     background: radial-gradient(circle at center, rgb(70, 10, 73), black);
     color: white;
     width: 100%;
+    padding-top: 1em;
   }
   
   .movie-card {
-    width: 80%;
+    width: 95%;
+    height: 17%;
     display: flex;
-    margin: 0 auto; 
-    background: rgba(0,0,0,0.7);
+    margin: 0em auto; 
+    background: rgba(40,20,46,0.7);
     border-radius: 8px;
     text-align: left;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -19,35 +22,48 @@
   }
   
   .movie-card-img {
-    width: 100px;
+    width: 35%;
+    /* aspect-ratio: 9/14; */
+    border-radius: 16px;
+  }
+
+  .movie-card-header {
+    text-align: start;
+    color: #C699EA;
+    font-size: 24px;
+    font-weight: 500;
   }
   
   .movie-card-title {
-    margin: 0.2em;
-    color: #ba7e36;
-    text-align: right;
+    font-weight: 500;
+    font-size: 1em;
+    margin: .7em;
+    color: #C699EA;
+    text-align: left;
   }
   
   .movie-card-info {
     display: flex;
+    color: #DB00FF;
+    font-weight: 500;
     justify-content: space-between;
-    margin-top: -1em;
-    margin-bottom: -1em;
-    margin: -1em .5em -1em .7em;
+    margin: -1.5em .5em .5em .7em;
   }
   
   .movie-card-description {
     padding: 0.5em;
-    font-size: 0.7em;
-    height: 47px;
-    overflow: hidden;
+    font-size: .8em;
+    color: #C699EA;
+    height: 50px;
     text-overflow: ellipsis;
+    overflow: hidden;
     margin: .5em; 
   }
   
   .movie-card-links {
     display: flex;
     justify-content: space-between;
+    margin-top: 2.2em; 
     margin-bottom: -1em;
     position: relative;
   }

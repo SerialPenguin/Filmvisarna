@@ -1,0 +1,52 @@
+.welcome-carousel-container {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .welcome-carousel-title {
+        margin-top: 3em;
+      position: absolute; 
+      color: #C699EA; 
+      font-size: 3em;
+      text-align: center;
+  }
+
+  @media (min-width: 800px) {
+    .welcome-carousel-container {
+        width: 90%; 
+      }
+    
+      .welcome-carousel-title {
+      left: 0;
+      right: 0;
+      top: 35%;
+      bottom: 0;
+      margin: auto;
+      font-size: 6em;
+      }
+    
+      .welcome-carousel-img {
+        opacity: 0.6;
+      }
+  }
+
+  @media all and (orientation:landscape) {
+    /* Style adjustments for landscape mode goes here */
+    .welcome-carousel-img {
+        opacity: 1;
+        height: 900vh; 
+      }
+
+      .welcome-carousel-title {
+        left: 0;
+        right: 0;
+        top: 25%;
+        bottom: 0;
+        margin: auto;
+        font-size: 3em;
+        }
+  }

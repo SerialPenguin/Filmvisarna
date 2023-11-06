@@ -1,0 +1,26 @@
+.front-carousel {
+    width: 100vw;
+    height: 45vh;
+    /* background: black; */
+    position: relative;
+  }
+  
+  .front-carousel-icon {
+    position: absolute;
+    top: 30%;
+    width: 25px;
+  }
+  
+
+  @media (min-width: 800px) {
+    .front-carousel {
+      height: 100vh;
+      width: 100%;
+      /* width: 70vw; 
+          margin: 0 auto;   */
+    }
+  
+    .front-carousel-icon {
+      top: 50%;
+    }
+}

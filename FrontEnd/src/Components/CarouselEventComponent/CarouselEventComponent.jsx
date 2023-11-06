@@ -1,5 +1,6 @@
-import bluehour from '../assets/halloween-thebluehour.jpeg';
-import rubber from '../assets/halloween-rubber.jpeg';
+import bluehour from '../../assets/halloween-thebluehour.jpeg';
+import rubber from '../../assets/halloween-rubber.jpeg';
+import '../CarouselEventComponent/CarouselEventComponent.css'
 
 const CarouselEventComponent = () => {
   return (

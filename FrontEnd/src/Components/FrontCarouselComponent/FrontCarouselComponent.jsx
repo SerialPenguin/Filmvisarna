@@ -1,11 +1,11 @@
-import CarouselWelcomeComponent from "./CarouselWelcomeComponent";
+import CarouselWelcomeComponent from "../CarouselWelcomeComponent/CarouselWelcomeComponent";
 import { useState } from "react";
 import { useEffect } from "react";
-import CarouselMemberComponent from "./CarouselMemberComponent";
-import CarouselEventComponent from "./CarouselEventComponent";
-import prev from '../assets/prev.png';
-import next from '../assets/next.png';
-import '../frontpage.css'
+import CarouselMemberComponent from "../CarouselMemberComponent/CarouselMemberComponent";
+import CarouselEventComponent from "../CarouselEventComponent/CarouselEventComponent";
+import prev from '../../assets/prev.png';
+import next from '../../assets/next.png';
+import '../FrontCarouselComponent/FrontCarouselComponent.css'
 
 const FrontCarouselComponent = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

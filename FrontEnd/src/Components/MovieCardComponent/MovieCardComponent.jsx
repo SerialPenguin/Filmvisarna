@@ -25,9 +25,24 @@ const MovieCardComponent = () => {
     setIsHovered(false);
   };
 
+  function convertTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+  
+    if (hours > 0) {
+      if (remainingMinutes > 0) {
+        return `${hours} t ${remainingMinutes} m`;
+      } else {
+        return `${hours} t`;
+      }
+    } else {
+      return `${remainingMinutes} m`;
+    }
+  }
+
   return (
     <div>
-      <h2>Aktuella filmer</h2>
+      <h2 className="movie-card-header">Aktuella filmer</h2>
       <div className="movie-card-container">
         {movies.map((movie) => (
           <div key={movie._id} className="movie-card">
@@ -42,7 +57,7 @@ const MovieCardComponent = () => {
                 <p className="movie-card-title">{movie.title}</p>
                 <div className="movie-card-info">
                   <p style={{ fontSize: "0.7rem" }}>{movie.productionYear}</p>
-                  <p style={{ fontSize: "0.7rem" }}>{movie.length} min</p>
+                  <p style={{ fontSize: "0.7rem" }}>{convertTime(movie.length)}</p>
                 </div>
                 <p className="movie-card-description">{movie.description}</p>
                 <div className="movie-card-links">
@@ -55,8 +70,11 @@ const MovieCardComponent = () => {
                         <button
                           style={{
                             marginLeft: "1em",
-                            padding: "0.4em",
+                            padding: "0.2em",
+                            width: "100px",
                             backgroundColor: "#C699EA",
+                            fontFamily: "Jost",
+                            fontWeight: "400", 
                           }}>
                           Boka
                         </button>

@@ -1,0 +1,63 @@
+.member-carousel-container {
+    width: 70%; 
+    height: 100%; 
+    background: transparent;
+    margin: 0 auto; 
+    text-align: center;
+    color: white;
+}
+
+.member-carousel-title {
+    margin-Top: 2em; 
+}
+
+.member-carousel-btn {
+    background-color: #BA7E36;
+    width: 250px;
+    margin: 2em 0 2em 0; 
+}
+
+
+
+@media (min-width:800px) {
+    .member-carousel-box {
+        /* border: 3px solid #C699EA; */
+        margin: 0 auto; 
+        width: 60%; 
+        margin-top: 13em;
+        padding: 3em; 
+        border-radius: 8px;
+    }
+    
+    .member-carousel-title {
+        font-size: 4em;
+        margin-bottom: 1em;
+        text-shadow: 1px 3px 3px 1px #000;
+    }
+    
+    .member-carousel-text {
+        font-size: 2em;
+    }
+}
+
+@media all and (orientation:landscape) {
+    /* Style adjustments for landscape mode goes here */
+    .member-carousel-box {
+        /* border: 3px solid #C699EA; */
+        margin: 0 auto; 
+        width: 60%; 
+        margin-top: 0em;
+        padding: 1em; 
+        border-radius: 8px;
+    }
+    
+    .member-carousel-title {
+        font-size: 2em;
+        margin-bottom: 1em;
+        text-shadow: 1px 3px 3px 1px #000;
+    }
+    
+    .member-carousel-text {
+        font-size: 1em;
+    }
+  }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import '../CarouselMemberComponent/CarouselMemberComponent.css'
 
 const CarouselMemberComponent = () => {
   return (

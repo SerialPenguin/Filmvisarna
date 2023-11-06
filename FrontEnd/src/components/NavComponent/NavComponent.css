@@ -61,10 +61,10 @@
         flex-direction: row;
         height: 4em;
         /* From https://css.glass */
-        background: rgba(44, 20, 46, 0.18);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(2.6px);
-        border: 1px solid rgba(44, 20, 46, 0.29);
+        background: rgba(44, 20, 46, 0.648);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.136);
+        backdrop-filter: blur(3px);
+        border: 2px solid rgba(17, 8, 18, 0.589);
     }
     .nav-div-container{
         display: flex;
@@ -93,7 +93,7 @@
         width: 80%;
         margin-bottom: 0em;
         margin: 0;
-        background-color: black;
+        background: rgba(0, 0, 0, 0);
         color:#C699EA;
         border-color: #C699EA;
         height: 2em;

@@ -8,6 +8,8 @@
     left: 0px;
     top: 0px;
     width: 100%;
+    position: fixed;
+    z-index: 99999;
 }
 .logo-img{
     margin: 0.5em;

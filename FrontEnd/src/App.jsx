@@ -1,6 +1,4 @@
-/** @format */
-
-import HeaderNavComponent from "./Components/HeaderNavComponent.jsx";
+import HeaderNavComponent from "./components/HeaderNavComponent/HeaderNavComponent";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 

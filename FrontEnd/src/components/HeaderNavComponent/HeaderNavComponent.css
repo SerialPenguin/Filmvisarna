@@ -4,6 +4,10 @@
     height: 4em;
     background-color: black;
     padding: .5em;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
 }
 .logo-img{
     margin: 0.5em;

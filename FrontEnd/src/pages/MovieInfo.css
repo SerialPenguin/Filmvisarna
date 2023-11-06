@@ -1,0 +1,63 @@
+.movieinfo-container{
+    margin: auto;
+    height: 100%;
+}
+.main-text-title{
+    color: #BA7E36;
+    text-align: center;
+    width: 350px;
+    margin: 20px auto;
+    font-weight: 100;
+}
+.iframe-container, .button-container, .text-containers, iframe{
+    margin: 2em auto;
+    width: 350px;
+}
+iframe, .iframe-container {
+    height: 200px;
+}
+.normal-text{
+    color:#BA7E36;
+}
+.main-btn{
+    width: 100%;
+    background-color: #C699EA;
+    color: #150316;
+}
+.sec-btn{
+    width: 100%;
+    margin-top: 20px;
+    background-color: #8027CE;
+    color: #C699EA;
+}
+.button-container{
+    margin-bottom: 1em;
+}
+@media (max-width: 350px){
+    .iframe-container, .button-container, .text-containers, iframe{
+        margin: auto;
+        width: 250px;
+    }
+    iframe, .iframe-container {
+        height: 141px;
+    }
+}
+
+@media (min-width: 600px){
+    .iframe-container, iframe{
+        width: 500px;
+        height: 281.25px;
+    }
+    .text-containers, .button-container{
+        width: 500px;
+    }
+}
+@media (min-width: 768px){
+    .iframe-container, iframe{
+        width: 700px;
+        height: 393.75px;
+    }
+    .text-containers, .button-container{
+        width: 700px;
+    }
+}

@@ -3,8 +3,8 @@
 import "./bookingConfirmation.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TicketFront from "../../img/ticketFront.png";
-import TicketBack from "../../img/ticketBack.png";
+import TicketFront from "../../assets/img/ticketFront.png";
+import TicketBack from "../../assets/img/ticketBack.png";
 import { patch } from "../../hooksAndUtils/fetchUtil";
 
 export default function BookingConfirmation(props) {
@@ -118,8 +118,7 @@ export default function BookingConfirmation(props) {
                 onBlur={handleBookingBody}
                 value={email || ""}
                 name="email"
-                id="email"
-              ></input>
+                id="email"></input>
               {email.includes("@") && (
                 <button
                   className="send-btn"
@@ -128,8 +127,7 @@ export default function BookingConfirmation(props) {
                     setDisplayInput(false);
                     setAnimationStage("middle");
                     setToggleClassName("ticket-spin");
-                  }}
-                >
+                  }}>
                   Skicka bekräftelsen
                 </button>
               )}
@@ -162,8 +160,7 @@ export default function BookingConfirmation(props) {
                   <p className="date">Datum: {date.slice(0, 30)}</p>
                   <button
                     className="confirm-btn"
-                    onClick={handleSendConfirmation}
-                  >
+                    onClick={handleSendConfirmation}>
                     Bekräfta
                   </button>
                 </div>

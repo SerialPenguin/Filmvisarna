@@ -46,6 +46,7 @@ function Booking() {
     })
   );
   const [chosenScreening, setChosenScreening] = useState();
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   const selectedMovieRef = useRef(null);
 
@@ -159,6 +160,11 @@ function Booking() {
 
       if (data && data.success) {
         console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
+      }
+      if (selectedSeats.length === totalTicketCount) {
+        setSelectedSeats([...selectedSeats.slice(1), seatNumber]);
+      } else {
+        setSelectedSeats([...selectedSeats, seatNumber]);
       }
     } catch (error) {
       console.error("Error reserving seat:", error);
@@ -474,6 +480,7 @@ function Booking() {
                   screeningId={screeningId}
                   setSeats={setSeats}
                   setTickets={setTickets}
+                  setSelectedSeats={setSelectedSeats}
                 />
               )}
               <div className="total-amount">
@@ -489,6 +496,7 @@ function Booking() {
                     salonLayout={salonLayout}
                     isSeatBooked={isSeatBooked}
                     handleSeatClick={handleSeatClick}
+                    selectedSeats={selectedSeats}
                   />
                 </div>
               </div>

@@ -1,11 +1,13 @@
+/** @format */
+
 import CarouselWelcomeComponent from "./CarouselWelcomeComponent";
 import { useState } from "react";
 import { useEffect } from "react";
 import CarouselMemberComponent from "./CarouselMemberComponent";
 import CarouselEventComponent from "./CarouselEventComponent";
-import prev from '../assets/prev.png';
-import next from '../assets/next.png';
-import '../frontpage.css'
+import prev from "../assets/img/prev.png";
+import next from "../assets/img/next.png";
+import "../frontpage.css";
 
 const FrontCarouselComponent = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -39,11 +41,21 @@ const FrontCarouselComponent = () => {
 
   return (
     <>
-      <div className="front-carousel">
-        {carouselComponents[currentSlide]}
-      </div>
-      <img src={prev} alt="" className="front-carousel-icon" style={{ left: "1%"}}onClick={prevComponent}/>
-      <img src={next} alt="" className="front-carousel-icon" style={{ right: "1%"}}onClick={nextComponent}/>
+      <div className="front-carousel">{carouselComponents[currentSlide]}</div>
+      <img
+        src={prev}
+        alt=""
+        className="front-carousel-icon"
+        style={{ left: "1%" }}
+        onClick={prevComponent}
+      />
+      <img
+        src={next}
+        alt=""
+        className="front-carousel-icon"
+        style={{ right: "1%" }}
+        onClick={nextComponent}
+      />
     </>
   );
 };

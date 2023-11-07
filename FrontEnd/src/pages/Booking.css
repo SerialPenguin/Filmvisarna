@@ -291,6 +291,77 @@ h3 {
 }
 
 
+   
+   .booked {
+     position: relative; 
+     background-color: #d9d9d9;
+     color: rgb(0, 0, 0);
+     cursor: not-allowed;
+   }
+   
+   .booked::before, .booked::after {
+     content: ""; 
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     width: 120%; 
+     height: 2px; 
+     background-color: rgb(0, 0, 0);
+     transform-origin: center center;
+   }
+   
+   .booked::before {
+     transform: translate(-50%, -50%) rotate(45deg); 
+   }
+   
+   .booked::after {
+     transform: translate(-50%, -50%) rotate(-45deg); 
+   }
+   
+   .available {
+     background-color: #BA7E36;
+     background-image: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+     cursor: pointer;
+     border: none;
+     border-radius: 4px; 
+     padding: 10px 20px; 
+     transition: all 0.3s; 
+     color: white; 
+   }
+
+   .selected {
+    background-color: yellow; /* Or any color that indicates selection */
+    color: black; /* Choose a text color that maintains readability */
+    border: 1px solid #cccc00; /* Optional: border to enhance visibility */
+  }
+  
+  /* Optional: if you want the "cross" from booked seats to show over temporary selections */
+  .seat.temporary-selected::before,
+  .seat.temporary-selected::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 2px;
+    background-color: transparent; /* Hide the cross by default */
+    transform-origin: center center;
+    z-index: 3; /* Ensure the cross is above all if you decide to show it */
+  }
+
+  .available.selected {
+    background-color: yellow;
+    color: black;
+  }
+  
+  /* Style for temporarily reserved seats */
+  .temporary-selected {
+    background-color: rgb(224, 230, 173); /* Adjust the color as needed */
+    color: black; /* Adjust text color for better visibility */
+  }
+
+
+
 
 @media (min-width: 768px) { 
 
@@ -413,6 +484,70 @@ h3 {
         font-size: 20px;
         
     }
+    
+    .seat {
+        /* base styles for seat */
+        position: relative;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        transition: all 0.3s;
+      }
+      
+      .seat.available {
+        background-color: #BA7E36;
+        background-image: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+        color: white;
+      }
+      
+      .seat.booked {
+        background-color: #d9d9d9;
+        color: black;
+        cursor: not-allowed;
+      }
+      
+      .seat.booked::before,
+      .seat.booked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%;
+        height: 2px;
+        background-color: black;
+        transform-origin: center center;
+      }
+      
+      .seat.booked::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      
+      .seat.booked::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      
+      /* Temporary selected seat styling */
+      .selected {
+        background-color: yellow; /* Or any color that indicates selection */
+        color: black; /* Choose a text color that maintains readability */
+        border: 1px solid #cccc00; /* Optional: border to enhance visibility */
+      }
+      
+      /* Optional: if you want the "cross" from booked seats to show over temporary selections */
+      .seat.temporary-selected::before,
+      .seat.temporary-selected::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%;
+        height: 2px;
+        background-color: transparent; /* Hide the cross by default */
+        transform-origin: center center;
+        z-index: 3; /* Ensure the cross is above all if you decide to show it */
+      }
+    
 
 }
 

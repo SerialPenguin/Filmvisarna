@@ -99,7 +99,7 @@ export const bookSeat = async (req, res) => {
     } while (await Booking.findOne({ bookingNumber: bookingNumber }));
 
     const authHeader = req.headers["authorization"];
-    const userId = await authService.verifyJwt(authHeader);
+    let userId = await authService.verifyJwt(authHeader);
 
     const newBooking = new Booking({
       screeningId,

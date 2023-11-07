@@ -1,6 +1,5 @@
 .member-carousel-container {
-    width: 70%; 
-    height: 100%; 
+    width: 70%;
     background: transparent;
     margin: 0 auto; 
     text-align: center;
@@ -8,23 +7,22 @@
 }
 
 .member-carousel-title {
-    margin-Top: 2em; 
 }
 
 .member-carousel-btn {
     background-color: #BA7E36;
     width: 250px;
-    margin: 2em 0 2em 0; 
 }
 
 
 
 @media (min-width:800px) {
+    /*min height*/
     .member-carousel-box {
         /* border: 3px solid #C699EA; */
         margin: 0 auto; 
         width: 60%; 
-        margin-top: 13em;
+        margin-top: 3em;
         padding: 3em; 
         border-radius: 8px;
     }
@@ -40,7 +38,9 @@
     }
 }
 
-@media all and (orientation:landscape) {
+@media all and (orientation:landscape)
+    and (min-device-width: 319px) 
+      and (max-device-width: 480px) {
     /* Style adjustments for landscape mode goes here */
     .member-carousel-box {
         /* border: 3px solid #C699EA; */

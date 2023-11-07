@@ -1,5 +1,5 @@
 import CarouselWelcomeComponent from "../CarouselWelcomeComponent/CarouselWelcomeComponent";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useEffect } from "react";
 import CarouselMemberComponent from "../CarouselMemberComponent/CarouselMemberComponent";
 import CarouselEventComponent from "../CarouselEventComponent/CarouselEventComponent";
@@ -9,6 +9,8 @@ import '../FrontCarouselComponent/FrontCarouselComponent.css'
 
 const FrontCarouselComponent = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  let interval = useRef(null);
+
   const carouselComponents = [
     <CarouselWelcomeComponent key="welcome" />,
     <CarouselMemberComponent key="member" />,
@@ -20,22 +22,31 @@ const FrontCarouselComponent = () => {
       (prevIndex) =>
         (prevIndex - 1 + carouselComponents.length) % carouselComponents.length
     );
+    clearInterval(interval.current)
+    slideTimer();
   };
 
   const nextComponent = () => {
     setCurrentSlide((prevIndex) => (prevIndex + 1) % carouselComponents.length);
+    clearInterval(interval.current)
+    slideTimer();
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+  const slideTimer = () => {
+    interval.current = setInterval(() => {
       setCurrentSlide(
         (prevIndex) => (prevIndex + 1) % carouselComponents.length
       );
-    }, 5000);
+    }, 100000);
+  }
+
+  useEffect(() => {
+    slideTimer();
     return () => {
-      clearInterval(interval);
+      clearInterval(interval.current);
     };
-  }, [carouselComponents.length]);
+  }, []);
+
 
   return (
     <>

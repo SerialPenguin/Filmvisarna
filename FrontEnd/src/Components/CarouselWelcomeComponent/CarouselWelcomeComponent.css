@@ -34,7 +34,9 @@
       }
   }
 
-  @media all and (orientation:landscape) {
+  @media all and (orientation:landscape) 
+      and (min-device-width: 319px) 
+      and (max-device-width: 480px) {
     /* Style adjustments for landscape mode goes here */
     .welcome-carousel-img {
         opacity: 1;

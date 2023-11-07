@@ -28,10 +28,13 @@
   }
 
   .movie-card-header {
-    text-align: start;
+    font-family: "Jost", sans-serif;
+    margin-left: -7em;
+    margin-bottom: -.5em; 
     color: #C699EA;
     font-size: 24px;
     font-weight: 500;
+    margin-top: 2em;
   }
   
   .movie-card-title {
@@ -83,6 +86,11 @@
       overflow-y: scroll;
       width: 80%;
       margin: 0 auto; 
+    }
+
+    .movie-card-header {
+      margin-left: 0;
+    margin-bottom: 0; 
     }
   
     .movie-card {

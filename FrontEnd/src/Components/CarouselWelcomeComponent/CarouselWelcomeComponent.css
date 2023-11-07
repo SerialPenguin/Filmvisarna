@@ -1,18 +1,27 @@
 .welcome-carousel-container {
+    font-family: "Jost", sans-serif;
     width: 100%;
     height: 100%;
     object-fit: cover;
     overflow: hidden;
     margin: 0 auto;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .welcome-carousel-title {
-        margin-top: 3em;
+      font-weight: 600;
       position: absolute; 
       color: #C699EA; 
-      font-size: 3em;
+      font-size: 2.5em;
       text-align: center;
+      background: radial-gradient(rgb(40,20,46,0.9), rgba(40,20,46,0));
+  }
+
+  .welcome-carousel-img {
+    box-shadow: -30px -30px 80px 80px rgb(0, 0, 0) inset;
   }
 
   @media (min-width: 800px) {

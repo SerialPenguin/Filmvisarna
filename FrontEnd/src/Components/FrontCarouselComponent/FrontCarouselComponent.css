@@ -8,13 +8,14 @@
   
   .front-carousel-icon {
     position: absolute;
-    top: 30%;
+    top: 35%;
     width: 25px;
   }
   
 
   @media (min-width: 800px) {
     .front-carousel {
+      margin-top: -5em;
       height: 100vh;
       width: 100%;
       /* width: 70vw; 

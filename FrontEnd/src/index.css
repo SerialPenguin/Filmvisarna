@@ -14,12 +14,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-*, html, body {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 /*
  fix classname on what it needs to be on
 img {

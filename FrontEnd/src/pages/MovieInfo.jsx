@@ -52,7 +52,6 @@ function MovieInfo() {
     useGet(`/api/screenings`, setScreenings);
    
     const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
-    
     return (
         <div className="movieinfo-container">
             <h1 className="main-text-title">{movie.title}</h1>
@@ -68,29 +67,38 @@ function MovieInfo() {
             ) : (
                 <p>No trailer available</p>
             )}
-            <div className="text-containers">
-                <h2 className="text-title">Beskrivning</h2>
-                <p className="normal-text">{movie.description}</p>
-                <p className="normal-text">Genre: {movie.genre}</p>
-                <p className="normal-text">Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
-                <p className="normal-text">
-                {movie.actors && movie.actors.length > 0
-                    ? `Skådespelare: ${movie.actors.join(', ')}`
-                    : 'Inga skådespelare lagrade'
-                }
-                </p>
-                <p className="normal-text">Språk: {movie.language ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1) : "Inget språk lagrade"}</p>
-                <p className="normal-text">Undertext: {movie.subtitles ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1) : "Inget undertext lagrade"}</p>
-                <p className="normal-text">Regissör: {movie.director}</p>
-                <p className="normal-text">Släppte: {movie.productionYear}</p>
-            </div>
-            <div className="button-container">
-                <Link to={findAScreeningUrl(movie._id, screenings)}>
-                    <button className="main-btn">Boka film</button>
-                </Link>
-                <Link to={location.state ? location.state.from : "/" }>
-                    <button className="sec-btn">Tillbaka</button>
-                </Link>
+            <div className="poster-btn-text-container">
+              {movie.images ? (
+              <img className="movie-poster" src={`${movie.images[0]}`} alt="" />
+              ):(
+                <div>no img</div>
+              )}
+              <div className="btn-text-container">
+                <div className="text-containers">
+                    <h2 className="text-title">Beskrivning</h2>
+                    <p className="normal-text">{movie.description}</p>
+                    <p className="normal-text">Genre: {movie.genre}</p>
+                    <p className="normal-text">Längd: {MinutsToHoursAndMinuts(movie.length)}</p>
+                    <p className="normal-text">
+                    {movie.actors && movie.actors.length > 0
+                        ? `Skådespelare: ${movie.actors.join(', ')}`
+                        : 'Inga skådespelare lagrade'
+                    }
+                    </p>
+                    <p className="normal-text">Språk: {movie.language ? movie.language.charAt(0).toUpperCase() + movie.language.slice(1) : "Inget språk lagrade"}</p>
+                    <p className="normal-text">Undertext: {movie.subtitles ? movie.subtitles.charAt(0).toUpperCase() + movie.subtitles.slice(1) : "Inget undertext lagrade"}</p>
+                    <p className="normal-text">Regissör: {movie.director}</p>
+                    <p className="normal-text">Släppte: {movie.productionYear}</p>
+                </div>
+                <div className="button-container">
+                    <Link to={findAScreeningUrl(movie._id, screenings)}>
+                        <button className="main-btn">Boka film</button>
+                    </Link>
+                    <Link to={location.state ? location.state.from : "/" }>
+                        <button className="sec-btn">Tillbaka</button>
+                    </Link>
+                </div>
+              </div>
             </div>
         </div>
     );

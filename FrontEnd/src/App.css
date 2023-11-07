@@ -45,6 +45,14 @@
   color: white; 
 }
 
+div#root{
+  width: 100%;
+}
+body{
+  background: radial-gradient(circle at center, rgb(70, 10, 73), black);
+  width: 100%;
+  background-attachment: fixed;
+}
 .available:hover {
   background-color: darken(#BA7E36, 10%); 
 }

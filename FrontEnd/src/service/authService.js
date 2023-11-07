@@ -1,6 +1,6 @@
 async function handleRegister(e, credentials) {
   e.preventDefault();
-  const options = {
+  const registerOptions = {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -14,12 +14,39 @@ async function handleRegister(e, credentials) {
     }),
   };
 
-  const res = await fetch("http://localhost:5173/api/auth/register", options);
+  const registerRes = await fetch(
+    "http://localhost:5173/api/auth/register",
+    registerOptions
+  );
 
-  if (res.status === 201) {
-    return true;
+  if (registerRes.status === 201) {
+    const loginOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        emailAdress: credentials.emailAdress,
+        password: credentials.password,
+      }),
+    };
+
+    const loginRes = await fetch(
+      "http://localhost:5173/api/auth/login",
+      loginOptions
+    );
+
+    if (loginRes.status === 200) {
+      const data = await loginRes.json();
+      const token = data.token;
+      sessionStorage.setItem("JWT_TOKEN", token);
+      return true;
+    } else {
+      return await loginRes.text();
+    }
   } else {
-    return await res.text();
+    return await registerRes.text();
   }
 }
 

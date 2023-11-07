@@ -1,12 +1,12 @@
 /** @format */
 
-import CarouselWelcomeComponent from "../CarouselWelcomeComponent/CarouselWelcomeComponent";
 import { useState, useRef } from "react";
 import { useEffect } from "react";
+import CarouselWelcomeComponent from "../CarouselMemberComponent/CarouselMemberComponent";
 import CarouselMemberComponent from "../CarouselMemberComponent/CarouselMemberComponent";
 import CarouselEventComponent from "../CarouselEventComponent/CarouselEventComponent";
-import prev from "../../assets/prev.png";
-import next from "../../assets/next.png";
+import prev from "../../assets/img/prev.png";
+import next from "../../assets/img/next.png";
 import "../FrontCarouselComponent/FrontCarouselComponent.css";
 
 const FrontCarouselComponent = () => {

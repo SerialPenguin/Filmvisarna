@@ -33,7 +33,6 @@ function LoginForm() {
           <input
             type="email"
             name="mail"
-            placeholder="namn@example.com"
             className="login-field first"
             onChange={(e) =>
               setCredentials({ ...credentials, emailAdress: e.target.value })

@@ -5,14 +5,19 @@ import "./Login.css"
 function Login() {
   return (
     <div className="login-wrapper">
-      <div className="login-header">
-        <Link to="/" >
-          <div className="logo"></div>
-        </Link>
-        <h2 className="welcome-text">Välkommen! Logga in här</h2>
+      <div className="left-section">
+        <div className="login-header">
+          <Link to="/" >
+            <div className="logo"></div>
+          </Link>
+          <h2 className="welcome-text">Välkommen! Logga in här</h2>
+        </div>
+        <LoginForm />
+        <p className="copyright">Filmvisarna AB <span>&copy;</span>2023</p>
       </div>
-      <LoginForm />
-      <p className="copyright">Filmvisarna AB <span>&copy;</span>2023</p>
+      <div className="right-section">
+        <div className="login-bg"></div>
+      </div>
     </div>
   )
 }

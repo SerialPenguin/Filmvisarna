@@ -13,6 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
 /*
  fix classname on what it needs to be on
 img {
@@ -34,7 +35,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  
 }
 
 h1 {

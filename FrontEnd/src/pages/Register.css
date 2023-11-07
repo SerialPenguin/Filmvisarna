@@ -1,22 +1,27 @@
-*, body, html {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
 
 .register-wrapper {
   background: linear-gradient(#150316, #3F1441) ;
-  height: 100vh;
-  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1001;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+}
+
+.right-section {
+  display: none;
+}
+
+.register-wrapper .left-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 3.5%;
-  z-index: 1001;
+  height: 100vh;
+  width: 100%;
 }
 
 .login-header {
@@ -36,7 +41,7 @@
 }
 
 .welcome-text {
-  color: #C699EA;
+  color: #c699ea;
   font-size: 24px;
   font-weight: 400;
 }
@@ -57,17 +62,17 @@
 .login-lbl {
   font-size: 16px;
   font-weight: 500;
-  color: #C699EA;
+  color: #c699ea;
   margin-bottom: 8px;
 }
 
 .login-field {
-  background-color: #2D142E;
-  color: #C699EA;
+  background-color: #2d142e;
+  color: #c699ea;
   height: 44px;
   padding: 0 8px;
   font-size: 16px;
-  border: 1px solid #C699EA;
+  border: 1px solid #c699ea;
   border-radius: 8px;
 }
 
@@ -76,23 +81,22 @@
 }
 
 .register-p {
-  color: #BA7E36;
+  color: #ba7e36;
   align-self: flex-end;
   margin-top: 8px;
 }
 
 .register-p-link {
-  color: #BA7E36;
+  color: #ba7e36;
 }
 
 .register-p-link:hover {
   color: #e0a966;
 }
 
-
 .login-field:focus {
   outline: none;
-  border: 2px solid #BA7E36;
+  border: 2px solid #ba7e36;
 }
 
 .login-field::placeholder {
@@ -100,8 +104,8 @@
 }
 
 .login-field:-webkit-autofill {
-  -webkit-text-fill-color: #C699EA;
-  -webkit-box-shadow: 0 0 0px 1000px #2D142E inset !important;
+  -webkit-text-fill-color: #c699ea;
+  -webkit-box-shadow: 0 0 0px 1000px #2d142e inset !important;
 }
 
 .login-msg {
@@ -118,4 +122,35 @@
 .copyright {
   font-size: 14px;
   color: #C699EA;
+}
+
+@media (min-width: 1200px) {
+
+  .register-wrapper .left-section {
+    width: 50%;
+  }
+
+  .right-section {
+    display: block;
+    width: 50%;
+    height: 100vh;
+    padding: 24px;
+  }
+
+  .login-bg {
+    background-image: url(../assets/filmvisarna-bg.png);
+    background-size: cover;
+    background-position: top;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+  }
+
+  .form-container {
+    max-width: 600px;
+  }
+
+  .btn-container {
+    max-width: 600px;
+  }
 }

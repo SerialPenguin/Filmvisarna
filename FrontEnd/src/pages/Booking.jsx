@@ -382,6 +382,7 @@ function Booking() {
       return;
     }
     setChosenScreening(e.target.parentNode.children[4].firstChild.value);
+    setChosenScreening(e.target.parentNode.children[4].firstChild.value);
     setView("confirmation");
   }
 
@@ -521,6 +522,7 @@ function Booking() {
           movieId={selectedMovie}
           screening={chosenScreening}
           filter={filterScreenings}
+          setView={setView}
         />
       )}
     </div>

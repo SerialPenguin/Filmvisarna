@@ -21,6 +21,16 @@ export async function patch(url, body, token) {
   })).json();
 }
 
+export async function getProfile(url, token) {
+  return await (await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  })).json();
+}
+
 export async function del(url) {
   return await (await fetch(url), {
     method: "DELETE"

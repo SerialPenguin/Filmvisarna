@@ -40,7 +40,7 @@
 }
 
 .welcome-text {
-  color: #C699EA;
+  color: #c699ea;
   font-size: 24px;
   font-weight: 400;
 }
@@ -61,17 +61,17 @@
 .login-lbl {
   font-size: 16px;
   font-weight: 500;
-  color: #C699EA;
+  color: #c699ea;
   margin-bottom: 8px;
 }
 
 .login-field {
-  background-color: #2D142E;
-  color: #C699EA;
+  background-color: #2d142e;
+  color: #c699ea;
   height: 44px;
   padding: 0 8px;
   font-size: 16px;
-  border: 1px solid #C699EA;
+  border: 1px solid #c699ea;
   border-radius: 8px;
 }
 
@@ -80,19 +80,18 @@
 }
 
 .register-p {
-  color: #BA7E36;
+  color: #ba7e36;
   align-self: flex-end;
   margin-top: 8px;
 }
 
 .register-p-link {
-  color: #BA7E36;
+  color: #ba7e36;
 }
-
 
 .login-field:focus {
   outline: none;
-  border: 2px solid #BA7E36;
+  border: 2px solid #ba7e36;
 }
 
 .login-field::placeholder {
@@ -100,8 +99,8 @@
 }
 
 .login-field:-webkit-autofill {
-  -webkit-text-fill-color: #C699EA;
-  -webkit-box-shadow: 0 0 0px 1000px #2D142E inset !important;
+  -webkit-text-fill-color: #c699ea;
+  -webkit-box-shadow: 0 0 0px 1000px #2d142e inset !important;
 }
 
 .login-msg {
@@ -117,7 +116,7 @@
 
 .copyright {
   font-size: 14px;
-  color: #C699EA;
+  color: #c699ea;
 }
 
 @media (min-width: 1200px) {
@@ -150,3 +149,4 @@
     max-width: 600px;
   }
 }
+

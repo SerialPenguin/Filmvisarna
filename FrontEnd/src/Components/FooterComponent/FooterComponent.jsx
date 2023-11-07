@@ -1,8 +1,10 @@
+import '../FooterComponent/FooterComponent.css'
+
 const FooterComponent = () => {
   return (
     <div className="footer-container">
         <div className="footer-info-container">
-      <h3 className="footer-title">Visste du att</h3>
+      <h3 className="footer-title">VISSTE DU ATT</h3>
       <p className="footer-text">
         Som medlem får du exklusiva erbjudanden
       </p>

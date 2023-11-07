@@ -30,8 +30,6 @@ export default function BookingConfirmation(props) {
       ? "Kontrollera att uppgifterna stämmer"
       : "Tack för din boking!";
 
-      console.log("displayConfBtn: ", displayConfirmBtn)
-
   useEffect(() => {
     async function getBody() {
       const body = await JSON.parse(sessionStorage.getItem("bookingData"));
@@ -43,8 +41,6 @@ export default function BookingConfirmation(props) {
       setBookingBody(body);
       setToken(jwt);
     }
-
-    console.log("BB 1: ", bookingBody)
     getBody();
   }, []);
 
@@ -54,7 +50,6 @@ export default function BookingConfirmation(props) {
     async function fetchProfile() {
       const profile = await getProfile("/api/auth/profile", token);
 
-      console.log("profile: ", profile.msg)
       if(profile.msg === "Invalid token") {
         setDisplayInput(true);
       }else {
@@ -95,7 +90,6 @@ export default function BookingConfirmation(props) {
       setPrice((adultsSum += childrenSum += seniorsSum));
     }
 
-    console.log("BB 2: ", bookingBody);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
 
@@ -114,11 +108,7 @@ export default function BookingConfirmation(props) {
 
         bodyCopy.email = email;
 
-        console.log("BC: ", bodyCopy)
-
         const booking = await patch("/api/bookings", bodyCopy, token);
-
-        console.log("new booking: ", booking);
 
         if (booking.message.includes("Booking created!")) {
           setToggleClassName("ticket-spin-back");

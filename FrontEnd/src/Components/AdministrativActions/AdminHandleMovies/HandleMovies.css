@@ -1,0 +1,17 @@
+.add-movie-container {
+  display: flex;
+  justify-content: center;
+}
+.add-movie-form {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+.lbl {
+  text-align: start;
+  color: #ba7e36;
+}
+.add-movie-btn {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}

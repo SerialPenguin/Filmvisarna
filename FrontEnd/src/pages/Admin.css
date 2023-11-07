@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Jost:wght@200;300;400&display=swap");
+
+.admin-landing-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.admin-options-header {
+  color: white;
+  font-weight: 300;
+  margin-top: -8%;
+  font-size: 1.8rem;
+}
+.options-list {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.option {
+  border: 1px solid #ba7e36;
+  text-align: center;
+  flex-grow: 1;
+  padding: 1em 1em;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px black;
+}
+.options-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ba7e36;
+}
+.close-ref-btn {
+  font-size: 0.5rem;
+}
+.close-ref-btn:focus {
+  outline: none;
+}
+.dialog {
+  width: 65%;
+  padding: 0 2em;
+  background-color: #ba7f3600;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ba7e36;
+  border-radius: 10px;
+}

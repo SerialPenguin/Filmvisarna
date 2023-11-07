@@ -12,6 +12,7 @@ import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import { AboutUs } from "./pages/AboutUs.jsx";
+import Admin from "./pages/Admin.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/profile", element: <Profile /> },
       { path: "/aboutUs", element: <AboutUs /> },
+      { path: "/admin", element: <Admin /> },
     ],
   },
 ]);

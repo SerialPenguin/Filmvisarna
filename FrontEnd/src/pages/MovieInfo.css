@@ -66,13 +66,14 @@ iframe, .iframe-container {
     .iframe-container, iframe{
         width: 700px;
         height: 393.75px;
+        margin: 0em auto;
     }
     .text-containers, .button-container{
         width: 400px;
     }
     .movie-poster{
         display: flex;
-        height: 100%;
+        height: 400px;
         margin-top: 3em;
         margin-right: 1em;
     }
@@ -84,14 +85,18 @@ iframe, .iframe-container {
 @media (min-width: 2000px){
     .iframe-container, iframe{
         width: 1000px;
-        height: 393.75px;
+        height: 562.5px;
+    }
+    .btn-text-container{
+        width: 700px;
+        height: 500px;
     }
     .text-containers, .button-container{
-        width: 400px;
+        width: 700px;
     }
     .movie-poster{
         display: flex;
-        height: 100%;
+        height: 400px;
         margin-top: 3em;
         margin-right: 1em;
     }

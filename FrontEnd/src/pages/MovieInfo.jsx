@@ -54,7 +54,7 @@ function MovieInfo() {
     const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
     return (
         <div className="movieinfo-container">
-            <h2 className="main-text-title">{movie.title}</h2>
+            <h2 className="movie-title-header">{movie.title}</h2>
             
             {hasTrailers ? (
                 <div className="iframe-container">

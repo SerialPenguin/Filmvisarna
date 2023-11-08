@@ -1,4 +1,5 @@
 .screenings-list-container{
+    font-family: "Jost", sans-serif;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -25,6 +26,7 @@
 }
 .date-title{
     color: #BA7E36;
+    font-size: 2em;
     margin-left: 5%;
 }
 .list-movie-title, .screenings-p{
@@ -53,8 +55,9 @@
     color: #BA7E36;
     text-align: center;
     width: 350px;
-    margin: 20px auto;
+    margin-top: -2em;
     font-weight: 100;
+    font-size: 2em;
 }
 .filters-containers{
     display: flex;

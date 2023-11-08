@@ -36,7 +36,6 @@ function RegisterForm() {
           <input
             type="text"
             name="first-name"
-            placeholder="John"
             className="login-field first"
             onChange={(e) =>
               setCredentials({ ...credentials, firstName: e.target.value })
@@ -46,7 +45,6 @@ function RegisterForm() {
           <input
             type="text"
             name="last-name"
-            placeholder="Andersson"
             className="login-field first"
             onChange={(e) =>
               setCredentials({ ...credentials, lastName: e.target.value })
@@ -56,7 +54,6 @@ function RegisterForm() {
           <input
             type="email"
             name="mail"
-            placeholder="namn@example.com"
             className="login-field first"
             onChange={(e) =>
               setCredentials({ ...credentials, emailAdress: e.target.value })

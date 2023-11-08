@@ -10,6 +10,17 @@ export async function post(url, body) {
   })).json();
 }
 
+export async function adminPost(url, body, token) {
+  return await (await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+   },
+    body: JSON.stringify(body)
+  })).json();
+}
+
 export async function patch(url, body, token) {
   return await (await fetch(url, {
     method: 'PATCH', /* Or PATCH */

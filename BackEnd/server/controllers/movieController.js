@@ -47,3 +47,15 @@ export const addMovies = async (req, res) => {
     console.log(err)
   }
 };
+
+export const editMovies = async (req, res) => {
+  const {title} = req.body;
+  
+  try {
+    const collection = mongoose.connection.collection('movies');
+    const movie = await collection.findOne({title: title});
+    res.json(movie);
+  }catch(err) {
+    console(err);
+  }
+}

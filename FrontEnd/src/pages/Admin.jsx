@@ -24,7 +24,7 @@ export default function Admin() {
           <p className='options-title' onClick={() => {movieRef.current?.showModal(); setTopic('film')}}>Hantera filmer</p>
           <dialog className="dialog" ref={movieRef}>
             <button className='close-ref-btn' onClick={() => {movieRef.current?.close(); setOptionState('non')}}>X</button>
-            <HandleMovies optionState={optionState} setOptionState={setOptionState} topic={topic}/>
+            <HandleMovies optionState={optionState} setOptionState={setOptionState} topic={topic} setTopic={setTopic}/>
           </dialog>
         </div>
         <div className="option" >

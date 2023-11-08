@@ -4,14 +4,18 @@
     align-items: center;
     font-size: 20px;
     margin: 0 auto; 
-    padding: 10px; 
+    padding: 15px; 
+    margin-top: 10vh;
+    color: #BA7E36;
+    font-weight: 300;
+    font-size: 2rem;
 }
 
 .booking-poster {
     display: flex;  
     justify-content: center; 
     align-items: center;  
-    width: 20vw;
+    width: 25vw;
     margin: 0 auto;  
 }
 
@@ -178,7 +182,7 @@
     height: 200px;
 }
 
-h2 {
+  .book-text {
     display: flex;
     justify-content: center;
     color: #BA7E36;
@@ -187,11 +191,11 @@ h2 {
     margin-left: auto;
      margin-right: auto;
     
-}
+} 
 
-h3 {
-    color: #C699EA;
-}
+.sum {
+    color: #BA7E36;
+} 
 
 .ticket-counter-container {
     display: flex;
@@ -247,6 +251,8 @@ h3 {
     width: 250px;
     margin-left: 20vw;
     margin-top: 10px;
+    margin-bottom: 10px;
+    
 }
 
 .total-amount {
@@ -415,12 +421,6 @@ h3 {
         margin-right: auto;
     }
 
-    h2 {
-        font-weight: 300;
-        font-size: 2.5rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
 
     .dropdown-container {
         margin-bottom: 10px; 
@@ -461,6 +461,9 @@ h3 {
         font-size: 20px;
         margin: 0 auto; 
         padding: 10px; 
+        margin-top: 6vh;
+        font-weight: 300;
+        font-size: 3rem;
     }
     
     .booking-poster {
@@ -471,19 +474,6 @@ h3 {
         margin: 0 auto;  
     }
     
-    .booking-poster-text {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 20px;
-        padding: 5px 10px;
-        width: 200px;
-        color: #C699EA;
-        margin: 0 auto;  
-        padding: 10px; 
-        font-size: 20px;
-        
-    }
     
     .seat {
         /* base styles for seat */

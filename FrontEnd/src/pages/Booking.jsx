@@ -413,7 +413,7 @@ function Booking() {
                 />
                 <h2 className="booking-poster-text"></h2>
               </div>
-              <h2>Boka Biljetter</h2>
+              <h2 className="book-text">Boka Biljetter</h2>
               <div className="dropdown-container">
                 <DropdownSelect
                   value={selectedMovie}
@@ -485,7 +485,7 @@ function Booking() {
                 />
               )}
               <div className="total-amount">
-                <h3>Summa: {getTotalAmount()} Kr</h3>
+                <h3 className="sum">Summa: {getTotalAmount()} Kr</h3>
               </div>
               <div className="theatre">
                 <div className="movie-screen">

@@ -68,7 +68,7 @@
   .movie-card-links {
     display: flex;
     justify-content: space-between;
-    margin-top: 2.2em; 
+    margin-top: 1.65em; 
     margin-bottom: -1em;
     position: relative;
   }
@@ -76,7 +76,7 @@
   .moviecard-showmore-link {
     color: #FFB800;
     position: absolute;
-    bottom: -.6em; 
+    bottom: -.8em; 
     right: 0; 
 }
 

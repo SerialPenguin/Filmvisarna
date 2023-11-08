@@ -12,6 +12,7 @@
   color: #ba7e36;
 }
 .add-movie-btn {
+  align-self: center;
+  width: fit-content;
   margin-top: 1em;
-  margin-bottom: 1em;
 }

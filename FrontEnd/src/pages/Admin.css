@@ -32,14 +32,18 @@
   color: #ba7e36;
 }
 .close-ref-btn {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
   font-size: 0.5rem;
+  margin-bottom: 2em;
 }
 .close-ref-btn:focus {
   outline: none;
 }
 .dialog {
   width: 65%;
-  padding: 0 2em;
+  padding: 1em 2em;
   background-color: #ba7f3600;
   backdrop-filter: blur(8px);
   border: 1px solid #ba7e36;

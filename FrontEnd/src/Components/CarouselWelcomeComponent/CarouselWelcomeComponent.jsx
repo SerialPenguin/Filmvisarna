@@ -1,4 +1,4 @@
-import bg from "../../assets/filmvisarna-bg.png";
+import bg from "../../assets/filmvisarna-desktop-banner.png";
 import '../CarouselWelcomeComponent/CarouselWelcomeComponent.css'
 
 const CarouselWelcomeComponent = () => {

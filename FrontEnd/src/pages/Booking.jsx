@@ -156,7 +156,7 @@ function Booking() {
       return;
     }
     if (groupSeats) {
-      setSeats([]);
+      setSeats(findContiguousSeats(seatNumber, totalTicketCount));
       fetch(`/api/reserveSeats`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -171,10 +171,9 @@ function Booking() {
         seatToRemove = seats[0];
         setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
       }
+      setSeats((prevSeats) => [...prevSeats, seatNumber]);
+      console.log(`Seat ${seatNumber} is now temporarily reserved.`);
     }
-
-    setSeats((prevSeats) => [...prevSeats, seatNumber]);
-    console.log(`Seat ${seatNumber} is now temporarily reserved.`);
 
     try {
       const res = await fetch(`/api/reserveSeats`, {

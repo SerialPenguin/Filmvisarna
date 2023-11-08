@@ -55,7 +55,7 @@ function MovieInfo() {
     
     return (
         <div className="movieinfo-container">
-            <h1 className="main-text-title">{movie.title}</h1>
+            <h2 className="movie-title-header">{movie.title}</h2>
             
             {hasTrailers ? (
                 <div className="iframe-container">
@@ -69,7 +69,6 @@ function MovieInfo() {
                 <p>No trailer available</p>
             )}
             <div className="text-containers">
-                <h2 className="text-title">Beskrivning</h2>
                 <p className="normal-text">{movie.description}</p>
                 <p className="normal-text">Genre: {movie.genre}</p>
                 <p className="normal-text">Längd: {MinutsToHoursAndMinuts(movie.length)}</p>

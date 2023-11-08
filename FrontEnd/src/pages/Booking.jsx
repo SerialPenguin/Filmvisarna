@@ -366,16 +366,6 @@ function Booking() {
     children: "Barnbiljetter",
   };
 
-  // function handleScreeningInput(e) {
-  //   if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
-  //     // Here, notify the user about the mismatch
-  //     alert("Please select the same number of seats as tickets.");
-  //     return;
-  //   }
-  //   setChosenScreening(e.target.parentNode.children[3].firstChild.value);
-  //   setView("confirmation");
-  // }
-
   function handleScreeningInput(e) {
     if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
       showAlert("Vänligen välj lika många säten som biljetter.");

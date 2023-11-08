@@ -47,6 +47,7 @@ function Booking() {
   );
   const [chosenScreening, setChosenScreening] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [groupSeats, setGroupSeats] = useState(false);
 
   const selectedMovieRef = useRef(null);
 
@@ -117,10 +118,29 @@ function Booking() {
     return bookedSeats.includes(seatNumber);
   };
 
+  function findContiguousSeats(seatNumber, totalTicketCount) {
+    const result = [];
+    for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
+      result.push(i);
+    }
+    console.log(result, seatNumber, totalTicketCount);
+    return result;
+  }
+
   const handleSeatClick = async (rowNumber, seatNumber) => {
+    const totalTicketCount = getTotalTicketCount();
     if (isSeatBooked(seatNumber)) {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
       return;
+    }
+    if (groupSeats) {
+      const desiredSeats = findContiguousSeats(seatNumber, totalTicketCount);
+      for (let seat of desiredSeats) {
+        if (isSeatBooked(seat)) {
+          console.log(`Seat ${seat} in row ${rowNumber} is already booked.`);
+          return;
+        }
+      }
     }
 
     // Check if the seat is already in selectedSeats
@@ -131,14 +151,26 @@ function Booking() {
 
     // Determine if we should remove an existing seat from selection
     let seatToRemove = null;
-    const totalTicketCount = getTotalTicketCount();
     if (totalTicketCount <= 0) {
       console.log("Please select a ticket before choosing a seat.");
       return;
-    } // Use this to check against number of selected seats
-    if (seats.length >= totalTicketCount) {
-      seatToRemove = seats[0];
-      setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+    }
+    if (groupSeats) {
+      setSeats([]);
+      fetch(`/api/reserveSeats`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          screeningId,
+          seats: [], // Empty array to show removal
+        }),
+      });
+    } else {
+      // Use this to check against number of selected seats
+      if (seats.length >= totalTicketCount) {
+        seatToRemove = seats[0];
+        setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+      }
     }
 
     setSeats((prevSeats) => [...prevSeats, seatNumber]);
@@ -161,10 +193,14 @@ function Booking() {
       if (data && data.success) {
         console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
       }
-      if (selectedSeats.length === totalTicketCount) {
-        setSelectedSeats([...selectedSeats.slice(1), seatNumber]);
+      if (groupSeats) {
+        setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));
       } else {
-        setSelectedSeats([...selectedSeats, seatNumber]);
+        if (selectedSeats.length === totalTicketCount) {
+          setSelectedSeats([...selectedSeats.slice(1), seatNumber]);
+        } else {
+          setSelectedSeats([...selectedSeats, seatNumber]);
+        }
       }
     } catch (error) {
       console.error("Error reserving seat:", error);
@@ -372,7 +408,6 @@ function Booking() {
       return;
     }
     setChosenScreening(e.target.parentNode.children[4].firstChild.value);
-    setChosenScreening(e.target.parentNode.children[4].firstChild.value);
     setView("confirmation");
   }
 
@@ -500,6 +535,32 @@ function Booking() {
                 Vänligen välj lika många säten som biljetter.
               </p>
             </div>
+          </div>
+          {/* <input
+            type="checkbox"
+            className="seat-select"
+            name="Select Grouped Seats"
+            checked={groupSeats}
+            onChange={(e) => {
+              setGroupSeats(e.target.checked);
+            }}
+          /> */}
+          <div className="seat-select-container">
+            <label
+              htmlFor="grouped-seats-checkbox"
+              className="seat-select-label">
+              Select Grouped Seats
+            </label>
+            <input
+              type="checkbox"
+              id="grouped-seats-checkbox"
+              className="seat-select"
+              name="Select Grouped Seats"
+              checked={groupSeats}
+              onChange={(e) => {
+                setGroupSeats(e.target.checked);
+              }}
+            />
           </div>
           <button className="book-button" onClick={handleScreeningInput}>
             Boka biljetter

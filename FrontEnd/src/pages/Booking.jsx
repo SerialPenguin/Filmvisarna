@@ -536,15 +536,6 @@ function Booking() {
               </p>
             </div>
           </div>
-          {/* <input
-            type="checkbox"
-            className="seat-select"
-            name="Select Grouped Seats"
-            checked={groupSeats}
-            onChange={(e) => {
-              setGroupSeats(e.target.checked);
-            }}
-          /> */}
           <div className="seat-select-container">
             <label
               htmlFor="grouped-seats-checkbox"

@@ -43,15 +43,23 @@ function organizeScreeningsByDate(screenings) {
   }, {});
 }
 
+
+
 function Screenings() {
+  /* First filter options*/
+  const ALL_MOVIES_OPTION = "Alla filmer";
+  const ALL_AGES_OPTION = "Ålder Filter";
+  const ALL_WEEKS_OPTION = "Alla veckor";
+  const ALL_DATES_OPTION = "Alla Datum";
+
   const [screenings, setScreenings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedFilterOption, setSelectedFilterOption] =
-    useState("Alla filmer");
+    useState(ALL_MOVIES_OPTION);
   const [filteredScreenings, setFilteredScreenings] = useState([]);
-  const [selectedAgeOption, setSelectedAgeOption] = useState("Ålder Filter");
-  const [selectedWeek, setSelectedWeek] = useState("Alla veckor");
-  const [selectedDate, setSelectedDate] = useState("Alla Datum");
+  const [selectedAgeOption, setSelectedAgeOption] = useState(ALL_AGES_OPTION);
+  const [selectedWeek, setSelectedWeek] = useState(ALL_WEEKS_OPTION);
+  const [selectedDate, setSelectedDate] = useState(ALL_DATES_OPTION);
   const location = useLocation();
 
   useGet("/api/screenings", (data) => {
@@ -60,38 +68,52 @@ function Screenings() {
     setFilteredScreenings(data);
   });
 
-  useEffect(() => {
-    // Uppdatera den filtrerade listan när selectedFilterOption, selectedAgeOption,selectedDate  eller selectedWeek ändras
-    let filteredList = screenings;
-
-    if (selectedFilterOption !== "Alla filmer") {
-      filteredList = filteredList.filter(
+  function filterByMovieTitle(screenings, selectedFilterOption) {
+    if (selectedFilterOption !== ALL_MOVIES_OPTION) {
+      screenings = screenings.filter(
         (screening) => screening.movie.title === selectedFilterOption
       );
-    } else {
-      filteredList = screenings;
     }
 
-    if (selectedAgeOption !== "Ålder Filter") {
-      filteredList = filteredList.filter(
+  }
+  
+  function filterByAge(screenings, selectedAgeOption) {
+    if (selectedAgeOption !== ALL_AGES_OPTION) {
+      screenings = screenings.filter(
         (screening) => screening.movie.age <= selectedAgeOption
       );
     }
 
-    if (selectedWeek !== "Alla veckor") {
-      filteredList = filteredList.filter((screening) => {
+  }
+  
+  function filterByWeek(screenings, selectedWeek) {
+    if (selectedWeek !== ALL_WEEKS_OPTION) {
+      screenings = screenings.filter((screening) => {
         return (
           getWeekNumber(screening.startTime) === parseInt(selectedWeek, 10)
         );
       });
     } else {
-      setSelectedDate("Alla Datum");
+      setSelectedDate(ALL_DATES_OPTION);
     }
-    if (selectedDate !== "Alla Datum") {
-      filteredList = filteredList.filter((screening) => {
+  }
+  
+  function filterByDate(screenings, selectedDate) {
+    if (selectedDate !== ALL_DATES_OPTION) {
+      screenings = screenings.filter((screening) => {
         return fixDateStartTime(screening.startTime) === selectedDate;
       });
     }
+  }
+
+  useEffect(() => {
+    // Uppdatera den filtrerade listan när selectedFilterOption, selectedAgeOption,selectedDate  eller selectedWeek ändras
+    let filteredList = screenings;
+    
+    filteredList = filterByMovieTitle(filteredList, selectedFilterOption);
+    filteredList = filterByAge(filteredList, selectedAgeOption);
+    filteredList = filterByWeek(filteredList, selectedWeek);
+    filteredList = filterByDate(filteredList, selectedDate);
 
     setFilteredScreenings(filteredList);
   }, [
@@ -113,8 +135,8 @@ function Screenings() {
           className="screenings-selectors"
           value={selectedFilterOption}
           onChange={(e) => setSelectedFilterOption(e.target.value)}>
-          <option key="Alla filmer" value="Alla filmer">
-            Alla Filmer
+          <option key={ALL_MOVIES_OPTION} value={ALL_MOVIES_OPTION}>
+          {ALL_MOVIES_OPTION}
           </option>
           {[
             ...new Set(
@@ -130,7 +152,7 @@ function Screenings() {
           className="screenings-selectors"
           value={selectedAgeOption}
           onChange={(e) => setSelectedAgeOption(e.target.value)}>
-          <option value="Ålder Filter">Ålder Filter</option>
+          <option value={ALL_AGES_OPTION}>{ALL_AGES_OPTION}</option>
           <option value="7">7</option>
           <option value="11">11</option>
           <option value="15">15</option>
@@ -139,7 +161,7 @@ function Screenings() {
           className="screenings-selectors"
           value={selectedWeek}
           onChange={(e) => setSelectedWeek(e.target.value)}>
-          <option value="Alla veckor">Alla veckor</option>
+          <option value={ALL_WEEKS_OPTION}>{ALL_WEEKS_OPTION}</option>
           {[
             ...new Set(
               filteredScreenings.map((screening) =>
@@ -152,12 +174,12 @@ function Screenings() {
             </option>
           ))}
         </select>
-        {selectedWeek !== "Alla veckor" && (
+        {selectedWeek !== ALL_WEEKS_OPTION && (
           <select
             className="screenings-selectors"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}>
-            <option value="Alla Datum">Alla Datum</option>
+            <option value={ALL_DATES_OPTION}>{ALL_DATES_OPTION}</option>
             {Object.keys(screeningsByDate).map((date) => (
               <option key={date} value={date}>
                 {date}

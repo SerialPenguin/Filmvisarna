@@ -540,7 +540,7 @@ function Booking() {
             <label
               htmlFor="grouped-seats-checkbox"
               className="seat-select-label">
-              Select Grouped Seats
+              Välj grupperade säten
             </label>
             <input
               type="checkbox"

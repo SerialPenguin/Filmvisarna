@@ -1,13 +1,13 @@
 
 .register-wrapper {
-  background: linear-gradient(#150316, #3F1441) ;
-  position: absolute;
-  top: 0;
-  left: 0;
+  /* background: linear-gradient(#150316, #3F1441) ; */
   z-index: 1001;
-  height: 100vh;
-  width: 100%;
+  width: 90%;
+  height: calc(100vh - 4em);
   display: flex;
+  margin: 0 auto;
+  margin-top: 4em;
+  box-sizing: border-box;
 }
 
 .right-section {
@@ -19,37 +19,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3.5%;
-  height: 100vh;
+  gap: 1%;
+  height: 100%;
   width: 100%;
-}
-
-.login-header {
-  width: 100%;
-  padding: 0 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.logo {
-  background-image: url(../assets/FilmvisarnaLogoTwo.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 350px;
-  height: 86px;
 }
 
 .welcome-text {
   color: #c699ea;
-  font-size: 24px;
+  font-size: 36px;
   font-weight: 400;
+  text-align: center;
 }
 
 .form-container {
   width: 100%;
   max-width: 768px;
-  padding: 0 8px;
+  /* padding: 0 8px; */
   display: flex;
   flex-direction: column;
 }
@@ -128,13 +113,17 @@
 
   .register-wrapper .left-section {
     width: 50%;
+    gap: 0;
+    align-items: center;
   }
 
   .right-section {
-    display: block;
+    display: flex;
     width: 50%;
-    height: 100vh;
-    padding: 24px;
+    height: 100%;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
   }
 
   .login-bg {
@@ -142,12 +131,16 @@
     background-size: cover;
     background-position: top;
     width: 100%;
-    height: 100%;
+    height: 90%;
     border-radius: 16px;
   }
 
   .form-container {
     max-width: 600px;
+  }
+
+  .first {
+    margin: 0;
   }
 
   .btn-container {

@@ -3,12 +3,11 @@
     height: 45vh;
     /* background: black; */
     position: relative;
-    
   }
   
   .front-carousel-icon {
     position: absolute;
-    top: 29%;
+    top: 35%;
     width: 25px;
   }
   

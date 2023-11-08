@@ -12,5 +12,6 @@ export default defineConfig({
         // You can add additional proxy options here if needed
       },
     },
+    host: true,
   },
 });

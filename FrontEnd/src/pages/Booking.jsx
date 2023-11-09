@@ -8,6 +8,7 @@ import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";
 import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
 import { getWeekNumber } from "../hooksAndUtils/weekUtil";
+import SeatReleaseOnUnload from "../components/SeatReleaseOnUnload";
 import "./Booking.css";
 
 function Booking() {
@@ -429,6 +430,10 @@ function Booking() {
           ) : (
             <>
               <div>
+                <SeatReleaseOnUnload
+                  screeningId={screeningId}
+                  selectedSeats={selectedSeats}
+                />
                 <h2 className="booking-poster-title">{movie?.title}</h2>
                 <img
                   className="booking-poster"

@@ -3,6 +3,7 @@ import OptionsComponent from '../OptionsComponent/OptionsComponent.jsx'
 import AddMovieComponent from './AddMovieComponent.jsx';
 import './HandleMovies.css';
 import EditMovieComponent from './EditMovieComponent.jsx';
+import DeleteMovieComponent from './DeleteMovieComponent.jsx';
 
 export default function HandleMovies(props) {
 
@@ -32,7 +33,10 @@ export default function HandleMovies(props) {
         </div>
       )}
       {props.optionState === 'delete' && (
-        <div>Delete</div>
+        <div>
+          <h4 className='option-title'>Radera film</h4>
+          <DeleteMovieComponent token={token} />
+        </div>
       )}
     </div>
   )

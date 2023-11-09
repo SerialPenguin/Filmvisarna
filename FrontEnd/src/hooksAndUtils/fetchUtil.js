@@ -42,8 +42,12 @@ export async function getProfile(url, token) {
   })).json();
 }
 
-export async function del(url) {
-  return await (await fetch(url), {
-    method: "DELETE"
-  }).json();
+export async function del(url, token) {
+  return await (await fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  })).json();
 }

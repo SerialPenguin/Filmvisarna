@@ -19,14 +19,13 @@ export const addMovies = async (req, res) => {
       title, productionCountries, productionYear, 
       length, genre, distributor, language, 
       subtitles, director, actors, description, 
-      images, youtubeTrailers, reviews, age
+      images, youtubeTrailers, age
     } = req.body;
 
     productionCountries = productionCountries.split(",");
     actors = actors.split(",");
     images = images.split(",");
     youtubeTrailers = youtubeTrailers.split(",");
-    reviews = reviews.split(",");
 
     const newMovie = new Movie({
       title, 
@@ -70,10 +69,28 @@ export const editMovies = async (req, res) => {
 
     await collection.updateOne({ _id: movie._id },{$set: changes});
 
-    res.status(200).send({ msg: `Movie ${movie.title} edited successfully`});
+    res.status(200).send({ msg: `Movie ${movie.title} edited succesfully`});
 
   }catch(err) {
     console.log(err);
   }
-
 }
+
+export const deleteMovies = async (req, res) => {
+
+  const param = req.params;
+
+  console.log("PAR: ", param)
+
+  try{
+    const collection = mongoose.connection.collection('movies');
+    const movie = await collection.deleteOne({title: param.title});
+
+    if(movie.deletedCount === 1) {
+      res.status(200).send({ msg: `Movie ${param.title} deleted succesfully`})
+    }
+
+  }catch(err){
+    console.log(err)
+  }
+} 

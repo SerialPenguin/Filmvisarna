@@ -42,3 +42,21 @@
   width: fit-content;
   margin-top: 1em;
 }
+.delete-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: red;
+}
+.warning-para {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: yellow;
+}
+.delete-btn {
+  background: red;
+  margin-right: 2em;
+}
+.delete-btn,
+.back-btn {
+  font-size: 0.9rem;
+}

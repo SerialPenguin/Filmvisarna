@@ -2,84 +2,137 @@
 
 import { useEffect, useState } from "react";
 import "./profile.css";
-// const token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
-
+// import { getProfile } from "../hooksAndUtils/fetchUtil.js";
 const token = sessionStorage.getItem("JWT_TOKEN");
 
 export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
+  const [bookingData, setBookingData] = useState([]);
+  const [movieId, setMovieId] = useState([]);
   const [movieInfo, setMovieInfo] = useState([]);
+  const [screeningId, setScreeningId] = useState([]);
+  const [screeningData, setScreeningData] = useState([]);
+
+  // const currentDate = new Date().getTime();
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchUser() {
+      const response = await fetch("/api/auth/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error fetching user data");
+      }
+
+      const userData = await response.json();
+      const bookingId = userData.bookingHistory;
+      setUserData(userData);
+      setBookingId(bookingId);
+
+      // en array med alla bokningsID
+      // console.log(bookingId);
+    }
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
       try {
-        const fetchUser = await fetch("/api/auth/profile", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!fetchUser.ok) {
-          throw new Error("Error fetching user data");
-        }
-
-        const userData = await fetchUser.json();
-        setUserData(userData);
-
-        const bookingId = userData.bookingHistory;
-        if (bookingId.length === 0) {
-          setBookingId(false);
-        }
-
-        const fetchBookings = await Promise.all(
-          bookingId.map(async (bookingId) => {
-            const response = await fetch(`/api/search/bookings/${bookingId}`);
-            if (!response.ok) {
-              throw new Error("Error fetching booking data");
-            }
-            const bookingData = await response.json();
-            return bookingData.screeningId;
-          })
+        const bookingPromises = bookingId.map((id) =>
+          fetch(`/api/search/bookings/${id}`).then((response) =>
+            response.json()
+          )
         );
-
-        const fetchScreenings = await Promise.all(
-          fetchBookings.map(async (screeningId) => {
-            const response = await fetch(
-              `/api/search/screenings/${screeningId}`
-            );
-            if (!response.ok) {
-              throw new Error("Error fetching screening data");
-            }
-            const screeningData = await response.json();
-            return screeningData.movieId;
-          })
-        );
-
-        const fetchMovies = await Promise.all(
-          fetchScreenings.map(async (movieId) => {
-            const response = await fetch(`/api/search/movies/${movieId}`);
-            if (!response.ok) {
-              throw new Error("Error fetching movie data");
-            }
-            const movie = await response.json();
-            return movie;
-          })
-        );
-
-        setMovieInfo(fetchMovies);
+        const allBookings = await Promise.all(bookingPromises);
+        setBookingData(allBookings);
+        // console.log(allBookings);
       } catch (error) {
-        console.error("Error: " + error);
+        console.error(error);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchBookings();
+  }, [bookingId]);
+
+  console.log(bookingData);
+
+  // useEffect(() => {
+  //   const fetchScreeningData = async () => {
+  //     try {
+  //       const drinksPromises = bookingId.map((obj) =>
+  //         fetch(`/api/search/bookings/${obj}`).then((res) => res.json())
+  //       );
+  //       const data = await Promise.all(drinksPromises);
+  //       setScreeningData(data);
+  //       // console.log(data); // Flyttar loggen här
+  //     } catch (error) {
+  //       console.error("An error occurred:", error);
+  //     }
+  //   };
+
+  //   fetchScreeningData();
+  // }, [bookingId]);
+
+  // console.log(screeningData);
+
+  // console.log(screeningData);
+  // useEffect(() => {
+  //   async function fetchScreenings() {
+  //     screeningId.map(async (screeningId) => {
+  //       const response = await fetch(`/api/search/screenings/${screeningId}`);
+  //       if (!response.ok) {
+  //         throw new Error("Error fetching screening data");
+  //       }
+  //       const screeningData = await response.json();
+  //       const movieId = screeningData.movieId;
+
+  //       setMovieId([movieId]);
+  //       setScreeningData(screeningData);
+  //       // console.log(screeningData);
+  //     });
+  //   }
+  //   fetchScreenings();
+  // }, [screeningId]);
+
+  // useEffect(() => {
+  //   async function fetchMovies() {
+  //     movieId.map(async (movieId) => {
+  //       const response = await fetch(`/api/search/movies/${movieId}`);
+  //       if (!response.ok) {
+  //         throw new Error("Error fetching movie data");
+  //       }
+  //       const movieData = await response.json();
+  //       // const movieTitle = movieData.title;
+
+  //       // console.log(movieData);
+  //       setMovieInfo([movieData]);
+  //       // console.log(movieData);
+  //     });
+  //   }
+  //   fetchMovies();
+  // }, [movieId]);
+
+  // // fetchMovies();
+  // console.log(movieInfo);
+
+  // hämta information från screenings och bookings (time, seats etc) och movie (title, bild)
+
+  // https://stackoverflow.com/questions/67223446/promise-all-inside-useeffect-in-react-returns-an-array-of-undefined-items
+
+  // useEffect(() => {
+  //   async function MapInfo() {
+  //     Promise.all([screeningData, movieInfo]);
+  //   }
+  //   MapInfo();
+  // }, []);
 
   return (
-    <>
+    <section className="profile-page-container">
       <h2 className="profile-h2">Profil</h2>
       <div className="profilepage-content">
         <table className="profile-table">
@@ -98,24 +151,26 @@ export default function Profile() {
             </tr>
           </tbody>
         </table>
+
         <div className="bookinghistory-container">
-          <h3 className="profile-h3">Tidigare bokningar</h3>
+          <h3 className="profile-h3">Aktuella bokningar</h3>
           <ul className="profile-ul">
-            {bookingId === false ? (
-              <p>Inga tidigare bokningar hittades</p>
-            ) : movieInfo.length === 0 ? (
-              <p>Laddar tidigare bokningar...</p>
-            ) : (
-              movieInfo.map((movie, i) => (
-                <li key={i}>
-                  <img src={movie.images} />
-                  <p>{movie.title}</p>
-                </li>
-              ))
-            )}
+            <li>
+              <button>Ta bort bokning</button>
+            </li>
+          </ul>
+          <h3 className="profile-h3">Tidigare bokningar</h3>
+
+          <ul className="profile-ul">
+            {bookingData.map((booking, i) => (
+              <li key={i}>
+                {booking.screeningId}
+                {/* {booking.age} */}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
-    </>
+    </section>
   );
 }

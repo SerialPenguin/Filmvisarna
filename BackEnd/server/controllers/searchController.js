@@ -32,12 +32,12 @@ export const getResourceById = async (req, res) => {
   };
   
   export const getMovieByTitle = async (req, res) => {
-    const movie = req.params
-    let title = movie.title.split(/(?=[A-Z])/).join(" ");
+    const param = req.params
+    console.log(param.title)
     
     try {
       const collection = mongoose.connection.collection('movies');
-      const movie = await collection.findOne({title: title});
+      const movie = await collection.findOne({title: param.title});
 
       if (!movie) {
         return res.status(404).json({ error: 'Movie not found, check spelling' });
@@ -45,6 +45,6 @@ export const getResourceById = async (req, res) => {
 
       res.json(movie);
     }catch(err) {
-      console(err);
+      console.log(err);
     }
   }

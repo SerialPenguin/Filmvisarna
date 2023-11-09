@@ -60,8 +60,6 @@ export default function AddMovieComponent(props) {
             <input value={formBody.images || ""} onChange={handleInputChange} className='img-input' name="images"></input>
             <label className="lbl" htmlFor='youtubeTrailers'>Trailer url:</label>
             <input value={formBody.youtubeTrailers || ""} onChange={handleInputChange} className='trailer-input' name="youtubeTrailers"></input>
-            <label className="lbl" htmlFor='reviews'>Recensioner:</label>
-            <input value={formBody.reviews || ""} onChange={handleInputChange} className='review-input' name="reviews"></input>
             <label className="lbl" htmlFor='age'>Ålder från:</label>
             <input type="number" value={formBody.age || ""} onChange={handleInputChange} className='age-input' name="age"></input>
             <button className='add-movie-btn'>Lägg till film</button>

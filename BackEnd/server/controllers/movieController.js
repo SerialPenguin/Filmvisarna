@@ -41,8 +41,7 @@ export const addMovies = async (req, res) => {
       actors, 
       description, 
       images, 
-      youtubeTrailers, 
-      reviews,
+      youtubeTrailers,
       age
     })
 
@@ -61,13 +60,13 @@ export const editMovies = async (req, res) => {
 
   try {
     const collection = mongoose.connection.collection('movies');
-    const movie = await collection.findOne({title: changes.search});
+    const movie = await collection.findOne({title: changes.title});
 
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found, check spelling' });
     }
 
-    delete changes.search;
+    delete changes.title;
 
     await collection.updateOne({ _id: movie._id },{$set: changes});
 

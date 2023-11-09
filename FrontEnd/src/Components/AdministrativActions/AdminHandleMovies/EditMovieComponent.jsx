@@ -6,20 +6,15 @@ export default function EditMovieComponent(props) {
   const [formState, setFormState] = useState('search');
   const [value, setValue] = useState();
   const [key, setKey] = useState();
+  const [movies, setMovies] = useState();
   const [changes, setChanges] = useState({});
   const [formBody, setFormBody] = useState({});
 
   useEffect(() => {
-
+    
     for (let key in formBody) {
       if (formBody[key] === undefined) {
         delete formBody[key];
-      }
-    }
-
-    for (let key in changes) {
-      if (changes[key] === undefined) {
-        delete changes[key];
       }
     }
 
@@ -28,20 +23,39 @@ export default function EditMovieComponent(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, value]);
 
+  useEffect(() => {
+    async function getMovies() {
+      setMovies(await get('/api/movies'));
+      console.log(movies)
+    }
+
+    getMovies();
+  }, [])
+
   function handleInputChange(e) {
     setKey(e.target.name);
     setValue(e.target.value);
   }
 
+  async function handleMovieInfo(e) {
+    e.preventDefault();
+    setChanges({ ...changes, title: e.target.id})
+    setFormBody(await get('/api/search/admin/getMovie/' + e.target.id));
+    
+    setFormState('edit');
+  }
+
   async function handleSubmits(e) {
     e.preventDefault();
+    
+    if(formState === 'edit') {
 
-    if(formState === 'search') {
-      formBody.search = formBody.search.split(" ").join("");
-      setFormBody(await get('/api/search/admin/getMovie/' + formBody.search));
-      setFormState('edit');
+      for (let key in changes) {
+        if (changes[key] === undefined) {
+          delete changes[key];
+        }
+      }  
 
-    }else if(formState === 'edit') {
       const result = await patch('/api/movies/auth/admin/editMovie', changes, props.token);
       console.log("Result: ", result);
     }
@@ -50,11 +64,9 @@ export default function EditMovieComponent(props) {
   return (
     <div className="edit-movie-container">
       {formState === 'search' && (
-        <form className="search-form" onSubmit={handleSubmits}> 
-          <label className='lbl' htmlFor="searchInput">Sök på titel:</label>
-          <input autoFocus className="search-input" onChange={handleInputChange} name="search"></input>
-          <button className="search-btn">Sök</button>
-        </form>
+        <div className="movies-container">
+          {movies?.map(movie => <p className="movie-para" onClick={handleMovieInfo} key={movie.title} id={movie.title}>{movie.title}</p>)}
+        </div>
       )}
       {formState === 'edit' && (
          <form onSubmit={handleSubmits} className='edit-movie-form'>
@@ -84,8 +96,6 @@ export default function EditMovieComponent(props) {
             <input value={formBody.images || ""} onChange={handleInputChange} className='img-input' name="images"></input>
             <label className="lbl" htmlFor='youtubeTrailers'>Trailer url:</label>
             <input value={formBody.youtubeTrailers || ""} onChange={handleInputChange} className='trailer-input' name="youtubeTrailers"></input>
-            <label className="lbl" htmlFor='reviews'>Recensioner:</label>
-            <input value={formBody.reviews || ""} onChange={handleInputChange} className='review-input' name="reviews"></input>
             <label className="lbl" htmlFor='age'>Ålder från:</label>
             <input type="number" value={formBody.age || ""} onChange={handleInputChange} className='age-input' name="age"></input>
             <button className='edit-movie-btn'>Spara ändringar</button>

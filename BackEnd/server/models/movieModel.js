@@ -14,7 +14,6 @@ const movieSchema = new mongoose.Schema({
   description: { type: String, required: true },
   images: { type: Array, required: true },
   youtubeTrailers: { type: Array, required: true },
-  reviews: { type: Array, required: false },
   age: { type: Number, required: true },
 });
 

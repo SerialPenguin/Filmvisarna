@@ -66,6 +66,7 @@ export default function BookingConfirmation(props) {
     }
 
     fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {

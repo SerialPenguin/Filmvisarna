@@ -27,7 +27,7 @@ const MovieCardComponent = () => {
 
   const handleBookingClick = (id) => {
     screenings.forEach((screening) => {
-    if(screening.movieId === id) {
+    if(id === screening.movieId) {
       navigate(`/booking/${screening._id}`)
     }})
   }

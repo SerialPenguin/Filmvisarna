@@ -115,8 +115,8 @@
 
     .moviecard-styling-desktop {
         position: absolute; 
-        top: 0; 
-        left: 0; 
+        top: 2%; 
+        left: 2%; 
         background-color: black;
         height: 330px; 
         width: 210px; 

@@ -1,18 +1,33 @@
-.add-movie-container {
+.option-title {
+  margin: -0.1em 0 0 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #c699ea;
+}
+.add-movie-container,
+.edit-movie-container {
   display: flex;
   justify-content: center;
 }
-.add-movie-form {
+.add-movie-form,
+.search-form,
+.edit-movie-form {
   width: 75%;
   display: flex;
   flex-direction: column;
 }
 .lbl {
   text-align: start;
+  margin: 0.3em 0 0 0;
   color: #ba7e36;
 }
 .add-movie-btn,
 .edit-movie-btn {
+  align-self: center;
+  width: fit-content;
+  margin-top: 1em;
+}
+.search-btn {
   align-self: center;
   width: fit-content;
   margin-top: 1em;

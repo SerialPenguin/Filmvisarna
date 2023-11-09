@@ -20,10 +20,16 @@ export default function HandleMovies(props) {
         <OptionsComponent optionState={props.optionState} setOptionState={props.setOptionState} topic={props.topic}/>
       )}
       {props.optionState === 'add' && (
-        <AddMovieComponent token={token}/>
+        <div>
+          <h4 className='option-title'>Lägg till film</h4>
+          <AddMovieComponent token={token}/>
+        </div>
       )}
       {props.optionState === 'edit' && (
-        <EditMovieComponent token={token} />
+        <div>
+          <h4 className='option-title'>Redigera film</h4>
+          <EditMovieComponent token={token} />
+        </div>
       )}
       {props.optionState === 'delete' && (
         <div>Delete</div>

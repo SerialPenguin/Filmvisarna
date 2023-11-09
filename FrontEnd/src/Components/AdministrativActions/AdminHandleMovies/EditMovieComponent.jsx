@@ -25,6 +25,7 @@ export default function EditMovieComponent(props) {
 
     setFormBody({ ...formBody, [key]: value });
     setChanges({ ...changes, [key]: value });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, value]);
 
   function handleInputChange(e) {
@@ -41,15 +42,13 @@ export default function EditMovieComponent(props) {
       setFormState('edit');
 
     }else if(formState === 'edit') {
-      console.log("CHANGES: ", changes);
       const result = await patch('/api/movies/auth/admin/editMovie', changes, props.token);
-      console.log("RESULT: ", result);
-      
+      console.log("Result: ", result);
     }
   }
 
   return (
-    <div>
+    <div className="edit-movie-container">
       {formState === 'search' && (
         <form className="search-form" onSubmit={handleSubmits}> 
           <label className='lbl' htmlFor="searchInput">Sök på titel:</label>
@@ -58,7 +57,7 @@ export default function EditMovieComponent(props) {
         </form>
       )}
       {formState === 'edit' && (
-         <form onSubmit={handleSubmits} className='add-movie-form'>
+         <form onSubmit={handleSubmits} className='edit-movie-form'>
             <label className="lbl" htmlFor='title'>Titel:</label>
             <input value={formBody.title || ""} onChange={handleInputChange} className='title-input' name="title"></input>
             <label className="lbl" htmlFor='productionCountries'>Produktions land:</label>

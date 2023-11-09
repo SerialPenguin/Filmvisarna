@@ -14,6 +14,7 @@ function SeatsGrid({
         <div key={row.rowNumber} className="row">
           {row.seats?.map((seatNumber) => (
             <button
+              id={`${seatNumber}`}
               key={seatNumber}
               className={`${isSeatBooked(seatNumber) ? "" : "available"} ${
                 selectedSeats.includes(seatNumber) ? "temporary-selected" : ""

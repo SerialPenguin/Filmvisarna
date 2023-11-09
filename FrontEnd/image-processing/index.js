@@ -41,9 +41,9 @@ import {
     for (let width of settings.widths) {
       console.log('Scaling ' + basename(file), 'to width', width);
       let fName = destPath.slice(0, -4) + '-' + width + 'w.jpg';
-      let height = Math.round(width / settings.aspect);
+      // let height = Math.round(width / settings.aspect);
       await sharp(file)
-        .resize({ width, height, quality: settings.jpgQuality })
+        .resize({ width, /*height,*/ quality: settings.jpgQuality })
         .toFile(fName);
       metaData[key].push(fName.split('/images')[1]);
     }

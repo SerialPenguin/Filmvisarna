@@ -119,13 +119,36 @@ function Booking() {
     return bookedSeats.includes(seatNumber);
   };
 
+  const calculateSeatsInRow = (salonLayout) => {
+    if (!salonLayout || !salonLayout.rows) {
+      return [];
+    }
+
+    return salonLayout.rows.map((row) => row.seats.length);
+  };
+
+  // Assuming you have fetched the salonLayout data and set it in your component state
+  const seatsInRow = calculateSeatsInRow(salonLayout);
+  console.log(seatsInRow); // An array of seat counts for each row
+
   function findContiguousSeats(seatNumber, totalTicketCount) {
     const result = [];
-    for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
-      result.push(i);
+    for (let j = 0; j < seatsInRow.length; j++) {
+      console.log("Hej!", seatsInRow[j]);
+      if (seatNumber + totalTicketCount > seatsInRow[j]) {
+        for (let i = seatNumber; i > seatNumber - totalTicketCount; i--) {
+          result.push(i);
+        }
+        console.log(result, seatNumber, totalTicketCount);
+        return result;
+      } else {
+        for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
+          result.push(i);
+        }
+        console.log(result, seatNumber, totalTicketCount);
+        return result;
+      }
     }
-    console.log(result, seatNumber, totalTicketCount);
-    return result;
   }
 
   const handleSeatClick = async (rowNumber, seatNumber) => {
@@ -167,6 +190,7 @@ function Booking() {
         }),
       });
     } else {
+      // Use this to check against the number of selected seats
       if (seats.length >= totalTicketCount) {
         seatToRemove = seats[0];
         setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
@@ -190,7 +214,7 @@ function Booking() {
         body: JSON.stringify({
           screeningId,
           seats: selectedSeatsArray,
-          previousSeat: seatToRemove, // This seat will be removed from the database temporaryBookings
+          previousSeat: seatToRemove, // This seat will be removed from the backend's temporary bookings
         }),
       });
 

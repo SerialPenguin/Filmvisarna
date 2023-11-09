@@ -1,43 +1,55 @@
 /** @format */
 
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 
 function SeatReleaseOnUnload({ screeningId, selectedSeats }) {
-  const releaseSeatsOnUnload = useCallback(async () => {
-    if (selectedSeats.length > 0) {
-      try {
-        const res = await fetch(`/api/reserveSeats`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            screeningId,
-            seats: [], // Empty array to show removal
-          }),
-        });
-
-        if (!res.ok) throw new Error("Error releasing seats");
-        const data = await res.json();
-
-        if (data && data.success) {
-          console.log("Selected seats released.");
-        }
-      } catch (error) {
-        console.error("Error releasing seats:", error);
-      }
-    }
-  }, [screeningId, selectedSeats]);
-
   useEffect(() => {
-    // Add an event listener to trigger the seat release when the page unloads
-    window.addEventListener("beforeunload", releaseSeatsOnUnload);
+    const handleUnload = async () => {
+      if (selectedSeats.length > 0) {
+        try {
+          const res = await fetch(`/api/reserveSeats`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              screeningId,
+              seats: [], // Empty array to show removal
+            }),
+          });
+
+          if (!res.ok) {
+            throw new Error("Error releasing seats");
+          }
+
+          const data = await res.json();
+
+          if (data && data.success) {
+            console.log("Selected seats released.");
+          }
+        } catch (error) {
+          console.error("Error releasing seats:", error);
+        }
+      }
+    };
+
+    const beforeUnloadListener = (event) => {
+      handleUnload();
+      event.returnValue = "";
+    };
+
+    const unloadListener = () => {
+      handleUnload();
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadListener);
+    window.addEventListener("unload", unloadListener);
 
     return () => {
-      // Remove the event listener when the component unmounts
-      window.removeEventListener("beforeunload", releaseSeatsOnUnload);
+      window.removeEventListener("beforeunload", beforeUnloadListener);
+      window.removeEventListener("unload", unloadListener);
     };
-  }, [releaseSeatsOnUnload]);
+  }, [screeningId, selectedSeats]);
 
-  return null; // This component doesn't render anything to the DOM
+  return null;
 }
 
 export default SeatReleaseOnUnload;

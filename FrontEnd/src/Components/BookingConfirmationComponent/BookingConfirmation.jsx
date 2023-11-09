@@ -51,17 +51,17 @@ export default function BookingConfirmation(props) {
 
   useEffect(() => {
     async function fetchProfile() {
-      const profile = await getProfile("/api/auth/profile", token);
+      console.log("token: ", token);
+      if (token) {
+        const profile = await getProfile("/api/auth/profile", token);
 
-      console.log("profile: ", profile.msg);
-      if (profile.msg === "Invalid token") {
-        setDisplayInput(true);
-      } else {
-        setDisplayInput(false);
+        if (profile !== "Invalid token") setDisplayInput(false);
         setEmail(profile.emailAdress);
         if (email === profile.emailAdress) {
           setDisplayConfirmBtn(true);
         }
+      } else {
+        setDisplayInput(true);
       }
     }
 
@@ -99,11 +99,10 @@ export default function BookingConfirmation(props) {
 
   function handleBookingBody(e) {
     setEmail(e.target.value);
-    if (email.includes("@")) {
+    if (email?.includes("@")) {
       setDisplayConfirmBtn(true);
     }
   }
-
   async function handleSendConfirmation() {
     try {
       let bodyCopy = JSON.parse(JSON.stringify(bookingBody));

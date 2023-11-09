@@ -167,7 +167,6 @@ function Booking() {
         }),
       });
     } else {
-      // Use this to check against number of selected seats
       if (seats.length >= totalTicketCount) {
         seatToRemove = seats[0];
         setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
@@ -177,13 +176,21 @@ function Booking() {
     }
 
     try {
+      // Construct an array of seat objects for all selected seats
+      const selectedSeatsArray = groupSeats
+        ? findContiguousSeats(seatNumber, totalTicketCount).map((seat) => ({
+            seatNumber: seat,
+          }))
+        : [{ seatNumber }];
+
+      // Send all selected seats to the backend
       const res = await fetch(`/api/reserveSeats`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [{ seatNumber }],
-          previousSeat: seatToRemove, // This seat will be removed from the backend's temporary bookings
+          seats: selectedSeatsArray,
+          previousSeat: seatToRemove, // This seat will be removed from the database temporaryBookings
         }),
       });
 
@@ -191,7 +198,11 @@ function Booking() {
       const data = await res.json();
 
       if (data && data.success) {
-        console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
+        console.log(
+          `Seats ${selectedSeatsArray
+            .map((seat) => seat.seatNumber)
+            .join(", ")} are now confirmed as reserved.`
+        );
       }
       if (groupSeats) {
         setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));

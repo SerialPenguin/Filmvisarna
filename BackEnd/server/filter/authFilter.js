@@ -16,7 +16,7 @@ async function auth(req, res, next) {
     const user = await User.findOne({ _id: authorized.id });
 
     if (user.userRole === 'USER') {
-      // req.user = user;
+      req.user = user;
       next();
     } else {
       res.status(401).json({ msg: 'Unauthorized request!' });

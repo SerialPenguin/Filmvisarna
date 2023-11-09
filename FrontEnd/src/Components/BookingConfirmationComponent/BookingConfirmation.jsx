@@ -16,8 +16,8 @@ export default function BookingConfirmation(props) {
   const [toggleClassName, setToggleClassName] = useState("ticket");
   const [animationStage, setAnimationStage] = useState("start");
   const [bookingNumber, setBookingNumber] = useState("");
-  const [displayInput, setDisplayInput] = useState(false);
-  const [displayConfirmBtn, setDisplayConfirmBtn] = useState(true);
+  const [displayInput, setDisplayInput] = useState();
+  const [displayConfirmBtn, setDisplayConfirmBtn] = useState();
   const [movie, setMovie] = useState();
   const [price, setPrice] = useState();
   const [date, setDate] = useState();
@@ -48,17 +48,19 @@ export default function BookingConfirmation(props) {
   useEffect(() => {
 
     async function fetchProfile() {
-      const profile = await getProfile("/api/auth/profile", token);
 
-      if(profile.msg === "Invalid token") {
-        setDisplayInput(true);
-      }else {
+      console.log("token: ", token)
+      if(token) {
+        const profile = await getProfile("/api/auth/profile", token);
+        
+        if(profile !== "Invalid token")
         setDisplayInput(false);
         setEmail(profile.emailAdress)
         if(email === profile.emailAdress) {
           setDisplayConfirmBtn(true);
         }
-
+      }else {
+        setDisplayInput(true);
       }
     }
 
@@ -93,9 +95,10 @@ export default function BookingConfirmation(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
 
+
   function handleBookingBody(e) {
     setEmail(e.target.value);
-    if(email.includes('@')) {
+    if(email?.includes('@')) {
       setDisplayConfirmBtn(true);
     }
   }
@@ -110,7 +113,7 @@ export default function BookingConfirmation(props) {
 
         const booking = await patch("/api/bookings", bodyCopy, token);
 
-        if (booking.message.includes("Booking created!")) {
+        if(booking.message.includes("Booking created!")) {
           setToggleClassName("ticket-spin-back");
           setAnimationStage("end");
           setBookingNumber(

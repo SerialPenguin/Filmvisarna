@@ -11,7 +11,8 @@
   text-align: start;
   color: #ba7e36;
 }
-.add-movie-btn {
+.add-movie-btn,
+.edit-movie-btn {
   align-self: center;
   width: fit-content;
   margin-top: 1em;

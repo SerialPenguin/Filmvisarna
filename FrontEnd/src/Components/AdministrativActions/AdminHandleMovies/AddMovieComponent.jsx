@@ -25,12 +25,6 @@ export default function AddMovieComponent(props) {
       }
     }
 
-    formBody.productionCountries = formBody.productionCountries.split(",");
-    formBody.actors = formBody.actors.split(",");
-    formBody.images = formBody.images.split(",");
-    formBody.youtubeTrailers = formBody.youtubeTrailers.split(",");
-    formBody.reviews = formBody.reviews.split(",");
-
     console.log("FB: ",formBody)
 
     const postMovie = await adminPost('/api/movies/auth/admin/addMovie', formBody, props.token);
@@ -58,7 +52,7 @@ export default function AddMovieComponent(props) {
             <input value={formBody.subtitles || ""} onChange={handleInputChange} className='sub-input' name="subtitles"></input>
             <label className="lbl" htmlFor='director'>Regissör:</label>
             <input value={formBody.director || ""} onChange={handleInputChange} className='director-input' name="director"></input>
-            <label className="lbl" htmlFor='actors'>Skådespelerskor/Skådespelare:</label>
+            <label className="lbl" htmlFor='actors'>Skådespelare:</label>
             <textarea value={formBody.actors || ""} onChange={handleInputChange} className='actors-textarea' name="actors"></textarea>
             <label className="lbl" htmlFor='description'>Beskrivning:</label>
             <textarea value={formBody.description || ""} onChange={handleInputChange} className='desc-textarea' name="description"></textarea>

@@ -15,12 +15,18 @@ export const getAllMovies = async (req, res) => {
 export const addMovies = async (req, res) => {
   try{
 
-    const {
+    let {
       title, productionCountries, productionYear, 
       length, genre, distributor, language, 
       subtitles, director, actors, description, 
-      images, youtubeTrailers, age
+      images, youtubeTrailers, reviews, age
     } = req.body;
+
+    productionCountries = productionCountries.split(",");
+    actors = actors.split(",");
+    images = images.split(",");
+    youtubeTrailers = youtubeTrailers.split(",");
+    reviews = reviews.split(",");
 
     const newMovie = new Movie({
       title, 
@@ -36,6 +42,7 @@ export const addMovies = async (req, res) => {
       description, 
       images, 
       youtubeTrailers, 
+      reviews,
       age
     })
 
@@ -49,13 +56,25 @@ export const addMovies = async (req, res) => {
 };
 
 export const editMovies = async (req, res) => {
-  const {title} = req.body;
   
+  const changes = req.body;
+
   try {
     const collection = mongoose.connection.collection('movies');
-    const movie = await collection.findOne({title: title});
-    res.json(movie);
+    const movie = await collection.findOne({title: changes.search});
+
+    if (!movie) {
+      return res.status(404).json({ error: 'Movie not found, check spelling' });
+    }
+
+    delete changes.search;
+
+    await collection.updateOne({ _id: movie._id },{$set: changes});
+
+    res.status(200).send({ msg: `Movie ${movie.title} edited successfully`});
+
   }catch(err) {
-    console(err);
+    console.log(err);
   }
+
 }

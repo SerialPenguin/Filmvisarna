@@ -34,6 +34,7 @@ function RegisterForm() {
         <div className="input-container">
           <label className="login-lbl">Förnamn</label>
           <input
+            required
             type="text"
             name="first-name"
             className="login-field first"
@@ -43,6 +44,7 @@ function RegisterForm() {
           />
           <label className="login-lbl">Efternamn</label>
           <input
+            required
             type="text"
             name="last-name"
             className="login-field first"
@@ -52,6 +54,7 @@ function RegisterForm() {
           />
           <label className="login-lbl">E-postadress</label>
           <input
+            required
             type="email"
             name="mail"
             className="login-field first"
@@ -61,6 +64,7 @@ function RegisterForm() {
           />
           <label className="login-lbl">Lösenord</label>
           <input
+            required
             type="password"
             name="password"
             className="login-field"

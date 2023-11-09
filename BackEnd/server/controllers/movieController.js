@@ -80,8 +80,6 @@ export const deleteMovies = async (req, res) => {
 
   const param = req.params;
 
-  console.log("PAR: ", param)
-
   try{
     const collection = mongoose.connection.collection('movies');
     const movie = await collection.deleteOne({title: param.title});

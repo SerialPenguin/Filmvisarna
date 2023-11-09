@@ -47,7 +47,6 @@ export default function EditMovieComponent(props) {
 
   async function handleSubmits(e) {
     e.preventDefault();
-    
     if(formState === 'edit') {
 
       for (let key in changes) {
@@ -58,6 +57,8 @@ export default function EditMovieComponent(props) {
 
       const result = await patch('/api/movies/auth/admin/editMovie', changes, props.token);
       console.log("Result: ", result);
+      props.movieRef.close();
+      props.setOptionState('non');
     }
   }
 

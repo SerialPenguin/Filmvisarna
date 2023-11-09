@@ -29,6 +29,9 @@ export default function AddMovieComponent(props) {
 
     const postMovie = await adminPost('/api/movies/auth/admin/addMovie', formBody, props.token);
     console.log("PM: ", postMovie);
+
+    props.movieRef.close();
+    props.setOptionState('non');
   }
 
   return (

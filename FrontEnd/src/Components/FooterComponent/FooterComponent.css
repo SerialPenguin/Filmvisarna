@@ -63,6 +63,7 @@
     
     .footer-text {
         text-align: left;
+        margin-left: -1em; 
     }
     
     .footer-form-style {

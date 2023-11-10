@@ -11,6 +11,8 @@ export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [movieInfo, setMovieInfo] = useState([]);
+  const [screening, setScreening] = useState([]);
+  const [movieId, setMovieId] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +43,8 @@ export default function Profile() {
               throw new Error("Error fetching booking data");
             }
             const bookingData = await response.json();
+            console.log(bookingData)
+            setScreening(bookingData)
             return bookingData.screeningId;
           })
         );
@@ -54,6 +58,8 @@ export default function Profile() {
               throw new Error("Error fetching screening data");
             }
             const screeningData = await response.json();
+            console.log("S", screeningData)
+            setMovieId(screeningData)
             return screeningData.movieId;
           })
         );
@@ -70,6 +76,12 @@ export default function Profile() {
         );
 
         setMovieInfo(fetchMovies);
+
+        
+        if(movieId._id === screening.movieId) {
+          console.log(movieId._id);
+        }
+        
       } catch (error) {
         console.error("Error: " + error);
       }
@@ -110,6 +122,7 @@ export default function Profile() {
               movieInfo.map((movie, i) => (
                 <li key={i}>
                   <img src={movie.images} />
+
                   <p>{movie.title}</p>
                 </li>
               ))

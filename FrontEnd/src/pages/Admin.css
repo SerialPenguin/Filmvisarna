@@ -21,7 +21,7 @@
 .option {
   border: 1px solid #ba7e36;
   text-align: center;
-  flex-grow: 1;
+  flex: 1 1 15em; 
   padding: 1em 1em;
   border-radius: 10px;
   box-shadow: 0px 5px 10px black;
@@ -32,6 +32,7 @@
   color: #ba7e36;
 }
 .close-ref-btn {
+  background-color: #C699EA;
   position: absolute;
   right: 0.5em;
   top: 0.5em;

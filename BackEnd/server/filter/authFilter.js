@@ -15,7 +15,7 @@ async function auth(req, res, next) {
     const authorized = jwt.verify(authToken, secretKey);
     const user = await User.findOne({ _id: authorized.id });
 
-    if (user.userRole === 'USER') {
+    if (user.userRole === 'USER' || user.userRole === "ADMIN") {
       req.user = user;
       next();
     } else {

@@ -33,7 +33,6 @@ export const getResourceById = async (req, res) => {
   
   export const getMovieByTitle = async (req, res) => {
     const param = req.params
-    console.log(param.title)
     
     try {
       const collection = mongoose.connection.collection('movies');
@@ -44,6 +43,19 @@ export const getResourceById = async (req, res) => {
       }
 
       res.json(movie);
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
+  export const getSalon = async (req, res) => {
+    
+    try{
+      const collection = mongoose.connection.collection('seats');
+      const salon = await collection.find({}).toArray();
+
+      res.json(salon);
+      
     }catch(err) {
       console.log(err);
     }

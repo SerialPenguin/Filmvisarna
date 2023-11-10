@@ -32,7 +32,7 @@ export async function patch(url, body, token) {
   })).json();
 }
 
-export async function getProfile(url, token) {
+export async function authGet(url, token) {
   return await (await fetch(url, {
     method: "GET",
     headers: {

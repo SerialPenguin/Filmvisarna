@@ -8,41 +8,8 @@
 }
 
 
-.booked {
-  position: relative; 
-  background-color: #d9d9d9;
-  color: black;
-  cursor: not-allowed;
-}
-
-.booked::before, .booked::after {
-  content: ""; 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120%; 
-  height: 2px; 
-  background-color: black;
-  transform-origin: center center;
-}
-
-.booked::before {
-  transform: translate(-50%, -50%) rotate(45deg); 
-}
-
-.booked::after {
-  transform: translate(-50%, -50%) rotate(-45deg); 
-}
-
-.available {
-  background-color: #BA7E36;
-  background-image: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
-  cursor: pointer;
-  border: none;
-  border-radius: 4px; 
-  padding: 10px 20px; 
-  transition: all 0.3s; 
-  color: white; 
+.seats-grid .selected {
+ background-color: yellow; 
 }
 
 div#root{
@@ -53,11 +20,4 @@ body{
   width: 100%;
   background-attachment: fixed;
 }
-.available:hover {
-  background-color: darken(#BA7E36, 10%); 
-}
 
-.selected {
-  background-color: rgb(148, 8, 55);
-    cursor: pointer;
-}

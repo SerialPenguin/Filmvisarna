@@ -1,20 +1,22 @@
+/** @format */
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import logo from "../../assets/FilmvisarnaLogoTwo.png";
-import menu from "../../assets/menu.png";
+import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
+import menu from "../../assets/img/menu.png";
 import NavComponent from "../NavComponent/NavComponent.jsx";
-import "./HeaderNavComponent.css"
+import "./HeaderNavComponent.css";
 
 export default function HeaderNavComponent() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
   const [activeMenu, setActiveMenu] = useState(false);
 
   const showMenu = () => {
-      setActiveMenu(true); 
-  }
+    setActiveMenu(true);
+  };
   const closeMenu = () => {
-    setActiveMenu(false)
-  }
+    setActiveMenu(false);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,14 +40,14 @@ export default function HeaderNavComponent() {
     <div className="header-nav-bar">
       {!isDesktop && (
         <>
-        <Link to={"/"}>
-          <img className="logo-img" src={logo} alt=""/>
-        </Link>
-        <img className="hmbrg-img" src={menu} alt="" onClick={showMenu}/>
+          <Link to={"/"}>
+            <img className="logo-img" src={logo} alt="" />
+          </Link>
+          <img className="hmbrg-img" src={menu} alt="" onClick={showMenu} />
         </>
       )}
-      
-      {(activeMenu || isDesktop) && (<NavComponent onCloseClick={closeMenu}/>)}
+
+      {(activeMenu || isDesktop) && <NavComponent onCloseClick={closeMenu} />}
     </div>
   );
 }

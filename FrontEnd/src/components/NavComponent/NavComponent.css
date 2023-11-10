@@ -85,10 +85,6 @@
         font-size: 1em;
         font-weight: 500;
     }
-    .active{
-        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
-        color:#BA7E36;
-    }
     .nav-login-btn{
         width: 80%;
         margin-bottom: 0em;
@@ -100,6 +96,10 @@
         width: 7em;
         padding: 0;
         margin-right: 1em;
+    }
+    .active{
+        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+        color:#BA7E36;
     }
 }
 @media (min-width: 1500px){

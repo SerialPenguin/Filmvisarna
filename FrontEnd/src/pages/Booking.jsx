@@ -134,6 +134,7 @@ function Booking() {
   function findContiguousSeats(seatNumber, totalTicketCount) {
     const result = [];
     for (let j = 0; j < seatsInRow.length; j++) {
+      console.log("Då", seatsInRow.length);
       console.log("Hej!", seatsInRow[j]);
       if (seatNumber + totalTicketCount > seatsInRow[j]) {
         for (let i = seatNumber; i > seatNumber - totalTicketCount; i--) {

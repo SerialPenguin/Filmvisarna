@@ -152,27 +152,13 @@ export default function Profile() {
       console.error(error);
     }
 
-    console.log(deleteId);
+    // console.log(deleteId);
   };
 
   // console.log("moviedata:", movieData);
   // console.log("bookingData:", bookingData);
   // console.log("screeningData:", screeningData);
   // console.log("Combined data:", combinedData);
-  // useEffect(() => {
-  //   async function MapInfo() {
-  //     Promise.all([screeningData, movieInfo]);
-  //   }
-  //   MapInfo();
-  // }, []);
-
-  // movieId i collections
-  // screening.Id och movie.id
-  // genom screening, movie:taggar
-  // if sats, hämtar movies och screenings, om de överrensstämmer vill jag ha
-  // om det här finns i den här så gör det här
-  // movie. behöva
-  // göra i DOM/returnen movie?. age får säga till att det är null
 
   return (
     <section className="profile-page-container">
@@ -199,21 +185,13 @@ export default function Profile() {
           <h3 className="profile-h3">Aktuella bokningar</h3>
           {combinedData.map((item, i) => (
             <li key={i}>
-              {/* <img src={info.image} /> */}
+              <img src={item.image} />
               <p>{item.title}</p>
-              {/* <p>{item.bookingId}</p> */}
               <button onClick={() => deleteBooking(item.bookingId)}>
                 Ta bort bokning
               </button>
-              {/* <p>{info.bookingNumber}</p>
-              <p>{info.genre}</p>
-              <p>{info.startTime}</p>
-              {info.seats.map((seat, i) => (
-                <p key={i}>{seat.seatNumber}</p>
-              ))} */}
             </li>
           ))}
-          <button onClick={deleteBooking}>Ta bort bokning</button>
           <ul className="profile-ul"></ul>
           <h3 className="profile-h3">Tidigare bokningar</h3>
           {combinedData.map((info, i) => (

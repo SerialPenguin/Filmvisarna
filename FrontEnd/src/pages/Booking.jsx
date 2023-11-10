@@ -390,7 +390,7 @@ function Booking() {
   }
 
   return (
-    <div className="booking-page-container">
+    <div style={{ fontFamily: "Jost, san-serif"}} className="booking-page-container">
       {view === "seatPicker" && (
         <div className="booking">
           {loading || !initialSeatsDataReceived ? (
@@ -405,7 +405,7 @@ function Booking() {
                   alt={movie.title}
                 />
               </div>
-              <h2>Boka Biljetter</h2>
+              <h2 style={{ fontSize: "1.8em", marginBottom: ".2em"}}>BOKA BILJETTER</h2>
               <div className="dropdown-container">
                 <DropdownSelect
                   value={selectedMovie}

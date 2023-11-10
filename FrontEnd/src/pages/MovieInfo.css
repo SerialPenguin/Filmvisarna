@@ -7,23 +7,28 @@
 
 .movie-title-header {
     margin-top: -1em; 
-    font-size: 2em;
+    font-size: 2.1em;
     text-align: center;
     width: 350px;
     /* margin: 20px auto; */
-    font-weight: 600;
+    font-weight: 300;
+    margin-bottom: -1.5em;
+    text-transform: uppercase;
 }
 
 .iframe-container, .button-container, .text-containers, iframe{
     margin: 2em auto;
     margin-bottom: 4em; 
     width: 350px;
+    border: none; 
+    border-radius: 8px;
 }
 iframe, .iframe-container {
     height: 200px;
 }
 .normal-text{
     color:#BA7E36;
+    margin: .2em; 
 }
 .main-btn{
     width: 100%;
@@ -38,6 +43,7 @@ iframe, .iframe-container {
     margin-bottom: 2em; 
 }
 .button-container{
+    margin-top: -2em; 
     margin-bottom: 1em;
 }
 @media (max-width: 350px){

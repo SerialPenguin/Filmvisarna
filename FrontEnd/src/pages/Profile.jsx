@@ -9,12 +9,13 @@ export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [bookingData, setBookingData] = useState([]);
-  const [seats, setSeats] = useState([]);
+  // const [seats, setSeats] = useState([]);
   const [movieId, setMovieId] = useState([]);
   const [movieData, setMovieData] = useState([]);
   const [screeningId, setScreeningId] = useState([]);
   const [screeningData, setScreeningData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
+  const [deleteId, setDeleteId] = useState("");
   // const [values, setValues] = useState([]);
 
   // const currentDate = new Date().getTime();
@@ -104,14 +105,19 @@ export default function Profile() {
         // Combine values from different arrays into an object with relationships
         const combinedData = movieData.map((movie, index) => ({
           title: movie.title,
+          image: movie.images,
+          productionYear: movie.productionYear,
+          genre: movie.genre,
           startTime: screeningData[index].startTime,
           bookingNumber: bookingData[index].bookingNumber,
+          bookingId: bookingData[index]._id,
+          seats: bookingData[index].seats,
           // Add more properties if needed
         }));
 
         setCombinedData(combinedData);
 
-        console.log("Combined Data:", combinedData);
+        // console.log("Combined Data:", combinedData);
       } catch (error) {
         console.error(error);
       }
@@ -120,7 +126,39 @@ export default function Profile() {
     fetchMovies();
   }, [movieId, screeningData, bookingData]);
 
-  console.log(bookingData);
+  const deleteBooking = async (id) => {
+    setDeleteId(id);
+    try {
+      const response = await fetch(`/api/auth/bookings/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          bookingId: deleteId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error deleting booking data");
+      }
+
+      // const userData = await response.json();
+      // const bookingId = userData.bookingHistory;
+      // setUserData(userData);
+      // setBookingId(bookingId);
+    } catch (error) {
+      console.error(error);
+    }
+
+    console.log(deleteId);
+  };
+
+  // console.log("moviedata:", movieData);
+  // console.log("bookingData:", bookingData);
+  // console.log("screeningData:", screeningData);
+  // console.log("Combined data:", combinedData);
   // useEffect(() => {
   //   async function MapInfo() {
   //     Promise.all([screeningData, movieInfo]);
@@ -159,38 +197,38 @@ export default function Profile() {
 
         <div className="bookinghistory-container">
           <h3 className="profile-h3">Aktuella bokningar</h3>
-
-          <ul className="profile-ul">
-            {combinedData.map((info, i) => (
-              <li key={i}>
-                <p>{info.title}</p>
-                <p>{info.bookingNumber}</p>
-                <p>{info.bookingNumber}</p>
-                {/* <p>{info.title}</p>
-                <p>{info.bookingNumber}</p> */}
-                {/* <p>{info.productionYear}</p>
-                <p>{info.genre}</p>
-                <img src={info.images} />
-                <p>{info.bookingNumber}</p> */}
-              </li>
-            ))}
-          </ul>
+          {combinedData.map((item, i) => (
+            <li key={i}>
+              {/* <img src={info.image} /> */}
+              <p>{item.title}</p>
+              {/* <p>{item.bookingId}</p> */}
+              <button onClick={() => deleteBooking(item.bookingId)}>
+                Ta bort bokning
+              </button>
+              {/* <p>{info.bookingNumber}</p>
+              <p>{info.genre}</p>
+              <p>{info.startTime}</p>
+              {info.seats.map((seat, i) => (
+                <p key={i}>{seat.seatNumber}</p>
+              ))} */}
+            </li>
+          ))}
+          <button onClick={deleteBooking}>Ta bort bokning</button>
+          <ul className="profile-ul"></ul>
           <h3 className="profile-h3">Tidigare bokningar</h3>
-          {/* <div>
-            {.map((booking) => {
-              <p>{booking.screeningId}</p>;
-            })}
-          </div> */}
-          {/* <ul className="profile-ul">
-            {allResponses.map((info, i) => (
-              <li key={i}>
-                <p>{info.title}</p>
-                <p>{info.productionYear}</p>
-                <p>{info.genre}</p>
-                <img src={info.images} />
-              </li>
-            ))}
-          </ul> */}
+          {combinedData.map((info, i) => (
+            <li key={i}>
+              <img src={info.image} />
+              <p>{info.title}</p>
+              <p>{info.productionYear}</p>
+              <p>{info.bookingNumber}</p>
+              <p>{info.genre}</p>
+              <p>{info.startTime}</p>
+              {info.seats.map((seat, i) => (
+                <p key={i}>{seat.seatNumber}</p>
+              ))}
+            </li>
+          ))}
         </div>
       </div>
     </section>

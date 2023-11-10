@@ -1,6 +1,7 @@
 .member-carousel-container {
     font-family: "Jost", sans-serif;
     width: 70%;
+    max-height: 110%;
     background: transparent;
     margin: 0 auto; 
     text-align: center;

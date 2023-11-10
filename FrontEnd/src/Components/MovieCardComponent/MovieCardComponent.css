@@ -30,12 +30,13 @@
 
   .movie-card-header {
     font-family: "Jost", sans-serif;
-    margin-left: -9.5em;
-    margin-bottom: -.1em; 
+    justify-content: start;
+    margin-left: 4%;
     color: #C699EA;
     font-size: 24px;
     font-weight: 500;
     margin-top: 2em;
+    margin: 2em 0em 0em 4%;
   }
   
   .movie-card-title {
@@ -80,7 +81,11 @@
     right: 0; 
 }
 
-  @media (min-width: 800px) {
+  @media(min-width: 760px) {
+    .movie-card {}
+  }
+
+  @media (min-width: 1000px) {
     .movie-card-container {
       display: flex;
       flex-direction: row;
@@ -114,8 +119,8 @@
 
     .moviecard-styling-desktop {
         position: absolute; 
-        top: 0; 
-        left: 0; 
+        top: 2%; 
+        left: 2%; 
         background-color: black;
         height: 330px; 
         width: 210px; 

@@ -3,6 +3,7 @@ export default function ClearSeatsButton({
   screeningId,
   setSeats,
   setTickets,
+  setSelectedSeats,
 }) {
   const handleClearSelectedSeats = async () => {
     try {
@@ -21,6 +22,7 @@ export default function ClearSeatsButton({
       }
 
       setSeats([]);
+      setSelectedSeats([]);
 
       setTickets((prev) => ({
         adults: { ...prev.adults, quantity: 0 },

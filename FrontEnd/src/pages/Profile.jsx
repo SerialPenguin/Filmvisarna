@@ -9,34 +9,39 @@ export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [bookingData, setBookingData] = useState([]);
+  const [seats, setSeats] = useState([]);
   const [movieId, setMovieId] = useState([]);
-  const [movieInfo, setMovieInfo] = useState([]);
+  const [movieData, setMovieData] = useState([]);
   const [screeningId, setScreeningId] = useState([]);
   const [screeningData, setScreeningData] = useState([]);
+  const [allResponses, setAllresponses] = useState([]);
+  // const [values, setValues] = useState([]);
 
   // const currentDate = new Date().getTime();
 
   useEffect(() => {
-    async function fetchUser() {
-      const response = await fetch("/api/auth/profile", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/auth/profile", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (!response.ok) {
-        throw new Error("Error fetching user data");
+        if (!response.ok) {
+          throw new Error("Error fetching user data");
+        }
+
+        const userData = await response.json();
+        const bookingId = userData.bookingHistory;
+        setUserData(userData);
+        setBookingId(bookingId);
+      } catch (error) {
+        console.error(error);
       }
+    };
 
-      const userData = await response.json();
-      const bookingId = userData.bookingHistory;
-      setUserData(userData);
-      setBookingId(bookingId);
-
-      // en array med alla bokningsID
-      // console.log(bookingId);
-    }
     fetchUser();
   }, []);
 
@@ -49,8 +54,13 @@ export default function Profile() {
           )
         );
         const allBookings = await Promise.all(bookingPromises);
+        const screeningData = allBookings.map(
+          (screenings) => screenings.screeningId
+        );
+        const screeningId = [].concat(...screeningData);
+
         setBookingData(allBookings);
-        // console.log(allBookings);
+        setScreeningId(screeningId);
       } catch (error) {
         console.error(error);
       }
@@ -59,77 +69,71 @@ export default function Profile() {
     fetchBookings();
   }, [bookingId]);
 
-  console.log(bookingData);
+  useEffect(() => {
+    const fetchScreenings = async () => {
+      try {
+        const screeningPromises = screeningId.map((id) =>
+          fetch(`/api/search/screenings/${id}`).then((response) =>
+            response.json()
+          )
+        );
+        const screeningsData = await Promise.all(screeningPromises);
+        const movies = screeningsData.map((movie) => movie.movieId);
+        const movieId = [].concat(...movies);
 
-  // useEffect(() => {
-  //   const fetchScreeningData = async () => {
-  //     try {
-  //       const drinksPromises = bookingId.map((obj) =>
-  //         fetch(`/api/search/bookings/${obj}`).then((res) => res.json())
-  //       );
-  //       const data = await Promise.all(drinksPromises);
-  //       setScreeningData(data);
-  //       // console.log(data); // Flyttar loggen här
-  //     } catch (error) {
-  //       console.error("An error occurred:", error);
-  //     }
-  //   };
+        setScreeningData(screeningsData);
+        setMovieId(movieId);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  //   fetchScreeningData();
-  // }, [bookingId]);
+    fetchScreenings();
+  }, [screeningId]);
 
-  // console.log(screeningData);
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const moviesPromises = movieId.map((id) =>
+          fetch(`/api/search/movies/${id}`).then((response) => response.json())
+        );
+        const movieData = await Promise.all(moviesPromises);
 
-  // console.log(screeningData);
-  // useEffect(() => {
-  //   async function fetchScreenings() {
-  //     screeningId.map(async (screeningId) => {
-  //       const response = await fetch(`/api/search/screenings/${screeningId}`);
-  //       if (!response.ok) {
-  //         throw new Error("Error fetching screening data");
-  //       }
-  //       const screeningData = await response.json();
-  //       const movieId = screeningData.movieId;
+        setMovieData(movieData);
 
-  //       setMovieId([movieId]);
-  //       setScreeningData(screeningData);
-  //       // console.log(screeningData);
-  //     });
-  //   }
-  //   fetchScreenings();
-  // }, [screeningId]);
+        // Combine all values from different arrays into a single array
+        const allValues = [
+          ...movieData.map((movie) => movie.someValue), // Adjust this based on the structure of your movieData
+          ...screeningData.map((screening) => screening.someValue), // Adjust this based on the structure of your screeningData
+          ...bookingData.map((booking) => booking.someValue), // Adjust this based on the structure of your bookingData
+          // Add more values if needed
+        ];
 
-  // useEffect(() => {
-  //   async function fetchMovies() {
-  //     movieId.map(async (movieId) => {
-  //       const response = await fetch(`/api/search/movies/${movieId}`);
-  //       if (!response.ok) {
-  //         throw new Error("Error fetching movie data");
-  //       }
-  //       const movieData = await response.json();
-  //       // const movieTitle = movieData.title;
+        setAllresponses(allValues);
+        console.log("All Values:", allValues);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  //       // console.log(movieData);
-  //       setMovieInfo([movieData]);
-  //       // console.log(movieData);
-  //     });
-  //   }
-  //   fetchMovies();
-  // }, [movieId]);
+    fetchMovies();
+  }, [movieId, screeningData, bookingData]);
 
-  // // fetchMovies();
-  // console.log(movieInfo);
-
-  // hämta information från screenings och bookings (time, seats etc) och movie (title, bild)
-
-  // https://stackoverflow.com/questions/67223446/promise-all-inside-useeffect-in-react-returns-an-array-of-undefined-items
-
+  console.log(movieData);
   // useEffect(() => {
   //   async function MapInfo() {
   //     Promise.all([screeningData, movieInfo]);
   //   }
   //   MapInfo();
   // }, []);
+
+  // movieId i collections
+  // screening.Id och movie.id
+  // genom screening, movie:taggar
+  // if sats, hämtar movies och screenings, om de överrensstämmer vill jag ha
+  // om det här finns i den här så gör det här
+  // movie. behöva
+  // göra i DOM/returnen movie?. age får säga till att det är null
 
   return (
     <section className="profile-page-container">
@@ -154,23 +158,38 @@ export default function Profile() {
 
         <div className="bookinghistory-container">
           <h3 className="profile-h3">Aktuella bokningar</h3>
-          <ul className="profile-ul">
-            <li>
-              <button>Ta bort bokning</button>
-            </li>
-          </ul>
-          <h3 className="profile-h3">Tidigare bokningar</h3>
 
-          <ul className="profile-ul">
-            {bookingData.map((booking, i) => (
+          {/* <ul className="profile-ul">
+            {allResponses.map((info, i) => (
               <li key={i}>
-                {booking.screeningId}
-                {/* {booking.age} */}
+                <p>{info.title}</p>
+                <p>{info.productionYear}</p>
+                <p>{info.genre}</p>
+                <img src={info.images} />
+                <p>{info.bookingNumber}</p>
               </li>
             ))}
-          </ul>
+          </ul> */}
+          <h3 className="profile-h3">Tidigare bokningar</h3>
+          {/* <div>
+            {.map((booking) => {
+              <p>{booking.screeningId}</p>;
+            })}
+          </div> */}
+          {/* <ul className="profile-ul">
+            {allResponses.map((info, i) => (
+              <li key={i}>
+                <p>{info.title}</p>
+                <p>{info.productionYear}</p>
+                <p>{info.genre}</p>
+                <img src={info.images} />
+              </li>
+            ))}
+          </ul> */}
         </div>
       </div>
     </section>
   );
 }
+
+//  object values

@@ -9,14 +9,12 @@ export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [bookingData, setBookingData] = useState([]);
-  // const [seats, setSeats] = useState([]);
   const [movieId, setMovieId] = useState([]);
   const [movieData, setMovieData] = useState([]);
   const [screeningId, setScreeningId] = useState([]);
   const [screeningData, setScreeningData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
   const [deleteId, setDeleteId] = useState("");
-  // const [values, setValues] = useState([]);
 
   // const currentDate = new Date().getTime();
 
@@ -102,7 +100,6 @@ export default function Profile() {
 
         setMovieData(movieData);
 
-        // Combine values from different arrays into an object with relationships
         const combinedData = movieData.map((movie, index) => ({
           title: movie.title,
           image: movie.images,
@@ -112,7 +109,6 @@ export default function Profile() {
           bookingNumber: bookingData[index].bookingNumber,
           bookingId: bookingData[index]._id,
           seats: bookingData[index].seats,
-          // Add more properties if needed
         }));
 
         setCombinedData(combinedData);
@@ -143,11 +139,6 @@ export default function Profile() {
       if (!response.ok) {
         throw new Error("Error deleting booking data");
       }
-
-      // const userData = await response.json();
-      // const bookingId = userData.bookingHistory;
-      // setUserData(userData);
-      // setBookingId(bookingId);
     } catch (error) {
       console.error(error);
     }
@@ -212,5 +203,3 @@ export default function Profile() {
     </section>
   );
 }
-
-//  object values

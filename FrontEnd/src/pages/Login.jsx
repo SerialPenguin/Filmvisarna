@@ -16,7 +16,7 @@ function Login() {
         <p className="copyright">Filmvisarna AB <span>&copy;</span>2023</p>
       </div>
       <div className="right-section">
-        <div className="login-bg"></div>
+        {/* <div className="login-bg"></div> */}
       </div>
     </div>
   )

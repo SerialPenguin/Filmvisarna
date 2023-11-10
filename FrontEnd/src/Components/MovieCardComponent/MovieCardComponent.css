@@ -81,7 +81,11 @@
     right: 0; 
 }
 
-  @media (min-width: 800px) {
+  @media(min-width: 760px) {
+    .movie-card {}
+  }
+
+  @media (min-width: 1000px) {
     .movie-card-container {
       display: flex;
       flex-direction: row;

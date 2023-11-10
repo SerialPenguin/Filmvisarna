@@ -2,18 +2,19 @@
     font-family: "Jost", sans-serif;
     margin: auto;
     height: 100%;
-    padding-top: 3em; 
+    padding-top: 3em;
 }
 
 .movie-title-header {
     margin-top: -1em; 
     font-size: 2.1em;
-    text-align: center;
     width: 350px;
-    /* margin: 20px auto; */
+    text-align: center;
     font-weight: 300;
     margin-bottom: -1.5em;
     text-transform: uppercase;
+    color:#BA7E36;
+    margin: -1em auto; 
 }
 
 .iframe-container, .button-container, .text-containers, iframe{
@@ -73,4 +74,5 @@ iframe, .iframe-container {
     .text-containers, .button-container{
         width: 700px;
     }
+    
 }

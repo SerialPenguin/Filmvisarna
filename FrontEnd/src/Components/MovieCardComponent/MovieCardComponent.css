@@ -8,6 +8,22 @@
     width: 100%;
     padding-top: 1em;
   }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    background:rgba(0, 0, 0, 0.1)
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px black;
+    background: rgb(70, 10, 73);
+  }
+    
+  ::-webkit-scrollbar-thumb {
+    background:#7e468e;
+    border-radius:10px;
+  }
+
   
   .movie-card {
     display: border-box;
@@ -54,6 +70,7 @@
     font-weight: 500;
     justify-content: space-between;
     margin: -1.5em .5em .5em .7em;
+    width: 80%; 
   }
   
   .movie-card-description {
@@ -81,8 +98,26 @@
     right: 0; 
 }
 
-  @media(min-width: 760px) {
-    .movie-card {}
+  .movie-card-btn {
+    margin-left: 1em; 
+    padding: 0.2em;
+    width: 100px; 
+    background-color: #C699EA;
+    font-weight: 400; 
+    color: black;
+    border: none; 
+  }
+
+  @media(min-width: 600px) {
+    .movie-card {
+      width: 50%;
+    }
+
+    .movie-card-img {
+      width: 30%; 
+        aspect-ratio: 10/16; 
+        border-radius: 4px;
+      }     
   }
 
   @media (min-width: 1000px) {
@@ -97,7 +132,7 @@
 
     .movie-card-header {
       margin-left: 0;
-    margin-bottom: 0; 
+      margin-bottom: 0; 
     }
   
     .movie-card {
@@ -119,9 +154,9 @@
 
     .moviecard-styling-desktop {
         position: absolute; 
-        top: 2%; 
+        top: 1.2%; 
         left: 2%; 
-        background-color: black;
+        background-color: rgba(0, 0, 0, 0.72);
         height: 330px; 
         width: 210px; 
         border-radius: 4px;
@@ -129,6 +164,7 @@
         flex-direction: column;
         justify-content: space-evenly;
         gap: 0.7em; 
+        padding: .3em;
     }
 
     .moviecard-desktop {
@@ -145,6 +181,16 @@
     .moviecard-showmore-link {
         color: #FFB800;
     }
+
+    .movie-card-btn:hover {
+      background-color: #DB00FF;
+    }
+
+    .movie-card-info {
+      width: 49%;
+    }
+    .movie-card-header {
+      margin-left: 11%; 
+    }
     
 }
-

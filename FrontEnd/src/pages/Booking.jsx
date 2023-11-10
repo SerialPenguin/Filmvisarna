@@ -129,27 +129,36 @@ function Booking() {
 
   // Assuming you have fetched the salonLayout data and set it in your component state
   const seatsInRow = calculateSeatsInRow(salonLayout);
-  console.log(seatsInRow); // An array of seat counts for each row
+  // console.log(seatsInRow); // An array of seat counts for each row
+
+  var clickedRowNumber = 0;
+  var kaka = 0;
 
   function findContiguousSeats(seatNumber, totalTicketCount) {
     const result = [];
-    for (let j = 0; j < seatsInRow.length; j++) {
-      console.log("Då", seatsInRow.length);
-      console.log("Hej!", seatsInRow[j]);
-      if (seatNumber + totalTicketCount > seatsInRow[j]) {
-        for (let i = seatNumber; i > seatNumber - totalTicketCount; i--) {
-          result.push(i);
+    let lastSeat = 0;
+    for (let j = 0; j < clickedRowNumber; j++) {
+      lastSeat = lastSeat + seatsInRow[j];
+      if (seatNumber + totalTicketCount - 1 >= lastSeat) {
+        console.log("I want to book:", seatNumber + totalTicketCount - 1);
+        for (let i = 0; i < totalTicketCount; i++) {
+          if (seatNumber === lastSeat) {
+            kaka = seatNumber - i;
+            result.push(kaka);
+          } else {
+            kaka = seatNumber + totalTicketCount - i - 1;
+            result.push(kaka);
+          }
         }
         console.log(result, seatNumber, totalTicketCount);
-        return result;
       } else {
         for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
           result.push(i);
         }
         console.log(result, seatNumber, totalTicketCount);
-        return result;
       }
     }
+    return result;
   }
 
   const handleSeatClick = async (rowNumber, seatNumber) => {
@@ -158,8 +167,13 @@ function Booking() {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
       return;
     }
+
+    clickedRowNumber = rowNumber;
+    console.log(clickedRowNumber);
+
     if (groupSeats) {
       const desiredSeats = findContiguousSeats(seatNumber, totalTicketCount);
+      console.log(desiredSeats);
       for (let seat of desiredSeats) {
         if (isSeatBooked(seat)) {
           console.log(`Seat ${seat} in row ${rowNumber} is already booked.`);

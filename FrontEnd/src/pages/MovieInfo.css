@@ -1,16 +1,22 @@
 .movieinfo-container{
+    font-family: "Jost", sans-serif;
     margin: auto;
     height: 100%;
+    padding-top: 3em; 
 }
-.main-text-title{
-    color: #BA7E36;
+
+.movie-title-header {
+    margin-top: -1em; 
+    font-size: 2em;
     text-align: center;
     width: 350px;
-    margin: 20px auto;
-    font-weight: 100;
+    /* margin: 20px auto; */
+    font-weight: 600;
 }
+
 .iframe-container, .button-container, .text-containers, iframe{
     margin: 2em auto;
+    margin-bottom: 4em; 
     width: 350px;
 }
 iframe, .iframe-container {
@@ -29,6 +35,7 @@ iframe, .iframe-container {
     margin-top: 20px;
     background-color: #8027CE;
     color: #C699EA;
+    margin-bottom: 2em; 
 }
 .button-container{
     margin-bottom: 1em;

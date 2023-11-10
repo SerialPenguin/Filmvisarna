@@ -10,7 +10,8 @@
   }
   
   .movie-card {
-    width: 95%;
+    display: border-box;
+    width: 92%;
     height: 17%;
     display: flex;
     margin: 0em auto; 
@@ -18,19 +19,19 @@
     border-radius: 8px;
     text-align: left;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    padding: .5em; 
+    padding: .9em; 
   }
   
   .movie-card-img {
     width: 35%;
-    /* aspect-ratio: 9/14; */
+    aspect-ratio: 9/13;
     border-radius: 16px;
   }
 
   .movie-card-header {
     font-family: "Jost", sans-serif;
-    margin-left: -7em;
-    margin-bottom: -.5em; 
+    margin-left: -9.5em;
+    margin-bottom: -.1em; 
     color: #C699EA;
     font-size: 24px;
     font-weight: 500;
@@ -41,6 +42,7 @@
     font-weight: 500;
     font-size: 1em;
     margin: .7em;
+    margin-top: .2em; 
     color: #C699EA;
     text-align: left;
   }
@@ -66,7 +68,7 @@
   .movie-card-links {
     display: flex;
     justify-content: space-between;
-    margin-top: 2.2em; 
+    margin-top: 1.65em; 
     margin-bottom: -1em;
     position: relative;
   }
@@ -74,7 +76,7 @@
   .moviecard-showmore-link {
     color: #FFB800;
     position: absolute;
-    bottom: -.6em; 
+    bottom: -.8em; 
     right: 0; 
 }
 

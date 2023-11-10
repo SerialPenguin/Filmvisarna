@@ -27,6 +27,7 @@ export default function AddScreeningComponent(props) {
     }
 
     getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleInputChange(e) {

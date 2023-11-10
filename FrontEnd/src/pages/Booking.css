@@ -5,6 +5,10 @@
     font-size: 20px;
     margin: 0 auto; 
     padding: 10px; 
+    margin-top: 1vh;
+    color: #BA7E36;
+    font-weight: 300;
+    font-size: 2rem;
 }
 
 .booking-poster {
@@ -30,16 +34,7 @@
     
     
 }
-.showing-text {
-    margin-right: 5px; 
-    font-size: 17px;
-    margin-bottom: -20px;
-}
 
-.showing-second-text {
-    font-size: 17px;
-    margin-top: 21.5px;
-}
 
 .alert-modal {
     display: none;
@@ -188,7 +183,7 @@
     height: 200px;
 }
 
-h2 {
+  .book-text {
     display: flex;
     justify-content: center;
     color: #BA7E36;
@@ -197,11 +192,11 @@ h2 {
     margin-left: auto;
      margin-right: auto;
     
-}
+} 
 
-h3 {
-    color: #C699EA;
-}
+.sum {
+    color: #BA7E36;
+} 
 
 .ticket-counter-container {
     display: flex;
@@ -314,6 +309,99 @@ h3 {
 }
 
 
+   
+   .booked {
+     position: relative; 
+     background-color: #d9d9d9;
+     color: rgb(0, 0, 0);
+     cursor: not-allowed;
+   }
+   
+   .booked::before, .booked::after {
+     content: ""; 
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     width: 120%; 
+     height: 2px; 
+     background-color: rgb(0, 0, 0);
+     transform-origin: center center;
+   }
+   
+   .booked::before {
+     transform: translate(-50%, -50%) rotate(45deg); 
+   }
+   
+   .booked::after {
+     transform: translate(-50%, -50%) rotate(-45deg); 
+   }
+   
+   .available {
+     background-color: #BA7E36;
+     background-image: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+     cursor: pointer;
+     border: none;
+     border-radius: 4px; 
+     padding: 10px 20px; 
+     transition: all 0.3s; 
+     color: white; 
+   }
+
+   .selected {
+    background-color: yellow; /* Or any color that indicates selection */
+    color: black; /* Choose a text color that maintains readability */
+    border: 1px solid #cccc00; /* Optional: border to enhance visibility */
+  }
+  
+  /* Optional: if you want the "cross" from booked seats to show over temporary selections */
+  .seat.temporary-selected::before,
+  .seat.temporary-selected::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 2px;
+    background-color: transparent; /* Hide the cross by default */
+    transform-origin: center center;
+    z-index: 3; /* Ensure the cross is above all if you decide to show it */
+  }
+
+  .available.selected {
+    background-color: yellow;
+    color: black;
+  }
+  
+  /* Style for temporarily reserved seats */
+  .temporary-selected {
+    background-color: rgb(224, 230, 173); /* Adjust the color as needed */
+    color: black; /* Adjust text color for better visibility */
+  }
+
+  .seat-select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .seat-select-label {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #BA7E36;
+    font-weight: 330;
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+  }
+  
+  .seat-select {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #BA7E36;
+  }
+
+
 
 @media (min-width: 768px) { 
 
@@ -367,12 +455,6 @@ h3 {
         margin-right: auto;
     }
 
-    h2 {
-        font-weight: 300;
-        font-size: 2.5rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
 
     .dropdown-container {
         margin-bottom: 10px; 
@@ -413,6 +495,9 @@ h3 {
         font-size: 20px;
         margin: 0 auto; 
         padding: 10px; 
+        margin-top: 1vh;
+        font-weight: 300;
+        font-size: 3rem;
     }
     
     .booking-poster {
@@ -423,25 +508,96 @@ h3 {
         margin: 0 auto;  
     }
     
-    .booking-poster-text {
+    
+    .seat {
+        /* base styles for seat */
+        position: relative;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        transition: all 0.3s;
+      }
+      
+      .seat.available {
+        background-color: #BA7E36;
+        background-image: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+        color: white;
+      }
+      
+      .seat.booked {
+        background-color: #d9d9d9;
+        color: black;
+        cursor: not-allowed;
+      }
+      
+      .seat.booked::before,
+      .seat.booked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%;
+        height: 2px;
+        background-color: black;
+        transform-origin: center center;
+      }
+      
+      .seat.booked::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      
+      .seat.booked::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      
+      /* Temporary selected seat styling */
+      .selected {
+        background-color: yellow; /* Or any color that indicates selection */
+        color: black; /* Choose a text color that maintains readability */
+        border: 1px solid #cccc00; /* Optional: border to enhance visibility */
+      }
+      
+      /* Optional: if you want the "cross" from booked seats to show over temporary selections */
+      .seat.temporary-selected::before,
+      .seat.temporary-selected::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%;
+        height: 2px;
+        background-color: transparent; /* Hide the cross by default */
+        transform-origin: center center;
+        z-index: 3; /* Ensure the cross is above all if you decide to show it */
+      }
+
+      .seat-select-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 20px;
-        padding: 5px 10px;
-        width: 200px;
-        color: #C699EA;
-        margin: 0 auto;  
-        padding: 10px; 
-        font-size: 20px;
-        
-    }
-    .showing-text {
-        margin-right: 5px; 
-        font-size: 20px;
-        margin-bottom: -17px;
-    }
-    
+        padding: 20px;
+      }
+      
+      .seat-select-label {
+        margin-right: 10px;
+        font-size: 18px;
+        color: #BA7E36;
+        font-weight: 330;
+        font-size: 1.6rem;
+        margin-bottom: 4px;
+      }
+      
+      .seat-select {
+        accent-color: #BA7E36;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-top: 5px;
+      }
+      
+      
+
 }
 
 

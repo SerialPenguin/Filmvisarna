@@ -8,6 +8,7 @@ import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";
 import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
 import { getWeekNumber } from "../hooksAndUtils/weekUtil";
+import SeatReleaseOnUnload from "../components/SeatReleaseOnUnload";
 import "./Booking.css";
 
 function Booking() {
@@ -40,12 +41,14 @@ function Booking() {
   );
   const [tickets, setTickets] = useState(() =>
     loadState("tickets", {
-      adults: { ticketType: "adult", quantity: 0, price: 140 },
+      adults: { ticketType: "adult", quantity: 2, price: 140 },
       seniors: { ticketType: "senior", quantity: 0, price: 120 },
       children: { ticketType: "child", quantity: 0, price: 100 },
     })
   );
   const [chosenScreening, setChosenScreening] = useState();
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [groupSeats, setGroupSeats] = useState(false);
 
   const selectedMovieRef = useRef(null);
 
@@ -116,10 +119,53 @@ function Booking() {
     return bookedSeats.includes(seatNumber);
   };
 
+  const calculateSeatsInRow = (salonLayout) => {
+    if (!salonLayout || !salonLayout.rows) {
+      return [];
+    }
+
+    return salonLayout.rows.map((row) => row.seats.length);
+  };
+
+  // Assuming you have fetched the salonLayout data and set it in your component state
+  const seatsInRow = calculateSeatsInRow(salonLayout);
+  console.log(seatsInRow); // An array of seat counts for each row
+
+  function findContiguousSeats(seatNumber, totalTicketCount) {
+    const result = [];
+    for (let j = 0; j < seatsInRow.length; j++) {
+      console.log("Då", seatsInRow.length);
+      console.log("Hej!", seatsInRow[j]);
+      if (seatNumber + totalTicketCount > seatsInRow[j]) {
+        for (let i = seatNumber; i > seatNumber - totalTicketCount; i--) {
+          result.push(i);
+        }
+        console.log(result, seatNumber, totalTicketCount);
+        return result;
+      } else {
+        for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
+          result.push(i);
+        }
+        console.log(result, seatNumber, totalTicketCount);
+        return result;
+      }
+    }
+  }
+
   const handleSeatClick = async (rowNumber, seatNumber) => {
+    const totalTicketCount = getTotalTicketCount();
     if (isSeatBooked(seatNumber)) {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
       return;
+    }
+    if (groupSeats) {
+      const desiredSeats = findContiguousSeats(seatNumber, totalTicketCount);
+      for (let seat of desiredSeats) {
+        if (isSeatBooked(seat)) {
+          console.log(`Seat ${seat} in row ${rowNumber} is already booked.`);
+          return;
+        }
+      }
     }
 
     // Check if the seat is already in selectedSeats
@@ -130,26 +176,45 @@ function Booking() {
 
     // Determine if we should remove an existing seat from selection
     let seatToRemove = null;
-    const totalTicketCount = getTotalTicketCount();
     if (totalTicketCount <= 0) {
       console.log("Please select a ticket before choosing a seat.");
       return;
-    } // Use this to check against number of selected seats
-    if (seats.length >= totalTicketCount) {
-      seatToRemove = seats[0];
-      setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+    }
+    if (groupSeats) {
+      setSeats(findContiguousSeats(seatNumber, totalTicketCount));
+      fetch(`/api/reserveSeats`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          screeningId,
+          seats: [], // Empty array to show removal
+        }),
+      });
+    } else {
+      // Use this to check against the number of selected seats
+      if (seats.length >= totalTicketCount) {
+        seatToRemove = seats[0];
+        setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
+      }
+      setSeats((prevSeats) => [...prevSeats, seatNumber]);
+      console.log(`Seat ${seatNumber} is now temporarily reserved.`);
     }
 
-    setSeats((prevSeats) => [...prevSeats, seatNumber]);
-    console.log(`Seat ${seatNumber} is now temporarily reserved.`);
-
     try {
+      // Construct an array of seat objects for all selected seats
+      const selectedSeatsArray = groupSeats
+        ? findContiguousSeats(seatNumber, totalTicketCount).map((seat) => ({
+            seatNumber: seat,
+          }))
+        : [{ seatNumber }];
+
+      // Send all selected seats to the backend
       const res = await fetch(`/api/reserveSeats`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [{ seatNumber }],
+          seats: selectedSeatsArray,
           previousSeat: seatToRemove, // This seat will be removed from the backend's temporary bookings
         }),
       });
@@ -158,7 +223,20 @@ function Booking() {
       const data = await res.json();
 
       if (data && data.success) {
-        console.log(`Seat ${seatNumber} is now confirmed as reserved.`);
+        console.log(
+          `Seats ${selectedSeatsArray
+            .map((seat) => seat.seatNumber)
+            .join(", ")} are now confirmed as reserved.`
+        );
+      }
+      if (groupSeats) {
+        setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));
+      } else {
+        if (selectedSeats.length === totalTicketCount) {
+          setSelectedSeats([...selectedSeats.slice(1), seatNumber]);
+        } else {
+          setSelectedSeats([...selectedSeats, seatNumber]);
+        }
       }
     } catch (error) {
       console.error("Error reserving seat:", error);
@@ -360,16 +438,6 @@ function Booking() {
     children: "Barnbiljetter",
   };
 
-  // function handleScreeningInput(e) {
-  //   if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
-  //     // Here, notify the user about the mismatch
-  //     alert("Please select the same number of seats as tickets.");
-  //     return;
-  //   }
-  //   setChosenScreening(e.target.parentNode.children[3].firstChild.value);
-  //   setView("confirmation");
-  // }
-
   function handleScreeningInput(e) {
     if (seats.length !== getTotalTicketCount() || getTotalTicketCount() === 0) {
       showAlert("Vänligen välj lika många säten som biljetter.");
@@ -390,7 +458,7 @@ function Booking() {
   }
 
   return (
-    <div style={{ fontFamily: "Jost, san-serif"}} className="booking-page-container">
+    <div className="booking-page-container">
       {view === "seatPicker" && (
         <div className="booking">
           {loading || !initialSeatsDataReceived ? (
@@ -398,14 +466,19 @@ function Booking() {
           ) : (
             <>
               <div>
+                <SeatReleaseOnUnload
+                  screeningId={screeningId}
+                  selectedSeats={selectedSeats}
+                />
                 <h2 className="booking-poster-title">{movie?.title}</h2>
                 <img
                   className="booking-poster"
                   src={movie.images[0]}
                   alt={movie.title}
                 />
+                <h2 className="booking-poster-text"></h2>
               </div>
-              <h2 style={{ fontSize: "1.8em", marginBottom: ".2em"}}>BOKA BILJETTER</h2>
+              <h2 className="book-text">Boka Biljetter</h2>
               <div className="dropdown-container">
                 <DropdownSelect
                   value={selectedMovie}
@@ -473,10 +546,11 @@ function Booking() {
                   screeningId={screeningId}
                   setSeats={setSeats}
                   setTickets={setTickets}
+                  setSelectedSeats={setSelectedSeats}
                 />
               )}
               <div className="total-amount">
-                <h3>Summa: {getTotalAmount()} Kr</h3>
+                <h3 className="sum">Summa: {getTotalAmount()} Kr</h3>
               </div>
               <div className="theatre">
                 <div className="movie-screen">
@@ -488,6 +562,7 @@ function Booking() {
                     salonLayout={salonLayout}
                     isSeatBooked={isSeatBooked}
                     handleSeatClick={handleSeatClick}
+                    selectedSeats={selectedSeats}
                   />
                 </div>
               </div>
@@ -500,6 +575,23 @@ function Booking() {
                 Vänligen välj lika många säten som biljetter.
               </p>
             </div>
+          </div>
+          <div className="seat-select-container">
+            <label
+              htmlFor="grouped-seats-checkbox"
+              className="seat-select-label">
+              Välj grupperade säten
+            </label>
+            <input
+              type="checkbox"
+              id="grouped-seats-checkbox"
+              className="seat-select"
+              name="Select Grouped Seats"
+              checked={groupSeats}
+              onChange={(e) => {
+                setGroupSeats(e.target.checked);
+              }}
+            />
           </div>
           <button className="book-button" onClick={handleScreeningInput}>
             Boka biljetter

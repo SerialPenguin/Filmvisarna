@@ -100,6 +100,24 @@ const NavComponent = ({ onCloseClick }) => {
               </button>
             </Link>
           )}
+          // Om jwtToken finns, visa logout-knapp
+          <Link to="/">
+            <button className="nav-login-btn" onClick={handleLogout}>
+              Logga Ut
+            </button>
+          </Link>
+          ) : ( // Om jwtToken inte finns, visa login-knapp som länkar till
+          /login
+          <Link to="/login">
+            <button
+              className={`nav-login-btn ${
+                location.pathname === "/login" ? "active" : ""
+              }`}
+              onClick={onCloseClick}>
+              Logga In
+            </button>
+          </Link>
+          )}
         </div>
       </nav>
     </>

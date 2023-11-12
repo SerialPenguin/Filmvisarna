@@ -4,6 +4,8 @@ import User from '../models/userModel.js';
 async function auth(req, res, next) {
   const authHeader = req.headers['authorization'] ? req.headers['authorization'] : undefined;
 
+  console.log("AH: ", authHeader)
+
   if (!authHeader) {
     return res.status(401).json({ msg: 'Authorization header is missing' });
   }
@@ -22,8 +24,8 @@ async function auth(req, res, next) {
       res.status(401).json({ msg: 'Unauthorized request!' });
     }
   } catch (err) {
-    console.log(err.name);
-    res.status(400).json({ msg: 'Invalid token' });
+    console.log(err);
+    res.status(400).json({ error: err.name, msg: err.message });
   }
 }
 
@@ -44,7 +46,7 @@ async function admin(req, res, next) {
     if(user.userRole === "ADMIN") {
       next();
     }else {
-      return res.status(403).send("Not allowed");
+      return res.status(403).send({ msg: 'Unauthorized request!'});
     }
   }catch(err) {
     console.log(err);

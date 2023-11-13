@@ -372,6 +372,10 @@ function Booking() {
     }
   }, [screeningId, history]);
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   const getTotalTicketCount = () => {
     return Object.values(tickets).reduce(
       (acc, ticket) => acc + ticket.quantity,
@@ -398,10 +402,6 @@ function Booking() {
       };
     });
   };
-
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 
   // Move out into its own component so that we can reuse this
   const filterScreenings = screenings

@@ -16,6 +16,35 @@ function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if any of the required fields are empty
+    if (
+      !credentials.firstName ||
+      !credentials.lastName ||
+      !credentials.emailAdress ||
+      !credentials.password
+    ) {
+      setRegisterMessage("Alla fält måste vara korrekt ifyllda");
+      return;
+    }
+
+    // Email address validation using a regular expression
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(credentials.emailAdress)) {
+      setRegisterMessage("Var god ange en giltig e-postadress");
+      return;
+    }
+
+    // Password complexity checks
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z]).{8,}$/;
+
+    if (!passwordRegex.test(credentials.password)) {
+      setRegisterMessage(
+        "Lösenordet måste innehålla minst 8 characters, en bokstav, en siffra och en stor bokstav"
+      );
+      return;
+    }
+
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {

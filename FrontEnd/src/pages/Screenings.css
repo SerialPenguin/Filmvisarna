@@ -70,7 +70,8 @@
     height: 100vh;
 }
 .link-color{
-    color:#BA7E36;
+    color:#C699EA;
+    font-size: larger;
 }
 .movie-poster-img{
     display: none;
@@ -86,6 +87,18 @@
     flex-direction: row;
     width: 100%;
 }
+.date-container{
+    margin-left: 3em;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    height: 4.5em;
+}
+.date-dates{
+    width: 6em;
+    margin: 0px auto;
+    font-size: x-large;
+}
 @media (max-width: 350px){
     .main-text-title{
         margin: auto;
@@ -93,6 +106,9 @@
     }
 }
 @media (min-width: 600px){
+    .date-container{
+        margin-left: 3em;
+    }
     .main-text-title{
         width: 500px;
     }
@@ -101,6 +117,9 @@
     }
 }
 @media (min-width: 768px){
+    .date-container{
+        margin-left: 3em;
+    }
     .return-container{
         margin: auto;
         width: 750px;
@@ -129,6 +148,8 @@
     .list-item-container{
         flex-direction: column;
         width: 60%;
+        display: flex;
+        margin: auto 0;
     }
     .desktopvye{
         display: flex;
@@ -138,14 +159,41 @@
         height: 2em;
     }
     .visa-mer{
-        width: 90%;
-        margin: 0px auto;
-        margin-top: 1.5em;
+        width: 4em;
+        margin-top: 30%;
         color:#BA7E36;
+        margin-left: auto;
     }
     .screenings-list{
         margin: 2em;
         display: flex;
         align-items: baseline;
+    }
+    .link-container{
+        margin: auto;
+    }
+    .screenings-info-container{
+        display: flex;
+        margin-left: 1.5em;
+        margin-top: .5em;
+    }
+}
+@media  (min-width: 1000px){
+    .date-container{
+        margin-left: 4em;
+    }
+    .return-container{
+        width: 900px;
+    }
+}
+@media  (min-width: 1500px){
+    .date-container{
+        margin-left: 6em;
+    }
+    .return-container{
+        width: 1200px;
+    }
+    .screenings-info-container{
+        margin-left: 2em;
     }
 }

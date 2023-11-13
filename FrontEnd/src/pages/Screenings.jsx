@@ -5,6 +5,18 @@ import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
 import "./Screenings.css"
 
+function GetDayFromDate(date){
+  const options = { weekday: "long" };
+  const day = new Date(date).toLocaleDateString("sv-SE", options);
+  return day.charAt(0).toUpperCase() + day.slice(1);
+}
+
+function GetDateFromDate(date) {
+  const options = { day: "numeric", month: "long" };
+  const formattedDate = new Date(date).toLocaleDateString("sv-SE", options);
+  return formattedDate;
+}
+
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
   const hours = date.getHours();
@@ -32,16 +44,17 @@ function organizeScreeningsByDate(screenings) {
   if (!screenings) {
     return {}; // Return an empty object if screenings is null or undefined
   }
+  
   return screenings.reduce((acc, screening) => {
     const options = { weekday: "long", month: "long", day: "numeric" };
-    const date = new Date(screening.startTime).toLocaleDateString(
-      "sv-SE",
-      options
-    );
-    if (!acc[date]) {
-      acc[date] = [];
+    const date = new Date(screening.startTime);
+    const dateString = date.toLocaleDateString("sv-SE", options);
+    
+    if (!acc[dateString]) {
+      acc[dateString] = [];
     }
-    acc[date].push(screening);
+    
+    acc[dateString].push(screening);
     return acc;
   }, {});
 }
@@ -120,7 +133,6 @@ function Screenings() {
     filteredList = filterByAge(filteredList, selectedAgeOption);
     filteredList = filterByWeek(filteredList, selectedWeek);
     filteredList = filterByDate(filteredList, selectedDate);
-    console.log(screenings)
     setFilteredScreenings(filteredList);
   }, [
     selectedFilterOption,
@@ -200,9 +212,12 @@ function Screenings() {
       ) : (
         Object.keys(screeningsByDate).map((date) => (
           <div key={date}>
-            <h2 className="date-title">
-              {date.charAt(0).toUpperCase() + date.slice(1)}
-            </h2>
+            <div className="date-container">
+              <h2 className="date-title">
+                {GetDayFromDate(date)}
+              </h2>
+              <p className="date-dates">{GetDateFromDate(date)}</p>
+            </div>
             <ul className="screenings-list-container">
               <div className="seperator"></div>
               {screeningsByDate[date].map((screening) => (
@@ -217,18 +232,22 @@ function Screenings() {
                         {screening.movie.title}
                       </Link>
                     </h3>
-                    <p className="screenings-p">Salong: {screening.salon.name}</p>
-                    <p className="screenings-p">
-                      Börjar: {formatTimeToHHMM(screening.startTime)}
-                    </p>
-                    <p className="screenings-p desktopvye">Åldersgräns: {screening.movie.age} år</p>
+                      <div className="screenings-info-container">
+                      <p className="screenings-p">{screening.salon.name}</p>
+                      <p className="screenings-p">
+                        {formatTimeToHHMM(screening.startTime)}
+                      </p>
+                      <p className="screenings-p desktopvye">{screening.movie.age} år</p>
+                      </div>
+                  </div>
+                  <div className="link-container">
+                    <Link to={`/booking/${screening._id}`} className="main-btn-container">
+                      <button className="main-btn-color">Boka</button>
+                    </Link>
                     <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
-                      Visa mer...
+                        Visa mer
                     </Link>
                   </div>
-                  <Link to={`/booking/${screening._id}`} className="main-btn-container">
-                    <button className="main-btn-color">Boka</button>
-                  </Link>
                 </li>
               ))}
               <div className="seperator"></div>

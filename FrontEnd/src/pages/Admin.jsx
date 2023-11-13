@@ -12,38 +12,37 @@ export default function Admin() {
   const [topic, setTopic] = useState("noTopic");
   const [token, setToken] = useState();
   const [user, setUser] = useState();
+  const [timer, setTimer] = useState();
 
   const movieRef = useRef();
   const screeningRef = useRef();
   const bookingRef = useRef();
   const membersRef = useRef();
-  const count = useRef();
-  count.current = 5;
+  
 
   const navigate = useNavigate();
 
   useEffect(() => {
     setToken(sessionStorage.getItem("JWT_TOKEN"));
+  }, []);
 
-    getUser();
-
+  useEffect(() => {
+    
     async function getUser() {
       setUser(await authGet("/api/auth/profile", token));
-
-      if (user?.userRole !== "ADMIN") {
-        if (count === 10) {
-          return navigate("/");
-        } else {
-          count.current = count.current + 1;
-          console.log(count.current);
-          // getUser();
-        }
-      } else return;
     }
-  }, []);
+
+    getUser();
+  }, [token])
 
   return (
     <div>
+      {user?.userRole !== "ADMIN" && (
+        <div className="no-auth-container">
+          <p>Nothing here...</p>
+          <button className="return-home-btn" onClick={() => navigate("/")}>Return to home</button>
+        </div>
+      )}
       {user?.userRole === "ADMIN" && (
         <div className="admin-landing-page">
           <h2 className="admin-welcome-header">Välkommen admin</h2>

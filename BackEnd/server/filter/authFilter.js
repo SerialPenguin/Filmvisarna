@@ -4,8 +4,6 @@ import User from '../models/userModel.js';
 async function auth(req, res, next) {
   const authHeader = req.headers['authorization'] ? req.headers['authorization'] : undefined;
 
-  console.log("AH: ", authHeader)
-
   if (!authHeader) {
     return res.status(401).json({ msg: 'Authorization header is missing' });
   }

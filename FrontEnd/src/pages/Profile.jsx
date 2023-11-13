@@ -122,34 +122,40 @@ export default function Profile() {
     fetchMovies();
   }, [movieId, screeningData, bookingData]);
 
-  const deleteBooking = async (id) => {
-    setDeleteId(id);
-    try {
-      const response = await fetch(`/api/auth/bookings/`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          bookingId: deleteId,
-        }),
-      });
+  useEffect(() => {
+    const deleteBooking = async () => {
+      // console.log(deleteId);
+      // setDeleteId(id);
+      try {
+        const response = await fetch(`/api/auth/bookings/`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            bookingId: deleteId,
+          }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Error deleting booking data");
+        if (!response.ok) {
+          throw new Error("Error deleting booking data");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
 
-    // console.log(deleteId);
-  };
+      // console.log(deleteId);
+    };
+
+    deleteBooking();
+  }, [deleteId]);
 
   // console.log("moviedata:", movieData);
   // console.log("bookingData:", bookingData);
   // console.log("screeningData:", screeningData);
   // console.log("Combined data:", combinedData);
+  // console.log(deleteId);
 
   return (
     <section className="profile-page-container">
@@ -178,7 +184,7 @@ export default function Profile() {
             <li key={i}>
               <img src={item.image} />
               <p>{item.title}</p>
-              <button onClick={() => deleteBooking(item.bookingId)}>
+              <button onClick={() => setDeleteId(item.bookingId)}>
                 Ta bort bokning
               </button>
             </li>

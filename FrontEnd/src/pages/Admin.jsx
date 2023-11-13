@@ -12,7 +12,6 @@ export default function Admin() {
   const [topic, setTopic] = useState("noTopic");
   const [token, setToken] = useState();
   const [user, setUser] = useState();
-  const [timer, setTimer] = useState();
 
   const movieRef = useRef();
   const screeningRef = useRef();

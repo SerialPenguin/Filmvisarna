@@ -14,7 +14,6 @@ export default function Profile() {
   const [screeningId, setScreeningId] = useState([]);
   const [screeningData, setScreeningData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
-  const [deleteId, setDeleteId] = useState("");
 
   const currentDate = new Date();
 
@@ -112,8 +111,6 @@ export default function Profile() {
         }));
 
         setCombinedData(combinedData);
-
-        // console.log("Combined Data:", combinedData);
       } catch (error) {
         console.error(error);
       }
@@ -190,7 +187,8 @@ export default function Profile() {
                     <p>{item.productionYear}</p>
                     <p>{item.bookingNumber}</p>
                     <p>{item.genre}</p>
-                    <p>{item.startTime}</p>
+                    <p>{item.startTime.slice(0, -14)}</p>
+                    <p>{item.startTime.slice(11, -8)}</p>
                     {item.seats.map((seat, i) => (
                       <p key={i}>{seat.seatNumber}</p>
                     ))}
@@ -206,19 +204,21 @@ export default function Profile() {
           {combinedData.length === 0 ? (
             <li>Inga tidigare bokningar hittades</li>
           ) : (
-            combinedData.map((info, i) => (
-              <li key={i}>
-                <img alt="movie-poster" src={info.image} />
-                <p>{info.title}</p>
-                <p>{info.productionYear}</p>
-                <p>{info.bookingNumber}</p>
-                <p>{info.genre}</p>
-                <p>{info.startTime}</p>
-                {info.seats.map((seat, i) => (
-                  <p key={i}>{seat.seatNumber}</p>
-                ))}
-              </li>
-            ))
+            combinedData
+              .filter((item) => new Date(item.startTime) < currentDate)
+              .map((info, i) => (
+                <li key={i}>
+                  <img alt="movie-poster" src={info.image} />
+                  <p>{info.title}</p>
+                  <p>{info.productionYear}</p>
+                  <p>{info.bookingNumber}</p>
+                  <p>{info.genre}</p>
+                  <p>{info.startTime}</p>
+                  {info.seats.map((seat, i) => (
+                    <p key={i}>{seat.seatNumber}</p>
+                  ))}
+                </li>
+              ))
           )}
         </div>
       </div>

@@ -52,14 +52,15 @@ export const getAllScreenings = async (req, res) => {
 
 export const addScreenings = async (req, res) => {
   try{
+    const screeningsCollection = mongoose.connection.collection("screenings");
 
     let body = req.body; 
 
     body = ({ ...body, bookings: []});
-    
-    console.log(body);
 
     let { movieId, salonId, startTime, endTime, bookings } = body;
+
+    console.log("ST: ", startTime + " " + "ET: ", endTime);
 
     const newScreening = new Screening({
       movieId,
@@ -71,9 +72,50 @@ export const addScreenings = async (req, res) => {
 
     console.log(newScreening);
 
-    await newScreening.save();
 
-    res.status(200).send({msg: `New screening added to database`});
+    const screenings = await screeningsCollection.aggregate(
+      [
+         {
+            $match:
+               {
+                  $expr:
+                     {
+                        $gt:
+                           [ 
+                              newScreening._id,
+                              {
+                                $dateAdd: {
+                                  startDate: "$startTime",
+                                  unit: "hour",
+                                  amount: 1,
+                                }
+                              }
+                           ]
+                     }
+               }
+          },
+          {
+            $project: {
+              startTime: {
+                $dateAdd: {
+                  startDate: "$startTime", unit: "hour", amount: 1
+                }
+              },
+              endTime: {
+                $dateAdd: {
+                  startDate: "$endTime", unit: "hour", amount: 1
+                }
+              },
+            }
+          }
+      ]
+   ).toArray([])
+
+    console.log("Screenings: ", screenings);
+    console.log("SL: ", screenings.length)
+
+    // await newScreening.save();
+    // res.status(200).send({msg: `New screening added to database`});
 
   }catch(err) {
     console.log(err)

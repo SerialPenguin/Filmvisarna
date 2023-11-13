@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { adminPost, authGet, get } from "../../../hooksAndUtils/fetchUtil";
+import './HandleScreenings.css';
 
 export default function AddScreeningComponent(props) {
   const [movies, setMovies] = useState();
@@ -18,27 +19,8 @@ export default function AddScreeningComponent(props) {
   }, []);
 
   function calcTime(e) {
-    // console.log(e.target.value);
-    setFormBody({ ...formBody, startTime: e.target.value });
-
-    formBody.startTime = new Date().toISOString();
-
-    let newTime = new Date(formBody.startTime);
-
-    let movieLengthInHours = formBody.movieLength / 60;
-    let hours = movieLengthInHours.toString().slice(0, 1) * 1;
-    let minutes = (movieLengthInHours.toString().slice(2, 3) / 10) * 60;
-
-    console.log("Before: ", newTime);
-
-    newTime.setHours(newTime.getHours() + hours);
-    newTime.setMinutes(newTime.getMinutes() + minutes);
-
-    console.log("After: ", newTime);
-
-    // let startTimeHour = formBody.startTime.slice(11, 13);
-    // console.log(startTimeHour);
-    // let endTime = console.log(endTime);
+    let endTime = new Date(new Date(e.target.value).getTime() + formBody.movieLength * 60 * 1000);
+    setFormBody({ ...formBody, startTime: e.target.value, endTime: endTime.toLocaleString('sv-SE').slice(0, -3)})
   }
 
   async function addScreening(e) {
@@ -57,6 +39,7 @@ export default function AddScreeningComponent(props) {
       formBody,
       props.token
     );
+    
     console.log("PM: ", postMovie);
 
     props.movieRef.close();
@@ -120,7 +103,8 @@ export default function AddScreeningComponent(props) {
           </label>
           <input
             type="datetime-local"
-            // value={}
+            value={formBody.endTime || ""}
+            onChange={calcTime}
             className="end-time-input"
             name="endTime"></input>
           <button className="add-screening-btn">Lägg till visning</button>

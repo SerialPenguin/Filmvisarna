@@ -372,10 +372,6 @@ function Booking() {
     }
   }, [screeningId, history]);
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   const getTotalTicketCount = () => {
     return Object.values(tickets).reduce(
       (acc, ticket) => acc + ticket.quantity,
@@ -403,6 +399,11 @@ function Booking() {
     });
   };
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  // Move out into its own component so that we can reuse this
   const filterScreenings = screenings
     .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
     .map((weekData) =>
@@ -454,36 +455,6 @@ function Booking() {
       })
     );
 
-  // const filterScreenings = screenings
-  //   .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
-  //   .map((weekData) =>
-  //     weekData.screenings.map((s) => {
-  //       const dateOptions = {
-  //         weekday: "long",
-  //         year: "numeric",
-  //         month: "short",
-  //         day: "numeric",
-  //       };
-  //       const formattedDate = new Date(s.startTime).toLocaleDateString(
-  //         "sv-SE",
-  //         dateOptions
-  //       );
-  //       const capitalizedDate = capitalizeFirstLetter(formattedDate);
-
-  //       const startTime = new Date(s.startTime)
-  //         .toLocaleTimeString("sv-SE")
-  //         .slice(0, -3);
-  //       const endTime = new Date(s.endTime)
-  //         .toLocaleTimeString("sv-SE")
-  //         .slice(0, -3);
-
-  //       return (
-  //         <option key={s._id} value={s._id}>
-  //           {capitalizedDate} kl {startTime} - {endTime}
-  //         </option>
-  //       );
-  //     })
-  //   );
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",

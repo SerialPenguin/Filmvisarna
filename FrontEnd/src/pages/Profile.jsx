@@ -16,7 +16,7 @@ export default function Profile() {
   const [combinedData, setCombinedData] = useState([]);
   const [deleteId, setDeleteId] = useState("");
 
-  // const currentDate = new Date().getTime();
+  const currentDate = new Date();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -122,40 +122,37 @@ export default function Profile() {
     fetchMovies();
   }, [movieId, screeningData, bookingData]);
 
-  useEffect(() => {
-    const deleteBooking = async () => {
-      // console.log(deleteId);
-      // setDeleteId(id);
-      try {
-        const response = await fetch(`/api/auth/bookings/`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            bookingId: deleteId,
-          }),
-        });
+  const deleteBooking = async (bookingId) => {
+    try {
+      const response = await fetch(`/api/auth/bookings/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          bookingId: bookingId,
+        }),
+      });
 
-        if (!response.ok) {
-          throw new Error("Error deleting booking data");
-        }
-      } catch (error) {
-        console.error(error);
+      if (!response.ok) {
+        throw new Error("Error deleting booking data");
       }
 
-      // console.log(deleteId);
-    };
-
-    deleteBooking();
-  }, [deleteId]);
+      setCombinedData((prevData) =>
+        prevData.filter((item) => item.bookingId !== bookingId)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // console.log("moviedata:", movieData);
   // console.log("bookingData:", bookingData);
   // console.log("screeningData:", screeningData);
   // console.log("Combined data:", combinedData);
   // console.log(deleteId);
+  // console.log(currentDate);
 
   return (
     <section className="profile-page-container">
@@ -179,31 +176,50 @@ export default function Profile() {
         </table>
 
         <div className="bookinghistory-container">
-          <h3 className="profile-h3">Aktuella bokningar</h3>
-          {combinedData.map((item, i) => (
-            <li key={i}>
-              <img src={item.image} />
-              <p>{item.title}</p>
-              <button onClick={() => setDeleteId(item.bookingId)}>
-                Ta bort bokning
-              </button>
-            </li>
-          ))}
+          <ul>
+            <h3 className="profile-h3">Aktuella bokningar</h3>
+            {combinedData.length === 0 ? (
+              <li>Inga aktuella bokningar hittades</li>
+            ) : (
+              combinedData
+                .filter((item) => new Date(item.startTime) > currentDate)
+                .map((item, i) => (
+                  <li key={i}>
+                    <img alt="movie-poster" src={item.image} />
+                    <p>{item.title}</p>
+                    <p>{item.productionYear}</p>
+                    <p>{item.bookingNumber}</p>
+                    <p>{item.genre}</p>
+                    <p>{item.startTime}</p>
+                    {item.seats.map((seat, i) => (
+                      <p key={i}>{seat.seatNumber}</p>
+                    ))}
+                    <button onClick={() => deleteBooking(item.bookingId)}>
+                      Ta bort bokning
+                    </button>
+                  </li>
+                ))
+            )}
+          </ul>
           <ul className="profile-ul"></ul>
           <h3 className="profile-h3">Tidigare bokningar</h3>
-          {combinedData.map((info, i) => (
-            <li key={i}>
-              <img src={info.image} />
-              <p>{info.title}</p>
-              <p>{info.productionYear}</p>
-              <p>{info.bookingNumber}</p>
-              <p>{info.genre}</p>
-              <p>{info.startTime}</p>
-              {info.seats.map((seat, i) => (
-                <p key={i}>{seat.seatNumber}</p>
-              ))}
-            </li>
-          ))}
+          {combinedData.length === 0 ? (
+            <li>Inga tidigare bokningar hittades</li>
+          ) : (
+            combinedData.map((info, i) => (
+              <li key={i}>
+                <img alt="movie-poster" src={info.image} />
+                <p>{info.title}</p>
+                <p>{info.productionYear}</p>
+                <p>{info.bookingNumber}</p>
+                <p>{info.genre}</p>
+                <p>{info.startTime}</p>
+                {info.seats.map((seat, i) => (
+                  <p key={i}>{seat.seatNumber}</p>
+                ))}
+              </li>
+            ))
+          )}
         </div>
       </div>
     </section>

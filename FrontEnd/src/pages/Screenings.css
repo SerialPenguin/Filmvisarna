@@ -99,7 +99,19 @@
     margin: 0px auto;
     font-size: x-large;
 }
+.list-movie-title{
+    margin: 0;
+}
+.screenings-info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80%;
+}
 @media (max-width: 350px){
+    .date-container{
+        margin-left: 1em;
+    }
     .main-text-title{
         margin: auto;
         width: 250px;
@@ -173,8 +185,6 @@
         margin: auto;
     }
     .screenings-info-container{
-        display: flex;
-        margin-left: 1.5em;
         margin-top: .5em;
     }
 }
@@ -192,8 +202,5 @@
     }
     .return-container{
         width: 1200px;
-    }
-    .screenings-info-container{
-        margin-left: 2em;
     }
 }

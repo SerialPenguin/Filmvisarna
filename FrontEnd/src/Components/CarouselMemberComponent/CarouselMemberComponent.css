@@ -96,5 +96,7 @@
   @media (min-width: 1768px){
     .member-carousel-container {
         width: 40%;
+        margin-top: 7em; 
     }
+    
   }

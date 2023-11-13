@@ -15,11 +15,11 @@ function LoginForm() {
     e.preventDefault();
     const result = await authService.handleLogin(e, credentials);
     
-    if (result === true) {
+    if (result === true && credentials.emailAdress !== "" && credentials.password !== "") {
       navigate("/");
     } else {
       setLoginMessage(
-        "Fel e-postadress eller lösenord, var god försök igen"
+        "Alla fält måste vara ifyllda"
       );
     }
   };
@@ -31,6 +31,7 @@ function LoginForm() {
         <div className="input-container">
           <label className="login-lbl">E-postadress</label>
           <input
+            required
             type="email"
             name="mail"
             className="login-field first"
@@ -41,6 +42,7 @@ function LoginForm() {
 
           <label className="login-lbl">Lösenord</label>
           <input
+            required
             type="password"
             name="password"
             className="login-field"

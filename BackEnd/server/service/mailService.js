@@ -4,7 +4,7 @@ import __dirname from '../assets/dir.js';
 
 dotenv.config();
 
-export default async function sendConfirmation({bookingNumber, email, totalPrice}) {
+export default async function sendConfirmation({ bookingNumber, email, totalPrice, seatingInfo, movieName, screeningTime, screeningDate, salonName }) {
 
     try {
         const to = email;
@@ -19,6 +19,10 @@ export default async function sendConfirmation({bookingNumber, email, totalPrice
         <br><h1>${bookingNumber}</h1> 
         Ta med ditt bokningsnummer till biografen för att kunna betala och få biljetterna till din valda visning.
         <br>
+        <h2>${movieName}</h2>
+        <h4>Platser: ${seatingInfo} i ${salonName}</h4>
+        <h4>Dag: ${screeningDate}</h4>
+        <h4>Tid: ${screeningTime}</h4>
         <h3>Pris: ${totalPrice} Kr</h3>
         <br>
         Välkommen på en fantastisk bioupplevelse hos oss på </p> 

@@ -182,8 +182,12 @@
         color: #FFB800;
     }
 
+    .moviecard-showmore-link:hover {
+       color: #DB00FF
+    }
+
     .movie-card-btn:hover {
-      background-color: #DB00FF;
+      background-color: #FFB800;
     }
 
     .movie-card-info {

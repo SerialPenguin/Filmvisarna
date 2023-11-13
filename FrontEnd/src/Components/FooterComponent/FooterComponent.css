@@ -47,6 +47,7 @@
 .footer-btn {
     margin: 2em 0 2em 0; ; 
     background-color: #C699EA; 
+    border: none;
 }
 
 @media (min-width: 800px) {
@@ -79,4 +80,19 @@
     .footer-text-desktop {
         display: inline; 
     }
+
+    .footer-input:hover {
+        background-color: #EED9FF;
+        outline: none, 
     }
+    .footer-input:focus{
+    background-color: #EED9FF;
+    outline-color: #A7610D;
+    }
+
+    .footer-btn:hover {
+        background-color: #A7610D; 
+        border: none; 
+        color: wheat;
+    }
+}

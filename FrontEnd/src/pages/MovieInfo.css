@@ -67,6 +67,9 @@ iframe, .iframe-container {
     }
 }
 @media (min-width: 768px){
+    .movieinfo-container {
+        height: 110vh; 
+    }
     .iframe-container, iframe{
         width: 700px;
         height: 393.75px;

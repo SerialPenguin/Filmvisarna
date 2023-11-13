@@ -50,9 +50,9 @@
   @media (min-width: 800px) {
 
   .event-carousel-container {
-    margin-top: -7em;
     position: relative;
     margin-bottom: -12em; 
+    width: 50%; 
 }
 
 .event-carousel-img {
@@ -69,17 +69,17 @@
     height: 100px; 
     width: 100%; 
     font-size: 3em;
-    position: absolute;
+    /* position: absolute;
     left: 0; 
     top: 59%; 
-    right: 0; 
+    right: 0;  */
     margin: 0 auto; 
     line-height: 2em;
 }
 
 .event-carousel-text {
     font-weight: 300;
-    font-size: 2em;
+    font-size: 1.2em;
     border-radius: 8px;
     color: #ffffff;
 }

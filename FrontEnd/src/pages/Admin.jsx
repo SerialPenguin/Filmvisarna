@@ -17,7 +17,6 @@ export default function Admin() {
   const screeningRef = useRef();
   const bookingRef = useRef();
   const membersRef = useRef();
-  
 
   const navigate = useNavigate();
 
@@ -26,20 +25,21 @@ export default function Admin() {
   }, []);
 
   useEffect(() => {
-    
     async function getUser() {
       setUser(await authGet("/api/auth/profile", token));
     }
 
     getUser();
-  }, [token])
+  }, [token]);
 
   return (
     <div>
       {user?.userRole !== "ADMIN" && (
         <div className="no-auth-container">
           <p>Nothing here...</p>
-          <button className="return-home-btn" onClick={() => navigate("/")}>Return to home</button>
+          <button className="return-home-btn" onClick={() => navigate("/")}>
+            Return to home
+          </button>
         </div>
       )}
       {user?.userRole === "ADMIN" && (
@@ -98,6 +98,7 @@ export default function Admin() {
                   token={token}
                   setOptionState={setOptionState}
                   topic={topic}
+                  screeningRef={screeningRef.current}
                 />
               </dialog>
             </div>

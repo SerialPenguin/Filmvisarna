@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { adminPost, authGet, get } from "../../../hooksAndUtils/fetchUtil";
-import './HandleScreenings.css';
+import "./HandleScreenings.css";
 
 export default function AddScreeningComponent(props) {
   const [movies, setMovies] = useState();
@@ -19,8 +19,14 @@ export default function AddScreeningComponent(props) {
   }, []);
 
   function calcTime(e) {
-    let endTime = new Date(new Date(e.target.value).getTime() + formBody.movieLength * 60 * 1000);
-    setFormBody({ ...formBody, startTime: e.target.value, endTime: endTime.toLocaleString('sv-SE').slice(0, -3)})
+    let endTime = new Date(
+      new Date(e.target.value).getTime() + formBody.movieLength * 60 * 1000
+    );
+    setFormBody({
+      ...formBody,
+      startTime: e.target.value,
+      endTime: endTime.toLocaleString("sv-SE").slice(0, -3),
+    });
   }
 
   async function addScreening(e) {
@@ -39,10 +45,10 @@ export default function AddScreeningComponent(props) {
       formBody,
       props.token
     );
-    
+
     console.log("PM: ", postMovie);
 
-    props.movieRef.close();
+    props.screeningRef.close();
     props.setOptionState("non");
   }
 

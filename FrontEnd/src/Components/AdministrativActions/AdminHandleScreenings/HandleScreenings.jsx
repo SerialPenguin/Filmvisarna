@@ -16,7 +16,7 @@ export default function HandleScreenings(props) {
           <h4 className="option-title">Lägg till {props.topic}</h4>
           <AddScreeningComponent
             token={props.token}
-            movieRef={props.movieRef}
+            screeningRef={props.screeningRef}
             setOptionState={props.setOptionState}
           />
         </div>

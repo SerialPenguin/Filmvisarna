@@ -60,6 +60,11 @@ export const addScreenings = async (req, res) => {
 
     let { movieId, salonId, startTime, endTime, bookings } = body;
 
+    // startTime = new Date(startTime);
+    // startTime.setHours(startTime.getHours() + 1);
+    // endTime = new Date(endTime);
+    // endTime.setHours(endTime.getHours() + 1);
+
     console.log("ST: ", startTime + " " + "ET: ", endTime);
 
     const newScreening = new Screening({
@@ -72,50 +77,8 @@ export const addScreenings = async (req, res) => {
 
     console.log(newScreening);
 
-
-    const screenings = await screeningsCollection.aggregate(
-      [
-         {
-            $match:
-               {
-                  $expr:
-                     {
-                        $gt:
-                           [ 
-                              newScreening._id,
-                              {
-                                $dateAdd: {
-                                  startDate: "$startTime",
-                                  unit: "hour",
-                                  amount: 1,
-                                }
-                              }
-                           ]
-                     }
-               }
-          },
-          {
-            $project: {
-              startTime: {
-                $dateAdd: {
-                  startDate: "$startTime", unit: "hour", amount: 1
-                }
-              },
-              endTime: {
-                $dateAdd: {
-                  startDate: "$endTime", unit: "hour", amount: 1
-                }
-              },
-            }
-          }
-      ]
-   ).toArray([])
-
-    console.log("Screenings: ", screenings);
-    console.log("SL: ", screenings.length)
-
-    // await newScreening.save();
-    // res.status(200).send({msg: `New screening added to database`});
+    await newScreening.save();
+    res.status(200).send({msg: `New screening added to database`});
 
   }catch(err) {
     console.log(err)

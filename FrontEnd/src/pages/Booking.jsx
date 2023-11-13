@@ -119,44 +119,31 @@ function Booking() {
     return bookedSeats.includes(seatNumber);
   };
 
-  const calculateSeatsInRow = (salonLayout) => {
-    if (!salonLayout || !salonLayout.rows) {
-      return [];
-    }
-
-    return salonLayout.rows.map((row) => row.seats.length);
-  };
-
-  // Assuming you have fetched the salonLayout data and set it in your component state
-  const seatsInRow = calculateSeatsInRow(salonLayout);
-  // console.log(seatsInRow); // An array of seat counts for each row
-
-  var clickedRowNumber = 0;
-  var kaka = 0;
+  let clickedRowNumber = 0;
 
   function findContiguousSeats(seatNumber, totalTicketCount) {
     const result = [];
-    let lastSeat = 0;
-    for (let j = 0; j < clickedRowNumber; j++) {
-      lastSeat = lastSeat + seatsInRow[j];
-      if (seatNumber + totalTicketCount - 1 >= lastSeat) {
-        console.log("I want to book:", seatNumber + totalTicketCount - 1);
-        for (let i = 0; i < totalTicketCount; i++) {
-          if (seatNumber === lastSeat) {
-            kaka = seatNumber - i;
-            result.push(kaka);
-          } else {
-            kaka = seatNumber + totalTicketCount - i - 1;
-            result.push(kaka);
-          }
-        }
-        console.log(result, seatNumber, totalTicketCount);
-      } else {
-        for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
-          result.push(i);
-        }
-        console.log(result, seatNumber, totalTicketCount);
+    const seatsInSameRow = salonLayout.rows[clickedRowNumber - 1].seats;
+    const seatIndex = seatsInSameRow.indexOf(seatNumber);
+    // loop to the right
+    for (let i = seatIndex; i < seatsInSameRow.length; i++) {
+      if (
+        result.length >= totalTicketCount ||
+        isSeatBooked(seatsInSameRow[i])
+      ) {
+        break;
       }
+      result.push(seatsInSameRow[i]);
+    }
+    // loop to the left
+    for (let i = seatIndex - 1; i >= 0; i--) {
+      if (
+        result.length >= totalTicketCount ||
+        isSeatBooked(seatsInSameRow[i])
+      ) {
+        break;
+      }
+      result.push(seatsInSameRow[i]);
     }
     return result;
   }

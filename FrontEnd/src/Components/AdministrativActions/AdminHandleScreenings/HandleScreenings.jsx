@@ -1,5 +1,6 @@
 import OptionsComponent from "../OptionsComponent/OptionsComponent";
 import AddScreeningComponent from "./AddScreeningComponent";
+import EditScreeningComponent from "./EditScreeningComponent";
 
 export default function HandleScreenings(props) {
   return (
@@ -21,7 +22,16 @@ export default function HandleScreenings(props) {
           />
         </div>
       )}
-      {props.optionState === "edit" && <div>Edit</div>}
+      {props.optionState === "edit" && (
+        <div>
+          <h4>Redigera {props.topic}</h4>
+          <EditScreeningComponent
+            token={props.token}
+            screeningRef={props.screeningRef}
+            setOptionState={props.setOptionState}
+          />
+        </div>
+      )}
       {props.optionState === "delete" && <div>Delete</div>}
     </div>
   );

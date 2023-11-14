@@ -60,3 +60,19 @@ export const getResourceById = async (req, res) => {
       console.log(err);
     }
   }
+
+  export const getScreeningByTitle = async(req, res) => {
+    const param = req.params
+
+    try {
+      const moviesCollection = mongoose.connection.collection('movies');
+      const screeningsCollection = mongoose.connection.collection('screenings');
+
+      const movie = await moviesCollection.findOne({title: param.title});
+      const screenings = await screeningsCollection.find({movieId: movie._id}).toArray([]);
+
+      res.json(screenings);
+    }catch(err){
+      console.log(err)
+    }
+  }

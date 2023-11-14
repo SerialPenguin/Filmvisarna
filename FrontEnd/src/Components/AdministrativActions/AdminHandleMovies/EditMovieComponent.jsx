@@ -24,7 +24,6 @@ export default function EditMovieComponent(props) {
   useEffect(() => {
     async function getMovies() {
       setMovies(await get("/api/movies"));
-      console.log(movies);
     }
 
     getMovies();

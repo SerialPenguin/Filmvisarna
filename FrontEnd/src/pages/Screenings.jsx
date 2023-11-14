@@ -12,10 +12,22 @@ function GetDayFromDate(date){
 }
 
 function GetDateFromDate(date) {
-  const options = { day: "numeric", month: "long" };
-  const formattedDate = new Date(date).toLocaleDateString("sv-SE", options);
+  const options = { month: "long" };
+  const dayNumber = new Date(date).getDate();
+  const ordinalSuffix = getOrdinalSuffix(dayNumber);
+  const month = new Date(date).toLocaleDateString("sv-SE", options);
+  const formattedDate = dayNumber + ordinalSuffix + " " + month
   return formattedDate;
 }
+
+function getOrdinalSuffix(day) {
+  if (day === 1 || day === 2 || day === 21 || day === 22 || day === 31) {
+    return ":a";
+  } else {
+    return ":e";
+  }
+}
+
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);

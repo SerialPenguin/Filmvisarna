@@ -13,11 +13,21 @@
 }
 .screenings-selectors{
     width: 23.5%;
-    background-color: #D9D9D9;
-    border-radius: 5px;
-    color: black;
+    padding-left: 13px;
+    background-color: #d9d9d9;
+    border-radius: 7px; 
+    box-sizing: border-box; 
+    font-size: 14px;
+    border: none; 
+    color: #000000; 
     font-size: medium;
     margin: auto;
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    height: 30px;
 }
 .return-container{
     margin-top: 5em;
@@ -32,6 +42,9 @@
 .list-movie-title, .screenings-p{
     width: 25%;
     margin: 0px auto;
+}
+.list-movie-title{
+    width: 35%;
 }
 .seperator{
     margin: auto;
@@ -56,7 +69,6 @@
 .main-text-title{
     color: #BA7E36;
     text-align: center;
-    width: 350px;
     margin-top: -2em;
     font-weight: 100;
     font-size: 2em;
@@ -71,7 +83,7 @@
 }
 .link-color{
     color:#C699EA;
-    font-size: larger;
+    font-size: large;
 }
 .movie-poster-img{
     display: none;
@@ -95,8 +107,8 @@
     height: 4.5em;
 }
 .date-dates{
-    width: 6em;
-    margin: 0px auto;
+    width: 100%;
+    text-align: center;
     font-size: x-large;
 }
 .list-movie-title{
@@ -109,26 +121,28 @@
     width: 80%;
 }
 @media (max-width: 350px){
+    .screenings-selectors{
+        padding-left: 0px;
+    }
     .date-container{
         margin-left: 1em;
     }
     .main-text-title{
         margin: auto;
-        width: 250px;
     }
 }
 @media (min-width: 600px){
     .date-container{
         margin-left: 3em;
     }
-    .main-text-title{
-        width: 500px;
-    }
     .screenings-selectors{
         width: 23.5%;
     }
 }
 @media (min-width: 768px){
+    .link-color{
+        font-size: larger;
+    }
     .date-container{
         margin-left: 3em;
     }
@@ -136,9 +150,6 @@
         margin: auto;
         width: 750px;
         margin-top: 5em;
-    }
-    .main-text-title{
-        width: 700px;
     }
     .movie-poster-img{
         height: 10em;

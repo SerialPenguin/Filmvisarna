@@ -11,15 +11,21 @@ body {
 
 .profile-page-container {
   margin-top: 4.5rem;
+  background-color: aqua;
+  font-family: "Jost", sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
-.profile-h2,
+/* .profile-h2,
 .profile-h3 {
   font-family: "Jost", sans-serif;
-}
+} */
 
 .profile-h2 {
   text-transform: uppercase;
+  /* color: #ba7e36; */
+  font-weight: 400;
 }
 
 .profile-h3 {
@@ -28,39 +34,71 @@ body {
   font-size: 1.3rem;
 }
 
-.profilepage-content img {
-  width: 40%;
-  margin-right: 0.6em;
-}
-
-.profilepage-content {
+/* .profilepage-content {
   margin-left: 1em;
+  background-color: #c699ea;
+} */
+
+.booking-history-card-img-container {
+  flex: 0 0 50%;
 }
 
-.profile-table {
-  width: 80%;
+.profilepage-content img {
+  width: 100%;
 }
 
-.bookinghistory-container {
-  margin-top: 4em;
-}
-
-.profile-ul {
+.booking-history-card-text {
   display: flex;
   flex-direction: column;
-  margin: 0px;
+  justify-content: space-between;
+  margin-left: 0.3em;
 }
 
-.profilepage-content li {
+.booking-history-card-text p {
+  margin: 0;
+}
+
+.booking-history-ul {
+  /* background-color: tomato; */
   list-style: none;
-  display: flex;
-  align-items: start;
-  margin-top: 1em;
+  padding-left: 0em;
+  /* display: flex; */
 }
 
-.profilepage-content li,
-.profilepage-content table {
-  color: #c699ea;
+.booking-history-card {
+  display: flex;
+  /* background-color: #ba7e36; */
+}
+
+.history-card-title {
+  background-color: greenyellow;
+}
+
+.history-card-booking-number {
+  background-color: blueviolet;
+}
+
+.history-card-booking-info {
+  /* display: flex; */
+  background-color: skyblue;
+}
+
+.history-seat {
+  display: flex;
+  /* justify-content: space-between; */
+  background-color: blueviolet;
+}
+
+.history-seat-numbers {
+  /* background-color: blue; */
+  /* display: flex;
+  justify-content: space-between; */
+  /* margin: 0em 0.5em 0em 0.5em; */
+  margin-left: 0.8em;
+}
+
+.delete-current-booking-btn {
+  margin-bottom: 0.5em;
 }
 
 @media (min-width: 800px) {

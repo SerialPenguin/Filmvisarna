@@ -3,14 +3,15 @@
 import { useEffect, useState } from "react";
 import "./profile.css";
 // import { getProfile } from "../hooksAndUtils/fetchUtil.js";
-const token = sessionStorage.getItem("JWT_TOKEN");
+// const token = sessionStorage.getItem("JWT_TOKEN");
 
 export default function Profile() {
+  const [token] = useState(sessionStorage.getItem("JWT_TOKEN"));
+
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
   const [bookingData, setBookingData] = useState([]);
   const [movieId, setMovieId] = useState([]);
-  // const [movieData, setMovieData] = useState([]);
   const [screeningId, setScreeningId] = useState([]);
   const [screeningData, setScreeningData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
@@ -35,13 +36,14 @@ export default function Profile() {
         const bookingId = userData.bookingHistory;
         setUserData(userData);
         setBookingId(bookingId);
+        // console.log(setToken);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -51,6 +53,7 @@ export default function Profile() {
             response.json()
           )
         );
+
         const allBookings = await Promise.all(bookingPromises);
         const screeningData = allBookings.map(
           (screenings) => screenings.screeningId
@@ -59,6 +62,7 @@ export default function Profile() {
 
         setBookingData(allBookings);
         setScreeningId(screeningId);
+        // console.log(screeningId);
       } catch (error) {
         console.error(error);
       }
@@ -110,6 +114,9 @@ export default function Profile() {
           seats: bookingData[index].seats,
         }));
 
+        // if (combinedData.length === 0) {
+        //   setCombinedData("Inga bokningar hittades");
+        // }
         setCombinedData(combinedData);
       } catch (error) {
         console.error(error);
@@ -165,55 +172,78 @@ export default function Profile() {
           </tbody>
         </table>
 
-        <div className="bookinghistory-container">
-          <ul>
-            <h3 className="profile-h3">Aktuella bokningar</h3>
-            {combinedData.length === 0 ? (
-              <li>Inga aktuella bokningar hittades</li>
-            ) : (
-              combinedData
-                .filter((item) => new Date(item.startTime) > currentDate)
-                .map((item, i) => (
-                  <li key={i}>
-                    <img alt="movie-poster" src={item.image} />
-                    <p>{item.title}</p>
-                    <p>{item.productionYear}</p>
-                    <p>{item.bookingNumber}</p>
-                    <p>{item.genre}</p>
-                    <p>{item.startTime.slice(0, -14)}</p>
-                    <p>{item.startTime.slice(11, -8)}</p>
-                    {item.seats.map((seat, i) => (
-                      <p key={i}>{seat.seatNumber}</p>
-                    ))}
-                    <button onClick={() => deleteBooking(item.bookingId)}>
-                      Ta bort bokning
-                    </button>
-                  </li>
-                ))
-            )}
-          </ul>
-          <ul className="profile-ul"></ul>
-          <h3 className="profile-h3">Tidigare bokningar</h3>
+        <ul className="booking-history-ul">
+          <h3 className="profile-h3">Bokningshistorik</h3>
           {combinedData.length === 0 ? (
-            <li>Inga tidigare bokningar hittades</li>
+            <li>Inga aktuella bokningar hittades</li>
           ) : (
             combinedData
-              .filter((item) => new Date(item.startTime) < currentDate)
-              .map((info, i) => (
-                <li key={i}>
-                  <img alt="movie-poster" src={info.image} />
-                  <p>{info.title}</p>
-                  <p>{info.productionYear}</p>
-                  <p>{info.bookingNumber}</p>
-                  <p>{info.genre}</p>
-                  <p>{info.startTime}</p>
-                  {info.seats.map((seat, i) => (
-                    <p key={i}>{seat.seatNumber}</p>
-                  ))}
+              .filter((item) => new Date(item.startTime) > currentDate)
+              .map((item, i) => (
+                <li className="booking-history-li" key={i}>
+                  <div className="booking-history-card">
+                    <div className="booking-history-card-img-container">
+                      <img alt="movie-poster" src={item.image} />
+                    </div>
+
+                    <div className="booking-history-card-text">
+                      <div className="history-card-title">
+                        <p>{item.title}</p>
+                        <p>{item.genre}</p>
+                        <p>{item.productionYear}</p>
+                      </div>
+
+                      <div className="history-card-booking-number">
+                        <p>Bokningsnummer</p>
+                        <p>{item.bookingNumber}</p>
+                      </div>
+
+                      <div className="history-card-booking-info">
+                        <p>{item.startTime.slice(11, -8)}</p>
+                        <p>{item.startTime.slice(0, -14)}</p>
+                        <div className="history-seat">
+                          <p>Platser:</p>
+                          {item.seats.map((seat, i) => (
+                            <p className="history-seat-numbers" key={i}>
+                              {seat.seatNumber}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button
+                        className="delete-current-booking-btn"
+                        onClick={() => deleteBooking(item.bookingId)}
+                      >
+                        Ta bort bokning
+                      </button>
+                    </div>
+                  </div>
                 </li>
               ))
           )}
-        </div>
+        </ul>
+        <ul className="profile-ul"></ul>
+        {/* <h3 className="profile-h3">Tidigare bokningar</h3> */}
+        {combinedData.length === 0 ? (
+          <li>Inga tidigare bokningar hittades</li>
+        ) : (
+          combinedData
+            .filter((item) => new Date(item.startTime) < currentDate)
+            .map((info, i) => (
+              <li key={i}>
+                <img alt="movie-poster" src={info.image} />
+                <p>{info.title}</p>
+                <p>{info.productionYear}</p>
+                <p>{info.bookingNumber}</p>
+                <p>{info.genre}</p>
+                <p>{info.startTime}</p>
+                {info.seats.map((seat, i) => (
+                  <p key={i}>{seat.seatNumber}</p>
+                ))}
+              </li>
+            ))
+        )}
       </div>
     </section>
   );

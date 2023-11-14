@@ -3,6 +3,9 @@
     height: 45vh;
     /* background: black; */
     position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 4em;
   }
   
   .front-carousel-icon {

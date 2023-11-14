@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useEffect } from "react";
-import CarouselWelcomeComponent from "../CarouselMemberComponent/CarouselMemberComponent";
+import CarouselWelcomeComponent from "../CarouselWelcomeComponent/CarouselWelcomeComponent";
 import CarouselMemberComponent from "../CarouselMemberComponent/CarouselMemberComponent";
 import CarouselEventComponent from "../CarouselEventComponent/CarouselEventComponent";
 import prev from "../../assets/img/prev.png";

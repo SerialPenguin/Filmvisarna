@@ -34,10 +34,11 @@
 .member-carousel-btn {
     background-color: #BA7E36;
     margin: 3em 1em 3em 1em;
-    width: 270px;
+    width: 240px;
     padding: 0.3em;
     font-weight: 400;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+    color: black; 
 }
 
 
@@ -46,24 +47,25 @@
     /*min height*/
     .member-carousel-container {
         margin-top: 3em;
+        width: 60%; 
     }
     .member-carousel-box {
         /* border: 3px solid #C699EA; */
         margin: 0 auto; 
         width: 60%; 
         margin-top: 3em;
-        padding: 3em; 
+        padding: 1em 1em 3em 1em; 
         border-radius: 8px;
     }
     
     .member-carousel-title {
-        font-size: 4em;
+        font-size: 3em;
         margin-bottom: 1em;
         text-shadow: 1px 3px 3px 1px #000;
     }
     
     .member-carousel-text {
-        font-size: 2em;
+        font-size: 1.8em;
     }
 }
 
@@ -89,4 +91,12 @@
     .member-carousel-text {
         font-size: 1em;
     }
+  }
+
+  @media (min-width: 1768px){
+    .member-carousel-container {
+        width: 40%;
+        margin-top: 7em; 
+    }
+    
   }

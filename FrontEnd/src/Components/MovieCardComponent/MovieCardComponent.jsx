@@ -32,6 +32,11 @@ const MovieCardComponent = () => {
       }
     });
   };
+      if (id === screening.movieId) {
+        navigate(`/booking/${screening._id}`);
+      }
+    });
+  };
 
   function convertTime(minutes) {
     const hours = Math.floor(minutes / 60);
@@ -54,7 +59,7 @@ const MovieCardComponent = () => {
       <div className="movie-card-container">
         {movies.map((movie) => (
           <div key={movie._id} className="movie-card">
-            <img src={movie.images} alt="" className="movie-card-img" />
+            <img src={movie.images[0]} alt="" className="movie-card-img" />
             <div
               className={`moviecard-desktop${
                 isHovered === movie._id ? "hovered" : ""
@@ -65,7 +70,14 @@ const MovieCardComponent = () => {
               <div className="moviecard-styling-desktop">
                 <p className="movie-card-title">{movie.title}</p>
                 <div style={{ width: "95%" }} className="movie-card-info">
+                <div style={{ width: "95%" }} className="movie-card-info">
                   <p style={{ fontSize: "0.7rem" }}>{movie.productionYear}</p>
+                  <p style={{ fontSize: "0.7rem" }}>
+                    {movie.genre.toLowerCase()}
+                  </p>
+                  <p style={{ fontSize: "0.7rem" }}>
+                    {convertTime(movie.length)}
+                  </p>
                   <p style={{ fontSize: "0.7rem" }}>
                     {movie.genre.toLowerCase()}
                   </p>
@@ -79,6 +91,11 @@ const MovieCardComponent = () => {
                     className="movie-card-btn"
                     onClick={() => handleBookingClick(movie._id)}
                   >
+                    Boka
+                  </button>
+                  <button
+                    className="movie-card-btn"
+                    onClick={() => handleBookingClick(movie._id)}>
                     Boka
                   </button>
                   <Link to={`/search/movies/${movie._id}`}>

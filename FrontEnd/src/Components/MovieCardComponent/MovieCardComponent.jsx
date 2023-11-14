@@ -62,21 +62,14 @@ const MovieCardComponent = () => {
               onMouseLeave={handleMouseLeave}>
               <div className="moviecard-styling-desktop">
                 <p className="movie-card-title">{movie.title}</p>
-                <div className="movie-card-info">
+                <div style={{ width: "95%"}} className="movie-card-info">
                   <p style={{ fontSize: "0.7rem" }}>{movie.productionYear}</p>
                   <p style={{ fontSize: "0.7rem" }}>{movie.genre.toLowerCase()}</p>
                   <p style={{ fontSize: "0.7rem" }}>{convertTime(movie.length)}</p>
                 </div>
                 <p className="movie-card-description">{movie.description}</p>
                 <div className="movie-card-links">
-                  <button style={{
-                            marginLeft: "1em",
-                            padding: "0.2em",
-                            width: "100px",
-                            backgroundColor: "#C699EA",
-                            fontFamily: "Jost",
-                            fontWeight: "400", 
-                          }} onClick={() => handleBookingClick(movie._id)}>Boka</button>
+                  <button className="movie-card-btn" onClick={() => handleBookingClick(movie._id)}>Boka</button>
                   <Link to={`/search/movies/${movie._id}`}>
                     <p className="moviecard-showmore-link">visa mer...</p>
                   </Link>

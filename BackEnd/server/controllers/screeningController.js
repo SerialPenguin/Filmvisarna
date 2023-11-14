@@ -60,13 +60,6 @@ export const addScreenings = async (req, res) => {
 
     let { movieId, salonId, startTime, endTime, bookings } = body;
 
-    // startTime = new Date(startTime);
-    // startTime.setHours(startTime.getHours() + 1);
-    // endTime = new Date(endTime);
-    // endTime.setHours(endTime.getHours() + 1);
-
-    console.log("ST: ", startTime + " " + "ET: ", endTime);
-
     const newScreening = new Screening({
       movieId,
       salonId,

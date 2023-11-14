@@ -10,7 +10,7 @@ export default function Profile() {
   const [bookingId, setBookingId] = useState([]);
   const [bookingData, setBookingData] = useState([]);
   const [movieId, setMovieId] = useState([]);
-  const [movieData, setMovieData] = useState([]);
+  // const [movieData, setMovieData] = useState([]);
   const [screeningId, setScreeningId] = useState([]);
   const [screeningData, setScreeningData] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
@@ -97,7 +97,7 @@ export default function Profile() {
         );
         const movieData = await Promise.all(moviesPromises);
 
-        setMovieData(movieData);
+        // setMovieData(movieData);
 
         const combinedData = movieData.map((movie, index) => ({
           title: movie.title,
@@ -143,13 +143,6 @@ export default function Profile() {
       console.error(error);
     }
   };
-
-  // console.log("moviedata:", movieData);
-  // console.log("bookingData:", bookingData);
-  // console.log("screeningData:", screeningData);
-  // console.log("Combined data:", combinedData);
-  // console.log(deleteId);
-  // console.log(currentDate);
 
   return (
     <section className="profile-page-container">

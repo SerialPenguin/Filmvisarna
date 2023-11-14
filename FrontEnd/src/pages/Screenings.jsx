@@ -55,10 +55,11 @@ function getWeekNumber(date) {
 }
 
 function fixDateStartTime(screenings) {
-  const options = { weekday: "long", month: "long", day: "numeric" };
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   const date = new Date(screenings).toLocaleDateString("sv-SE", options);
   return date;
 }
+
 function organizeScreeningsByDate(screenings) {
   if (!Array.isArray(screenings) || screenings.length === 0) {
     return {}; // Return an empty object if screenings is not an array or is empty
@@ -109,10 +110,6 @@ function organizeScreeningsByDate(screenings) {
   return screeningsByDate;
 }
 
-
-
-
-
 function Screenings() {
   /* First filter options*/
   const ALL_MOVIES_OPTION = "Alla filmer";
@@ -128,6 +125,7 @@ function Screenings() {
   const [selectedAgeOption, setSelectedAgeOption] = useState(ALL_AGES_OPTION);
   const [selectedWeek, setSelectedWeek] = useState(ALL_WEEKS_OPTION);
   const [selectedDate, setSelectedDate] = useState(ALL_DATES_OPTION);
+
   const location = useLocation();
 
   useGet("/api/screenings", (data) => {
@@ -136,6 +134,7 @@ function Screenings() {
     setFilteredScreenings(data);
   });
 
+  // ----------------- FILTER LOGIC FOR MOVIE -----------------
   function filterByMovieTitle(screenings, selectedFilterOption) {
     if (selectedFilterOption !== ALL_MOVIES_OPTION) {
       screenings = screenings.filter(
@@ -144,7 +143,7 @@ function Screenings() {
     }
     return screenings
   }
-  
+  // ----------------- FILTER LOGIC FOR AGE -----------------
   function filterByAge(screenings, selectedAgeOption) {
     if (selectedAgeOption !== ALL_AGES_OPTION) {
       screenings = screenings.filter(
@@ -153,7 +152,7 @@ function Screenings() {
     }
     return screenings
   }
-  
+  // ----------------- FILTER LOGIC FOR WEEK -----------------
   function filterByWeek(screenings, selectedWeek) {
     if (selectedWeek !== ALL_WEEKS_OPTION) {
       screenings = screenings.filter((screening) => {
@@ -166,14 +165,18 @@ function Screenings() {
     }
     return screenings
   }
-  
+  // ----------------- FILTER LOGIC FOR DATE -----------------
   function filterByDate(screenings, selectedDate) {
     if (selectedDate !== ALL_DATES_OPTION) {
       screenings = screenings.filter((screening) => {
-        return fixDateStartTime(screening.startTime) === selectedDate;
+        console.log(fixDateStartTime(screening.startTime) + " -  " + selectedDate)
+        return (
+          fixDateStartTime(screening.startTime) === selectedDate
+        );
       });
     }
-    return screenings
+    console.log(screenings)
+    return screenings;
   }
 
   // filter list logic
@@ -256,13 +259,16 @@ function Screenings() {
           <select
             className="screenings-selectors"
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}>
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
             <option value={ALL_DATES_OPTION}>{ALL_DATES_OPTION}</option>
-            {Object.keys(screeningsByDate).map((date) => (
-              <option key={date} value={date}>
-                {getUpdatedDate(date)}
-              </option>
-            ))}
+            {Object.keys(screeningsByDate)
+              .sort((a, b) => new Date(a) - new Date(b)) // Sort keys in ascending order
+              .map((date) => (
+                <option key={date} value={date}>
+                  {getUpdatedDate(date)}
+                </option>
+              ))}
           </select>
         )}
       </div>

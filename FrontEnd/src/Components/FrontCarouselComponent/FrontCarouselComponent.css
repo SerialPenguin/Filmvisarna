@@ -17,11 +17,8 @@
 
   @media (min-width: 800px) {
     .front-carousel {
-      margin-top: -5em;
-      height: 100vh;
+      height: 90vh;
       width: 100%;
-      /* width: 70vw; 
-          margin: 0 auto;   */
     }
   
     .front-carousel-icon {

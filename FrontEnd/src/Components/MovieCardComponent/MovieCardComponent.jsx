@@ -53,7 +53,7 @@ const MovieCardComponent = () => {
       <div className="movie-card-container">
         {movies.map((movie) => (
           <div key={movie._id} className="movie-card">
-            <img src={movie.images} alt="" className="movie-card-img" />
+            <img src={movie.images[0]} alt="" className="movie-card-img" />
             <div
               className={`moviecard-desktop${
                 isHovered === movie._id ? "hovered" : ""

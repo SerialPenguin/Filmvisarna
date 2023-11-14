@@ -24,6 +24,10 @@
     border-radius:10px;
   }
 
+  ::-webkit-scrollbar-corner {
+    background: rgb(51, 10, 53);
+    border-radius: 4px;
+  }
   
   .movie-card {
     display: border-box;

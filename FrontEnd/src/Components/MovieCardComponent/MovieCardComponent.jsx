@@ -32,11 +32,6 @@ const MovieCardComponent = () => {
       }
     });
   };
-      if (id === screening.movieId) {
-        navigate(`/booking/${screening._id}`);
-      }
-    });
-  };
 
   function convertTime(minutes) {
     const hours = Math.floor(minutes / 60);
@@ -70,14 +65,7 @@ const MovieCardComponent = () => {
               <div className="moviecard-styling-desktop">
                 <p className="movie-card-title">{movie.title}</p>
                 <div style={{ width: "95%" }} className="movie-card-info">
-                <div style={{ width: "95%" }} className="movie-card-info">
                   <p style={{ fontSize: "0.7rem" }}>{movie.productionYear}</p>
-                  <p style={{ fontSize: "0.7rem" }}>
-                    {movie.genre.toLowerCase()}
-                  </p>
-                  <p style={{ fontSize: "0.7rem" }}>
-                    {convertTime(movie.length)}
-                  </p>
                   <p style={{ fontSize: "0.7rem" }}>
                     {movie.genre.toLowerCase()}
                   </p>
@@ -93,11 +81,7 @@ const MovieCardComponent = () => {
                   >
                     Boka
                   </button>
-                  <button
-                    className="movie-card-btn"
-                    onClick={() => handleBookingClick(movie._id)}>
-                    Boka
-                  </button>
+
                   <Link to={`/search/movies/${movie._id}`}>
                     <p className="moviecard-showmore-link">visa mer...</p>
                   </Link>

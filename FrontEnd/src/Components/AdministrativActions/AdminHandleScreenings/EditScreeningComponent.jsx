@@ -1,21 +1,34 @@
 import { useEffect, useState } from "react";
-import { get } from "../../../hooksAndUtils/fetchUtil";
+import { authGet, get } from "../../../hooksAndUtils/fetchUtil";
 
-export default function EditScreeningComponent() {
+export default function EditScreeningComponent(props) {
   const [screenings, setScreenings] = useState([]);
   const [allMovies, setAllMovies] = useState();
+  // const [salons, setSalons] = useState();
   const [formState, setFormState] = useState("pick-movie");
 
   useEffect(() => {
     async function setItems() {
       setAllMovies(await get("/api/movies"));
+      // setSalons(await authGet("/api/search/auth/admin/getSalon", props.token));
     }
 
     setItems();
   }, []);
 
-  async function getScreeningFromTitle() {
-    setScreenings(await get);
+  async function getScreeningFromTitle(e) {
+    e.preventDefault();
+
+    setScreenings(
+      await authGet(
+        "/api/search/auth/admin/getScreening/" + e.target.id,
+        props.token
+      )
+    );
+
+    console.log(screenings);
+
+    setFormState("pick-screening");
   }
 
   return (
@@ -25,10 +38,9 @@ export default function EditScreeningComponent() {
           {allMovies?.map((movie) => (
             <p
               className="movie-para"
-              onClick={() => {
-                setFormState("pick-screening");
-              }}
+              onClick={getScreeningFromTitle}
               key={movie.title}
+              name={movie.title}
               id={movie.title}>
               {movie.title}
             </p>
@@ -37,7 +49,7 @@ export default function EditScreeningComponent() {
       )}
       {formState === "pick-screening" && (
         <div className="screenings-container">
-          {allScreenings?.map((screening) => (
+          {screenings?.map((screening) => (
             <p
               className="screening-para"
               // onClick={() => {
@@ -45,7 +57,7 @@ export default function EditScreeningComponent() {
               // }}
               key={screening._id}
               id={screening._id}>
-              {screening._id}
+              Visningsid: {screening._id}
             </p>
           ))}
         </div>

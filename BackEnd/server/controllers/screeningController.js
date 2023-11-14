@@ -77,3 +77,28 @@ export const addScreenings = async (req, res) => {
     console.log(err)
   }
 };
+
+export const deleteScreening = async (req, res) => {
+
+  const param = req.params.id;
+
+  console.log("Para: ", param)
+
+  try{
+    const collection = mongoose.connection.collection('screenings');
+    const screening = await Screening.findByIdAndRemove(param);
+
+    const id = new mongoose.Types.ObjectId(param);
+
+    console.log("ID: ", id + " " + "SC: ", screening._id)
+
+    if(id === screening._id) {
+      res.status(200).send({ msg: `Screening with id: ${param.id} was deleted succesfully`})
+    }else {
+      res.status(500).send({ msg: "Internal server error"});
+    }
+
+  }catch(err){
+    console.log(err)
+  }
+} 

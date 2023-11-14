@@ -49,7 +49,7 @@ export const getResourceById = async (req, res) => {
   }
 
   export const getSalon = async (req, res) => {
-    
+
     try{
       const collection = mongoose.connection.collection('seats');
       const salon = await collection.find({}).toArray();

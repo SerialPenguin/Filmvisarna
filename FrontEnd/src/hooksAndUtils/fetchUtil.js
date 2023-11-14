@@ -49,5 +49,5 @@ export async function del(url, token) {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
-  })).json();
+  }))
 }

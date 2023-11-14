@@ -1,6 +1,7 @@
 import OptionsComponent from "../OptionsComponent/OptionsComponent";
 import AddScreeningComponent from "./AddScreeningComponent";
 import EditScreeningComponent from "./EditScreeningComponent";
+import DeleteScreeningComponent from "./DeleteScreeningComponent";
 
 export default function HandleScreenings(props) {
   return (
@@ -32,7 +33,16 @@ export default function HandleScreenings(props) {
           />
         </div>
       )}
-      {props.optionState === "delete" && <div>Delete</div>}
+      {props.optionState === "delete" && (
+        <div>
+          <h4>Radera {props.topic}</h4>
+          <DeleteScreeningComponent
+            token={props.token}
+            screeningRef={props.screeningRef}
+            setOptionState={props.setOptionState}
+          />
+        </div>
+      )}
     </div>
   );
 }

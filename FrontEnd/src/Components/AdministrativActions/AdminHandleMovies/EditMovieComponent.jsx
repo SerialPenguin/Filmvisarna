@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { get, patch } from "../../../hooksAndUtils/fetchUtil";
+import { authGet, get, patch } from "../../../hooksAndUtils/fetchUtil";
 
 export default function EditMovieComponent(props) {
   const [formState, setFormState] = useState("pick");
@@ -37,7 +37,12 @@ export default function EditMovieComponent(props) {
   async function handleMovieInfo(e) {
     e.preventDefault();
     setChanges({ ...changes, title: e.target.id });
-    setFormBody(await get("/api/search/auth/admin/getMovie/" + e.target.id));
+    setFormBody(
+      await authGet(
+        "/api/search/auth/admin/getMovie/" + e.target.id,
+        props.token
+      )
+    );
 
     setFormState("edit");
   }

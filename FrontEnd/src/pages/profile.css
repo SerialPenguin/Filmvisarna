@@ -9,6 +9,9 @@ body {
   background: radial-gradient(circle at center, rgb(70, 10, 73), black);
 } */
 
+.profile-page-container {
+  margin-top: 4.5rem;
+}
 
 .profile-h2,
 .profile-h3 {

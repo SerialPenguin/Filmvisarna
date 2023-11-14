@@ -60,7 +60,8 @@ const MovieCardComponent = () => {
                 isHovered === movie._id ? "hovered" : ""
               }`}
               onMouseEnter={() => handleMouseEnter(movie._id)}
-              onMouseLeave={handleMouseLeave}>
+              onMouseLeave={handleMouseLeave}
+            >
               <div className="moviecard-styling-desktop">
                 <p className="movie-card-title">{movie.title}</p>
                 <div style={{ width: "95%" }} className="movie-card-info">
@@ -76,9 +77,11 @@ const MovieCardComponent = () => {
                 <div className="movie-card-links">
                   <button
                     className="movie-card-btn"
-                    onClick={() => handleBookingClick(movie._id)}>
+                    onClick={() => handleBookingClick(movie._id)}
+                  >
                     Boka
                   </button>
+
                   <Link to={`/search/movies/${movie._id}`}>
                     <p className="moviecard-showmore-link">visa mer...</p>
                   </Link>

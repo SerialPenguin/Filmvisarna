@@ -36,7 +36,7 @@ const NavComponent = ({ onCloseClick }) => {
                 HEM
               </li>
             </Link>
-            <Link to={"/booking/6523d4ca1451567f3ed4cebe"}>
+            <Link to={"/booking/6523d4e91451567f3ed4cebf"}>
               <li
                 className={`nav-list-item ${
                   location.pathname.includes("/booking") ? "active" : ""

@@ -64,7 +64,7 @@ const MovieCardComponent = () => {
             >
               <div className="moviecard-styling-desktop">
                 <p className="movie-card-title">{movie.title}</p>
-                <div style={{ width: "95%" }} className="movie-card-info">
+                <div className="movie-card-info">
                   <p style={{ fontSize: "0.7rem" }}>{movie.productionYear}</p>
                   <p style={{ fontSize: "0.7rem" }}>
                     {movie.genre.toLowerCase()}

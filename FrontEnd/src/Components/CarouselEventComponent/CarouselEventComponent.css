@@ -9,12 +9,24 @@
     gap: 0.5em;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
+
 
 .event-carousel-img {
     width: 50%;
     border-radius: 4px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.movie-bg-img {
+    width: 90vw; 
+}
+
+.movie-event-img {
+    width: 70vw; 
+    bottom: 0; 
+    position: absolute; 
 }
 
 .event-carousel-title {
@@ -47,11 +59,21 @@
     }
 }
 
-  @media (min-width: 800px) {
+  @media (min-width: 830px) {
   .event-carousel-container {
     position: relative;
     margin-bottom: -12em; 
-    width: 50%; 
+    width: 100%; 
+}
+
+.movie-bg-img {
+    margin-top: -11em; 
+    width: 55%; 
+}
+
+.movie-event-img {
+    width: 70%; 
+    bottom: 8em; 
 }
 
 .event-carousel-img {

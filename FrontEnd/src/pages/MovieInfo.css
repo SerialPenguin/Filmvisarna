@@ -18,6 +18,13 @@
     margin: -1em auto; 
 }
 
+.movie-info-text {
+    display: flex;
+    justify-content: space-evenly;
+    color: #DB00FF;
+    width: 100%;
+}
+
 .iframe-container, .button-container, .text-containers, iframe{
     margin: 2em auto;
     margin-bottom: 4em; 
@@ -78,5 +85,13 @@ iframe, .iframe-container {
     .text-containers, .button-container{
         width: 700px;
     }
+    .movie-info-text {
+        width: 69%;
+    }
     
+}
+@media (min-width: 1000px){
+    .movie-info-text {
+        width: 53%;
+    }
 }

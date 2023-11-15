@@ -299,7 +299,7 @@ function Screenings() {
                       </h3>
                         <div className="screenings-info-container">
                         {screening.salon.name === "Small salon" ? (
-                          <p className="screenings-p">lilla salongen</p>
+                          <p className="screenings-p">Lilla salongen</p>
                         ) : (
                           <p className="screenings-p">Stora salongen</p>
                         )}

@@ -5,6 +5,37 @@ import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
 import "./Screenings.css"
 
+function GetDayFromDate(date){
+  const options = { weekday: "long" };
+  const day = new Date(date).toLocaleDateString("sv-SE", options);
+  return day.charAt(0).toUpperCase() + day.slice(1);
+}
+
+function GetDateFromDate(date) {
+  const options = { month: "long" };
+  const dayNumber = new Date(date).getDate();
+  const ordinalSuffix = getOrdinalSuffix(dayNumber);
+  const month = new Date(date).toLocaleDateString("sv-SE", options);
+  const formattedDate = dayNumber + ordinalSuffix + " " + month
+  return formattedDate;
+}
+
+function getOrdinalSuffix(day) {
+  if (day === 1 || day === 2 || day === 21 || day === 22 || day === 31) {
+    return ":a";
+  } else {
+    return ":e";
+  }
+}
+
+function getUpdatedDate(date){
+  const day = GetDayFromDate(date)
+  const month = GetDateFromDate(date)
+  const updatedDate = day + " " + month
+  return updatedDate
+}
+
+
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
   const hours = date.getHours();
@@ -24,29 +55,60 @@ function getWeekNumber(date) {
 }
 
 function fixDateStartTime(screenings) {
-  const options = { weekday: "long", month: "long", day: "numeric" };
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   const date = new Date(screenings).toLocaleDateString("sv-SE", options);
   return date;
 }
+
 function organizeScreeningsByDate(screenings) {
-  if (!screenings) {
-    return {}; // Return an empty object if screenings is null or undefined
+  if (!Array.isArray(screenings) || screenings.length === 0) {
+    return {}; // Return an empty object if screenings is not an array or is empty
   }
-  return screenings.reduce((acc, screening) => {
-    const options = { weekday: "long", month: "long", day: "numeric" };
-    const date = new Date(screening.startTime).toLocaleDateString(
-      "sv-SE",
-      options
-    );
-    if (!acc[date]) {
-      acc[date] = [];
+
+  // Create an object to store screenings by date
+  const screeningsByDate = {};
+
+  // Iterate through the screenings
+  screenings.forEach((screening) => {
+    // Extract date and time components
+    const date = new Date(screening.startTime);
+    const dateString = date.toISOString().split('T')[0];
+
+    // Check if the date exists in the object, if not, create an array for it
+    if (!screeningsByDate[dateString]) {
+      screeningsByDate[dateString] = [];
     }
-    acc[date].push(screening);
-    return acc;
-  }, {});
+
+    // Add the screening to the array for that date
+    screeningsByDate[dateString].push(screening);
+  });
+
+  // Sort the screenings within each date by their start time
+  for (const date in screeningsByDate) {
+    screeningsByDate[date].sort((a, b) => {
+      const dateA = new Date(a.startTime);
+      const dateB = new Date(b.startTime);
+
+      // Compare dates first
+      if (dateA.getFullYear() !== dateB.getFullYear()) {
+        return dateA.getFullYear() - dateB.getFullYear();
+      }
+
+      if (dateA.getMonth() !== dateB.getMonth()) {
+        return dateA.getMonth() - dateB.getMonth();
+      }
+
+      if (dateA.getDate() !== dateB.getDate()) {
+        return dateA.getDate() - dateB.getDate();
+      }
+
+      // If dates are equal, compare times
+      return dateA - dateB;
+    });
+  }
+
+  return screeningsByDate;
 }
-
-
 
 function Screenings() {
   /* First filter options*/
@@ -63,6 +125,7 @@ function Screenings() {
   const [selectedAgeOption, setSelectedAgeOption] = useState(ALL_AGES_OPTION);
   const [selectedWeek, setSelectedWeek] = useState(ALL_WEEKS_OPTION);
   const [selectedDate, setSelectedDate] = useState(ALL_DATES_OPTION);
+
   const location = useLocation();
 
   useGet("/api/screenings", (data) => {
@@ -71,6 +134,7 @@ function Screenings() {
     setFilteredScreenings(data);
   });
 
+  // ----------------- FILTER LOGIC FOR MOVIE -----------------
   function filterByMovieTitle(screenings, selectedFilterOption) {
     if (selectedFilterOption !== ALL_MOVIES_OPTION) {
       screenings = screenings.filter(
@@ -79,7 +143,7 @@ function Screenings() {
     }
     return screenings
   }
-  
+  // ----------------- FILTER LOGIC FOR AGE -----------------
   function filterByAge(screenings, selectedAgeOption) {
     if (selectedAgeOption !== ALL_AGES_OPTION) {
       screenings = screenings.filter(
@@ -88,7 +152,7 @@ function Screenings() {
     }
     return screenings
   }
-  
+  // ----------------- FILTER LOGIC FOR WEEK -----------------
   function filterByWeek(screenings, selectedWeek) {
     if (selectedWeek !== ALL_WEEKS_OPTION) {
       screenings = screenings.filter((screening) => {
@@ -101,14 +165,18 @@ function Screenings() {
     }
     return screenings
   }
-  
+  // ----------------- FILTER LOGIC FOR DATE -----------------
   function filterByDate(screenings, selectedDate) {
     if (selectedDate !== ALL_DATES_OPTION) {
       screenings = screenings.filter((screening) => {
-        return fixDateStartTime(screening.startTime) === selectedDate;
+        console.log(fixDateStartTime(screening.startTime) + " -  " + selectedDate)
+        return (
+          fixDateStartTime(screening.startTime) === selectedDate
+        );
       });
     }
-    return screenings
+    console.log(screenings)
+    return screenings;
   }
 
   // filter list logic
@@ -120,7 +188,6 @@ function Screenings() {
     filteredList = filterByAge(filteredList, selectedAgeOption);
     filteredList = filterByWeek(filteredList, selectedWeek);
     filteredList = filterByDate(filteredList, selectedDate);
-    console.log(screenings)
     setFilteredScreenings(filteredList);
   }, [
     selectedFilterOption,
@@ -137,6 +204,7 @@ function Screenings() {
     <div className="return-container">
       <h2 className="main-text-title">ALLA VISNINGAR</h2>
       <div className="filters-containers">
+        {/*------------------------- MOVIE FILTER SELECT -------------------------*/}
         <select
           className="screenings-selectors"
           value={selectedFilterOption}
@@ -154,6 +222,7 @@ function Screenings() {
             </option>
           ))}
         </select>
+        {/*------------------------- AGE FILTER SELECT -------------------------*/}
         <select
           className="screenings-selectors"
           value={selectedAgeOption}
@@ -164,10 +233,12 @@ function Screenings() {
           <option value="11">11 år och under</option>
           <option value="15">15 år och under</option>
         </select>
+        {/*------------------------- WEEK FILTER SELECT -------------------------*/}
         <select
           className="screenings-selectors"
           value={selectedWeek}
-          onChange={(e) => setSelectedWeek(e.target.value)}>
+          onChange={(e) => setSelectedWeek(e.target.value)}
+        >
           <option value={ALL_WEEKS_OPTION}>{ALL_WEEKS_OPTION}</option>
           {[
             ...new Set(
@@ -175,60 +246,73 @@ function Screenings() {
                 getWeekNumber(screening.startTime)
               )
             ),
-          ].map((weekNumber) => (
-            <option key={weekNumber} value={weekNumber}>
-              Vecka {weekNumber}
-            </option>
-          ))}
+          ]
+            .sort((a, b) => a - b) // Sort in ascending order
+            .map((weekNumber) => (
+              <option key={weekNumber} value={weekNumber}>
+                Vecka {weekNumber}
+              </option>
+            ))}
         </select>
+        {/*------------------------- DATE FILTER SELECT -------------------------*/}
         {selectedWeek !== ALL_WEEKS_OPTION && (
           <select
             className="screenings-selectors"
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}>
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
             <option value={ALL_DATES_OPTION}>{ALL_DATES_OPTION}</option>
-            {Object.keys(screeningsByDate).map((date) => (
-              <option key={date} value={date}>
-                {date}
-              </option>
-            ))}
+            {Object.keys(screeningsByDate)
+              .sort((a, b) => new Date(a) - new Date(b)) // Sort keys in ascending order
+              .map((date) => (
+                <option key={date} value={date}>
+                  {getUpdatedDate(date)}
+                </option>
+              ))}
           </select>
         )}
       </div>
       {loading ? (
         <p className="Laddar">Laddar...</p>
       ) : (
-        Object.keys(screeningsByDate).map((date) => (
+        Object.keys(screeningsByDate)
+        .sort((a, b) => new Date(a) - new Date(b))
+        .map((date) => (
           <div key={date}>
-            <h2 className="date-title">
-              {date.charAt(0).toUpperCase() + date.slice(1)}
-            </h2>
+            <div className="date-container">
+              <h2 className="date-title">{GetDayFromDate(date)}</h2>
+              <p className="date-dates">{GetDateFromDate(date)}</p>
+            </div>
             <ul className="screenings-list-container">
               <div className="seperator"></div>
               {screeningsByDate[date].map((screening) => (
                 <li key={screening._id} className="screenings-list">
                   <img src={screening.movie.images[0]} className="movie-poster-img"></img> 
-                  <div className="list-item-container">
-                    <h3 className="list-movie-title">
-                      <Link
-                        to={`/search/movies/${screening.movie._id}`}
-                        state={{ from: location.pathname }}
-                        className="link-color">
-                        {screening.movie.title}
+                    <div className="list-item-container">
+                      <h3 className="list-movie-title">
+                        <Link
+                          to={`/search/movies/${screening.movie._id}`}
+                          state={{ from: location.pathname }}
+                          className="link-color">
+                          {screening.movie.title}
+                        </Link>
+                      </h3>
+                        <div className="screenings-info-container">
+                        <p className="screenings-p">{screening.salon.name}</p>
+                        <p className="screenings-p">
+                          {formatTimeToHHMM(screening.startTime)}
+                        </p>
+                        <p className="screenings-p desktopvye">{screening.movie.age} år</p>
+                        </div>
+                    </div>
+                    <div className="link-container">
+                      <Link to={`/booking/${screening._id}`} className="main-btn-container">
+                        <button className="main-btn-color">Boka</button>
                       </Link>
-                    </h3>
-                    <p className="screenings-p">Salong: {screening.salon.name}</p>
-                    <p className="screenings-p">
-                      Börjar: {formatTimeToHHMM(screening.startTime)}
-                    </p>
-                    <p className="screenings-p desktopvye">Åldersgräns: {screening.movie.age} år</p>
-                    <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
-                      Visa mer...
-                    </Link>
-                  </div>
-                  <Link to={`/booking/${screening._id}`} className="main-btn-container">
-                    <button className="main-btn-color">Boka</button>
-                  </Link>
+                      <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
+                          Visa mer
+                      </Link>
+                    </div>
                 </li>
               ))}
               <div className="seperator"></div>

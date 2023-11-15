@@ -385,6 +385,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .seat-select-label {
@@ -435,7 +436,6 @@
   .total-amount {
     margin-right: auto;
     margin-left: auto;
-    margin-bottom: 1.5vh;
   }
 
   .book-button {
@@ -578,6 +578,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
+    margin-bottom: 20px;
   }
 
   .seat-select-label {

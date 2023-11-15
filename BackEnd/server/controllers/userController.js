@@ -42,7 +42,9 @@ export const login = async (req, res) => {
   const user = await User.findOne({ emailAdress });
 
   if (!user) {
-    res.status(401).json({ error: "Invalid email or password" });
+    res
+      .status(401)
+      .json({ error: "Ingen användare med denna e-postadress hittades" });
     return;
   }
 
@@ -50,7 +52,7 @@ export const login = async (req, res) => {
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
-    res.status(401).json({ error: "Invalid password" });
+    res.status(401).json({ error: "Fel lösenord" });
     return;
   }
 

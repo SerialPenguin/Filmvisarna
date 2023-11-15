@@ -40,7 +40,7 @@ function RegisterForm() {
 
     if (!passwordRegex.test(credentials.password)) {
       setRegisterMessage(
-        "Lösenordet måste innehålla minst 8 characters, en bokstav, en siffra och en stor bokstav"
+        "Lösenordet måste innehålla minst 8 tecken, en bokstav, en siffra och en stor bokstav"
       );
       return;
     }

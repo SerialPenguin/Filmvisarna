@@ -117,6 +117,7 @@ export default function Profile() {
         // if (combinedData.length === 0) {
         //   setCombinedData("Inga bokningar hittades");
         // }
+
         setCombinedData(combinedData);
       } catch (error) {
         console.error(error);
@@ -158,16 +159,16 @@ export default function Profile() {
         <table className="profile-table">
           <tbody className="profile-tbody">
             <tr>
-              <td>Förnamn:</td>
-              <td>{userData.firstName}</td>
+              <td className="profile-first-row">Förnamn:</td>
+              <td className="profile-second-row">{userData.firstName}</td>
             </tr>
             <tr>
-              <td>Efternamn:</td>
-              <td>{userData.lastName}</td>
+              <td className="profile-first-row">Efternamn:</td>
+              <td className="profile-second-row">{userData.lastName}</td>
             </tr>
             <tr>
-              <td>E-post:</td>
-              <td>{userData.emailAdress}</td>
+              <td className="profile-first-row">E-post:</td>
+              <td className="profile-second-row">{userData.emailAdress}</td>
             </tr>
           </tbody>
         </table>
@@ -188,24 +189,36 @@ export default function Profile() {
 
                     <div className="booking-history-card-text">
                       <div className="history-card-title">
-                        <p>{item.title}</p>
-                        <p>{item.genre}</p>
-                        <p>{item.productionYear}</p>
+                        <p className="card-title">
+                          {item.title.length > 15
+                            ? `${item.title.substring(0, 13)}...`
+                            : item.title}
+                        </p>
+                        <div className="genre-title-container">
+                          <p className="card-genre">{item.genre}</p>
+                          <p className="card-year">{item.productionYear}</p>
+                        </div>
                       </div>
 
                       <div className="history-card-booking-number">
-                        <p>Bokningsnummer</p>
-                        <p>{item.bookingNumber}</p>
+                        <p className="card-bookingnumber-title">
+                          Bokningsnummer
+                        </p>
+                        <p className="card-bookingnumber">
+                          {item.bookingNumber}
+                        </p>
                       </div>
 
                       <div className="history-card-booking-info">
-                        <p>{item.startTime.slice(11, -8)}</p>
-                        <p>{item.startTime.slice(0, -14)}</p>
+                        <div className="history-time">
+                          <p>{item.startTime.slice(11, -8)}</p>
+                          <p>{item.startTime.slice(0, -14)}</p>
+                        </div>
                         <div className="history-seat">
                           <p>Platser:</p>
                           {item.seats.map((seat, i) => (
                             <p className="history-seat-numbers" key={i}>
-                              {seat.seatNumber}
+                              {seat.seatNumber},
                             </p>
                           ))}
                         </div>
@@ -222,28 +235,70 @@ export default function Profile() {
                 </li>
               ))
           )}
+          {/* </ul> */}
+          {/* <ul className="profile-ul"></ul> */}
+          {/* <h3 className="profile-h3">Tidigare bokningar</h3> */}
+          {combinedData.length === 0 ? (
+            <li>Inga tidigare bokningar hittades</li>
+          ) : (
+            combinedData
+              .filter((item) => new Date(item.startTime) < currentDate)
+              .map((item, i) => (
+                <li className="booking-history-li" key={i}>
+                  <div className="booking-history-card">
+                    <div className="booking-history-card-img-container">
+                      <img alt="movie-poster" src={item.image} />
+                    </div>
+
+                    <div className="booking-history-card-text">
+                      <div className="history-card-title">
+                        <p className="card-title">
+                          {item.title.length > 15
+                            ? `${item.title.substring(0, 13)}...`
+                            : item.title}
+                        </p>
+                        <div className="genre-title-container">
+                          <p className="card-genre">{item.genre}</p>
+                          <p className="card-year">{item.productionYear}</p>
+                        </div>
+                      </div>
+
+                      <div className="history-card-booking-number">
+                        <p className="card-bookingnumber-title">
+                          Bokningsnummer
+                        </p>
+                        <p className="card-bookingnumber">
+                          {item.bookingNumber}
+                        </p>
+                      </div>
+
+                      <div className="history-card-booking-info">
+                        <div className="history-time">
+                          <p>{item.startTime.slice(11, -8)}</p>
+                          <p>{item.startTime.slice(0, -14)}</p>
+                        </div>
+                        <div className="history-seat">
+                          <p>Platser:</p>
+                          {item.seats.map((seat, i) => (
+                            <p className="history-seat-numbers" key={i}>
+                              {seat.seatNumber},
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+
+                      <button
+                        className="booking-history-btn"
+                        onClick={() => deleteBooking(item.bookingId)}
+                      >
+                        Ta bort bokning
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))
+          )}
         </ul>
-        <ul className="profile-ul"></ul>
-        {/* <h3 className="profile-h3">Tidigare bokningar</h3> */}
-        {combinedData.length === 0 ? (
-          <li>Inga tidigare bokningar hittades</li>
-        ) : (
-          combinedData
-            .filter((item) => new Date(item.startTime) < currentDate)
-            .map((info, i) => (
-              <li key={i}>
-                <img alt="movie-poster" src={info.image} />
-                <p>{info.title}</p>
-                <p>{info.productionYear}</p>
-                <p>{info.bookingNumber}</p>
-                <p>{info.genre}</p>
-                <p>{info.startTime}</p>
-                {info.seats.map((seat, i) => (
-                  <p key={i}>{seat.seatNumber}</p>
-                ))}
-              </li>
-            ))
-        )}
       </div>
     </section>
   );

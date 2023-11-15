@@ -30,7 +30,7 @@
     height: 30px;
 }
 .return-container{
-    margin-top: 5em;
+    margin-top: 10em;
     min-height: 100vh; 
 }
 .screenings-p{
@@ -150,7 +150,7 @@
     .return-container{
         margin: auto;
         width: 750px;
-        margin-top: 5em;
+        margin-top: 10em;
     }
     .movie-poster-img{
         height: 10em;

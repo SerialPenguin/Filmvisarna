@@ -24,13 +24,17 @@
     border-radius:10px;
   }
 
+  ::-webkit-scrollbar-corner {
+    background: rgb(70, 10, 73);
+    border-radius: 4px;
+  }
   
   .movie-card {
     display: border-box;
     width: 92%;
     height: 17%;
     display: flex;
-    margin: 0em auto; 
+    margin: 0.5em auto; 
     background: rgba(40,20,46,0.7);
     border-radius: 8px;
     text-align: left;
@@ -190,11 +194,12 @@
       background-color: #FFB800;
     }
 
-    .movie-card-info {
-      width: 49%;
-    }
     .movie-card-header {
       margin-left: 11%; 
+    }
+
+    .movie-card-info {
+      width: 95%; 
     }
     
 }

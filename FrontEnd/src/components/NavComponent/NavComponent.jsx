@@ -12,7 +12,7 @@ const NavComponent = ({ onCloseClick }) => {
   useGet("/api/screenings", (data) => {
     setScreenings(data);
   });
-  const firstScreeningId = screening.length > 0 ? screening[0]._id : "";
+  const firstScreeningId = screening.length > 0 ? ("/booking/" + screening[0]._id) : "";
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
   const handleLogout = () => {
@@ -43,15 +43,27 @@ const NavComponent = ({ onCloseClick }) => {
                 HEM
               </li>
             </Link>
-            <Link to={`/booking/${firstScreeningId}`}>
-              <li
-                className={`nav-list-item ${
-                  location.pathname.includes("/booking") ? "active" : ""
-                }`}
-                onClick={onCloseClick}>
-                BOKA
-              </li>
-            </Link>
+            {firstScreeningId ? (
+              <Link to={firstScreeningId}>
+                <li
+                  className={`nav-list-item ${
+                    location.pathname.includes("/booking") ? "active" : ""
+                  }`}
+                  onClick={onCloseClick}>
+                  BOKA
+                </li>
+              </Link>
+            ) : (
+              <div>
+                <li
+                  className={`nav-list-item ${
+                    location.pathname.includes("/booking") ? "active" : ""
+                  }`}
+                  onClick={onCloseClick}>
+                  BOKA
+                </li>
+              </div>
+            )}
             <Link to={"/screenings"}>
               <li
                 className={`nav-list-item ${

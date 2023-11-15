@@ -60,19 +60,27 @@ export const addScreenings = async (req, res) => {
 
     let { movieId, salonId, startTime, endTime, bookings } = body;
 
-    const newScreening = new Screening({
-      movieId,
-      salonId,
-      startTime,
-      endTime,
-      bookings
-    });
+    const newTime = new Date(startTime);
 
-    console.log(newScreening);
+    const findScreenings = await screeningsCollection.find({
+      salonId: { $eq: new mongoose.Types.ObjectId(salonId)},
+      startTime: newTime
+    }).toArray([]);
 
-    await newScreening.save();
-    res.status(200).send({msg: `New screening added to database`});
-
+    if(findScreenings.length > 0) {
+      return res.status(403).send({ status: 403, msg: "Screening already exist in this salon at this time"});
+    }else {
+      const newScreening = new Screening({
+        movieId,
+        salonId,
+        startTime,
+        endTime,
+        bookings
+      });
+      
+      await newScreening.save();
+      res.status(200).send({ msg: `New screening added to database`});  
+    }
   }catch(err) {
     console.log(err)
   }
@@ -85,20 +93,26 @@ export const deleteScreening = async (req, res) => {
   console.log("Para: ", param)
 
   try{
-    const collection = mongoose.connection.collection('screenings');
-    const screening = await Screening.findByIdAndRemove(param);
 
     const id = new mongoose.Types.ObjectId(param);
 
-    console.log("ID: ", id + " " + "SC: ", screening._id)
+    const collection = mongoose.connection.collection('screenings');
 
-    if(id === screening._id) {
-      res.status(200).send({ msg: `Screening with id: ${param.id} was deleted succesfully`})
+    const findScreening = await collection.findOne({_id: id});
+
+    if(findScreening.bookings.length === 0){
+      const deleteScreening = await collection.deleteOne({_id: id});
+
+      if(deleteScreening.deletedCount === 1) {
+        res.status(200).send({ msg: `Screening ${param} deleted succesfully`});
+      }else {
+        res.status(500).send({ msg: `Something went wrong` });
+      }
     }else {
-      res.status(500).send({ msg: "Internal server error"});
+      res.status(403).send({ msg: `Screening ${param} contains customer bookings and therefore can't be deleted` });
     }
 
   }catch(err){
-    console.log(err)
+    console.log(err);
   }
 } 

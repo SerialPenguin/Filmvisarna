@@ -25,7 +25,7 @@ export default function DeleteMovieComponent(props) {
       "/api/movies/auth/admin/deleteMovie/" + param,
       props.token
     );
-    console.log(result);
+    
     dialogRef.current?.close();
     props.movieRef.close();
     props.setOptionState("non");

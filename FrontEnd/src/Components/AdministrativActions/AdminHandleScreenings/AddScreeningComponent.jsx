@@ -7,6 +7,7 @@ export default function AddScreeningComponent(props) {
   const [salons, setSalons] = useState();
   const [formBody, setFormBody] = useState({});
   const [formState, setFormState] = useState("pick-movie");
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     async function getMovies() {
@@ -48,8 +49,15 @@ export default function AddScreeningComponent(props) {
 
     console.log("PM: ", postMovie);
 
-    props.screeningRef.close();
-    props.setOptionState("non");
+    if(postMovie.status === 403){
+      setStatus(403);
+      setTimeout(() => {
+        setStatus();
+      }, 4000);
+    }else {
+      props.screeningRef.close();
+      props.setOptionState("non");
+    }
   }
 
   return (
@@ -92,7 +100,7 @@ export default function AddScreeningComponent(props) {
           ))}
         </div>
       )}
-      {formState === "add" && (
+      {formState === "add" && status !== 403 && (
         <form onSubmit={addScreening} className="edit-movie-form">
           <label className="lbl" htmlFor="startTime">
             Starttid:
@@ -115,6 +123,9 @@ export default function AddScreeningComponent(props) {
             name="endTime"></input>
           <button className="add-screening-btn">Lägg till visning</button>
         </form>
+      )}
+      {status === 403 && (
+        <h4 className="screening-para">Det finns redan en visning på den här salongen detta datum, prova välja ett annat datum</h4>
       )}
     </div>
   );

@@ -29,7 +29,7 @@ export default function AddMovieComponent(props) {
       formBody,
       props.token
     );
-
+    
     props.movieRef.close();
     props.setOptionState("non");
   }

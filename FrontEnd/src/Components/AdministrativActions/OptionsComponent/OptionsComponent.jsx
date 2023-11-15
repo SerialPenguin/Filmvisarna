@@ -10,11 +10,13 @@ export default function OptionsComponent(props) {
               <p className="option" onClick={() => props.setOptionState("add")}>
                 Lägg till {props.topic}
               </p>
-              <p
-                className="option"
-                onClick={() => props.setOptionState("edit")}>
-                Redigera {props.topic}
-              </p>
+              {props.topic !== "visning" && (
+                <p
+                  className="option"
+                  onClick={() => props.setOptionState("edit")}>
+                  Redigera {props.topic}
+                </p>
+              )}
               <p
                 className="option"
                 onClick={() => props.setOptionState("delete")}>

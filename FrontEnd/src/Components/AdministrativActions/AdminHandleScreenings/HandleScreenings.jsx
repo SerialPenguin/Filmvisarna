@@ -23,7 +23,7 @@ export default function HandleScreenings(props) {
           />
         </div>
       )}
-      {props.optionState === "edit" && (
+      {/* {props.optionState === "edit" && (
         <div>
           <h4>Redigera {props.topic}</h4>
           <EditScreeningComponent
@@ -32,7 +32,7 @@ export default function HandleScreenings(props) {
             setOptionState={props.setOptionState}
           />
         </div>
-      )}
+      )} */}
       {props.optionState === "delete" && (
         <div>
           <h4>Radera {props.topic}</h4>

@@ -81,13 +81,27 @@ export const deleteMovies = async (req, res) => {
   const param = req.params;
 
   try{
-    const collection = mongoose.connection.collection('movies');
-    const movie = await collection.deleteOne({title: param.title});
+    const movieCollection = mongoose.connection.collection('movies');
+    const screeningCollection = mongoose.connection.collection('screenings');
 
-    if(movie.deletedCount === 1) {
-      res.status(200).send({ msg: `Movie ${param.title} deleted succesfully`})
+    const movie = await movieCollection.findOne({title: param.title})
+
+    const screenings = await screeningCollection.find({movieId: movie._id}).toArray([])
+
+    const bookingLength = screenings.map((screening) => screening.bookings.length > 0);
+
+    if(bookingLength.includes(true)) {
+      res.status(403).send({ msg: `This movie is included in ${bookingLength.filter(value => (value === true)).length} screenings which contains customer bookings and can therefore not be deleted.`})
+    }else {
+      const movie = await movieCollection.deleteOne({title: param.title});
+
+      if(movie.deletedCount === 1) {
+        res.status(200).send({ msg: `Movie ${param.title} deleted succesfully`});
+      }else {
+        res.status(500).send({ msg: `Something went wrong` })
+      }
     }
-
+    
   }catch(err){
     console.log(err)
   }

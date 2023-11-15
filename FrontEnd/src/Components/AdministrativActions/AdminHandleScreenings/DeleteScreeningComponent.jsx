@@ -6,6 +6,7 @@ export default function DeleteMovieComponent(props) {
   const [movies, setMovies] = useState();
   const [screenings, setScreenings] = useState();
   const [param, setParam] = useState();
+  const [status, setStatus] = useState();
 
   const dialogRef = useRef();
 
@@ -40,10 +41,18 @@ export default function DeleteMovieComponent(props) {
       "/api/screenings/auth/admin/deleteScreening/" + param,
       props.token
     );
-    console.log(result);
-    dialogRef.current?.close();
-    props.screeningRef.close();
-    props.setOptionState("non");
+    
+    if(result.status === 200) {
+      dialogRef.current?.close();
+      props.screeningRef.close();
+      props.setOptionState("non")
+    }else if(result.status === 403) {
+      setStatus(403)
+      setTimeout(() => {
+        setStatus();
+      }, 4000);
+    }
+    
   }
 
   return (
@@ -76,22 +85,29 @@ export default function DeleteMovieComponent(props) {
       ))}
       {formState === "pick-screening" && (
         <dialog className="dialog" ref={dialogRef}>
-          <h4 className="delete-title">
-            Du är påväg att radera visning med id: {param}
-          </h4>
-          <p className="warning-para">Är du säker?</p>
-          <p className="warning-para">Det här valet går inte att ångra.</p>
-          <button className="delete-btn" onClick={deleteScreening}>
-            Ta bort
-          </button>
-          <button
-            className="back-btn"
-            onClick={() => {
-              dialogRef.current?.close();
-              setParam();
-            }}>
-            Backa
-          </button>
+          {status !== 403 && (
+            <div>
+              <h4 className="delete-title">
+                Du är påväg att radera visning med id: {param}
+              </h4>
+              <p className="warning-para">Är du säker?</p>
+              <p className="warning-para">Det här valet går inte att ångra.</p>
+              <button className="delete-btn" onClick={deleteScreening}>
+                Ta bort
+              </button>
+              <button
+                className="back-btn"
+                onClick={() => {
+                  dialogRef.current?.close();
+                  setParam();
+                }}>
+                Backa
+              </button>
+            </div>
+          )}
+          {status === 403 && (
+            <h4 className="screening-para">Den här visningen innehåller bokningar och kan därför inte raderas.</h4>
+          )}
         </dialog>
       )}
     </div>

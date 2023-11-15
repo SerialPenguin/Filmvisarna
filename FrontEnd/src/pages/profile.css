@@ -33,7 +33,8 @@
 }
 
 .profile-first-row,
-.profile-second-row {
+.profile-second-row,
+.no-bookings-found-text {
   color: #c699ea;
   font-size: 1.2rem;
 }
@@ -135,6 +136,10 @@
 }
 
 .booking-history-btn {
+  visibility: hidden;
+}
+
+.booking-history-check {
   visibility: hidden;
 }
 

@@ -173,7 +173,9 @@ export default function Profile() {
         <ul className="booking-history-ul">
           <h3 className="profile-h3">Bokningshistorik</h3>
           {combinedData.length === 0 ? (
-            <li>Inga aktuella bokningar hittades</li>
+            <li className="no-bookings-found-text">
+              Inga aktuella bokningar hittades
+            </li>
           ) : (
             combinedData
               .filter((item) => new Date(item.startTime) > currentDate)
@@ -235,7 +237,9 @@ export default function Profile() {
           )}
 
           {combinedData.length === 0 ? (
-            <li>Inga tidigare bokningar hittades</li>
+            <li className="booking-history-check">
+              Inga tidigare bokningar hittades
+            </li>
           ) : (
             combinedData
               .filter((item) => new Date(item.startTime) < currentDate)

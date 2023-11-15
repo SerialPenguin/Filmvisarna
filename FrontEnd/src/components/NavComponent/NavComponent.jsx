@@ -13,7 +13,6 @@ const NavComponent = ({ onCloseClick }) => {
     setScreenings(data);
   });
   const firstScreeningId = screening.length > 0 ? screening[0]._id : "";
-  console.log(firstScreeningId)
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
   const handleLogout = () => {

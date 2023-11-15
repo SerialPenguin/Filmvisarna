@@ -194,11 +194,12 @@
       background-color: #FFB800;
     }
 
-    .movie-card-info {
-      width: 49%;
-    }
     .movie-card-header {
       margin-left: 11%; 
+    }
+
+    .movie-card-info {
+      width: 95%; 
     }
     
 }

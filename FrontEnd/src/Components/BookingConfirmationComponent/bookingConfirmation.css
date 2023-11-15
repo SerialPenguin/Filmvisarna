@@ -10,17 +10,20 @@
   font-size: 2rem;
   margin-top: 20%;
   margin-bottom: 5%;
+  color: #ba7e36;
 }
 .second-header {
   text-align: center;
   font-weight: 300;
   font-size: 1.6rem;
+  color: #c699ea;
 }
 .second-header-email {
   text-align: center;
   font-weight: 300;
   font-size: 1.4rem;
   margin-top: -8%;
+  color: #c699ea;
 }
 .ticket-container {
   position: relative;

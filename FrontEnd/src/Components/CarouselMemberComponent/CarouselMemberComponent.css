@@ -1,91 +1,97 @@
 .member-carousel-container {
-    font-family: "Jost", sans-serif;
-    width: 70%;
-    background: transparent;
-    margin: 0 auto; 
-    text-align: center;
-    color: white;
-    border: 2px solid #BA7E36;
-    padding: 1em; 
-    border-radius: 8px;
-    box-shadow: 0px 0px 30px 1px #C699EA;
+  font-family: "Jost", sans-serif;
+  width: 70%;
+  max-height: 110%;
+  background: transparent;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  border: 2px solid #ba7e36;
+  padding: 0 1em 0 1em;
+  border-radius: 8px;
+  box-shadow: 0px 0px 30px 1px #c699ea;
 }
 
 .member-carousel-box {
-    padding-top: 2%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  padding-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .member-carousel-title {
-    color: white;
-    font-size: 1.7em;
-    font-weight: 600;
-    letter-spacing: .2rem;
+  color: white;
+  font-size: 1.7em;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
 }
 
 .member-carousel-text {
-    color: #C699EA;
+  color: #c699ea;
 }
 
 .member-carousel-btn {
-    background-color: #BA7E36;
-    margin: 3em 1em 3em 1em;
-    width: 270px;
-    padding: 0.3em;
-    font-weight: 400;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+  background-color: #ba7e36;
+  margin: 3em 1em 3em 1em;
+  width: 240px;
+  padding: 0.3em;
+  font-weight: 400;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+  color: black;
 }
 
-
-
-@media (min-width:800px) {
-    /*min height*/
-    .member-carousel-container {
-        margin-top: 3em;
-    }
-    .member-carousel-box {
-        /* border: 3px solid #C699EA; */
-        margin: 0 auto; 
-        width: 60%; 
-        margin-top: 3em;
-        padding: 3em; 
-        border-radius: 8px;
-    }
-    
-    .member-carousel-title {
-        font-size: 4em;
-        margin-bottom: 1em;
-        text-shadow: 1px 3px 3px 1px #000;
-    }
-    
-    .member-carousel-text {
-        font-size: 2em;
-    }
-}
-
-@media all and (orientation:landscape)
-    and (min-device-height: 319px) 
-      and (max-device-height: 480px) {
-    /* Style adjustments for landscape mode goes here */
-    .member-carousel-box {
-        /* border: 3px solid #C699EA; */
-        margin: 0 auto; 
-        width: 60%; 
-        margin-top: 0em;
-        padding: 1em; 
-        border-radius: 8px;
-    }
-    
-    .member-carousel-title {
-        font-size: 2em;
-        margin-bottom: 1em;
-        text-shadow: 1px 3px 3px 1px #000;
-    }
-    
-    .member-carousel-text {
-        font-size: 1em;
-    }
+@media (min-width: 768px) {
+  /*min height*/
+  .member-carousel-container {
+    margin-top: 3em;
+    width: 60%;
   }
+  .member-carousel-box {
+    /* border: 3px solid #C699EA; */
+    margin: 0 auto;
+    width: 60%;
+    margin-top: 3em;
+    padding: 1em 1em 3em 1em;
+    border-radius: 8px;
+  }
+
+  .member-carousel-title {
+    font-size: 3em;
+    margin-bottom: 1em;
+    text-shadow: 1px 3px 3px 1px #000;
+  }
+
+  .member-carousel-text {
+    font-size: 1.8em;
+  }
+}
+
+@media all and (orientation: landscape) and (min-device-height: 319px) and (max-device-height: 480px) {
+  /* Style adjustments for landscape mode goes here */
+  .member-carousel-box {
+    /* border: 3px solid #C699EA; */
+    margin: 0 auto;
+    width: 60%;
+    margin-top: 0em;
+    padding: 1em;
+    border-radius: 8px;
+  }
+
+  .member-carousel-title {
+    font-size: 2em;
+    margin-bottom: 1em;
+    text-shadow: 1px 3px 3px 1px #000;
+  }
+
+  .member-carousel-text {
+    font-size: 1em;
+  }
+}
+
+@media (min-width: 1768px) {
+  .member-carousel-container {
+    width: 40%;
+    margin-top: 7em;
+  }
+}

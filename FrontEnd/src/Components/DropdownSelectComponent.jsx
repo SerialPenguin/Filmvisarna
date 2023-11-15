@@ -1,4 +1,5 @@
 /** @format */
+
 import "../pages/Booking.css";
 
 function DropdownSelect({
@@ -7,8 +8,8 @@ function DropdownSelect({
   placeholder,
   onChangeHandler,
   additionalOnChange,
-  onBlurHandler, // Add this
-  customOptions, // Add this
+  onBlurHandler,
+  customOptions,
 }) {
   return (
     <select

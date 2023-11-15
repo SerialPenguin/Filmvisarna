@@ -39,31 +39,43 @@ app.get("/api/events/:screeningId", async (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
-  
-
 
   const sendBookedSeats = async () => {
     try {
       const allBookingsForScreening = await Booking.find({ screeningId });
-      const tempBookingsForScreening = await TemporaryBooking.find({ screeningId }); 
+      const tempBookingsForScreening = await TemporaryBooking.find({
+        screeningId,
+      });
 
-      const aggregatedBookedSeats = allBookingsForScreening.reduce((acc, booking) => [...acc, ...booking.seats.map(seat => seat.seatNumber)], []);
-      const aggregatedTempBookedSeats = tempBookingsForScreening.reduce((acc, booking) => [...acc, ...booking.seats.map(seat => seat.seatNumber)], []); 
+      const aggregatedBookedSeats = allBookingsForScreening.reduce(
+        (acc, booking) => [
+          ...acc,
+          ...booking.seats.map((seat) => seat.seatNumber),
+        ],
+        []
+      );
+      const aggregatedTempBookedSeats = tempBookingsForScreening.reduce(
+        (acc, booking) => [
+          ...acc,
+          ...booking.seats.map((seat) => seat.seatNumber),
+        ],
+        []
+      );
 
-      const allSeats = [...aggregatedBookedSeats, ...aggregatedTempBookedSeats]; 
+      const allSeats = [...aggregatedBookedSeats, ...aggregatedTempBookedSeats];
 
       res.write(`data: ${JSON.stringify(allSeats)}\n\n`);
     } catch (error) {
       console.error("Error retrieving booked seats:", error);
       res.write(`data: ERROR\n\n`);
     }
-};
+  };
   sendBookedSeats();
-  
+
   const KEEP_ALIVE_INTERVAL = 30000;
 
   const sendKeepAlive = () => {
-    res.write (': keep-alive\n\n');
+    res.write(": keep-alive\n\n");
   };
 
   const keepAliveIntervalId = setInterval(sendKeepAlive, KEEP_ALIVE_INTERVAL);
@@ -71,8 +83,8 @@ app.get("/api/events/:screeningId", async (req, res) => {
   const bookingChangeStream = Booking.watch();
   const tempBookingChangeStream = TemporaryBooking.watch();
 
-  bookingChangeStream.on('change', sendBookedSeats);
-  tempBookingChangeStream.on('change', sendBookedSeats);
+  bookingChangeStream.on("change", sendBookedSeats);
+  tempBookingChangeStream.on("change", sendBookedSeats);
 
   req.on("close", () => {
     clearInterval(keepAliveIntervalId);
@@ -83,9 +95,8 @@ app.get("/api/events/:screeningId", async (req, res) => {
 });
 
 app.get("*", async (req, res) => {
-  res.sendFile(path.join(__dirname, "./dist/index.html"))
+  res.sendFile(path.join(__dirname, "./dist/index.html"));
 });
-  
 
 // Middleware, Global error handling
 app.use((err, req, res, next) => {

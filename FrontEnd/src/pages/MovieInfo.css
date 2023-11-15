@@ -1,23 +1,36 @@
 .movieinfo-container{
+    font-family: "Jost", sans-serif;
     margin: auto;
-    height: 100%;
+    height: 110vh;
+    padding-top: 3em;
+    margin-top: 4em; 
 }
-.main-text-title{
-    color: #BA7E36;
-    text-align: center;
+
+.movie-title-header {
+    margin-top: -1em; 
+    font-size: 2.1em;
     width: 350px;
-    margin: 20px auto;
-    font-weight: 100;
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: -1.5em;
+    text-transform: uppercase;
+    color:#BA7E36;
+    margin: -1em auto; 
 }
+
 .iframe-container, .button-container, .text-containers, iframe{
     margin: 2em auto;
+    margin-bottom: 4em; 
     width: 350px;
+    border: none; 
+    border-radius: 8px;
 }
 iframe, .iframe-container {
     height: 200px;
 }
 .normal-text{
     color:#BA7E36;
+    margin: .2em; 
 }
 .main-btn{
     width: 100%;
@@ -29,8 +42,10 @@ iframe, .iframe-container {
     margin-top: 20px;
     background-color: #8027CE;
     color: #C699EA;
+    margin-bottom: 2em; 
 }
 .button-container{
+    margin-top: -2em; 
     margin-bottom: 1em;
 }
 @media (max-width: 350px){
@@ -53,6 +68,9 @@ iframe, .iframe-container {
     }
 }
 @media (min-width: 768px){
+    .movieinfo-container {
+        height: 110vh; 
+    }
     .iframe-container, iframe{
         width: 700px;
         height: 393.75px;
@@ -60,4 +78,5 @@ iframe, .iframe-container {
     .text-containers, .button-container{
         width: 700px;
     }
+    
 }

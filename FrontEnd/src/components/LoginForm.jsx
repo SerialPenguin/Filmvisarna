@@ -11,17 +11,25 @@ function LoginForm() {
   const navigate = useNavigate();
   const [loginMessage, setLoginMessage] = useState("");
 
+  const handleLoginCallback = (errorMessage) => {
+    if (errorMessage) {
+      setLoginMessage(errorMessage);
+    } else {
+      navigate("/");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await authService.handleLogin(e, credentials);
     
-    if (result === true) {
-      navigate("/");
-    } else {
+    if (!credentials.emailAdress || !credentials.password) {
       setLoginMessage(
-        "Fel e-postadress eller lösenord, var god försök igen"
+        "Alla fält måste vara ifyllda"
       );
+      return;
     }
+
+    const result = await authService.handleLogin(e, credentials, handleLoginCallback);
   };
 
   return (
@@ -31,6 +39,7 @@ function LoginForm() {
         <div className="input-container">
           <label className="login-lbl">E-postadress</label>
           <input
+            required
             type="email"
             name="mail"
             className="login-field first"
@@ -41,6 +50,7 @@ function LoginForm() {
 
           <label className="login-lbl">Lösenord</label>
           <input
+            required
             type="password"
             name="password"
             className="login-field"

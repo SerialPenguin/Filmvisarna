@@ -14,7 +14,7 @@ const TICKET_PRICES = {
 
 const calculateTotalPrice = (tickets) => {
   let totalPrice = 0;
-  for(let ticket of tickets) {
+  for (let ticket of tickets) {
     totalPrice += (TICKET_PRICES[ticket.ticketType] || 0) * ticket.quantity;
   }
   return totalPrice;
@@ -48,25 +48,25 @@ export const bookSeat = async (req, res) => {
     let remodeledTicketType;
     let quantity = 0;
 
-    for(let i = 0; i < tickets.length; i++) {
-      if(tickets[i].ticketType === "adult") {
-        remodeledTicketType = {...tickets[i], ticketType: "6527a006702eef67b26ef3c5" }
+    for (let i = 0; i < tickets.length; i++) {
+      if (tickets[i].ticketType === "adult") {
+        remodeledTicketType = { ...tickets[i], ticketType: "6527a006702eef67b26ef3c5" }
         quantity += tickets[i].quantity;
         ticketIds.push(remodeledTicketType);
       }
-      if(tickets[i].ticketType === "senior") {
-        remodeledTicketType = {...tickets[i], ticketType: "6527a045702eef67b26ef3c6" }
+      if (tickets[i].ticketType === "senior") {
+        remodeledTicketType = { ...tickets[i], ticketType: "6527a045702eef67b26ef3c6" }
         quantity += tickets[i].quantity;
         ticketIds.push(remodeledTicketType);
       }
-      if(tickets[i].ticketType === "child") {
-        remodeledTicketType = {...tickets[i], ticketType: "65279fcd702eef67b26ef3c4" }
+      if (tickets[i].ticketType === "child") {
+        remodeledTicketType = { ...tickets[i], ticketType: "65279fcd702eef67b26ef3c4" }
         quantity += tickets[i].quantity;
         ticketIds.push(remodeledTicketType);
       }
     }
-    
-    
+
+
     // Check for age restrictions
     if (movieInfo.age >= 15 && tickets[2]?.quantity !== 0) {
       return res.status(405).json({
@@ -120,15 +120,36 @@ export const bookSeat = async (req, res) => {
 
     const totalPrice = calculateTotalPrice(ticketIds);
 
+    // To render seats in mail
+    const seatingInfo = [];
+    seats.map(seat => {
+      seatingInfo.push(seat.seatNumber);
+    })
+
+    // To render movie name in mail
+    let movieName = movieInfo.title;
+
+    // To render date and time for screening in mail
+    let screeningDate = new Date(screening.startTime).toLocaleDateString("sv-SE").slice();
+    let screeningTime = new Date(screening.startTime).toLocaleTimeString("sv-SE").slice(0, -3);
+    console.log(salon[0].name);
+
+    let salonName;
+    if (salon[0].name === "Small salon") {
+      salonName = "Lilla salongen"
+    } else {
+      salonName = "Stora salongen"
+    }
+
     // Send email confirmation
-    sendConfirmation({ bookingNumber, email, totalPrice });
-    
-    if(userId) {
+    sendConfirmation({ bookingNumber, email, totalPrice, seatingInfo, movieName, screeningTime, screeningDate, salonName });
+
+    if (userId) {
       const checkUser = await User.findOne({ _id: userId });
 
-      if(checkUser) await User.updateOne({ _id: userId }, { $push: { bookingHistory: newBooking._id } });
+      if (checkUser) await User.updateOne({ _id: userId }, { $push: { bookingHistory: newBooking._id } });
       else return res.status(400).json({ msg: "User does not exist anymore" });
-      
+
     }
 
     res.status(201).json({ message: "Booking created!", booking: newBooking });

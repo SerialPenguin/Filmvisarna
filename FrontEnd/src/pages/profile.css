@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Jost:wght@200;300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Inter:wght@200;300&family=Jost:wght@200;300;400&display=swap");
 /* font-family: 'Alegreya', serif;
 font-family: 'Jost', sans-serif; */
 /* * {
@@ -9,84 +9,204 @@ body {
   background: radial-gradient(circle at center, rgb(70, 10, 73), black);
 } */
 
+.profile-page-container {
+  margin-top: 4.5rem;
+  /* background-color: aqua; */
+  font-family: "Jost", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
 .profile-h2,
 .profile-h3 {
   font-family: "Jost", sans-serif;
+  margin-left: 0.6em;
 }
 
 .profile-h2 {
   text-transform: uppercase;
+  color: #ba7e36;
+  font-weight: 400;
+  text-align: center;
 }
 
 .profile-h3 {
-  text-decoration: underline;
+  color: #ba7e36;
+  text-transform: uppercase;
+  /* text-decoration: underline; */
   font-weight: 300;
   font-size: 1.3rem;
+  /* margin-left: 0.5em; */
+}
+
+/* .profilepage-content {
+  margin-left: 1em;
+  background-color: #c699ea;
+} */
+
+.profile-table {
+  margin-left: 0.8em;
+}
+
+.profile-first-row,
+.profile-second-row {
+  color: #c699ea;
+  font-size: 1.2rem;
+}
+
+.profile-first-row {
+  text-align: right;
+  padding-right: 1em;
+}
+
+.booking-history-card-img-container {
+  flex: 0 0 50%;
+}
+
+.booking-history-li {
+  margin-top: 2em;
 }
 
 .profilepage-content img {
-  width: 40%;
-  margin-right: 0.6em;
+  width: 100%;
 }
 
-.profilepage-content {
-  margin-left: 1em;
-}
-
-.profile-table {
-  width: 80%;
-}
-
-.bookinghistory-container {
-  margin-top: 4em;
-}
-
-.profile-ul {
+.booking-history-card-text {
   display: flex;
   flex-direction: column;
-  margin: 0px;
+  justify-content: space-between;
+  margin-left: 0.3em;
+  align-items: center;
 }
 
-.profilepage-content li {
-  list-style: none;
+.card-title,
+.genre-title-container,
+.history-seat,
+.card-bookingnumber,
+.card-bookingnumber-title {
   display: flex;
-  align-items: start;
-  margin-top: 1em;
+  justify-content: center;
 }
 
-.profilepage-content li,
-.profilepage-content table {
-  color: #c699ea;
+.history-time {
+  display: flex;
+  width: 9em;
+  justify-content: space-between;
+  /* background-color: #ba7e36; */
 }
 
-@media (min-width: 800px) {
+.history-seat-numbers {
+  padding-left: 0.5em;
+  color: #db00ff;
+}
+
+.booking-history-card-text p {
+  margin: 0;
+}
+
+.card-bookingnumber {
+  font-size: 1.4rem;
+  color: #db00ff;
+}
+
+.genre-title-container {
+  color: #db00ff;
+  display: flex;
+  justify-content: space-around;
+}
+
+.booking-history-ul {
+  list-style: none;
+  padding: 1em 1em 1em 1em;
+}
+
+.booking-history-card {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-title {
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.history-card-title,
+.history-card-booking-number,
+.history-card-booking-info {
+  color: #ffffff;
+}
+
+.history-seat {
+  display: flex;
+  /* justify-content: space-between; */
+  color: aliceblue;
+}
+
+.history-seat-numbers {
+  /* background-color: blue; */
+  /* display: flex;
+  justify-content: space-between; */
+  /* margin: 0em 0.5em 0em 0.5em; */
+  margin-left: 0.8em;
+}
+
+.delete-current-booking-btn {
+  margin-bottom: 0.5em;
+  max-width: 10rem;
+}
+
+.booking-history-btn {
+  visibility: hidden;
+}
+
+@media (min-width: 768px) {
+  .profile-page-container {
+    margin-top: 6.5rem;
+    align-items: center;
+  }
+
   .profilepage-content {
     display: flex;
     flex-direction: row-reverse;
-    margin-top: 3em;
+    width: 70%;
   }
 
   .profile-table {
+    margin-top: 6em;
     flex: 1 0 50%;
     max-height: 10em;
     padding-left: 5em;
   }
 
-  .bookinghistory-container {
+  .profile-first-row,
+  .profile-second-row {
+    font-size: 1rem;
+  }
+
+  .profile-second-row {
+    padding-left: 2rem;
+  }
+
+  /* .booking-history-card-img-container {
+    width: 5em;
+  } */
+
+  /* .bookinghistory-container {
     margin-top: 0em;
-  }
+  } */
 
-  .profilepage-content img {
+  /* .profilepage-content img {
     margin-right: 0.6em;
-  }
+  } */
 
-  .profile-ul {
+  /* .profile-ul {
     flex-direction: row;
     flex-wrap: wrap;
   }
 
   .profilepage-content li {
     flex: 50%;
-  }
+  } */
 }

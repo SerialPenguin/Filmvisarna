@@ -3,8 +3,8 @@
 import "./bookingConfirmation.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TicketFront from "../../img/ticketFront.png";
-import TicketBack from "../../img/ticketBack.png";
+import TicketFront from "../../assets/img/ticketFront.png";
+import TicketBack from "../../assets/img/ticketBack.png";
 import { patch } from "../../hooksAndUtils/fetchUtil";
 import { authGet } from "../../hooksAndUtils/fetchUtil";
 
@@ -42,6 +42,7 @@ export default function BookingConfirmation(props) {
       setToken(jwt);
     }
     getBody();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -57,10 +58,13 @@ export default function BookingConfirmation(props) {
         }
       } else {
         setDisplayInput(true);
+      } else {
+        setDisplayInput(true);
       }
     }
 
     fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
@@ -94,14 +98,17 @@ export default function BookingConfirmation(props) {
   function handleBookingBody(e) {
     setEmail(e.target.value);
     if (email?.includes("@")) {
+    if (email?.includes("@")) {
       setDisplayConfirmBtn(true);
     }
   }
-
   async function handleSendConfirmation() {
     try {
       let bodyCopy = JSON.parse(JSON.stringify(bookingBody));
+    try {
+      let bodyCopy = JSON.parse(JSON.stringify(bookingBody));
 
+      bodyCopy.tickets = Object.values(bodyCopy.tickets);
       bodyCopy.tickets = Object.values(bodyCopy.tickets);
 
       bodyCopy.email = email;
@@ -119,10 +126,22 @@ export default function BookingConfirmation(props) {
     } catch (err) {
       return alert(err);
     }
+      if (booking.message.includes("Booking created!")) {
+        setToggleClassName("ticket-spin-back");
+        setAnimationStage("end");
+        setBookingNumber(
+          booking.booking.bookingNumber ? booking.booking.bookingNumber : ""
+        );
+        sessionStorage.removeItem("bookingData");
+      }
+    } catch (err) {
+      return alert(err);
+    }
   }
 
   function handleCanceling() {
     setBookingBody({});
+    props.setView("seatPicker");
     props.setView("seatPicker");
   }
 
@@ -131,12 +150,15 @@ export default function BookingConfirmation(props) {
     setTimeout(() => {
       setAnimationStage("start");
       if (token) {
+      if (token) {
         setDisplayInput(false);
         setDisplayConfirmBtn(true);
+      } else {
       } else {
         setDisplayInput(true);
         setDisplayConfirmBtn(true);
       }
+    }, 700);
     }, 700);
   }
 
@@ -148,9 +170,23 @@ export default function BookingConfirmation(props) {
           ? "Bekräftelsen skickas till"
           : `${secondHeader}`}
       </h3>
+      <h3 className="second-header">
+        {displayInput === false && token
+          ? "Bekräftelsen skickas till"
+          : `${secondHeader}`}
+      </h3>
       {displayInput === false && token && (
         <div className="change-email-container">
+        <div className="change-email-container">
           <h3 className="second-header-email">{email}</h3>
+          <button
+            className="change-email-btn"
+            onClick={() => {
+              setDisplayInput(true);
+              setEmail();
+            }}>
+            Ändra email
+          </button>
           <button
             className="change-email-btn"
             onClick={() => {
@@ -174,8 +210,10 @@ export default function BookingConfirmation(props) {
                 value={email || ""}
                 name="email"
                 id="email"></input>
+                id="email"></input>
             </div>
           )}
+          {displayConfirmBtn === true && email?.includes("@") && (
           {displayConfirmBtn === true && email?.includes("@") && (
             <button
               className="send-btn"
@@ -187,10 +225,15 @@ export default function BookingConfirmation(props) {
                   setAnimationStage("middle");
                 }, 600);
               }}>
+                }, 600);
+              }}>
               Till bekräftelse
             </button>
           )}
           {animationStage === "start" && (
+            <button className="cancel-btn" onClick={handleCanceling}>
+              Backa
+            </button>
             <button className="cancel-btn" onClick={handleCanceling}>
               Backa
             </button>
@@ -222,6 +265,12 @@ export default function BookingConfirmation(props) {
                   <p className="date">Datum: {date.slice(0, 30)}</p>
                   <button
                     className="confirm-btn"
+                    onClick={handleSendConfirmation}>
+                    Bekräfta
+                  </button>
+                  <button className="back-middle-btn" onClick={handleBacking}>
+                    Backa
+                  </button>
                     onClick={handleSendConfirmation}>
                     Bekräfta
                   </button>

@@ -1,15 +1,16 @@
-import bg from "../../assets/filmvisarna-desktop-banner.png";
-import '../CarouselWelcomeComponent/CarouselWelcomeComponent.css'
+import bg from "../../assets/img/filvisarna-bg.png";
+import "../CarouselWelcomeComponent/CarouselWelcomeComponent.css";
 
 const CarouselWelcomeComponent = () => {
   return (
-    <div
-      className="welcome-carousel-container">
-      <h2
-        className="welcome-carousel-title">
-        Välkommen till Filmvisarna
-      </h2>
-      <img src={bg} alt="" style={{ width: "100%", height: "100%" }} className="welcome-carousel-img" />
+    <div className="welcome-carousel-container">
+      <h2 className="welcome-carousel-title">Välkommen till Filmvisarna</h2>
+      <img
+        src={bg}
+        alt=""
+        style={{ width: "100%", height: "100%" }}
+        className="welcome-carousel-img"
+      />
     </div>
   );
 };

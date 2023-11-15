@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 export default function HandleBookings() {
 
   const [query, setQuery] = useState();
+  const [key, setKey] = useState();
+  const [value, setValue] = useState();
 
   useEffect(() => {
-    setFormBody({ ...query, [key]: value });
+    setQuery({ ...query, [key]: value });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, value]);
 
@@ -17,7 +19,11 @@ export default function HandleBookings() {
 
   return (
     <div>
-        <div></div>
+      <h4 className="find-booking-header">Hitta bokning</h4>
+        <form>
+          <label className="find-booking-lbl">Sök på bokningsnummer</label>
+          <input className="booking-num-input" value={query || ""} onChange={handleInputChange}></input>
+        </form>
     </div>
   )
 }

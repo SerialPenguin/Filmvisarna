@@ -6,10 +6,18 @@ import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import menu from "../../assets/img/menu.png";
 import NavComponent from "../NavComponent/NavComponent.jsx";
 import "./HeaderNavComponent.css";
+import { useAuthGet } from "../../hooksAndUtils/useFetch.js";
 
 export default function HeaderNavComponent() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
   const [activeMenu, setActiveMenu] = useState(false);
+  const [userRole, setUserRole] = useState();
+
+  const token = sessionStorage.getItem("JWT_TOKEN");
+
+  useAuthGet("/api/auth/profile", token, (data) => {
+    setUserRole(data.userRole);
+  })
 
   const showMenu = () => {
     setActiveMenu(true);
@@ -47,7 +55,7 @@ export default function HeaderNavComponent() {
         </>
       )}
 
-      {(activeMenu || isDesktop) && <NavComponent onCloseClick={closeMenu} />}
+      {(activeMenu || isDesktop) && <NavComponent onCloseClick={closeMenu} userRole={userRole} />}
     </div>
   );
 }

@@ -7,9 +7,8 @@ import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import "./NavComponent.css";
 import { useState } from "react";
 
-const NavComponent = ({ onCloseClick }) => {
+const NavComponent = ({ onCloseClick, userRole }) => {
   const [screening, setScreenings] = useState([]);
-  const [userRole, setUserRole] = useState();
 
   useGet("/api/screenings", (data) => {
     setScreenings(data);
@@ -95,7 +94,7 @@ const NavComponent = ({ onCloseClick }) => {
               <Link to={"/admin"}>
                 <li
                   className={`nav-list-item ${
-                    location.pathname === "/profile" ? "active" : ""
+                    location.pathname === "/admin" ? "active" : ""
                   }`}
                   onClick={onCloseClick}>
                   ADMIN

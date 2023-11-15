@@ -44,7 +44,7 @@ const NavComponent = ({ onCloseClick }) => {
               </li>
             </Link>
             {firstScreeningId ? (
-              <Link to={firstScreeningId}>
+              <Link to={`booking/${firstScreeningId}`}>
                 <li
                   className={`nav-list-item ${
                     location.pathname.includes("/booking") ? "active" : ""

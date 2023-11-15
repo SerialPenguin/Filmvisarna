@@ -11,17 +11,25 @@ function LoginForm() {
   const navigate = useNavigate();
   const [loginMessage, setLoginMessage] = useState("");
 
+  const handleLoginCallback = (errorMessage) => {
+    if (errorMessage) {
+      setLoginMessage(errorMessage);
+    } else {
+      navigate("/");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await authService.handleLogin(e, credentials);
     
-    if (result === true && credentials.emailAdress !== "" && credentials.password !== "") {
-      navigate("/");
-    } else {
+    if (!credentials.emailAdress || !credentials.password) {
       setLoginMessage(
         "Alla fält måste vara ifyllda"
       );
+      return;
     }
+
+    const result = await authService.handleLogin(e, credentials, handleLoginCallback);
   };
 
   return (

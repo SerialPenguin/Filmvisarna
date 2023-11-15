@@ -50,7 +50,7 @@ async function handleRegister(e, credentials) {
   }
 }
 
-async function handleLogin(e, credentials) {
+async function handleLogin(e, credentials, callback) {
   e.preventDefault();
   const options = {
     method: "POST",
@@ -64,15 +64,22 @@ async function handleLogin(e, credentials) {
     }),
   };
 
-  const res = await fetch("http://localhost:5173/api/auth/login", options);
+  try {
+    const res = await fetch("http://localhost:5173/api/auth/login", options);
 
-  if (res.status === 200) {
-    const data = await res.json();
-    const token = data.token;
-    sessionStorage.setItem("JWT_TOKEN", token);
-    return true;
-  } else {
-    return await res.text();
+    if (res.status === 200) {
+      const data = await res.json();
+      const token = data.token;
+      sessionStorage.setItem("JWT_TOKEN", token);
+      callback();
+    } else {
+      const errorText = await res.json();
+      console.error("Login failed:", errorText);
+      callback(errorText.error);
+    }
+  } catch (error) {
+    console.error("Login failed:", error);
+    callback("Något gick fel. Försök igen.");
   }
 }
 

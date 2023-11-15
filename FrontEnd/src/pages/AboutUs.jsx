@@ -14,14 +14,7 @@ export function AboutUs() {
             <img className="counter-img" src={counter} alt="Kassa" />
           </div>
           <p className="about-us-p">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-            porttitor dictum libero, in porttitor nulla elementum mattis. Duis
-            pretium consectetur libero quis sodales. In justo dui, dignissim sed
-            magna non, malesuada placerat diam. Vivamus eu dapibus nisi, at
-            scelerisque arcu. Maecenas molestie at dolor eget euismod. Fusce
-            quis iaculis lorem, vel condimentum urna. Nulla augue quam, volutpat
-            non pretium consequat, dapibus at ipsum. Donec rhoncus purus a
-            lectus vehicula, id ornare eros fringilla
+          Filmvisarna: Er alternativa biograf! Vi väljer noga ut internationella pärlor, prisbelönta mästerverk och tidlösa klassiker. Hos oss får du en filmupplevelse utöver det vanliga, där passionen för att erbjuda något annorlunda än massproducerade Hollywood-filmer från USA lyser starkt. Välkommen till en biograf där varje visning är en resa genom filmens mångfald och kreativitet!
           </p>
         </div>
       </section>

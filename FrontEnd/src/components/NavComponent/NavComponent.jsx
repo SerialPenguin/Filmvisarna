@@ -1,7 +1,7 @@
 /** @format */
 
 import { Link, useLocation } from "react-router-dom";
-import { useAuthGet, useGet } from "../../hooksAndUtils/useFetch";
+import { useGet } from "../../hooksAndUtils/useFetch";
 import close from "../../assets/img/close.png";
 import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import "./NavComponent.css";
@@ -21,6 +21,7 @@ const NavComponent = ({ onCloseClick, userRole }) => {
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning
     sessionStorage.removeItem("JWT_TOKEN");
+    window.location.reload();
     onCloseClick();
   };
 

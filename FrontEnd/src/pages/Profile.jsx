@@ -183,7 +183,7 @@ export default function Profile() {
                 <li className="booking-history-li" key={i}>
                   <div className="booking-history-card">
                     <div className="booking-history-card-img-container">
-                      <img alt="movie-poster" src={item.image} />
+                      <img alt="movie-poster" src={item.image[0]} />
                     </div>
 
                     <div className="booking-history-card-text">
@@ -246,7 +246,7 @@ export default function Profile() {
                 <li className="booking-history-li" key={i}>
                   <div className="booking-history-card">
                     <div className="booking-history-card-img-container">
-                      <img alt="movie-poster" src={item.image} />
+                      <img alt="movie-poster" src={item.image[0]} />
                     </div>
 
                     <div className="booking-history-card-text">

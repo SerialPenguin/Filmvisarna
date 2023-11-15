@@ -30,6 +30,7 @@
     height: 30px;
 }
 .return-container{
+    font-family: "Jost", sans-serif;
     margin-top: 10em;
     min-height: 100vh; 
 }

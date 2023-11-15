@@ -32,15 +32,17 @@
       .welcome-carousel-title {
       left: 0;
       right: 0;
-      top: 35%;
+      top: 45%;
       bottom: 0;
       margin: auto;
       font-size: 6em;
+      background: radial-gradient(rgb(40,20,46,0.9), rgba(40,20,46,0));
       }
     
       .welcome-carousel-img {
         opacity: 0.6;
       }
+      
   }
 
   @media all and (orientation:landscape) 

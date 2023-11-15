@@ -119,37 +119,33 @@ function Booking() {
     return bookedSeats.includes(seatNumber);
   };
 
-  const calculateSeatsInRow = (salonLayout) => {
-    if (!salonLayout || !salonLayout.rows) {
-      return [];
-    }
-
-    return salonLayout.rows.map((row) => row.seats.length);
-  };
-
-  // Assuming you have fetched the salonLayout data and set it in your component state
-  const seatsInRow = calculateSeatsInRow(salonLayout);
-  console.log(seatsInRow); // An array of seat counts for each row
+  let clickedRowNumber = 0;
 
   function findContiguousSeats(seatNumber, totalTicketCount) {
     const result = [];
-    for (let j = 0; j < seatsInRow.length; j++) {
-      console.log("Då", seatsInRow.length);
-      console.log("Hej!", seatsInRow[j]);
-      if (seatNumber + totalTicketCount > seatsInRow[j]) {
-        for (let i = seatNumber; i > seatNumber - totalTicketCount; i--) {
-          result.push(i);
-        }
-        console.log(result, seatNumber, totalTicketCount);
-        return result;
-      } else {
-        for (let i = seatNumber; i < seatNumber + totalTicketCount; i++) {
-          result.push(i);
-        }
-        console.log(result, seatNumber, totalTicketCount);
-        return result;
+    const seatsInSameRow = salonLayout.rows[clickedRowNumber - 1].seats;
+    const seatIndex = seatsInSameRow.indexOf(seatNumber);
+    // loop to the right
+    for (let i = seatIndex; i < seatsInSameRow.length; i++) {
+      if (
+        result.length >= totalTicketCount ||
+        isSeatBooked(seatsInSameRow[i])
+      ) {
+        break;
       }
+      result.push(seatsInSameRow[i]);
     }
+    // loop to the left
+    for (let i = seatIndex - 1; i >= 0; i--) {
+      if (
+        result.length >= totalTicketCount ||
+        isSeatBooked(seatsInSameRow[i])
+      ) {
+        break;
+      }
+      result.push(seatsInSameRow[i]);
+    }
+    return result;
   }
 
   const handleSeatClick = async (rowNumber, seatNumber) => {
@@ -158,8 +154,13 @@ function Booking() {
       console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
       return;
     }
+
+    clickedRowNumber = rowNumber;
+    console.log(clickedRowNumber);
+
     if (groupSeats) {
       const desiredSeats = findContiguousSeats(seatNumber, totalTicketCount);
+      console.log(desiredSeats);
       for (let seat of desiredSeats) {
         if (isSeatBooked(seat)) {
           console.log(`Seat ${seat} in row ${rowNumber} is already booked.`);
@@ -402,6 +403,7 @@ function Booking() {
     });
   };
 
+  // Move out into its own component so that we can reuse this
   const filterScreenings = screenings
     .filter((weekData) => weekData.week === selectedWeek) // Filter screenings based on selected week
     .map((weekData) =>
@@ -412,10 +414,30 @@ function Booking() {
           month: "short",
           day: "numeric",
         };
-        const formattedDate = new Date(s.startTime).toLocaleDateString(
-          "sv-SE",
-          dateOptions
-        );
+        const date = new Date(s.startTime);
+        const day = date.getDate();
+        const month = date.toLocaleDateString("sv-SE", { month: "short" });
+        const year = date.getFullYear();
+
+        // Function to get the ordinal suffix based on the day value
+        const getOrdinalSuffix = (day) => {
+          if (
+            day === 1 ||
+            day === 2 ||
+            day === 21 ||
+            day === 22 ||
+            day === 31
+          ) {
+            return ":a";
+          } else {
+            return ":e";
+          }
+        };
+
+        const formattedDate = `${date.toLocaleDateString("sv-SE", {
+          dateOptions,
+          weekday: "long",
+        })} ${day}${getOrdinalSuffix(day)} ${month} ${year}`;
         const capitalizedDate = capitalizeFirstLetter(formattedDate);
 
         const startTime = new Date(s.startTime)
@@ -432,6 +454,7 @@ function Booking() {
         );
       })
     );
+
   const ticketTranslations = {
     adults: "Vuxenbiljetter",
     seniors: "Pensionärsbiljetter",

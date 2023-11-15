@@ -73,12 +73,12 @@ function MovieInfo() {
         <p>No trailer available</p>
       )}
       <div
-        style={{ width: "80%", margin: "-1.9em auto" }}
+        style={{margin: "-1.9em auto" }}
         className="movie-card-info">
         <p style={{ fontSize: "0.8rem" }}>{movie.productionYear}</p>
         <p style={{ fontSize: "0.8rem" }}>{movie.genre}</p>
         <p style={{ fontSize: "0.8rem" }}>
-          {MinutsToHoursAndMinuts(movie.length)}
+        {MinutsToHoursAndMinuts(movie.length)}
         </p>
       </div>
       <div className="text-containers">

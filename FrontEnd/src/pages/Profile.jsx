@@ -2,100 +2,153 @@
 
 import { useEffect, useState } from "react";
 import "./profile.css";
-// const token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzBlNTAzMWRlMWViMGRmZWU1NmZjMCIsImlhdCI6MTY5ODIzNTUzNX0.hB_kZ4hcoEF-0GUESTHr2JtFxjGJroxpFPPbmNl1l38";
-
+// import { getProfile } from "../hooksAndUtils/fetchUtil.js";
 const token = sessionStorage.getItem("JWT_TOKEN");
 
 export default function Profile() {
   const [userData, setUserData] = useState("");
   const [bookingId, setBookingId] = useState([]);
-  const [movieInfo, setMovieInfo] = useState([]);
-  const [screening, setScreening] = useState([]);
+  const [bookingData, setBookingData] = useState([]);
   const [movieId, setMovieId] = useState([]);
+  // const [movieData, setMovieData] = useState([]);
+  const [screeningId, setScreeningId] = useState([]);
+  const [screeningData, setScreeningData] = useState([]);
+  const [combinedData, setCombinedData] = useState([]);
+
+  const currentDate = new Date();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUser = async () => {
       try {
-        const fetchUser = await fetch("/api/auth/profile", {
+        const response = await fetch("/api/auth/profile", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        if (!fetchUser.ok) {
+        if (!response.ok) {
           throw new Error("Error fetching user data");
         }
 
-        const userData = await fetchUser.json();
-        setUserData(userData);
-
+        const userData = await response.json();
         const bookingId = userData.bookingHistory;
-        if (bookingId.length === 0) {
-          setBookingId(false);
-        }
-
-        const fetchBookings = await Promise.all(
-          bookingId.map(async (bookingId) => {
-            const response = await fetch(`/api/search/bookings/${bookingId}`);
-            if (!response.ok) {
-              throw new Error("Error fetching booking data");
-            }
-            const bookingData = await response.json();
-            console.log(bookingData)
-            setScreening(bookingData)
-            return bookingData.screeningId;
-          })
-        );
-
-        const fetchScreenings = await Promise.all(
-          fetchBookings.map(async (screeningId) => {
-            const response = await fetch(
-              `/api/search/screenings/${screeningId}`
-            );
-            if (!response.ok) {
-              throw new Error("Error fetching screening data");
-            }
-            const screeningData = await response.json();
-            console.log("S", screeningData)
-            setMovieId(screeningData)
-            return screeningData.movieId;
-          })
-        );
-
-        const fetchMovies = await Promise.all(
-          fetchScreenings.map(async (movieId) => {
-            const response = await fetch(`/api/search/movies/${movieId}`);
-            if (!response.ok) {
-              throw new Error("Error fetching movie data");
-            }
-            const movie = await response.json();
-            return movie;
-          })
-        );
-
-        setMovieInfo(fetchMovies);
-
-        
-        if(movieId._id === screening.movieId) {
-          console.log(movieId._id);
-        }
-        
+        setUserData(userData);
+        setBookingId(bookingId);
       } catch (error) {
-        console.error("Error: " + error);
+        console.error(error);
       }
     };
 
-    fetchData();
+    fetchUser();
   }, []);
 
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const bookingPromises = bookingId.map((id) =>
+          fetch(`/api/search/bookings/${id}`).then((response) =>
+            response.json()
+          )
+        );
+        const allBookings = await Promise.all(bookingPromises);
+        const screeningData = allBookings.map(
+          (screenings) => screenings.screeningId
+        );
+        const screeningId = [].concat(...screeningData);
+
+        setBookingData(allBookings);
+        setScreeningId(screeningId);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBookings();
+  }, [bookingId]);
+
+  useEffect(() => {
+    const fetchScreenings = async () => {
+      try {
+        const screeningPromises = screeningId.map((id) =>
+          fetch(`/api/search/screenings/${id}`).then((response) =>
+            response.json()
+          )
+        );
+        const screeningsData = await Promise.all(screeningPromises);
+        const movies = screeningsData.map((movie) => movie.movieId);
+        const movieId = [].concat(...movies);
+
+        setScreeningData(screeningsData);
+        setMovieId(movieId);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchScreenings();
+  }, [screeningId]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const moviesPromises = movieId.map((id) =>
+          fetch(`/api/search/movies/${id}`).then((response) => response.json())
+        );
+        const movieData = await Promise.all(moviesPromises);
+
+        // setMovieData(movieData);
+
+        const combinedData = movieData.map((movie, index) => ({
+          title: movie.title,
+          image: movie.images,
+          productionYear: movie.productionYear,
+          genre: movie.genre,
+          startTime: screeningData[index].startTime,
+          bookingNumber: bookingData[index].bookingNumber,
+          bookingId: bookingData[index]._id,
+          seats: bookingData[index].seats,
+        }));
+
+        setCombinedData(combinedData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMovies();
+  }, [movieId, screeningData, bookingData]);
+
+  const deleteBooking = async (bookingId) => {
+    try {
+      const response = await fetch(`/api/auth/bookings/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          bookingId: bookingId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error deleting booking data");
+      }
+
+      setCombinedData((prevData) =>
+        prevData.filter((item) => item.bookingId !== bookingId)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <>
+    <section className="profile-page-container">
       <h2 className="profile-h2">Profil</h2>
       <div className="profilepage-content">
         <table className="profile-table">
-          <h3 className="profile-h3">Dina uppgifter</h3>
           <tbody className="profile-tbody">
             <tr>
               <td>Förnamn:</td>
@@ -111,25 +164,57 @@ export default function Profile() {
             </tr>
           </tbody>
         </table>
-        <div className="bookinghistory-container">
-          <h3 className="profile-h3">Tidigare bokningar</h3>
-          <ul className="profile-ul">
-            {bookingId === false ? (
-              <p>Inga tidigare bokningar hittades</p>
-            ) : movieInfo.length === 0 ? (
-              <p>Laddar tidigare bokningar...</p>
-            ) : (
-              movieInfo.map((movie, i) => (
-                <li key={i}>
-                  <img src={movie.images} />
 
-                  <p>{movie.title}</p>
-                </li>
-              ))
+        <div className="bookinghistory-container">
+          <ul>
+            <h3 className="profile-h3">Aktuella bokningar</h3>
+            {combinedData.length === 0 ? (
+              <li>Inga aktuella bokningar hittades</li>
+            ) : (
+              combinedData
+                .filter((item) => new Date(item.startTime) > currentDate)
+                .map((item, i) => (
+                  <li key={i}>
+                    <img alt="movie-poster" src={item.image} />
+                    <p>{item.title}</p>
+                    <p>{item.productionYear}</p>
+                    <p>{item.bookingNumber}</p>
+                    <p>{item.genre}</p>
+                    <p>{item.startTime.slice(0, -14)}</p>
+                    <p>{item.startTime.slice(11, -8)}</p>
+                    {item.seats.map((seat, i) => (
+                      <p key={i}>{seat.seatNumber}</p>
+                    ))}
+                    <button onClick={() => deleteBooking(item.bookingId)}>
+                      Ta bort bokning
+                    </button>
+                  </li>
+                ))
             )}
           </ul>
+          <ul className="profile-ul"></ul>
+          <h3 className="profile-h3">Tidigare bokningar</h3>
+          {combinedData.length === 0 ? (
+            <li>Inga tidigare bokningar hittades</li>
+          ) : (
+            combinedData
+              .filter((item) => new Date(item.startTime) < currentDate)
+              .map((info, i) => (
+                <li key={i}>
+                  <img alt="movie-poster" src={info.image} />
+                  <p>{info.title}</p>
+                  <p>{info.productionYear}</p>
+                  <p>{info.bookingNumber}</p>
+                  <p>{info.genre}</p>
+                  <p>{info.startTime}</p>
+                  {info.seats.map((seat, i) => (
+                    <p key={i}>{seat.seatNumber}</p>
+                  ))}
+                </li>
+              ))
+          )}
         </div>
       </div>
-    </>
+    </section>
   );
 }

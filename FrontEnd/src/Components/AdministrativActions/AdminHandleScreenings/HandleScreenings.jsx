@@ -1,6 +1,6 @@
 import OptionsComponent from "../OptionsComponent/OptionsComponent";
 import AddScreeningComponent from "./AddScreeningComponent";
-import EditScreeningComponent from "./EditScreeningComponent";
+// import EditScreeningComponent from "./EditScreeningComponent";
 import DeleteScreeningComponent from "./DeleteScreeningComponent";
 
 export default function HandleScreenings(props) {

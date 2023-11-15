@@ -21,6 +21,7 @@ const NavComponent = ({ onCloseClick, userRole }) => {
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning
     sessionStorage.removeItem("JWT_TOKEN");
+    window.location.reload();
     onCloseClick();
   };
 

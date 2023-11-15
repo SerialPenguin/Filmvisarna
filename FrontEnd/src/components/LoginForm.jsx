@@ -18,6 +18,7 @@ function LoginForm() {
       setLoginMessage(errorMessage);
     } else {
       navigate("/");
+      location.reload();
     }
   };
 
@@ -30,6 +31,7 @@ function LoginForm() {
     }
 
     authService.handleLogin(e, credentials, handleLoginCallback);
+    await authService.handleLogin(e, credentials, handleLoginCallback);
   };
 
   return (

@@ -164,11 +164,15 @@
 }
 .confirm-btn {
   margin-top: 17%;
+  color: black; 
+  background-color: #c699ea;
 }
 .back-middle-btn {
   position: absolute;
   width: 30%;
   bottom: 0;
+  color: black; 
+  background-color: #c699ea;
 }
 @keyframes spin-text {
   0% {
@@ -267,6 +271,8 @@
   }
   .change-email-btn {
     font-size: 0.7rem;
+    color: black; 
+    background-color: #c699ea;
   }
   .email-container {
     position: absolute;
@@ -301,6 +307,8 @@
     left: 0;
     right: 0;
     margin: 45% auto;
+    color: black; 
+    background-color: #c699ea;
   }
   .cancel-btn {
     position: absolute;
@@ -309,6 +317,9 @@
     left: 0;
     right: 0;
     margin: 57% auto;
+    color: black; 
+    background-color: #c699ea;
+
   }
   .ticket {
     position: absolute;

@@ -1,3 +1,7 @@
+.booking-page-container {
+  font-family: "Jost", sans-serif;
+}
+
 .booking-poster-title {
   display: flex;
   justify-content: center;
@@ -202,6 +206,11 @@
   color: #ba7e36;
 }
 
+.ticket-counter-text {
+ font-weight: 600;
+ font-style: normal;
+}
+
 .ticket-counter-container {
   display: flex;
   justify-content: center;
@@ -264,6 +273,7 @@
 }
 
 .book-button {
+  color: black;
   width: 250px;
   margin-left: 20vw;
   margin-top: 2em;
@@ -405,6 +415,11 @@
 }
 
 @media (min-width: 768px) {
+
+  .booking-page-container {
+    font-family: "Jost", sans-serif;
+  }
+
   .theater {
     justify-content: center;
   }
@@ -415,6 +430,11 @@
     width: 50%;
     height: 250px;
   }
+
+  .ticket-counter-text {
+    font-weight: 600;
+    font-style: normal;
+   }
 
   .ticket-counter-container {
     margin-left: auto;
@@ -446,6 +466,7 @@
     padding: 15px;
     margin-top: 40px;
     margin-bottom: 40px;
+    color: black;
   }
 
   .clear-button {

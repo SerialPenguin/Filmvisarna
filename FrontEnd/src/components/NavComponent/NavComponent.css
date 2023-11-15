@@ -7,8 +7,8 @@
   background: linear-gradient(#150316 70%, #8027ce 150%);
   position: fixed;
   text-align: center;
-  top: 0;
-  left: 0;
+  top: -0.2%;
+  left: -0.2%;
   z-index: 4;
 }
 .logo-img-nav {
@@ -20,7 +20,7 @@
 .hmbrg-img-nav {
   position: absolute;
   height: 1.5em;
-  right: 0.5em;
+  right: 0em;
   margin: 1.5em;
 }
 .nav-div-container {

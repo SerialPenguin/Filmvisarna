@@ -30,7 +30,7 @@
     height: 30px;
 }
 .return-container{
-    margin-top: 5em;
+    margin-top: 10em;
     min-height: 100vh; 
 }
 .screenings-p{
@@ -111,6 +111,7 @@
     width: 100%;
     text-align: center;
     font-size: x-large;
+    color: #ba7e36;
 }
 .list-movie-title{
     margin: 0;
@@ -150,7 +151,7 @@
     .return-container{
         margin: auto;
         width: 750px;
-        margin-top: 5em;
+        margin-top: 10em;
     }
     .movie-poster-img{
         height: 10em;

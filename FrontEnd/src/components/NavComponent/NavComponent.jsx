@@ -21,7 +21,7 @@ const NavComponent = ({ onCloseClick }) => {
 
   useAuthGet("/api/auth/profile", jwtToken, (data) => {
     setUserRole(data.userRole);
-  })
+  });
 
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning

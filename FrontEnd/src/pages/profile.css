@@ -15,6 +15,7 @@ body {
   font-family: "Jost", sans-serif;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .profile-h2,
@@ -27,6 +28,7 @@ body {
   text-transform: uppercase;
   color: #ba7e36;
   font-weight: 400;
+  text-align: center;
 }
 
 .profile-h3 {
@@ -75,6 +77,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   margin-left: 0.3em;
+  align-items: center;
 }
 
 .card-title,
@@ -88,11 +91,14 @@ body {
 
 .history-time {
   display: flex;
+  width: 9em;
   justify-content: space-between;
+  /* background-color: #ba7e36; */
 }
 
 .history-seat-numbers {
   padding-left: 0.5em;
+  color: #db00ff;
 }
 
 .booking-history-card-text p {
@@ -105,13 +111,14 @@ body {
 }
 
 .genre-title-container {
+  color: #db00ff;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .booking-history-ul {
   list-style: none;
-  padding-left: 0em;
+  padding: 1em 1em 1em 1em;
 }
 
 .booking-history-card {
@@ -122,10 +129,7 @@ body {
 .card-title {
   text-transform: uppercase;
   font-size: 1.3rem;
-}
-
-.genre-title-container {
-  color: #db00ff;
+  text-align: center;
 }
 
 .history-card-title,
@@ -150,39 +154,59 @@ body {
 
 .delete-current-booking-btn {
   margin-bottom: 0.5em;
+  max-width: 10rem;
 }
 
 .booking-history-btn {
   visibility: hidden;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 768px) {
+  .profile-page-container {
+    margin-top: 6.5rem;
+    align-items: center;
+  }
+
   .profilepage-content {
     display: flex;
     flex-direction: row-reverse;
-    margin-top: 3em;
+    width: 70%;
   }
 
   .profile-table {
+    margin-top: 6em;
     flex: 1 0 50%;
     max-height: 10em;
     padding-left: 5em;
   }
 
-  .bookinghistory-container {
+  .profile-first-row,
+  .profile-second-row {
+    font-size: 1rem;
+  }
+
+  .profile-second-row {
+    padding-left: 2rem;
+  }
+
+  /* .booking-history-card-img-container {
+    width: 5em;
+  } */
+
+  /* .bookinghistory-container {
     margin-top: 0em;
-  }
+  } */
 
-  .profilepage-content img {
+  /* .profilepage-content img {
     margin-right: 0.6em;
-  }
+  } */
 
-  .profile-ul {
+  /* .profile-ul {
     flex-direction: row;
     flex-wrap: wrap;
   }
 
   .profilepage-content li {
     flex: 50%;
-  }
+  } */
 }

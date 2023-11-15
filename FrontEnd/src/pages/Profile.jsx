@@ -36,7 +36,6 @@ export default function Profile() {
         const bookingId = userData.bookingHistory;
         setUserData(userData);
         setBookingId(bookingId);
-        // console.log(setToken);
       } catch (error) {
         console.error(error);
       }
@@ -100,8 +99,6 @@ export default function Profile() {
           fetch(`/api/search/movies/${id}`).then((response) => response.json())
         );
         const movieData = await Promise.all(moviesPromises);
-
-        // setMovieData(movieData);
 
         const combinedData = movieData.map((movie, index) => ({
           title: movie.title,
@@ -189,11 +186,12 @@ export default function Profile() {
 
                     <div className="booking-history-card-text">
                       <div className="history-card-title">
-                        <p className="card-title">
+                        {/* <p className="card-title">
                           {item.title.length > 15
                             ? `${item.title.substring(0, 13)}...`
                             : item.title}
-                        </p>
+                        </p> */}
+                        <p className="card-title">{item.title}</p>
                         <div className="genre-title-container">
                           <p className="card-genre">{item.genre}</p>
                           <p className="card-year">{item.productionYear}</p>
@@ -235,9 +233,7 @@ export default function Profile() {
                 </li>
               ))
           )}
-          {/* </ul> */}
-          {/* <ul className="profile-ul"></ul> */}
-          {/* <h3 className="profile-h3">Tidigare bokningar</h3> */}
+
           {combinedData.length === 0 ? (
             <li>Inga tidigare bokningar hittades</li>
           ) : (

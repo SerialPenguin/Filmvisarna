@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { authGet } from "../../../hooksAndUtils/fetchUtil";
 
 
 export default function HandleBookings() {
@@ -15,6 +16,10 @@ export default function HandleBookings() {
   function handleInputChange(e) {
     setKey(e.target.name);
     setValue(e.target.value);
+
+    setTimeout(() => {
+      authGet
+    }, 2000)
   }
 
   return (

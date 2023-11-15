@@ -298,7 +298,11 @@ function Screenings() {
                         </Link>
                       </h3>
                         <div className="screenings-info-container">
-                        <p className="screenings-p">{screening.salon.name}</p>
+                        {screening.salon.name === "Small salon" ? (
+                          <p className="screenings-p">Lilla salongen</p>
+                        ) : (
+                          <p className="screenings-p">Stora salongen</p>
+                        )}
                         <p className="screenings-p">
                           {formatTimeToHHMM(screening.startTime)}
                         </p>

@@ -1,14 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Inter:wght@200;300&family=Jost:wght@200;300;400&display=swap");
-/* font-family: 'Alegreya', serif;
-font-family: 'Jost', sans-serif; */
-/* * {
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  background: radial-gradient(circle at center, rgb(70, 10, 73), black);
-} */
 
 .about-us-h2 {
   text-transform: uppercase;
@@ -37,10 +27,6 @@ body {
 .counter-img {
   width: 0%;
 }
-
-/* .find-us-section {
-  height: 0em;
-} */
 
 @media (min-width: 800px) {
   .counter-img {

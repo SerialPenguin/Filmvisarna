@@ -1,17 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Inter:wght@200;300&family=Jost:wght@200;300;400&display=swap");
-/* font-family: 'Alegreya', serif;
-font-family: 'Jost', sans-serif; */
-/* * {
-  padding: 0;
-}
-
-body {
-  background: radial-gradient(circle at center, rgb(70, 10, 73), black);
-} */
 
 .profile-page-container {
   margin-top: 4.5rem;
-  /* background-color: aqua; */
   font-family: "Jost", sans-serif;
   display: flex;
   flex-direction: column;
@@ -34,16 +24,9 @@ body {
 .profile-h3 {
   color: #ba7e36;
   text-transform: uppercase;
-  /* text-decoration: underline; */
   font-weight: 300;
   font-size: 1.3rem;
-  /* margin-left: 0.5em; */
 }
-
-/* .profilepage-content {
-  margin-left: 1em;
-  background-color: #c699ea;
-} */
 
 .profile-table {
   margin-left: 0.8em;
@@ -141,14 +124,10 @@ body {
 .history-seat {
   display: flex;
   /* justify-content: space-between; */
-  color: aliceblue;
+  color: #ffffff;
 }
 
 .history-seat-numbers {
-  /* background-color: blue; */
-  /* display: flex;
-  justify-content: space-between; */
-  /* margin: 0em 0.5em 0em 0.5em; */
   margin-left: 0.8em;
 }
 
@@ -188,25 +167,4 @@ body {
   .profile-second-row {
     padding-left: 2rem;
   }
-
-  /* .booking-history-card-img-container {
-    width: 5em;
-  } */
-
-  /* .bookinghistory-container {
-    margin-top: 0em;
-  } */
-
-  /* .profilepage-content img {
-    margin-right: 0.6em;
-  } */
-
-  /* .profile-ul {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .profilepage-content li {
-    flex: 50%;
-  } */
 }

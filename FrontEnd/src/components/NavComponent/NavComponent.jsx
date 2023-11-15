@@ -1,11 +1,19 @@
 /** @format */
 
 import { Link, useLocation } from "react-router-dom";
+import { useGet } from "../../hooksAndUtils/useFetch";
 import close from "../../assets/img/close.png";
 import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import "./NavComponent.css";
+import { useState } from "react";
 
 const NavComponent = ({ onCloseClick }) => {
+  const [screening, setScreenings] = useState([]);
+  useGet("/api/screenings", (data) => {
+    setScreenings(data);
+  });
+  const firstScreeningId = screening.length > 0 ? screening[0]._id : "";
+  console.log(firstScreeningId)
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
   const handleLogout = () => {
@@ -36,7 +44,7 @@ const NavComponent = ({ onCloseClick }) => {
                 HEM
               </li>
             </Link>
-            <Link to={"/booking/6523d4ca1451567f3ed4cebe"}>
+            <Link to={`/booking/${firstScreeningId}`}>
               <li
                 className={`nav-list-item ${
                   location.pathname.includes("/booking") ? "active" : ""

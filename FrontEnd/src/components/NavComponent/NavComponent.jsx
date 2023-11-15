@@ -7,9 +7,8 @@ import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import "./NavComponent.css";
 import { useState } from "react";
 
-const NavComponent = ({ onCloseClick }) => {
+const NavComponent = ({ onCloseClick, userRole }) => {
   const [screening, setScreenings] = useState([]);
-  const [userRole, setUserRole] = useState();
 
   useGet("/api/screenings", (data) => {
     setScreenings(data);
@@ -18,10 +17,6 @@ const NavComponent = ({ onCloseClick }) => {
     screening.length > 0 ? "/booking/" + screening[0]._id : "";
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
-
-  useAuthGet("/api/auth/profile", jwtToken, (data) => {
-    setUserRole(data.userRole);
-  })
 
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning
@@ -95,7 +90,7 @@ const NavComponent = ({ onCloseClick }) => {
               <Link to={"/admin"}>
                 <li
                   className={`nav-list-item ${
-                    location.pathname === "/profile" ? "active" : ""
+                    location.pathname === "/admin" ? "active" : ""
                   }`}
                   onClick={onCloseClick}>
                   ADMIN

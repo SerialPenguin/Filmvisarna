@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import TicketFront from "../../assets/img/ticketFront.png";
 import TicketBack from "../../assets/img/ticketBack.png";
 import { patch } from "../../hooksAndUtils/fetchUtil";
-import { getProfile } from "../../hooksAndUtils/fetchUtil";
+import { useAuthGet } from "../../hooksAndUtils/useFetch";
 
 export default function BookingConfirmation(props) {
   const navigate = useNavigate();
@@ -16,12 +16,13 @@ export default function BookingConfirmation(props) {
   const [toggleClassName, setToggleClassName] = useState("ticket");
   const [animationStage, setAnimationStage] = useState("start");
   const [bookingNumber, setBookingNumber] = useState("");
-  const [displayInput, setDisplayInput] = useState(false);
-  const [displayConfirmBtn, setDisplayConfirmBtn] = useState(true);
+  const [displayInput, setDisplayInput] = useState();
+  const [displayConfirmBtn, setDisplayConfirmBtn] = useState();
   const [movie, setMovie] = useState();
   const [price, setPrice] = useState();
   const [date, setDate] = useState();
-  const [token, setToken] = useState();
+  const [profile, setProfile] = useState();
+  const [hidden, setHidden] = useState(false);
 
   const secondHeader =
     animationStage === "start"
@@ -30,44 +31,37 @@ export default function BookingConfirmation(props) {
       ? "Kontrollera att uppgifterna stämmer"
       : "Tack för din boking!";
 
-  console.log("displayConfBtn: ", displayConfirmBtn);
+
+    const token = sessionStorage.getItem("JWT_TOKEN");
 
   useEffect(() => {
     async function getBody() {
       const body = await JSON.parse(sessionStorage.getItem("bookingData"));
-      const jwt = sessionStorage.getItem("JWT_TOKEN");
-
+      
       delete body.selectedMovie;
       delete body.selectedWeek;
 
       setBookingBody(body);
-      setToken(jwt);
     }
-
-    console.log("BB 1: ", bookingBody);
     getBody();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useAuthGet("/api/auth/profile", token, (data) => {
+    setProfile(data);
+  });
+
   useEffect(() => {
-    async function fetchProfile() {
-      console.log("token: ", token);
-      if (token) {
-        const profile = await getProfile("/api/auth/profile", token);
-
-        if (profile !== "Invalid token") setDisplayInput(false);
+    if (profile) {
+      if (profile !== "Invalid token") {
+        setDisplayInput(false);
         setEmail(profile.emailAdress);
-        if (email === profile.emailAdress) {
-          setDisplayConfirmBtn(true);
-        }
-      } else {
-        setDisplayInput(true);
+        setDisplayConfirmBtn(true);
       }
+    } else {
+      setDisplayInput(true);
     }
-
-    fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [profile])
 
   useEffect(() => {
     props.filter[0].map((screening) => {
@@ -94,7 +88,6 @@ export default function BookingConfirmation(props) {
       setPrice((adultsSum += childrenSum += seniorsSum));
     }
 
-    console.log("BB 2: ", bookingBody);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingBody]);
 
@@ -105,18 +98,16 @@ export default function BookingConfirmation(props) {
     }
   }
   async function handleSendConfirmation() {
+
     try {
       let bodyCopy = JSON.parse(JSON.stringify(bookingBody));
 
       bodyCopy.tickets = Object.values(bodyCopy.tickets);
+      bodyCopy.tickets = Object.values(bodyCopy.tickets);
 
       bodyCopy.email = email;
 
-      console.log("BC: ", bodyCopy);
-
       const booking = await patch("/api/bookings", bodyCopy, token);
-
-      console.log("new booking: ", booking);
 
       if (booking.message.includes("Booking created!")) {
         setToggleClassName("ticket-spin-back");
@@ -138,8 +129,10 @@ export default function BookingConfirmation(props) {
 
   function handleBacking() {
     setToggleClassName("ticket-spin-back");
+    
     setTimeout(() => {
       setAnimationStage("start");
+      setHidden(false);
       if (token) {
         setDisplayInput(false);
         setDisplayConfirmBtn(true);
@@ -158,8 +151,7 @@ export default function BookingConfirmation(props) {
           ? "Bekräftelsen skickas till"
           : `${secondHeader}`}
       </h3>
-      {displayInput === false && token && (
-        <div className="change-email-container">
+        <div className={!hidden ? "change-email-container" : "change-email-container-hidden"}>
           <h3 className="second-header-email">{email}</h3>
           <button
             className="change-email-btn"
@@ -170,7 +162,6 @@ export default function BookingConfirmation(props) {
             Ändra email
           </button>
         </div>
-      )}
       <div className="ticket-container">
         <div className={toggleClassName}>
           {displayInput === true && (
@@ -192,6 +183,7 @@ export default function BookingConfirmation(props) {
               onClick={() => {
                 setDisplayInput();
                 setToggleClassName("ticket-spin");
+                setHidden(true);
                 setTimeout(() => {
                   setDisplayConfirmBtn(false);
                   setAnimationStage("middle");

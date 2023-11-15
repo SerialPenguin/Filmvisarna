@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { get, post, patch, del } from './fetchUtil';
+import { get, post, patch, del, authGet } from './fetchUtil';
 
 function FetchHelper(func, stateSetter) {
   useEffect(() => {
@@ -13,6 +13,10 @@ function FetchHelper(func, stateSetter) {
 
 export function useGet(url, stateSetter) {
     FetchHelper(() => get(url), stateSetter, url, 'get');
+}
+
+export function useAuthGet(url, token, stateSetter) {
+  FetchHelper(() => authGet(url, token), stateSetter, url, 'get');
 }
 
 export function usePost(url, body, stateSetter) {

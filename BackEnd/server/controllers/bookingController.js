@@ -82,6 +82,7 @@ export const bookSeat = async (req, res) => {
     }
 
     const existingBookings = await Booking.find({ screeningId });
+
     const bookedSeats = existingBookings.reduce((acc, booking) => {
       return acc.concat(booking.seats.map((s) => ({ seatNumber: s.seatNumber })));
     }, []);

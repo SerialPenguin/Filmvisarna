@@ -31,3 +31,48 @@ export const getResourceById = async (req, res) => {
     }
   };
   
+  export const getMovieByTitle = async (req, res) => {
+    const param = req.params
+    
+    try {
+      const collection = mongoose.connection.collection('movies');
+      const movie = await collection.findOne({title: param.title});
+
+      if (!movie) {
+        return res.status(404).json({ error: 'Movie not found, check spelling' });
+      }
+
+      res.json(movie);
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
+  export const getSalon = async (req, res) => {
+
+    try{
+      const collection = mongoose.connection.collection('seats');
+      const salon = await collection.find({}).toArray();
+
+      res.json(salon);
+      
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
+  export const getScreeningByTitle = async(req, res) => {
+    const param = req.params
+
+    try {
+      const moviesCollection = mongoose.connection.collection('movies');
+      const screeningsCollection = mongoose.connection.collection('screenings');
+
+      const movie = await moviesCollection.findOne({title: param.title});
+      const screenings = await screeningsCollection.find({movieId: movie._id}).toArray([]);
+
+      res.json(screenings);
+    }catch(err){
+      console.log(err)
+    }
+  }

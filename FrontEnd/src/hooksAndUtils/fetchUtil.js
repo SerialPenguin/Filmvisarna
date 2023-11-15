@@ -12,6 +12,17 @@ export async function post(url, body) {
   ).json();
 }
 
+export async function adminPost(url, body, token) {
+  return await (await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+   },
+    body: JSON.stringify(body)
+  })).json();
+}
+
 export async function patch(url, body, token) {
   return await (
     await fetch(url, {
@@ -25,21 +36,22 @@ export async function patch(url, body, token) {
   ).json();
 }
 
-export async function getProfile(url, token) {
-  return await (
-    await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-    })
-  ).json();
+export async function authGet(url, token) {
+  return await (await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  })).json();
 }
 
-export async function del(url) {
-  return await (await fetch(url),
-  {
+export async function del(url, token) {
+  return await (await fetch(url, {
     method: "DELETE",
-  }).json();
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  })).json();
 }

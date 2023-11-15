@@ -73,7 +73,6 @@
   left: 0;
   right: 0;
   margin: 45% auto;
-  color: black;
 }
 .cancel-btn {
   position: absolute;
@@ -82,7 +81,6 @@
   left: 0;
   right: 0;
   margin: 62% auto;
-  color: black;
 }
 .ticket {
   position: absolute;
@@ -159,13 +157,11 @@
 }
 .confirm-btn {
   margin-top: 17%;
-  color: black;
 }
 .back-middle-btn {
   position: absolute;
   width: 30%;
   bottom: 0;
-  color: black;
 }
 @keyframes spin-text {
   0% {

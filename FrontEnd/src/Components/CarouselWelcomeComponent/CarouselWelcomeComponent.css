@@ -26,6 +26,7 @@
 
   @media (min-width: 800px) {
     .welcome-carousel-container {
+      margin-top: -6em; 
         width: 100%; 
       }
     
@@ -43,23 +44,4 @@
         opacity: 0.6;
       }
       
-  }
-
-  @media all and (orientation:landscape) 
-      and (min-device-width: 319px) 
-      and (max-device-width: 480px) {
-    /* Style adjustments for landscape mode goes here */
-    .welcome-carousel-img {
-        opacity: 1;
-        height: 900vh; 
-      }
-
-      .welcome-carousel-title {
-        left: 0;
-        right: 0;
-        top: 25%;
-        bottom: 0;
-        margin: auto;
-        font-size: 3em;
-        }
   }

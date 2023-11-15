@@ -19,9 +19,10 @@ export default function HandleBookings() {
 
   return (
     <div>
+      <h4 className="find-booking-header">Hitta bokning</h4>
         <form>
-          <h4>Sök på bokningsnummer</h4>
-          <input></input>
+          <label className="find-booking-lbl">Sök på bokningsnummer</label>
+          <input className="booking-num-input" value={query || ""} onChange={handleInputChange}></input>
         </form>
     </div>
   )

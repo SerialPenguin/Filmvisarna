@@ -31,6 +31,7 @@
 }
 .return-container{
     margin-top: 5em;
+    min-height: 100vh; 
 }
 .screenings-p{
     color: #BA7E36;

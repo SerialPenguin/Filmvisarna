@@ -224,8 +224,7 @@ export default function Profile() {
 
                       <button
                         className="delete-current-booking-btn"
-                        onClick={() => deleteBooking(item.bookingId)}
-                      >
+                        onClick={() => deleteBooking(item.bookingId)}>
                         Ta bort bokning
                       </button>
                     </div>
@@ -285,8 +284,7 @@ export default function Profile() {
 
                       <button
                         className="booking-history-btn"
-                        onClick={() => deleteBooking(item.bookingId)}
-                      >
+                        onClick={() => deleteBooking(item.bookingId)}>
                         Ta bort bokning
                       </button>
                     </div>

@@ -575,6 +575,23 @@ function Booking() {
               <div className="total-amount">
                 <h3 className="sum">Summa: {getTotalAmount()} Kr</h3>
               </div>
+              <div className="seat-select-container">
+                <label
+                  htmlFor="grouped-seats-checkbox"
+                  className="seat-select-label">
+                  Välj grupperade säten
+                </label>
+                <input
+                  type="checkbox"
+                  id="grouped-seats-checkbox"
+                  className="seat-select"
+                  name="Select Grouped Seats"
+                  checked={groupSeats}
+                  onChange={(e) => {
+                    setGroupSeats(e.target.checked);
+                  }}
+                />
+              </div>
               <div className="theatre">
                 <div className="movie-screen">
                   <div className="drape-left"></div>
@@ -599,7 +616,7 @@ function Booking() {
               </p>
             </div>
           </div>
-          <div className="seat-select-container">
+          {/* <div className="seat-select-container">
             <label
               htmlFor="grouped-seats-checkbox"
               className="seat-select-label">
@@ -615,7 +632,7 @@ function Booking() {
                 setGroupSeats(e.target.checked);
               }}
             />
-          </div>
+          </div> */}
           <button className="book-button" onClick={handleScreeningInput}>
             Boka biljetter
           </button>

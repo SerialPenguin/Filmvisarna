@@ -1,7 +1,7 @@
 /** @format */
 
 import { Link, useLocation } from "react-router-dom";
-import { useAuthGet, useGet } from "../../hooksAndUtils/useFetch";
+import { useGet } from "../../hooksAndUtils/useFetch";
 import close from "../../assets/img/close.png";
 import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import "./NavComponent.css";
@@ -17,10 +17,6 @@ const NavComponent = ({ onCloseClick, userRole }) => {
     screening.length > 0 ? "/booking/" + screening[0]._id : "";
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
-
-  useAuthGet("/api/auth/profile", jwtToken, (data) => {
-    setUserRole(data.userRole);
-  });
 
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning

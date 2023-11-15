@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { adminPost, authGet, get } from "../../../hooksAndUtils/fetchUtil";
+import { useState } from "react";
+import { adminPost } from "../../../hooksAndUtils/fetchUtil";
 import "./HandleScreenings.css";
+import { useAuthGet, useGet } from "../../../hooksAndUtils/useFetch";
 
 export default function AddScreeningComponent(props) {
   const [movies, setMovies] = useState();
@@ -9,15 +10,14 @@ export default function AddScreeningComponent(props) {
   const [formState, setFormState] = useState("pick-movie");
   const [status, setStatus] = useState();
 
-  useEffect(() => {
-    async function getMovies() {
-      setMovies(await get("/api/movies"));
-      setSalons(await authGet("/api/search/auth/admin/getSalon", props.token));
-    }
-
-    getMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useGet("/api/movies", (data) => {
+    setMovies(data)
+  });
+  
+  useAuthGet("/api/search/auth/admin/getSalon", props.token, (data) => {
+    setSalons(data);
+  });
+  
 
   function calcTime(e) {
     let endTime = new Date(

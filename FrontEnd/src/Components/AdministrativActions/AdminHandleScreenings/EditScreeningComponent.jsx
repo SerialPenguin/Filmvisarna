@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { authGet, get } from "../../../hooksAndUtils/fetchUtil";
+import { useState } from "react";
+import { authGet } from "../../../hooksAndUtils/fetchUtil";
+import { useGet } from "../../../hooksAndUtils/useFetch";
 
 export default function EditScreeningComponent(props) {
   const [screenings, setScreenings] = useState([]);
@@ -7,14 +8,13 @@ export default function EditScreeningComponent(props) {
   // const [salons, setSalons] = useState();
   const [formState, setFormState] = useState("pick-movie");
 
-  useEffect(() => {
-    async function setItems() {
-      setAllMovies(await get("/api/movies"));
-      // setSalons(await authGet("/api/search/auth/admin/getSalon", props.token));
-    }
+    useGet("/api/movies", (data) => {
+      setAllMovies(data)
+    });
 
-    setItems();
-  }, []);
+    // useAuthGet("/api/search/auth/admin/getSalon", props.token, (data) => {
+    //   setSalons(data);
+    // });
 
   async function getScreeningFromTitle(e) {
     e.preventDefault();
@@ -25,8 +25,6 @@ export default function EditScreeningComponent(props) {
         props.token
       )
     );
-
-    console.log(screenings);
 
     setFormState("pick-screening");
   }

@@ -1,7 +1,7 @@
 /** @format */
 
 import { Link, useLocation } from "react-router-dom";
-import { useGet } from "../../hooksAndUtils/useFetch";
+import { useAuthGet, useGet } from "../../hooksAndUtils/useFetch";
 import close from "../../assets/img/close.png";
 import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import "./NavComponent.css";
@@ -9,17 +9,26 @@ import { useState } from "react";
 
 const NavComponent = ({ onCloseClick }) => {
   const [screening, setScreenings] = useState([]);
+  const [userRole, setUserRole] = useState();
+
   useGet("/api/screenings", (data) => {
     setScreenings(data);
   });
+
   const firstScreeningId = screening.length > 0 ? ("/booking/" + screening[0]._id) : "";
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
+
+  useAuthGet("/api/auth/profile", jwtToken, (data) => {
+    setUserRole(data.userRole);
+  })
+
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning
     sessionStorage.removeItem("JWT_TOKEN");
     onCloseClick();
   };
+
   return (
     <>
       <nav className="nav-container">
@@ -82,7 +91,17 @@ const NavComponent = ({ onCloseClick }) => {
                 OM OSS
               </li>
             </Link>
-            {jwtToken ? (
+            {userRole === "ADMIN" ? (
+              <Link to={"/admin"}>
+                <li
+                  className={`nav-list-item ${
+                    location.pathname === "/profile" ? "active" : ""
+                  }`}
+                  onClick={onCloseClick}>
+                  ADMIN
+                </li>
+              </Link>
+            ) : userRole === "USER" ? (
               <Link to={"/profile"}>
                 <li
                   className={`nav-list-item ${

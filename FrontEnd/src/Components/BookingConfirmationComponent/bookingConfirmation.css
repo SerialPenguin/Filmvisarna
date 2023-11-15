@@ -18,6 +18,17 @@
   font-size: 1.6rem;
   color: #c699ea;
 }
+.change-email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.change-email-container-hidden {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  visibility: hidden;
+}
 .second-header-email {
   text-align: center;
   font-weight: 300;
@@ -25,17 +36,12 @@
   margin-top: -8%;
   color: #c699ea;
 }
+.change-email-btn {
+  font-size: 0.6rem;
+}
 .ticket-container {
   position: relative;
   width: 350px;
-}
-.change-email-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.change-email-btn {
-  font-size: 0.6rem;
 }
 .email-container {
   position: absolute;

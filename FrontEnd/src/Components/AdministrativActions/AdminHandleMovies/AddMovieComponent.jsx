@@ -8,6 +8,7 @@ export default function AddMovieComponent(props) {
 
   useEffect(() => {
     setFormBody({ ...formBody, [key]: value });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, value]);
 
   function handleInputChange(e) {
@@ -24,7 +25,7 @@ export default function AddMovieComponent(props) {
       }
     }
 
-    const postMovie = await adminPost(
+    await adminPost(
       "/api/movies/auth/admin/addMovie",
       formBody,
       props.token

@@ -6,11 +6,17 @@
   font-weight: 500;
   color: #ba7e36;
 }
+.admin-welcome-header {
+  color: #ba7e36;
+  font-size: 2.5rem;
+  font-weight: 100;
+}
 .admin-landing-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 .admin-options-header {
   color: white;

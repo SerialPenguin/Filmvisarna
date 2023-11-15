@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { authGet, get, patch } from "../../../hooksAndUtils/fetchUtil";
+import { authGet, patch } from "../../../hooksAndUtils/fetchUtil";
+import { useGet } from "../../../hooksAndUtils/useFetch";
 
 export default function EditMovieComponent(props) {
   const [formState, setFormState] = useState("pick");
@@ -8,6 +9,8 @@ export default function EditMovieComponent(props) {
   const [movies, setMovies] = useState();
   const [changes, setChanges] = useState({});
   const [formBody, setFormBody] = useState({});
+
+  useGet("/api/movies", (data) => setMovies(data));
 
   useEffect(() => {
     for (let key in formBody) {
@@ -20,14 +23,6 @@ export default function EditMovieComponent(props) {
     setChanges({ ...changes, [key]: value });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, value]);
-
-  useEffect(() => {
-    async function getMovies() {
-      setMovies(await get("/api/movies"));
-    }
-
-    getMovies();
-  }, []);
 
   function handleInputChange(e) {
     setKey(e.target.name);
@@ -56,12 +51,12 @@ export default function EditMovieComponent(props) {
         }
       }
 
-      const result = await patch(
+      await patch(
         "/api/movies/auth/admin/editMovie",
         changes,
         props.token
       );
-      console.log("Result: ", result);
+     
       props.movieRef.close();
       props.setOptionState("non");
     }

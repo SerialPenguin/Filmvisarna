@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { authGet, del, get } from "../../../hooksAndUtils/fetchUtil";
+import { useRef, useState } from "react";
+import { authGet, del } from "../../../hooksAndUtils/fetchUtil";
+import { useGet } from "../../../hooksAndUtils/useFetch";
 
 export default function DeleteMovieComponent(props) {
   const [formState, setFormState] = useState("pick-movie");
@@ -10,13 +11,9 @@ export default function DeleteMovieComponent(props) {
 
   const dialogRef = useRef();
 
-  useEffect(() => {
-    async function getMovies() {
-      setMovies(await get("/api/movies"));
-    }
-
-    getMovies();
-  }, []);
+  useGet("/api/movies", (data) => {
+    setMovies(data);
+  });
 
   async function handleMoviePick(e) {
     e.preventDefault();

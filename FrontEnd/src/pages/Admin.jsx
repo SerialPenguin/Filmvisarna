@@ -1,16 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import HandleMovies from "../Components/AdministrativActions/AdminHandleMovies/HandleMovies.jsx";
 import HandleScreenings from "../Components/AdministrativActions/AdminHandleScreenings/HandleScreenings.jsx";
 import HandleBookings from "../Components/AdministrativActions/AdminHandleBookings/HandleBookings.jsx";
 import HandleMembers from "../Components/AdministrativActions/AdminHandleMembers/HandleMembers.jsx";
 import "./Admin.css";
-import { authGet } from "../hooksAndUtils/fetchUtil.js";
 import { useNavigate } from "react-router-dom";
+import { useAuthGet } from "../hooksAndUtils/useFetch.js";
 
 export default function Admin() {
   const [optionState, setOptionState] = useState("non");
   const [topic, setTopic] = useState("noTopic");
-  const [token, setToken] = useState();
   const [user, setUser] = useState();
 
   const movieRef = useRef();
@@ -20,17 +19,11 @@ export default function Admin() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setToken(sessionStorage.getItem("JWT_TOKEN"));
-  }, []);
-
-  useEffect(() => {
-    async function getUser() {
-      setUser(await authGet("/api/auth/profile", token));
-    }
-
-    getUser();
-  }, [token]);
+  const token = sessionStorage.getItem("JWT_TOKEN");
+  
+  useAuthGet('/api/auth/profile', token, (data) => {
+    setUser(data);
+  })
 
   return (
     <div>

@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { del, get } from "../../../hooksAndUtils/fetchUtil";
+import { useRef, useState } from "react";
+import { del } from "../../../hooksAndUtils/fetchUtil";
+import { useGet } from "../../../hooksAndUtils/useFetch";
 
 export default function DeleteMovieComponent(props) {
   const [movies, setMovies] = useState();
@@ -7,13 +8,9 @@ export default function DeleteMovieComponent(props) {
 
   const dialogRef = useRef();
 
-  useEffect(() => {
-    async function getMovies() {
-      setMovies(await get("/api/movies"));
-    }
-
-    getMovies();
-  }, []);
+  useGet("/api/movies", (data) => {
+    setMovies(data);
+  });
 
   function openWarning(e) {
     setParam(e.target.id);
@@ -21,7 +18,7 @@ export default function DeleteMovieComponent(props) {
   }
 
   async function deleteMovie() {
-    const result = await del(
+    await del(
       "/api/movies/auth/admin/deleteMovie/" + param,
       props.token
     );

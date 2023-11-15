@@ -1,0 +1,56 @@
+.find-booking-header {
+  margin: 0.5em 0 0.5em 0;
+  font-size: 1.3rem;
+  color: #c699ea;
+}
+.find-booking-lbl {
+  font-size: 1.2rem;
+  color: #ba7e36;
+}
+.booking-num-input {
+  margin: 1em 0;
+  border-radius: 7px;
+}
+.booking-num-header {
+  font-size: 1.5rem;
+  color: #ba7e36;
+}
+.booked_by-container {
+  margin-top: -0.5em;
+  border: 1px solid #ba7e36;
+  padding-top: 0.5em;
+  border-radius: 6px;
+}
+.booked_by-header {
+  margin-bottom: -0.5em;
+  margin-top: -0.1em;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #c699ea;
+}
+.users-name {
+  margin-bottom: -0.5em;
+}
+.users-name,
+.users-mail,
+.user-guest {
+  font-size: 1.2rem;
+  color: #ba7e36;
+}
+.specs-container {
+  margin-top: 1em;
+  border: 1px solid #ba7e36;
+  border-radius: 6px;
+}
+.booking-info-header {
+  margin: 0.5em 0 -0.5em 0;
+  font-size: 1.3rem;
+  color: #c699ea;
+}
+.user-confirmation-email,
+.user-seats,
+.user-tickets,
+.user-salon {
+  font-size: 1.2rem;
+  color: #ba7e36;
+}

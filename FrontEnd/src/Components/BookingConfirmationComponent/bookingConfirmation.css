@@ -264,7 +264,6 @@
   }
   .change-email-btn {
     font-size: 0.7rem;
-    color: black;
   }
   .email-container {
     position: absolute;
@@ -299,7 +298,6 @@
     left: 0;
     right: 0;
     margin: 45% auto;
-    color: black;
   }
   .cancel-btn {
     position: absolute;
@@ -308,7 +306,6 @@
     left: 0;
     right: 0;
     margin: 57% auto;
-    color: black;
   }
   .ticket {
     position: absolute;
@@ -385,7 +382,6 @@
   }
   .confirm-btn {
     margin-top: 17%;
-    color: black;
   }
   .back-middle-btn {
     position: absolute;
@@ -394,7 +390,6 @@
     right: 0;
     margin: 0 auto;
     bottom: 0;
-    color: black;
   }
 
   @keyframes spin-text {
@@ -457,6 +452,5 @@
   }
   .nav-btn {
     margin-top: 15%;
-    color: black;
   }
 }

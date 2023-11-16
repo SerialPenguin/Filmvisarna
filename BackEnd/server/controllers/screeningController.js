@@ -104,12 +104,12 @@ export const deleteScreening = async (req, res) => {
       const deleteScreening = await collection.deleteOne({_id: id});
 
       if(deleteScreening.deletedCount === 1) {
-        res.status(200).send({ msg: `Screening ${param} deleted succesfully`});
+        res.status(200).send({ status: 200, msg: `Screening ${param} deleted succesfully`});
       }else {
         res.status(500).send({ msg: `Something went wrong` });
       }
     }else {
-      res.status(403).send({ msg: `Screening ${param} contains customer bookings and therefore can't be deleted` });
+      res.status(403).send({ status: 403, msg: `Screening ${param} contains customer bookings and therefore can't be deleted` });
     }
 
   }catch(err){

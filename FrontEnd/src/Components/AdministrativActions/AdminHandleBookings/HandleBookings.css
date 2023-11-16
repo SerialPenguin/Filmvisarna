@@ -1,15 +1,38 @@
+.find-booking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .find-booking-header {
   margin: 0.5em 0 0.5em 0;
   font-size: 1.3rem;
   color: #c699ea;
 }
+.search-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .find-booking-lbl {
   font-size: 1.2rem;
   color: #ba7e36;
+  width: 12em;
 }
 .booking-num-input {
   margin: 1em 0;
-  border-radius: 7px;
+  border-radius: 9px;
+  color: #ba7e36;
+  background-color: rgba(70, 19, 121, 0.007);
+  outline: none;
+}
+
+.booking-num-input:-webkit-autofill,
+.booking-num-input:-webkit-autofill:hover,
+.booking-num-input:-webkit-autofill:focus,
+.booking-num-input:-webkit-autofill:active {
+  transition: background-color 5000000s ease-in-out 0s;
+  -webkit-text-fill-color: #ba7e36;
+  outline: none;
 }
 .booking-num-header {
   font-size: 1.5rem;

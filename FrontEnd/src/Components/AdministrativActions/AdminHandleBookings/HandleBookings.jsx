@@ -52,11 +52,11 @@ export default function HandleBookings(props) {
   return (
     <div>
       {!booking ? (
-        <div>
+        <div className="find-booking-container">
           <h4 className="find-booking-header">Hitta bokning</h4>
-          <form>
+          <form className="search-form">
             <label className="find-booking-lbl">Sök på bokningsnummer</label>
-            <input className="booking-num-input" value={search?.toUpperCase() || ""} name="bookingNum" onChange={(e) => setSearch(e.target.value)}></input>
+            <input autoFocus className="booking-num-input" value={search?.toUpperCase() || ""} name="bookingNum" onChange={(e) => setSearch(e.target.value)}></input>
           </form>
         </div>
         ) : (

@@ -71,7 +71,7 @@ export default function HandleBookings(props) {
             ): (
               <div className="booked_by-container">
                 <h6 className="booked_by-header">Bokad av:</h6>
-                <p className="user-guest">Användare: {booking.bookedBy.user}</p>
+                <p className="user-guest">Användare: {booking.bookedBy.user === "GUEST" ? "Gäst" : "Guest"}</p>
               </div>
             )}
             <div className="specs-container">

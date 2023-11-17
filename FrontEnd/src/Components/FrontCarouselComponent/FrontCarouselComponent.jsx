@@ -39,7 +39,7 @@ const FrontCarouselComponent = () => {
       setCurrentSlide(
         (prevIndex) => (prevIndex + 1) % carouselComponents.length
       );
-    }, 100000);
+    }, 7000);
   };
 
   useEffect(() => {

@@ -76,3 +76,44 @@ export const getResourceById = async (req, res) => {
       console.log(err)
     }
   }
+
+  export const getBookingByQuery = async (req, res) => {
+    const param = req.params;
+
+    try {
+
+      const bookingCollection = mongoose.connection.collection('bookings');
+      const booking = await bookingCollection.findOne({bookingNumber: param.query});
+
+      if(!booking) {
+        res.status(404).send({ msg: "Booking not found, check booking number"});
+      }else {
+        res.status(200).send({ status: 200, booking: booking});        
+      }
+
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
+  export const getUserById = async (req, res) => {
+    const param = req.params;
+
+    console.log(new mongoose.Types.ObjectId(param.id))
+
+    try {
+
+      const id = new mongoose.Types.ObjectId(param.id);
+      
+      const collection = mongoose.connection.collection('users');
+      const user = await collection.findOne({_id: id});
+
+      if(user) {
+        res.status(200).send({status: 200, user: user});
+      }else {
+        res.status(404).send({msg: "Could not find a user"});
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }

@@ -35,7 +35,7 @@ export default function HandleScreenings(props) {
       )} */}
       {props.optionState === "delete" && (
         <div>
-          <h4>Radera {props.topic}</h4>
+          <h4 className="option-title">Radera {props.topic}</h4>
           <DeleteScreeningComponent
             token={props.token}
             screeningRef={props.screeningRef}

@@ -1,8 +1,8 @@
 /** @format */
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import BookingConfirmation from "../Components/BookingConfirmationComponent/BookingConfirmation";
-import SeatsGrid from "../Components/SeatsGrid";
+import BookingConfirmation from "../components/BookingConfirmationComponent/BookingConfirmation";
+import SeatsGrid from "../components/seatsGrid";
 import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";

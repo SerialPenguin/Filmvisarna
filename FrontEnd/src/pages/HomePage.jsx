@@ -1,6 +1,6 @@
-import FooterComponent from "../components/FooterComponent/FooterComponent";
-import FrontCarouselComponent from "../components/FrontCarouselComponent/FrontCarouselComponent";
-import MovieCardComponent from "../components/MovieCardComponent/MovieCardComponent";
+import FooterComponent from "../Components/FooterComponent/FooterComponent";
+import FrontCarouselComponent from "../Components/FrontCarouselComponent/FrontCarouselComponent";
+import MovieCardComponent from "../Components/MovieCardComponent/MovieCardComponent";
 import './Homepage.css'
 
 const HomePage = () => {

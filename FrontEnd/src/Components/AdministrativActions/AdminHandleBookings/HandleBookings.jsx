@@ -76,7 +76,7 @@ export default function HandleBookings(props) {
             )}
             <div className="specs-container">
               <h6 className="booking-info-header">Specifikation:</h6>
-              <p className="user-confirmation-email">Bekräftelse skickad till: {booking?.bookedBy.email}</p>
+              <p className="user-confirmation-email">Bekräftelsen till: {booking?.bookedBy.email}</p>
               <p className="user-seats">Stolar: {seats?.length <= 2 ? seats?.join(" & ") : seats?.reduce((text, value, i, array) => text + (i < array.length - 1 ? ', ' : ' & ') + value)}</p>
               <p className="user-tickets">Biljetter: {tickets?.map((value) => {return `${value.ticketType === "adult" ? "Vuxen" : value.ticketType === "senior" ? "Pensionär" : "Barn"}: ${value.quantity}st. `})}</p>
               <p className="user-salon">{salon?.name === "Large salon" ? "Stora salongen" : "Lilla salongen"}</p>

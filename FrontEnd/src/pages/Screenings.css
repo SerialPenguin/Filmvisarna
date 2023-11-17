@@ -1,0 +1,220 @@
+.screenings-list-container{
+    font-family: "Jost", sans-serif;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 20px;
+}
+.screenings-list{
+    margin: 5%;
+    display: flex;
+    align-items: baseline;
+}
+.screenings-selectors{
+    width: 23.5%;
+    padding-left: 13px;
+    background-color: #d9d9d9;
+    border-radius: 7px; 
+    box-sizing: border-box; 
+    font-size: 14px;
+    border: none; 
+    color: #000000; 
+    font-size: medium;
+    margin: auto;
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    height: 30px;
+}
+.return-container{
+    font-family: "Jost", sans-serif;
+    margin-top: 10em;
+    min-height: 100vh; 
+}
+.screenings-p{
+    color: #BA7E36;
+}
+.date-title{
+    color: #BA7E36;
+    font-size: 2em;
+}
+.list-movie-title, .screenings-p{
+    width: 25%;
+    margin: 0px auto;
+}
+.list-movie-title{
+    width: 35%;
+}
+.seperator{
+    margin: auto;
+    height: 2px;
+    width: 95%;
+    background-color: #BA7E36;
+}
+.main-btn-color{
+    background-color: #C699EA;
+    color: #150316;
+    width: 5em;
+    height: 2em;
+    padding:0px;
+    margin: auto;
+}
+.sec-btn{
+    width: 100%;
+    margin-top: 20px;
+    background-color: #8027CE;
+    color: #C699EA;
+}
+.main-text-title{
+    color: #BA7E36;
+    text-align: center;
+    margin-top: -2em;
+    font-weight: 100;
+    font-size: 2em;
+}
+.filters-containers{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+}
+.Laddar{
+    height: 100vh;
+}
+.link-color{
+    color:#C699EA;
+    font-size: large;
+}
+.movie-poster-img{
+    display: none;
+}
+.desktopvye{
+    display: none;
+}
+.links-container{
+    width: 20%;
+}
+.list-item-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.date-container{
+    margin-left: 3em;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    height: 4.5em;
+}
+.date-dates{
+    width: 100%;
+    text-align: center;
+    font-size: x-large;
+    color: #ba7e36;
+}
+.list-movie-title{
+    margin: 0;
+}
+.screenings-info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80%;
+}
+@media (max-width: 350px){
+    .screenings-selectors{
+        padding-left: 0px;
+    }
+    .date-container{
+        margin-left: 1em;
+    }
+    .main-text-title{
+        margin: auto;
+    }
+}
+@media (min-width: 600px){
+    .date-container{
+        margin-left: 3em;
+    }
+    .screenings-selectors{
+        width: 23.5%;
+    }
+}
+@media (min-width: 768px){
+    .link-color{
+        font-size: larger;
+    }
+    .date-container{
+        margin-left: 3em;
+    }
+    .return-container{
+        margin: auto;
+        width: 750px;
+        margin-top: 10em;
+    }
+    .movie-poster-img{
+        height: 10em;
+        margin: auto;
+        display: flex;
+    }
+    .list-movie-title{
+        font-size: 1.5em;
+        width: 90%;
+        margin-top: 0px;
+    }
+    .screenings-p{
+        width: 90%;
+    }
+    .screenings-list{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .list-item-container{
+        flex-direction: column;
+        width: 60%;
+        display: flex;
+        margin: auto 0;
+    }
+    .desktopvye{
+        display: flex;
+    }
+    .main-btn-color{
+        width: 7em;
+        height: 2em;
+    }
+    .visa-mer{
+        width: 4em;
+        margin-top: 30%;
+        color:#BA7E36;
+        margin-left: auto;
+    }
+    .screenings-list{
+        margin: 2em;
+        display: flex;
+        align-items: baseline;
+    }
+    .link-container{
+        margin: auto;
+    }
+    .screenings-info-container{
+        margin-top: .5em;
+    }
+}
+@media  (min-width: 1000px){
+    .date-container{
+        margin-left: 4em;
+    }
+    .return-container{
+        width: 900px;
+    }
+}
+@media  (min-width: 1500px){
+    .date-container{
+        margin-left: 6em;
+    }
+    .return-container{
+        width: 1200px;
+    }
+}

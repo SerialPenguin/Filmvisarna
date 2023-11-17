@@ -21,7 +21,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-
+app.use(express.static(path.join(__dirname, "../FrontEnd/src/service")));
 app.use(express.static(path.join(__dirname, "dist")));
 
 app.use("/api/movies", movieRoutes);

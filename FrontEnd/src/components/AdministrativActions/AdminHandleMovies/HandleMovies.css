@@ -1,0 +1,67 @@
+.option-title {
+  margin: -0.1em 0 0 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #c699ea;
+}
+.add-movie-container,
+.edit-movie-container {
+  display: flex;
+  justify-content: center;
+}
+.add-movie-form,
+.search-form,
+.edit-movie-form {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+.lbl {
+  text-align: start;
+  margin: 0.3em 0 0 0;
+  color: #ba7e36;
+}
+.input,
+.textarea {
+  border-radius: 6px;
+  padding: 0.2em;
+}
+.add-movie-btn,
+.edit-movie-btn {
+  align-self: center;
+  width: fit-content;
+  margin-top: 1em;
+}
+.movie-para {
+  border: 1px solid #ba7e36;
+  text-align: center;
+  flex-grow: 1;
+  padding: 0.5em 0.5em;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px black;
+  font-weight: 500;
+  color: #ba7e36;
+}
+.search-btn {
+  align-self: center;
+  width: fit-content;
+  margin-top: 1em;
+}
+.delete-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: red;
+}
+.warning-para {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: yellow;
+}
+.delete-btn {
+  background: red;
+  margin-right: 2em;
+}
+.delete-btn,
+.back-btn {
+  font-size: 0.9rem;
+}

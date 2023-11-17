@@ -1,0 +1,24 @@
+.event-carousel-container {
+  font-family: "Jost", sans-serif;
+  width: 70%;
+  height: 100%;
+  margin: -4em auto;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5em;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.movie-bg-img {
+  width: 90vw;
+}
+
+@media (min-width: 830px) {
+  .movie-bg-img {
+    margin-top: -8em;
+    width: 80%;
+  }
+}

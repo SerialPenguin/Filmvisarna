@@ -65,7 +65,7 @@ async function handleLogin(e, credentials, callback) {
   };
 
   try {
-    const res = await fetch("http://localhost:5173/api/auth/login", options);
+    const res = await fetch("/api/auth/login", options);
 
     if (res.status === 200) {
       const data = await res.json();

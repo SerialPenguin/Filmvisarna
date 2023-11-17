@@ -52,7 +52,7 @@
 
 @media (min-width: 800px) {
     .footer-container {
-        margin-top: 2em; ;
+        margin-top: 2em;
         display: flex;
         flex-direction: row-reverse;
         justify-content: center;

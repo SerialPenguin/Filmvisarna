@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BookingConfirmation from "../components/BookingConfirmationComponent/BookingConfirmation";
-import SeatsGrid from "../components/seatsGrid";
+import SeatsGrid from "../components/SeatsGrid";
 import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
 import DropdownSelect from "../components/DropdownSelectComponent";
 import TicketCounter from "../components/TicketCounterComponent";

@@ -14,7 +14,7 @@ import Profile from "./pages/Profile.jsx";
 import Events from "./pages/Events.jsx";
 import { AboutUs } from "./pages/AboutUs.jsx";
 import Admin from "./pages/Admin.jsx";
-import NoPage from "./pages/noPage.jsx";
+import NoPage from "./pages/NoPage.jsx";
 import "./index.css";
 
 

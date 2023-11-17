@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import HandleMovies from "../Components/AdministrativActions/AdminHandleMovies/HandleMovies.jsx";
-import HandleScreenings from "../Components/AdministrativActions/AdminHandleScreenings/HandleScreenings.jsx";
-import HandleBookings from "../Components/AdministrativActions/AdminHandleBookings/HandleBookings.jsx";
-import HandleMembers from "../Components/AdministrativActions/AdminHandleMembers/HandleMembers.jsx";
+import HandleMovies from "../components/AdministrativActions/AdminHandleMovies/HandleMovies.jsx";
+import HandleScreenings from "../components/AdministrativActions/AdminHandleScreenings/HandleScreenings.jsx";
+import HandleBookings from "../components/AdministrativActions/AdminHandleBookings/HandleBookings.jsx";
+import HandleMembers from "../components/AdministrativActions/AdminHandleMembers/HandleMembers.jsx";
 import "./Admin.css";
 import { useNavigate } from "react-router-dom";
 import { useAuthGet } from "../hooksAndUtils/useFetch.js";

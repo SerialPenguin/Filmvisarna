@@ -1,0 +1,11 @@
+.no-page-conatiner {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.no-page-header {
+  font-size: 3rem;
+  color: #ba7e36;
+}

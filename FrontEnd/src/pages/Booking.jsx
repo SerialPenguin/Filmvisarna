@@ -1,14 +1,14 @@
 /** @format */
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import BookingConfirmation from "../Components/BookingConfirmationComponent/BookingConfirmation";
-import SeatsGrid from "../Components/seatsGrid";
+import BookingConfirmation from "../components/BookingConfirmationComponent/BookingConfirmation";
+import SeatsGrid from "../components/seatsGrid";
 import { groupScreeningsByWeek } from "../hooksAndUtils/weekUtil";
-import DropdownSelect from "../Components/DropdownSelectComponent";
-import TicketCounter from "../Components/TicketCounterComponent";
-import ClearSeatsButton from "../Components/ClearSeatsButtonComponent";
+import DropdownSelect from "../components/DropdownSelectComponent";
+import TicketCounter from "../components/TicketCounterComponent";
+import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
 import { getWeekNumber } from "../hooksAndUtils/weekUtil";
-import SeatReleaseOnUnload from "../Components/SeatReleaseOnUnload";
+import SeatReleaseOnUnload from "../components/SeatReleaseOnUnload";
 import "./Booking.css";
 
 function Booking() {

@@ -33,11 +33,12 @@ export default function DeleteMovieComponent(props) {
   }
 
   async function deleteScreening() {
-    console.log(param);
     const result = await del(
       "/api/screenings/auth/admin/deleteScreening/" + param,
       props.token
     );
+
+    console.log(result)
     
     if(result.status === 200) {
       dialogRef.current?.close();

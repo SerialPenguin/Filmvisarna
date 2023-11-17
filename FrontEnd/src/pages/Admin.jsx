@@ -113,7 +113,7 @@ export default function Admin() {
                   }}>
                   X
                 </button>
-                <HandleBookings />
+                <HandleBookings token={token}/>
               </dialog>
             </div>
             <div className="option">
@@ -136,8 +136,8 @@ export default function Admin() {
                 </button>
                 <HandleMembers
                   optionState={optionState}
-                  token={token}
                   setOptionState={setOptionState}
+                  token={token}
                   topic={topic}
                 />
               </dialog>

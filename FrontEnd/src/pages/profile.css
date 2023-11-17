@@ -144,6 +144,14 @@
 }
 
 @media (min-width: 768px) {
+  .booking-history-card {
+    max-width: 60%;
+  }
+  .booking-history-card-text {
+    max-width: 30%;
+    max-height: 20em;
+    margin-top: 2em;
+  }
   .profile-page-container {
     margin-top: 6.5rem;
     align-items: center;

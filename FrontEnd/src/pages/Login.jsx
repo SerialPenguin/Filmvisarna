@@ -1,6 +1,6 @@
 /** @format */
 
-import LoginForm from "../Components/LoginForm";
+import LoginForm from "../components/LoginForm";
 import "./Login.css";
 
 function Login() {

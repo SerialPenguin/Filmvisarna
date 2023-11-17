@@ -15,7 +15,7 @@ async function handleRegister(e, credentials) {
   };
 
   const registerRes = await fetch(
-    "http://localhost:5173/api/auth/register",
+    "/api/auth/register",
     registerOptions
   );
 
@@ -33,7 +33,7 @@ async function handleRegister(e, credentials) {
     };
 
     const loginRes = await fetch(
-      "http://localhost:5173/api/auth/login",
+      "/api/auth/login",
       loginOptions
     );
 

@@ -87,6 +87,15 @@ const NavComponent = ({ onCloseClick, userRole }) => {
                 OM OSS
               </li>
             </Link>
+            <Link to={"/events"}>
+              <li
+                className={`nav-list-item ${
+                  location.pathname === "/events" ? "active" : ""
+                }`}
+                onClick={onCloseClick}>
+                EVENT
+              </li>
+            </Link>
             {userRole === "ADMIN" ? (
               <Link to={"/admin"}>
                 <li

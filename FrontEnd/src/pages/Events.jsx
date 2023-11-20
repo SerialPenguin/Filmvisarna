@@ -1,6 +1,5 @@
-
 import blueHour from "../assets/img/blue-hour_21.jpg";
-import mio from "../assets/img/mio_min_mio_3.avif"; 
+import mio from "../assets/img/mio_min_mio_3.avif";
 import grinch from "../assets/img/grinch.jpeg";
 import "./Events.css";
 
@@ -8,39 +7,40 @@ const Events = () => {
   const eventsInfo = [
     {
       date: "15 oktober - 4 november",
-      movie: "The Blue Hour", 
+      movie: "The Blue Hour",
       img: blueHour,
-      title: "Upplev rysligt nöje hos oss på Filmvisarna",
+      title: "Rysligt nöje hos Filmvisarna",
       textInfo:
-        "Låt dig förföras av två internationella skräckmästerverk i vårt Halloween-dunkla bioljus. Spänning, skräck och en natt du sent ska glömma. Vågar du?",
+        "Dyk in i Halloween-natten med Filmvisarna och upplev en oöverträffad skräckupplevelse. Vi presenterar två internationella skräckmästerverk som kommer få ditt hjärta att klappa snabbare. Vårt dunkla bioljus skapar den perfekta atmosfären för en oförglömlig kväll fylld med spänning och skräck. Var beredd på att bli förförd av mörkrets mystik och upplev en natt som kommer sätta sina spår i dina drömmar. Från överraskande vändningar till skrämmande scener - vågar du ge dig hän åt den rysliga njutningen? Ta mod till dig och fira Halloween med oss på Filmvisarna för en natt du sent kommer glömma.",
     },
     {
-        date: "1 december - 30 december",
-        movie: "Grinchen", 
-        img: grinch,
-        title: "Fånga julmagin hos oss i vinter",
-        textInfo:
-          " Två hjärtvärmande internationella julsagor väntar på dig i vår julfyllda biosalong. Upplev känslan av julefrid och överraskningar. En underbar kväll som sprider glädje!",
-      },
-      {
-        date: "3 januari - 16 januari",
-        movie: "Mio min Mio",
-        img: mio,
-        title:"Gör dig redo för #förtrollande äventyr!",
-        textInfo:
-          "Utforska en värld av skratt och spänning med två fantastiska barnfilmer. Ett magiskt äventyr för de små, fyllt med skratt och glädje. En dag fylld av överraskningar och lekfullhet! ",
-      },
+      date: "1 december - 30 december",
+      movie: "Grinchen",
+      img: grinch,
+      title: "Fånga julmagin i vinter",
+      textInfo:
+        "Följ med oss på Filmvisarna in i en julfylld värld, där två hjärtvärmande internationella julsagor väntar. I vår ombonade biosalong kommer du att uppleva känslan av julefrid och överraskningar. Luta dig tillbaka och låt dessa berättelser fylla ditt hjärta med värme och glädje. Från stämningsfulla miljöer till känslosamma ögonblick, varje scen är noggrant utvald för att skapa en underbar kväll som sprider julefrid och lycka. Ta med familj och vänner för att dela denna magiska stund tillsammans. Skapa minnen och låt juleandens glädje lysa upp ditt hjärta hos oss på Filmvisarna.",
+    },
+    {
+      date: "3 januari - 16 januari",
+      movie: "Mio min Mio",
+      img: mio,
+      title: "Gör dig redo för äventyr!",
+      textInfo:
+        "Ge dig hän åt en dag av glädje och lekfullhet hos Filmvisarna med två fantastiska barnfilmer som tar de små på ett magiskt äventyr. Utforska en värld av skratt och spänning där varje scen är fylld med glädje. Upplev hjärtvärmande överraskningar och låt barnens skratt fylla biosalongen. Från färgglada karaktärer till spännande berättelser är varje ögonblick noga utvalt för att skapa en oförglömlig upplevelse. Ta med hela familjen och fördjupa er i en dag av ren underhållning och glädje. Hos Filmvisarna väntar en värld där barnens lekfullhet och oskuldsfullhet tar center stage för en dag att minnas.",
+    },
   ];
 
   return (
     <div className="event-container">
-      <h1 className="event-header">Vad händer hos oss?</h1>
+      <h1 className="event-header">Event</h1>
+      {/* <p className="event-text">Här kan du få information om vad som händer hos oss på Filmvisarna.</p> */}
       {eventsInfo.map((event) => (
         <div key={event.title} className="event-cards">
-          <p className="event-date">{event.date}</p>
+          <h2 className="event-title">{event.title}</h2>
           <img className="event-img" src={event.img} alt="" />
           <div className="event-textbox">
-            <h2 className="event-title">{event.title}</h2>
+            <p className="event-date">{event.date}</p>
             <p className="event-text">{event.textInfo}</p>
           </div>
         </div>

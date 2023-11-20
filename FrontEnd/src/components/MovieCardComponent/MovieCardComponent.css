@@ -74,7 +74,7 @@
     font-weight: 500;
     justify-content: space-between;
     margin: -1.5em .5em .5em .7em;
-    width: 80%; 
+    width: 95%; 
   }
   
   .movie-card-description {
@@ -177,9 +177,11 @@
 
 
     .movie-card-title {
-        margin-top: -1em;
-        font-size: 1.3em;
+        margin-top: .3em;
+        font-size: 1.6em;
+        line-height: 1em;
         text-align: center;
+        /* border-bottom: 1px solid #A7610D; */
     }
 
     .moviecard-showmore-link {
@@ -199,7 +201,22 @@
     }
 
     .movie-card-info {
-      width: 95%; 
+      width: 87%; 
+      margin-top: -3em;
+    }
+
+    .movie-card-title {
+      margin: .2em;
+    }
+
+    .movie-card-description {
+      font-size: 1em;
+      /* font-weight: 300; */
+      color: white; 
+      margin: 0; 
+      height: 90px; 
+      margin-bottom: -2em; 
+      margin-top: -2em;
     }
     
 }

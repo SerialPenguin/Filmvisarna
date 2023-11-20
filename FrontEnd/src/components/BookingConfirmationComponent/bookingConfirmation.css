@@ -23,12 +23,6 @@
   flex-direction: column;
   align-items: center;
 }
-.change-email-container-hidden {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  visibility: hidden;
-}
 .second-header-email {
   text-align: center;
   font-weight: 300;
@@ -164,14 +158,14 @@
 }
 .confirm-btn {
   margin-top: 17%;
-  color: black; 
+  color: black;
   background-color: #c699ea;
 }
 .back-middle-btn {
   position: absolute;
   width: 30%;
   bottom: 0;
-  color: black; 
+  color: black;
   background-color: #c699ea;
 }
 @keyframes spin-text {
@@ -271,7 +265,7 @@
   }
   .change-email-btn {
     font-size: 0.7rem;
-    color: black; 
+    color: black;
     background-color: #c699ea;
   }
   .email-container {
@@ -307,7 +301,7 @@
     left: 0;
     right: 0;
     margin: 45% auto;
-    color: black; 
+    color: black;
     background-color: #c699ea;
   }
   .cancel-btn {
@@ -317,9 +311,8 @@
     left: 0;
     right: 0;
     margin: 57% auto;
-    color: black; 
+    color: black;
     background-color: #c699ea;
-
   }
   .ticket {
     position: absolute;

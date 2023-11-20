@@ -22,7 +22,6 @@ export default function BookingConfirmation(props) {
   const [price, setPrice] = useState();
   const [date, setDate] = useState();
   const [profile, setProfile] = useState();
-  const [hidden, setHidden] = useState(false);
 
   const secondHeader =
     animationStage === "start"
@@ -53,7 +52,8 @@ export default function BookingConfirmation(props) {
 
   useEffect(() => {
     if (profile) {
-      if (profile !== "Invalid token") {
+      console.log(profile)
+      if (profile.msg !== "jwt malformed") {
         setDisplayInput(false);
         setEmail(profile.emailAdress);
         setDisplayConfirmBtn(true);
@@ -132,7 +132,6 @@ export default function BookingConfirmation(props) {
     
     setTimeout(() => {
       setAnimationStage("start");
-      setHidden(false);
       if (token) {
         setDisplayInput(false);
         setDisplayConfirmBtn(true);
@@ -146,22 +145,22 @@ export default function BookingConfirmation(props) {
   return (
     <div className="main-container">
       <h2 className="book-page_header">Boka biljetter</h2>
-      <h3 className="second-header">
-        {displayInput === false && token
-          ? "Bekräftelsen skickas till"
-          : `${secondHeader}`}
-      </h3>
-        <div className={!hidden ? "change-email-container" : "change-email-container-hidden"}>
-          <h3 className="second-header-email">{email}</h3>
-          <button
-            className="change-email-btn"
-            onClick={() => {
-              setDisplayInput(true);
-              setEmail();
-            }}>
-            Ändra email
-          </button>
-        </div>
+      {displayInput === false && token ? (
+        <div className="change-email-container">
+         <h3 className="second-header">Bekräftelsen skickas till</h3>
+         <h3 className="second-header-email">{email}</h3>
+         <button
+           className="change-email-btn"
+           onClick={() => {
+             setDisplayInput(true);
+             setEmail();
+           }}>
+           Ändra email
+         </button>
+       </div>
+        ) : (
+        <h3 className="second-header">{secondHeader}</h3>
+      )}
       <div className="ticket-container">
         <div className={toggleClassName}>
           {displayInput === true && (
@@ -183,7 +182,6 @@ export default function BookingConfirmation(props) {
               onClick={() => {
                 setDisplayInput();
                 setToggleClassName("ticket-spin");
-                setHidden(true);
                 setTimeout(() => {
                   setDisplayConfirmBtn(false);
                   setAnimationStage("middle");
@@ -221,7 +219,7 @@ export default function BookingConfirmation(props) {
                           .sort()
                           .join(", ")}`}
                   </p>
-                  <p className="date">Datum: {date.slice(0, 30)}</p>
+                  <p className="date">Datum: {date.slice(0, -8)}</p>
                   <button
                     className="confirm-btn"
                     onClick={handleSendConfirmation}>

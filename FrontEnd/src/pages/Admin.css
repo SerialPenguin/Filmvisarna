@@ -55,7 +55,8 @@
   outline: none;
 }
 .dialog {
-  width: 65%;
+  min-width: 60%;
+  max-width: max-content;
   padding: 1em 2em;
   background-color: #ba7f3600;
   backdrop-filter: blur(8px);
@@ -70,4 +71,33 @@
 }
 .return-home-btn {
   font-size: 1rem;
+}
+@media screen and (min-width: 600px) {
+  .option {
+    margin: 0 auto;
+    max-width: 40%;
+  }
+}
+@media screen and (min-width: 800px) {
+  .admin-landing-page {
+    margin: 0 auto;
+    width: max-content;
+  }
+  .dialog {
+    min-width: 13%;
+  }
+}
+
+@media (orientation: landscape) {
+  .admin-landing-page {
+    height: 120vh;
+  }
+
+  .dialog {
+    min-width: 40%;
+  }
+
+  .option {
+    margin-top: 1em;
+  }
 }

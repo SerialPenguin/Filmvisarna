@@ -21,6 +21,11 @@
   margin: 0.3em 0 0 0;
   color: #ba7e36;
 }
+.input,
+.textarea {
+  border-radius: 6px;
+  padding: 0.2em;
+}
 .add-movie-btn,
 .edit-movie-btn {
   align-self: center;

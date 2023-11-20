@@ -291,7 +291,7 @@ function Screenings() {
                     <div className="list-item-container">
                       <h3 className="list-movie-title">
                         <Link
-                          to={`/search/movies/${screening.movie._id}`}
+                          to={`/sok/filmer/${screening.movie._id}`}
                           state={{ from: location.pathname }}
                           className="link-color">
                           {screening.movie.title}
@@ -310,10 +310,10 @@ function Screenings() {
                         </div>
                     </div>
                     <div className="link-container">
-                      <Link to={`/booking/${screening._id}`} className="main-btn-container">
+                      <Link to={`/bokning/${screening._id}`} className="main-btn-container">
                         <button className="main-btn-color">Boka</button>
                       </Link>
-                      <Link to={`/search/movies/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
+                      <Link to={`/sok/filmer/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
                           Visa mer
                       </Link>
                     </div>

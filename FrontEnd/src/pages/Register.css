@@ -1,6 +1,5 @@
 
 .register-wrapper {
-  /* background: linear-gradient(#150316, #3F1441) ; */
   z-index: 1001;
   width: 90%;
   height: calc(100vh - 4em);
@@ -19,7 +18,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1%;
   height: 100%;
   width: 100%;
 }
@@ -34,7 +32,6 @@
 .form-container {
   width: 100%;
   max-width: 768px;
-  /* padding: 0 8px; */
   display: flex;
   flex-direction: column;
 }
@@ -44,25 +41,25 @@
   flex-direction: column;
 }
 
-.login-lbl {
-  font-size: 16px;
-  font-weight: 500;
+.register-wrapper .login-lbl {
+  font-size: 14px;
+  font-weight: 600;
   color: #c699ea;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 
-.login-field {
+.register-wrapper .login-field {
   background-color: #2d142e;
   color: #c699ea;
-  height: 44px;
+  height: 36px;
   padding: 0 8px;
   font-size: 16px;
   border: 1px solid #c699ea;
   border-radius: 8px;
 }
 
-.first {
-  margin-bottom: 16px;
+.register-wrapper .first {
+  margin-bottom: 8px;
 }
 
 .register-p {
@@ -94,8 +91,13 @@
 }
 
 .register-msg {
-  color: rgb(182, 37, 71);
-  font-size: 16px;
+  max-width: 768px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #b85252;
 }
 
 .btn-container {

@@ -4,16 +4,18 @@ export default function ClearSeatsButton({
   setSeats,
   setTickets,
   setSelectedSeats,
+  selectedSeatsId,
 }) {
   const handleClearSelectedSeats = async () => {
     try {
       // Clear all selected seats in the backend by sending an empty array
-      const res = await fetch(`/api/reserveSeats`, {
-        method: "POST",
+      const res = await fetch(`/api/deleteSeats`, {
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [], // Empty array to show removal
+          seats: [],
+          selectedSeatsId, // Empty array to show removal
         }),
       });
 

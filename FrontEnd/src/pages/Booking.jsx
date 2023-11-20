@@ -49,6 +49,7 @@ function Booking() {
   const [chosenScreening, setChosenScreening] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [groupSeats, setGroupSeats] = useState(false);
+  const [selectedSeatsId, setSelectedSeatsId] = useState();
 
   const selectedMovieRef = useRef(null);
 
@@ -181,14 +182,16 @@ function Booking() {
       console.log("Please select a ticket before choosing a seat.");
       return;
     }
-    if (groupSeats) {
+    if (groupSeats && selectedSeatsId) {
+      console.log("Selected Seats:", selectedSeatsId);
       setSeats(findContiguousSeats(seatNumber, totalTicketCount));
-      fetch(`/api/reserveSeats`, {
-        method: "POST",
+      fetch(`/api/deleteSeats`, {
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [], // Empty array to show removal
+          // seats: [],
+          selectedSeatsId, // Empty array to show removal
         }),
       });
     } else {
@@ -222,6 +225,9 @@ function Booking() {
 
       if (!res.ok) throw new Error("Error reserving seat");
       const data = await res.json();
+
+      console.log(data);
+      setSelectedSeatsId(data.selectedSeatsId);
 
       if (data && data.success) {
         console.log(
@@ -570,6 +576,7 @@ function Booking() {
                   setSeats={setSeats}
                   setTickets={setTickets}
                   setSelectedSeats={setSelectedSeats}
+                  selectedSeatsId={selectedSeatsId}
                 />
               )}
               <div className="total-amount">

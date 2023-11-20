@@ -1,4 +1,6 @@
 import TemporaryBooking from '../models/temporaryBookingModel.js';
+import mongoose from 'mongoose';
+
 
 
 export const getTemporaryBookings = async (req, res) => {
@@ -22,16 +24,21 @@ export const getTemporaryBookings = async (req, res) => {
   }
 };
 
+export const deleteSeats = async (req, res) => {
+
+  const { selectedSeatsId } = req.body;
+
+    console.log("Trying to remove temporary seats:")
+    const deleteResult = await TemporaryBooking.deleteOne({ _id: new mongoose.Types.ObjectId(selectedSeatsId) }); // Delete all reservations for the screeningId
+    console.log(deleteResult);
+    return res.status(200).json({ msg: "Selected seats cleared successfully." });
+  
+}
+
 export const reserveSeats = async (req, res) => {
   try {
-    const { screeningId, seats, previousSeat } = req.body;
-
-    // If seats is an empty array or not provided, it means we want to clear selected seats
-    if (!screeningId || (!seats || seats.length === 0) && !previousSeat) {
-      await TemporaryBooking.deleteMany({ screeningId }); // Delete all reservations for the screeningId
-      return res.status(200).json({ msg: "Selected seats cleared successfully." });
-    }
-
+    const { screeningId, seats, previousSeat} = req.body;
+    
     // If a previous seat is provided, remove its reservation
     if (previousSeat) {
       await TemporaryBooking.deleteOne({ screeningId, 'seats.seatNumber': previousSeat });
@@ -46,7 +53,7 @@ export const reserveSeats = async (req, res) => {
     if (existingReservations.length > 0) {
       return res.status(400).json({ msg: "Some of the seats are already reserved." });
     }
-
+    console.log("Seats", seats);
     // If seats are not empty, create a new reservation
     const newReservation = new TemporaryBooking({
       screeningId,
@@ -55,7 +62,9 @@ export const reserveSeats = async (req, res) => {
 
     await newReservation.save();
 
-    return res.status(200).json({ msg: "Seats reserved successfully." });
+    console.log(newReservation);
+
+    return res.status(200).json({ msg: "Seats reserved successfully.", selectedSeatsId: newReservation._id });
   } catch (error) {
     console.error("Error reserving seats:", error);
     return res.status(500).json({ msg: "Internal server error." });

@@ -21,7 +21,7 @@ const FooterComponent = () => {
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {
-      setTimeout(() => navigate("/login"), 1500);
+      setTimeout(() => navigate("/logga-in"), 1500);
       console.log(result);
       setRegisterMessage("Du har blivit medlem!");
     } else {
@@ -88,7 +88,7 @@ const FooterComponent = () => {
           }
         />
         <p className="register-p">
-          Redan medlem? <Link to={"/login"} className="register-p-link">Klicka här</Link>
+          Redan medlem? <Link to={"/logga-in"} className="register-p-link">Klicka här</Link>
         </p>  
 
         <button className="footer-btn" type="submit" onClick={handleSubmit}>Bli medlem</button>

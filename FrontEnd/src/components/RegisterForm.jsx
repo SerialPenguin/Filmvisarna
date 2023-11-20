@@ -104,7 +104,7 @@ function RegisterForm() {
           />
         </div>
         <p className="register-p">
-          Redan medlem? <Link to={"/login"} className="register-p-link">Klicka här</Link>
+          Redan medlem? <Link to={"/logga-in"} className="register-p-link">Klicka här</Link>
         </p>  
       </form>
       <div className="btn-container">

@@ -113,7 +113,7 @@ function organizeScreeningsByDate(screenings) {
 function Screenings() {
   /* First filter options*/
   const ALL_MOVIES_OPTION = "Alla filmer";
-  const ALL_AGES_OPTION = "Ålder";
+  const ALL_AGES_OPTION = "Välj åldersgräns";
   const ALL_WEEKS_OPTION = "Alla veckor";
   const ALL_DATES_OPTION = "Alla Datum";
 
@@ -147,7 +147,7 @@ function Screenings() {
   function filterByAge(screenings, selectedAgeOption) {
     if (selectedAgeOption !== ALL_AGES_OPTION) {
       screenings = screenings.filter(
-        (screening) => screening.movie.age <= selectedAgeOption
+        (screening) => screening.movie.age === parseInt(selectedAgeOption)
       );
     }
     return screenings
@@ -228,10 +228,10 @@ function Screenings() {
           value={selectedAgeOption}
           onChange={(e) => setSelectedAgeOption(e.target.value)}>
           <option value={ALL_AGES_OPTION}>{ALL_AGES_OPTION}</option>
-          <option value="0">Barntillåtet</option>
-          <option value="7">7 år och under</option>
-          <option value="11">11 år och under</option>
-          <option value="15">15 år och under</option>
+          <option value="0">0 årsgräns</option>
+          <option value="7">7 årsgräns</option>
+          <option value="11">11 årsgräns</option>
+          <option value="15">15 årsgräns</option>
         </select>
         {/*------------------------- WEEK FILTER SELECT -------------------------*/}
         <select

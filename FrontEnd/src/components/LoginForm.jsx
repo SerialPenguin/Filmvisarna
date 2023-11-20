@@ -65,6 +65,10 @@ function LoginForm() {
             <Link to={"/register"} className="register-p-link">
               Klicka här
             </Link>
+            Inte medlem ännu?{" "}
+            <Link to={"/registrera"} className="register-p-link">
+              Klicka här
+            </Link>
           </p>
         </div>
       </form>

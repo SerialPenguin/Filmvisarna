@@ -228,10 +228,10 @@ function Screenings() {
           value={selectedAgeOption}
           onChange={(e) => setSelectedAgeOption(e.target.value)}>
           <option value={ALL_AGES_OPTION}>{ALL_AGES_OPTION}</option>
-          <option value="0">0 årsgräns</option>
-          <option value="7">7 årsgräns</option>
-          <option value="11">11 årsgräns</option>
-          <option value="15">15 årsgräns</option>
+          <option value="0">Barntillåtet</option>
+          <option value="7">7-årsgräns</option>
+          <option value="11">11-årsgräns</option>
+          <option value="15">15-årsgräns</option>
         </select>
         {/*------------------------- WEEK FILTER SELECT -------------------------*/}
         <select

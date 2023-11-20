@@ -214,7 +214,7 @@ function Screenings() {
           </option>
           {[
             ...new Set(
-              filteredScreenings.map((screening) => screening.movie.title)
+              screenings.map((screening) => screening.movie.title)
             ),
           ].map((title) => (
             <option key={title} value={title}>

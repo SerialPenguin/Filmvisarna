@@ -35,18 +35,17 @@
     min-height: 100vh; 
 }
 .screenings-p{
-    color: #BA7E36;
+    color: #DB00FF;
 }
 .date-title{
     color: #BA7E36;
     font-size: 2em;
 }
 .list-movie-title, .screenings-p{
-    width: 25%;
     margin: 0px auto;
 }
 .list-movie-title{
-    width: 35%;
+    width: 40%;
 }
 .seperator{
     margin: auto;
@@ -84,7 +83,7 @@
     height: 100vh;
 }
 .link-color{
-    color:#C699EA;
+    color:#BA7E36;
     font-size: large;
 }
 .movie-poster-img{
@@ -186,7 +185,7 @@
     }
     .visa-mer{
         width: 4em;
-        margin-top: 30%;
+        margin-top: 20%;
         color:#BA7E36;
         margin-left: auto;
     }

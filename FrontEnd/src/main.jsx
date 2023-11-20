@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/bokning/:screeningId", element: <Booking /> },
-      { path: "/sök/filmer/:movieId", element: <MovieInfo /> },
+      { path: "/sok/filmer/:movieId", element: <MovieInfo /> },
       { path: "/visningar", element: <Screenings /> },
       { path: "/registrera", element: <Register /> },
       { path: "/logga-in", element: <Login /> },

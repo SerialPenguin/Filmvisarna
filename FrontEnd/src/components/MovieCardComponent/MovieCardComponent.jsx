@@ -82,7 +82,7 @@ const MovieCardComponent = () => {
                     Boka
                   </button>
 
-                  <Link to={`/sök/filmer/${movie._id}`}>
+                  <Link to={`/sok/filmer/${movie._id}`}>
                     <p className="moviecard-showmore-link">visa mer...</p>
                   </Link>
                 </div>

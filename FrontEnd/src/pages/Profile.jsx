@@ -153,8 +153,10 @@ export default function Profile() {
     <section className="profile-page-container">
       <h2 className="profile-h2">Profil</h2>
       <div className="profilepage-content">
+        <h3 className="profile-h3">Dina uppgifter</h3>
         <table className="profile-table">
           <tbody className="profile-tbody">
+            
             <tr>
               <td className="profile-first-row">Förnamn:</td>
               <td className="profile-second-row">{userData.firstName}</td>
@@ -169,9 +171,10 @@ export default function Profile() {
             </tr>
           </tbody>
         </table>
+                  <h3 className="profile-h3">Aktuella bokningar</h3>
 
         <ul className="booking-history-ul">
-          <h3 className="profile-h3">Bokningshistorik</h3>
+
           {combinedData.length === 0 ? (
             <li className="no-bookings-found-text">
               Inga aktuella bokningar hittades
@@ -215,26 +218,29 @@ export default function Profile() {
                           <p>{item.startTime.slice(0, -14)}</p>
                         </div>
                         <div className="history-seat">
-                          <p>Platser:</p>
-                          {item.seats.map((seat, i) => (
+                          <p className="history-seat-title">Platser:</p>
+                          <div className="history-seat-container">      {item.seats.map((seat, i) => (
                             <p className="history-seat-numbers" key={i}>
-                              {seat.seatNumber},
+                              {seat.seatNumber}
                             </p>
-                          ))}
+                          ))}</div>
+                    
                         </div>
                       </div>
 
                       <button
-                        className="delete-current-booking-btn"
+                        className="delete-booking-btn"
                         onClick={() => deleteBooking(item.bookingId)}>
-                        Ta bort bokning
+                        Avboka
                       </button>
                     </div>
                   </div>
                 </li>
               ))
           )}
-
+          </ul>
+<h3 className="profile-h3">Tidigare bokningar</h3>
+<ul className="booking-history-ul">
           {combinedData.length === 0 ? (
             <li className="booking-history-check">
               Inga tidigare bokningar hittades
@@ -251,11 +257,13 @@ export default function Profile() {
 
                     <div className="booking-history-card-text">
                       <div className="history-card-title">
-                        <p className="card-title">
+                      <p className="card-title">{item.title}</p>
+
+                        {/* <p className="card-title">
                           {item.title.length > 15
                             ? `${item.title.substring(0, 13)}...`
                             : item.title}
-                        </p>
+                        </p> */}
                         <div className="genre-title-container">
                           <p className="card-genre">{item.genre}</p>
                           <p className="card-year">{item.productionYear}</p>
@@ -277,19 +285,19 @@ export default function Profile() {
                           <p>{item.startTime.slice(0, -14)}</p>
                         </div>
                         <div className="history-seat">
-                          <p>Platser:</p>
-                          {item.seats.map((seat, i) => (
+                          <p className="history-seat-title">Platser:</p>
+                              <div className="history-seat-container">      {item.seats.map((seat, i) => (
                             <p className="history-seat-numbers" key={i}>
-                              {seat.seatNumber},
+                              {seat.seatNumber}
                             </p>
-                          ))}
+                          ))}</div>
                         </div>
                       </div>
 
                       <button
-                        className="booking-history-btn"
+                        className="delete-booking-btn"
                         onClick={() => deleteBooking(item.bookingId)}>
-                        Ta bort bokning
+                        Ta bort
                       </button>
                     </div>
                   </div>

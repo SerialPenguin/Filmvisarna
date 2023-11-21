@@ -175,9 +175,16 @@ function Screenings() {
         );
       });
     }
-    console.log(screenings)
     return screenings;
   }
+ // ----------------- FILTER RESET FOR OPTIONS -----------------
+  const resetFilters = () => {
+    // Reset all filter options to their default values
+    setSelectedFilterOption(ALL_MOVIES_OPTION);
+    setSelectedAgeOption(ALL_AGES_OPTION);
+    setSelectedWeek(ALL_WEEKS_OPTION);
+    setSelectedDate(ALL_DATES_OPTION);
+  };
 
   // filter list logic
   useEffect(() => {
@@ -272,6 +279,14 @@ function Screenings() {
           </select>
         )}
       </div>
+      {Object.keys(screeningsByDate).length === 0 && (
+        <div>
+          <p className="no-results-text">Inga visningar matchar dina filter.</p>
+          <p className="clear-filters-text" onClick={resetFilters}>
+            Klicka här för att återställa filtreringen
+          </p>
+      </div>
+      )}
       {loading ? (
         <p className="Laddar">Laddar...</p>
       ) : (

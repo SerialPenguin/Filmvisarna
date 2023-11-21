@@ -29,3 +29,9 @@
     transform: scale(0.9)
   }
 }
+
+@media screen and (orientation: landscape){
+  .movie-bg-img {
+    width: 60%; 
+  }
+}

@@ -95,11 +95,6 @@
   }
 }
 
-@media screen and (orientation: landscape){
-  .member-carousel-container {
-    transform: scale(0.5);
-  }
-}
 
 @media (min-width: 1768px) {
   .member-carousel-container {

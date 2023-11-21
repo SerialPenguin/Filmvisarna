@@ -45,9 +45,5 @@
       }
       
   }
-  @media screen and (orientation: landscape){
-    .welcome-carousel-container {
-      height: 72lvh; 
-    }
-  }
+  
   

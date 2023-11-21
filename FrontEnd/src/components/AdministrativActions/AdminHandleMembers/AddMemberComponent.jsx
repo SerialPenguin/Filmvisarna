@@ -32,7 +32,6 @@ export default function AddMemberComponent(props) {
       formBody,
       props.token
     );
-    console.log(result)
 
     if(result.status === 200){
       props.memberRef.close();

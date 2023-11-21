@@ -1,14 +1,126 @@
-.add-member-container {
+.add-member-container,
+.edit-member-container,
+.find-member-container {
   display: flex;
   justify-content: center;
 }
-.member-form {
+.member-form,
+.edit-member-form {
   display: flex;
   flex-direction: column;
   width: 70%;
 }
-.add-member-btn {
+.add-member-btn,
+.edit-member-btn {
   align-self: center;
   width: fit-content;
   margin-top: 1em;
+}
+.edit-member-btn {
+  width: max-content;
+  font-size: 0.9rem;
+}
+.member-back-btn {
+  margin-top: 1em;
+  font-size: 0.7rem;
+  width: max-content;
+  align-self: center;
+}
+.find-user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.find-user-header {
+  margin: 0.5em 0 0.5em 0;
+  font-size: 1.3rem;
+  color: #c699ea;
+}
+.user-email-input {
+  margin: 1em 0;
+  border-radius: 9px;
+  color: #ba7e36;
+  background-color: rgba(70, 19, 121, 0.007);
+  outline: none;
+}
+.user-email-input:-webkit-autofill,
+.user-email-input:-webkit-autofill:hover,
+.user-email-input:-webkit-autofill:focus,
+.user-email-input:-webkit-autofill:active {
+  transition: background-color 5000000s ease-in-out 0s;
+  -webkit-text-fill-color: #ba7e36;
+  outline: none;
+}
+.checkbox-lbl-group {
+  margin-top: 1em;
+  width: max-content;
+  position: relative;
+  border: 2px solid red;
+  align-self: center;
+  color: #ba7e36;
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox {
+  visibility: hidden;
+  cursor: pointer;
+  margin-right: 1em;
+}
+.slider {
+  width: 100px;
+  height: 28px;
+  background: #ffffff20;
+  margin: 20px auto;
+
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  position: relative;
+
+  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5),
+    0px 1px 0px rgba(255, 255, 255, 0.2);
+  -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5),
+    0px 1px 0px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5),
+    0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slider:after {
+  content: "USER";
+  position: absolute;
+  color: #cacaca92;
+  left: 25px;
+  top: 6px;
+  margin-left: 2.5em;
+  font-size: 0.8rem;
+  text-shadow: 1px 1px 0px #58585892;
+}
+.slider:before {
+  content: "ADMIN";
+  position: absolute;
+  left: -27px;
+  top: 6px;
+  color: rgb(235, 157, 32);
+  margin-left: 2.5em;
+  font-size: 0.8rem;
+  text-shadow: 1px 1px 0px #58585892;
+}
+.checkbox-lbl {
+  position: absolute;
+  display: block;
+  z-index: 100;
+  height: 23px;
+  width: 47px;
+  top: 4px;
+  left: 2px;
+  border-radius: 50px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgb(98, 98, 98) 100%
+  );
+  cursor: pointer;
+  -webkit-transition: all 0.4s ease;
+}
+.checkbox:checked + .checkbox-lbl {
+  left: 51px;
 }

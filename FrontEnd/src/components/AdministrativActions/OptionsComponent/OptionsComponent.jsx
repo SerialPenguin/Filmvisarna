@@ -17,11 +17,13 @@ export default function OptionsComponent(props) {
                   Redigera {props.topic}
                 </p>
               )}
-              <p
-                className="option"
-                onClick={() => props.setOptionState("delete")}>
-                Ta bort {props.topic}
-              </p>
+              {props.topic !== "medlem" && (
+                <p
+                  className="option"
+                  onClick={() => props.setOptionState("delete")}>
+                  Ta bort {props.topic}
+                </p>
+              )}
             </div>
           )}
         </div>

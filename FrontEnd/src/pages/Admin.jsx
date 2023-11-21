@@ -95,7 +95,7 @@ export default function Admin() {
                 />
               </dialog>
             </div>
-            <div className="option">
+            <div className="option" >
               <p
                 className="options-title"
                 onClick={() => {
@@ -113,7 +113,11 @@ export default function Admin() {
                   }}>
                   X
                 </button>
-                <HandleBookings token={token}/>
+                <HandleBookings 
+                  optionState={optionState}
+                  setOptionState={setOptionState} 
+                  bookingRef={bookingRef.current}
+                  token={token}/>
               </dialog>
             </div>
             <div className="option">

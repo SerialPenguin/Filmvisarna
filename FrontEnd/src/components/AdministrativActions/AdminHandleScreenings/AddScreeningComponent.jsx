@@ -39,15 +39,11 @@ export default function AddScreeningComponent(props) {
       }
     }
 
-    console.log("FB: ", formBody);
-
     const postMovie = await adminPost(
       "/api/auth/admin/addScreening",
       formBody,
       props.token
     );
-
-    console.log("PM: ", postMovie);
 
     if(postMovie.status === 403){
       setStatus(403);

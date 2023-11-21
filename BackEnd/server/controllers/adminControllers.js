@@ -63,7 +63,7 @@ export const getBookingByQuery = async (req, res) => {
     if(!booking) {
       res.status(404).send({ msg: "Bookningen hittades inte, var god kontrollera bokningsnumret"});
     }else {
-      res.status(200).send({ status: 200, booking: booking});        
+      res.status(200).send({ status: 200, booking: booking});     
     }
 
   }catch(err) {
@@ -74,14 +74,30 @@ export const getBookingByQuery = async (req, res) => {
 export const getUserById = async (req, res) => {
   const param = req.params;
 
-  console.log(new mongoose.Types.ObjectId(param.id))
-
   try {
 
     const id = new mongoose.Types.ObjectId(param.id);
     
     const collection = mongoose.connection.collection('users');
     const user = await collection.findOne({_id: id});
+
+    if(user) {
+      res.status(200).send({status: 200, user: user});
+    }else {
+      res.status(404).send({msg: "Kunde inte hitta användaren"});
+    }
+  }catch(err) {
+    console.log(err)
+  }
+}
+
+export const getUserByEmail = async (req, res) => {
+  const param = req.params;
+
+  try {
+    
+    const collection = mongoose.connection.collection('users');
+    const user = await collection.findOne({emailAdress: param.email});
 
     if(user) {
       res.status(200).send({status: 200, user: user});
@@ -149,6 +165,7 @@ export const addMovie = async (req, res) => {
       title, 
       productionCountries, 
       productionYear, 
+      
       length, 
       genre, 
       distributor, 
@@ -214,21 +231,56 @@ export const addMember = async (req, res) => {
 //PATCH REQUESTS
 export const editMovie = async (req, res) => {
   
-  const changes = req.body;
+  const body = req.body;
 
   try {
     const collection = mongoose.connection.collection('movies');
-    const movie = await collection.findOne({title: changes.title});
+    const movie = await collection.findOne({title: body.title});
 
     if (!movie) {
       return res.status(404).json({ error: 'Filmen kunde inte hittas, kontrollera stavningen' });
     }
 
-    delete changes.title;
+    delete body.title;
 
-    await collection.updateOne({ _id: movie._id },{$set: changes});
+    await collection.updateOne({ _id: movie._id },{$set: body});
 
     res.status(200).send({ msg: `Redigering av filmen ${movie.title} lyckades`});
+
+  }catch(err) {
+    console.log(err);
+  }
+}
+
+export const editMember = async (req, res) => {
+  
+  const body = req.body;
+
+  try {
+
+    const id = new mongoose.Types.ObjectId(body._id);
+
+    console.log("ID: ", id)
+
+    const collection = mongoose.connection.collection('users');
+    const user = await collection.findOne({_id: id});
+
+    if (!user) {
+      return res.status(404).json({ error: 'Användaren kunde inte hittas, kontrollera stavningen' });
+    }
+
+    console.log("1: ",body)
+
+    delete body._id; 
+    delete body.password;
+    delete body.bookingHistory;
+
+    console.log("2: ", body)
+
+    const result = await collection.updateOne({ _id: user._id },{$set: body});
+
+    if(user.modifiedCount > 0) res.status(200).send({ status: 200, msg: `Redigering av medlem ${body.firstName} ${body.lastName} lyckades`});
+    else res.send(500).send({status: 500, msg: "Något gick snett"});
 
   }catch(err) {
     console.log(err);

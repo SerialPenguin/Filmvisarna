@@ -37,8 +37,6 @@ export default function DeleteMovieComponent(props) {
       "/api/auth/admin/deleteScreening/" + param,
       props.token
     );
-
-    console.log(result)
     
     if(result.status === 200) {
       dialogRef.current?.close();

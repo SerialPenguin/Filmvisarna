@@ -176,6 +176,11 @@ export default function BookingConfirmation(props) {
                 id="email"></input>
             </div>
           )}
+           {animationStage === "start" && (
+            <button className="cancel-btn" onClick={handleCanceling}>
+              Backa
+            </button>
+          )}
           {displayConfirmBtn === true && email?.includes("@") && (
             <button
               className="send-btn"
@@ -188,11 +193,6 @@ export default function BookingConfirmation(props) {
                 }, 600);
               }}>
               Till bekräftelse
-            </button>
-          )}
-          {animationStage === "start" && (
-            <button className="cancel-btn" onClick={handleCanceling}>
-              Backa
             </button>
           )}
           <img className="ticket-front" src={TicketFront} />
@@ -220,13 +220,13 @@ export default function BookingConfirmation(props) {
                           .join(", ")}`}
                   </p>
                   <p className="date">Datum: {date.slice(0, -8)}</p>
+                  <button className="back-middle-btn" onClick={handleBacking}>
+                    Backa
+                  </button>
                   <button
                     className="confirm-btn"
                     onClick={handleSendConfirmation}>
                     Bekräfta
-                  </button>
-                  <button className="back-middle-btn" onClick={handleBacking}>
-                    Backa
                   </button>
                 </div>
               )}

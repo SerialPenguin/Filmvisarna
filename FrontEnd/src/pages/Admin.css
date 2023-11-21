@@ -16,6 +16,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  max-width: 80%;
   min-height: 100vh;
 }
 .admin-options-header {
@@ -72,32 +74,29 @@
 .return-home-btn {
   font-size: 1rem;
 }
-@media screen and (min-width: 600px) {
-  .option {
-    margin: 0 auto;
-    max-width: 40%;
-  }
-}
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 700px) {
   .admin-landing-page {
+    max-width: 60%;
     margin: 0 auto;
-    width: max-content;
   }
   .dialog {
-    min-width: 13%;
+    min-width: 30%;
+  }
+}
+@media screen and (min-width: 1290px) {
+  .admin-landing-page {
+    max-width: 45%;
+    margin: 0 auto;
   }
 }
 
 @media (orientation: landscape) {
   .admin-landing-page {
-    height: 120vh;
+    margin-top: 3em;
+    height: 100%;
   }
 
   .dialog {
-    min-width: 40%;
-  }
-
-  .option {
-    margin-top: 1em;
+    max-width: 40%;
   }
 }

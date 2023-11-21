@@ -1,0 +1,14 @@
+.add-member-container {
+  display: flex;
+  justify-content: center;
+}
+.member-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+.add-member-btn {
+  align-self: center;
+  width: fit-content;
+  margin-top: 1em;
+}

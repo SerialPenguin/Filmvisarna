@@ -5,6 +5,7 @@ import bookingRoutes from "./routes/bookingRoutes.js";
 import movieRoutes from "./routes/movieRoutes.js";
 import screeningRoutes from "./routes/screeningRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
 import { getSeats } from "./controllers/seatsController.js";
 import Booking from "./models/bookingModel.js";
@@ -12,6 +13,7 @@ import { reserveSeats } from "./controllers/temporarySeatsController.js";
 import TemporaryBooking from "./models/temporaryBookingModel.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import authFilter from "./filter/authFilter.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -31,6 +33,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/seats", getSeats);
 app.use("/api/reserveSeats", reserveSeats);
+app.use("/api/auth/admin", authFilter.admin, adminRoutes);
 
 app.get("/api/events/:screeningId", async (req, res) => {
   const { screeningId } = req.params;

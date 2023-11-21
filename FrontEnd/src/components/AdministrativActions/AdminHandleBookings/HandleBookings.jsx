@@ -15,16 +15,15 @@ export default function HandleBookings(props) {
   const debounceSearch = useDebounce(search);
 
   useEffect(() => {
-
     const getBooking = async () => {
-      const result = await authGet("/api/search/auth/admin/getBooking/" 
+      const result = await authGet("/api/auth/admin/getBooking/" 
         + debounceSearch,
         props.token
       )
       if(result.status === 200) setBooking(result.booking);
       else setBooking();
     }
-    console.log("DB: ", debounceSearch)
+
     getBooking();
   }, [debounceSearch])
 
@@ -41,7 +40,7 @@ export default function HandleBookings(props) {
     console.log(tickets)
 
     async function getUserInfo() {
-      setUser(await authGet('/api/search/auth/admin/getUser/' + booking?.bookedBy.user, props.token))
+      setUser(await authGet('/api/auth/admin/getUser/' + booking?.bookedBy.user, props.token))
       setSalon(await authGet('/api/search/seats/' + booking?.salonId));
     }
 

@@ -12,16 +12,12 @@ export default function EditScreeningComponent(props) {
       setAllMovies(data)
     });
 
-    // useAuthGet("/api/search/auth/admin/getSalon", props.token, (data) => {
-    //   setSalons(data);
-    // });
-
   async function getScreeningFromTitle(e) {
     e.preventDefault();
 
     setScreenings(
       await authGet(
-        "/api/search/auth/admin/getScreening/" + e.target.id,
+        "/api/auth/admin/getScreening/" + e.target.id,
         props.token
       )
     );

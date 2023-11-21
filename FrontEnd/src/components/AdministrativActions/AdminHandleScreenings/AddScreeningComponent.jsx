@@ -14,7 +14,7 @@ export default function AddScreeningComponent(props) {
     setMovies(data)
   });
   
-  useAuthGet("/api/search/auth/admin/getSalon", props.token, (data) => {
+  useAuthGet("/api/auth/admin/getSalon", props.token, (data) => {
     setSalons(data);
   });
   
@@ -42,7 +42,7 @@ export default function AddScreeningComponent(props) {
     console.log("FB: ", formBody);
 
     const postMovie = await adminPost(
-      "/api/screenings/auth/admin/addScreening",
+      "/api/auth/admin/addScreening",
       formBody,
       props.token
     );

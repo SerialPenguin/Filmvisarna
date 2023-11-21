@@ -13,16 +13,30 @@ const FooterComponent = () => {
     password: "",
   });
 
-  
-  // const [registerMessage, setRegisterMessage] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!credentials.firstName ||
+      !credentials.lastName ||
+      !credentials.emailAdress ||
+      !credentials.password){
+        setRegisterMessage("Alla fält måste vara korrekt ifyllda")
+      }
+
+      const emailRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegEx.test(credentials.emailAdress)){
+        setRegisterMessage("Vad god ange en giltig e-postadress");
+      }
+
+      const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[A-Z]).{8,}$/;
+      if (!passwordRegEx.test(credentials.password)) {
+        setRegisterMessage("Lösenordet måste innehålla minst 8 tecken, en bokstav, en siffra och en stor bokstav")
+      }
+      
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {
       setTimeout(() => navigate("/logga-in"), 1500);
-      console.log(result);
       setRegisterMessage("Du har blivit medlem!");
     } else {
       console.error();

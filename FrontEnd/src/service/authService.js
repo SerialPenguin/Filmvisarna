@@ -15,9 +15,12 @@ async function handleRegister(e, credentials) {
   };
 
   const registerRes = await fetch(
-    "http://localhost:5173/api/auth/register",
+    "/api/auth/register",
     registerOptions
   );
+
+  console.log(registerOptions);
+
 
   if (registerRes.status === 201) {
     const loginOptions = {
@@ -33,7 +36,7 @@ async function handleRegister(e, credentials) {
     };
 
     const loginRes = await fetch(
-      "http://localhost:5173/api/auth/login",
+      "/api/auth/login",
       loginOptions
     );
 
@@ -65,7 +68,7 @@ async function handleLogin(e, credentials, callback) {
   };
 
   try {
-    const res = await fetch("http://localhost:5173/api/auth/login", options);
+    const res = await fetch("/api/auth/login", options);
 
     if (res.status === 200) {
       const data = await res.json();

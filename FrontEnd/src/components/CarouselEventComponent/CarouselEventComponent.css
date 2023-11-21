@@ -40,4 +40,10 @@
         width: 60%;
     }
 }
+
+@media (min-width: 2300px) {
+    .movie-bg-img{
+      transform: scale(1.4);
+    }
+}
  

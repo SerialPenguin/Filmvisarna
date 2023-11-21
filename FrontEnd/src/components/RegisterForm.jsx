@@ -44,9 +44,10 @@ function RegisterForm() {
       );
       return;
     }
-
-    const result = await authService.handleRegister(e, credentials);
+    console.log(credentials);
     
+    const result = await authService.handleRegister(e, credentials);
+    console.log(result);
     if (result === true) {
       setTimeout(() => navigate("/"), 1500);
       setRegisterMessage("Du har blivit medlem!");

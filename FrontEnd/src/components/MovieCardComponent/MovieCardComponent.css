@@ -194,6 +194,7 @@
 
     .movie-card-btn:hover {
       background-color: #FFB800;
+      transform: scale(1.1);
     }
 
     .movie-card-header {

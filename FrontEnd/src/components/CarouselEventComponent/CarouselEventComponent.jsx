@@ -7,7 +7,7 @@ const CarouselEventComponent = () => {
   return (
     <div className="event-carousel-container">
       <Link to={"/evenemang"}>
-      <img src={movieEventImg} alt="" className="movie-bg-img"/>
+      <img src={movieEventImg} title="Click for more info" className="movie-bg-img"/>
       </Link>
     </div>
   );

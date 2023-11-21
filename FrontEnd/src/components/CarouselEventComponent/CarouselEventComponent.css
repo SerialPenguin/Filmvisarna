@@ -28,6 +28,10 @@
     width: 80%;
     transform: scale(0.9)
   }
+
+  .movie-bg-img:hover {
+    transform: scale(1.2);
+  }
 }
 
 @media screen and (max-device-width: 700px) 

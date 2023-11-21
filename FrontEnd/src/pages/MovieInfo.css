@@ -95,3 +95,9 @@ iframe, .iframe-container {
         width: 53%;
     }
 }
+
+@media (min-width: 2000px) {
+    .movie-info-text {
+        width: 45%; 
+    }
+}

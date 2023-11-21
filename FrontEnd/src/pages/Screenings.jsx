@@ -279,65 +279,68 @@ function Screenings() {
           </select>
         )}
       </div>
-      {Object.keys(screeningsByDate).length === 0 && (
-        <div>
-          <p className="no-results-text">Inga visningar matchar dina filter.</p>
-          <p className="clear-filters-text" onClick={resetFilters}>
-            Klicka här för att återställa filtreringen
-          </p>
-      </div>
-      )}
       {loading ? (
         <p className="Laddar">Laddar...</p>
       ) : (
-        Object.keys(screeningsByDate)
-        .sort((a, b) => new Date(a) - new Date(b))
-        .map((date) => (
-          <div key={date}>
-            <div className="date-container">
-              <h2 className="date-title">{GetDayFromDate(date)}</h2>
-              <p className="date-dates">{GetDateFromDate(date)}</p>
+        <>
+          {Object.keys(screeningsByDate).length === 0 ? (
+            <div>
+              <p className="no-results-text">Inga visningar matchar dina filter.</p>
+              <p className="clear-filters-text" onClick={resetFilters}>
+                Klicka här för att återställa filtreringen
+              </p>
             </div>
-            <ul className="screenings-list-container">
-              <div className="seperator"></div>
-              {screeningsByDate[date].map((screening) => (
-                <li key={screening._id} className="screenings-list">
-                  <img src={screening.movie.images[0]} className="movie-poster-img"></img> 
-                    <div className="list-item-container">
-                      <h3 className="list-movie-title">
-                        <Link
-                          to={`/sok/filmer/${screening.movie._id}`}
-                          state={{ from: location.pathname }}
-                          className="link-color">
-                          {screening.movie.title}
-                        </Link>
-                      </h3>
-                        <div className="screenings-info-container">
-                        {screening.salon.name === "Small salon" ? (
-                          <p className="screenings-p">Lilla salongen</p>
-                        ) : (
-                          <p className="screenings-p">Stora salongen</p>
-                        )}
-                        <p className="screenings-p">
-                          {formatTimeToHHMM(screening.startTime)}
-                        </p>
-                        <p className="screenings-p desktopvye">{screening.movie.age} år</p>
-                        </div>
-                    </div>
-                    <div className="link-container">
-                      <Link to={`/bokning/${screening._id}`} className="main-btn-container">
-                        <button className="main-btn-color">Boka</button>
-                      </Link>
-                      <Link to={`/sok/filmer/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
-                          Visa mer
-                      </Link>
-                    </div>
-                </li>
-              ))}
-              <div className="seperator"></div>
-            </ul>
-          </div>
-        ))
+          ) : (
+            Object.keys(screeningsByDate)
+              .sort((a, b) => new Date(a) - new Date(b))
+              .map((date) => (
+                <div key={date}>
+                  <div className="date-container">
+                    <h2 className="date-title">{GetDayFromDate(date)}</h2>
+                    <p className="date-dates">{GetDateFromDate(date)}</p>
+                  </div>
+                  <ul className="screenings-list-container">
+                    <div className="seperator"></div>
+                    {screeningsByDate[date].map((screening) => (
+                      <li key={screening._id} className="screenings-list">
+                        <img src={screening.movie.images[0]} className="movie-poster-img"></img> 
+                          <div className="list-item-container">
+                            <h3 className="list-movie-title">
+                              <Link
+                                to={`/sok/filmer/${screening.movie._id}`}
+                                state={{ from: location.pathname }}
+                                className="link-color">
+                                {screening.movie.title}
+                              </Link>
+                            </h3>
+                              <div className="screenings-info-container">
+                              {screening.salon.name === "Small salon" ? (
+                                <p className="screenings-p">Lilla salongen</p>
+                              ) : (
+                                <p className="screenings-p">Stora salongen</p>
+                              )}
+                              <p className="screenings-p">
+                                {formatTimeToHHMM(screening.startTime)}
+                              </p>
+                              <p className="screenings-p desktopvye">{screening.movie.age} år</p>
+                              </div>
+                          </div>
+                          <div className="link-container">
+                            <Link to={`/bokning/${screening._id}`} className="main-btn-container">
+                              <button className="main-btn-color">Boka</button>
+                            </Link>
+                            <Link to={`/sok/filmer/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
+                                Visa mer
+                            </Link>
+                          </div>
+                      </li>
+                    ))}
+                    <div className="seperator"></div>
+                  </ul>
+                </div>
+              ))
+          )}
+        </>
       )}
     </div>
   );

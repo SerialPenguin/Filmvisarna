@@ -24,4 +24,8 @@
     .front-carousel-icon {
       top: 50%;
     }
+
+    .front-carousel-icon:hover {
+      transform: scale(2);
+    }
 }

@@ -45,5 +45,11 @@
       }
       
   }
-  
-  
+
+  @media screen and (max-device-width: 700px) 
+    and (orientation: landscape) {
+      .welcome-carousel-container {
+        height: 72lvh; 
+      }
+}
+

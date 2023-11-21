@@ -30,8 +30,10 @@
   }
 }
 
-/* @media screen and (orientation: landscape){
-  .movie-bg-img {
-    width: 60%; 
-  }
-} */
+@media screen and (max-device-width: 700px) 
+    and (orientation: landscape) {
+    .movie-bg-img {
+        width: 60%;
+    }
+}
+ 

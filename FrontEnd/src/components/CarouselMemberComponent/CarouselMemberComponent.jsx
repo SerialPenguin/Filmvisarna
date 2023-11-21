@@ -8,7 +8,7 @@ const CarouselMemberComponent = () => {
       <h2 className="member-carousel-title">MEDLEMSKLUBBEN</h2>
       <p className="member-carousel-text">Bli medlem hos oss på Filmvisarna och utforska filmens magi! Få tillgång till ett brett utbud av internationella filmer, exklusiva evenemang och fantastiska erbjudanden. Ansök idag för en filmupplevelse utöver det vanliga! </p>
        <p className="member-carousel-text">Registrera dig idag!</p>
-      <Link to={'/registera'}>
+      <Link to={'/registrera'}>
       <button className="member-carousel-btn">Bli medlem</button>
       </Link>
       </div>

@@ -1,9 +1,9 @@
 .member-carousel-container {
   font-family: "Jost", sans-serif;
   width: 70%;
-  max-height: 110%;
+  /* max-height: 110%; */
   background: transparent;
-  margin: 0 auto;
+  margin: 2em auto;
   /* text-align: center; */
   color: white;
   border: .1px solid #c699ea68;
@@ -50,7 +50,8 @@
   /*min height*/
   .member-carousel-container {
     width: 60%;
-    margin-top: -5em; 
+    /* margin-top: -5em;  */
+    transform: scale(0.9)
   }
   .member-carousel-box {
     margin: 0 auto;
@@ -68,7 +69,7 @@
   }
 
   .member-carousel-text {
-    font-size: 1.7em;
+    font-size: 1.2em;
     font-weight: 300;
   }
 }

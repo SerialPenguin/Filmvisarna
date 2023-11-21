@@ -4,7 +4,6 @@ import MovieCardComponent from "../components/MovieCardComponent/MovieCardCompon
 import './Homepage.css'
 
 const HomePage = () => {
-
   return (
     <div className="locked-orientation">
       <div className="homepage-container">

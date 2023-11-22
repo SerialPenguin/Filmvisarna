@@ -1,5 +1,5 @@
 .main-container {
-  height: 100dvh;
+  min-height: 100dvh;
   width: 100dvw;
   display: flex;
   align-items: center;
@@ -231,7 +231,7 @@
 
 @media screen and (min-width: 800px) {
   .main-container {
-    height: 100dvh;
+    min-height: 100dvh;
     width: 100dvw;
     display: flex;
     align-items: center;

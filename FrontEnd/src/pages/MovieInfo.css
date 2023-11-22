@@ -1,7 +1,7 @@
 .movieinfo-container{
     font-family: "Jost", sans-serif;
     margin: auto;
-    height: 120vh;
+    min-height: 100vh;
     padding-top: 3em;
     margin-top: 4em; 
 }
@@ -76,7 +76,7 @@ iframe, .iframe-container {
 }
 @media (min-width: 768px){
     .movieinfo-container {
-        height: 110vh; 
+        min-height: 100vh; 
     }
     .iframe-container, iframe{
         width: 700px;

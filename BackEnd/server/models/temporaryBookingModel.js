@@ -8,7 +8,7 @@ const temporaryBookingSchema = new mongoose.Schema({
     createdAt: {
         type: Date, 
         default: Date.now,
-        index: { expires: '300s' }
+        // index: { expires: '300s' }
     } // MongoDB will only remove documents ever 60 seconds, need a workaround.
 }, { collection: 'temporaryBookings' });
 

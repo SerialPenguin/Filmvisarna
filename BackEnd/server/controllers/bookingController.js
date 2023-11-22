@@ -132,8 +132,7 @@ export const bookSeat = async (req, res) => {
     // To render date and time for screening in mail
     let screeningDate = new Date(screening.startTime).toLocaleDateString("sv-SE").slice();
     let screeningTime = new Date(screening.startTime).toLocaleTimeString("sv-SE").slice(0, -3);
-    console.log(salon[0].name);
-
+    
     let salonName;
     if (salon[0].name === "Small salon") {
       salonName = "Lilla salongen"

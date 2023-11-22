@@ -14,13 +14,7 @@ async function handleRegister(e, credentials) {
     }),
   };
 
-  const registerRes = await fetch(
-    "/api/auth/register",
-    registerOptions
-  );
-
-  console.log(registerOptions);
-
+  const registerRes = await fetch("/api/auth/register", registerOptions);
 
   if (registerRes.status === 201) {
     const loginOptions = {
@@ -35,10 +29,7 @@ async function handleRegister(e, credentials) {
       }),
     };
 
-    const loginRes = await fetch(
-      "/api/auth/login",
-      loginOptions
-    );
+    const loginRes = await fetch("/api/auth/login", loginOptions);
 
     if (loginRes.status === 200) {
       const data = await loginRes.json();

@@ -31,7 +31,6 @@
 .form-container {
   width: 100%;
   max-width: 768px;
-  /* padding: 0 8px; */
   display: flex;
   flex-direction: column;
 }
@@ -41,24 +40,23 @@
   flex-direction: column;
 }
 
-.login-lbl {
-  font-size: 16px;
-  font-weight: 500;
+.login-wrapper .login-lbl {
+  font-size: 14px;
+  font-weight: 600;
   color: #c699ea;
-  margin-bottom: 8px;
 }
 
-.login-field {
+.login-wrapper .login-field {
   background-color: #2d142e;
   color: #c699ea;
-  height: 44px;
+  height: 36px;
   padding: 0 8px;
   font-size: 16px;
   border: 1px solid #c699ea;
   border-radius: 8px;
 }
 
-.first {
+.login-wrapper .first {
   margin-bottom: 16px;
 }
 
@@ -87,8 +85,13 @@
 }
 
 .login-msg {
-  color: rgb(182, 37, 71);
-  font-size: 16px;
+  max-width: 768px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #b85252;
 }
 
 .btn-container {

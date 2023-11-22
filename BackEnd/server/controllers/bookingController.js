@@ -4,7 +4,7 @@ import Screening from "../models/screeningModel.js";
 import User from "../models/userModel.js";
 import authService from "../service/authService.js";
 import generatorService from "../service/generatorService.js.js";
-import sendConfirmation from "../service/mailService.js";
+import { sendConfirmation } from "../service/mailService.js";
 
 const TICKET_PRICES = {
   "65279fcd702eef67b26ef3c4": 80,  // child

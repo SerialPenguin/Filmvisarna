@@ -16,6 +16,7 @@ import { AboutUs } from "./pages/AboutUs.jsx";
 import Admin from "./pages/Admin.jsx";
 import NoPage from "./pages/NoPage.jsx";
 import "./index.css";
+import ChangePassword from "./pages/ChangePassword.jsx";
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/om-oss", element: <AboutUs /> },
       { path: "/admin", element: <Admin /> },
       { path: "/evenemang", element: <Events />},
+      { path: "/byt-losen", element: <ChangePassword />},
       { path: "*", element: <NoPage /> }
     ],
   },

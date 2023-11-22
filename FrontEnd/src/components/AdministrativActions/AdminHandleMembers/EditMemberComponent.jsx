@@ -10,7 +10,9 @@ export default function EditMemberComponent(props) {
   const [changes, setChanges] = useState({});
   const [formBody, setFormBody] = useState({});
   const [formState, setFormState] = useState("searching");
-  const [checked, setChecked] = useState(false);
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [radioChecked, setRadioChecked] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   const debounceSearch = useDebounce(search);
 
@@ -48,8 +50,8 @@ export default function EditMemberComponent(props) {
   }, [key, value]);
 
   useEffect(() => {
-    if(formBody?.userRole === "ADMIN") setChecked(true);
-    else setChecked(false);
+    if(formBody?.userRole === "ADMIN") setCheckboxChecked(true);
+    else setCheckboxChecked(false);
   }, [formBody])
 
   function handleInputChange(e) {
@@ -58,13 +60,27 @@ export default function EditMemberComponent(props) {
   }
 
   function handleUserRole() {
-    if(checked) {
+    if(checkboxChecked) {
       setChanges({ ...changes, userRole: "USER"});
-      setChecked(false);
+      setCheckboxChecked(false);
     }else {
       setChanges({ ...changes, userRole: "ADMIN"});  
-      setChecked(true);
+      setCheckboxChecked(true);
     }
+  }
+
+  function handleRadioCheck() {
+    if(radioChecked) {
+      setDisabled(true);
+      setRadioChecked(false);
+    }else {
+      setDisabled(false); 
+      setRadioChecked(true);
+    }
+  }
+
+  async function deleteMember() {
+    
   }
 
   async function editMember(e) {
@@ -91,7 +107,6 @@ export default function EditMemberComponent(props) {
         setMessage(result.msg);
       }, 2000)
     }
-    
   }
 
   return (
@@ -127,10 +142,15 @@ export default function EditMemberComponent(props) {
                 onChange={handleInputChange}
                 className="input"
                 name="emailAdress"></input>
-                <div className="slider" onClick={handleUserRole}>
-                  <input className="checkbox" name="checkbox" type="checkbox" checked={checked} readOnly></input>
-                  <label htmlFor="checkbox" className="checkbox-lbl"></label>
-                </div>
+              <div className="custom-checkbox" onClick={handleUserRole}>
+                <input className="checkbox" name="checkbox" type="checkbox" checked={checkboxChecked} readOnly></input>
+                <label htmlFor="checkbox" className="checkbox-lbl"></label>
+              </div>
+              <div className="custom-radio"  onClick={handleRadioCheck}>
+                <input className="radio" name="radio" type="checkbox" checked={radioChecked} readOnly></input>
+                <label htmlFor="radio" className="radio-lbl"></label>
+                <button disabled={disabled} className="delete-member-btn" onClick={deleteMember}>Radera användare</button>
+              </div>
               <button className="edit-member-btn">Spara ändringar</button>
               <button className="member-back-btn" onClick={() => {setSearch(""); setFormState("searching")}}>Backa</button>
             </form>

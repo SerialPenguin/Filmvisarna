@@ -256,7 +256,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
 }
 
 .seats-grid button {
@@ -442,7 +441,6 @@
   }
 
   .seats-grid {
-    width: 100vw;
     align-items: center;
   }
 

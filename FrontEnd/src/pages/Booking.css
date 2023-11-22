@@ -66,7 +66,7 @@
     -50%
   ); /* This will ensure it's truly centered by accounting for its own width */
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #c699ea;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -76,12 +76,12 @@
 }
 
 .close-btn:hover {
-  background-color: #0056b3;
+  background-color: #8743bf;
 }
 
 .close-btn:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 3px #8743bf;
 }
 
 .theater {
@@ -277,6 +277,15 @@
   margin-left: 20vw;
   margin-top: 2em;
   margin-bottom: 2em;
+  transition: background-color 0.3s ease;
+}
+
+.book-button:hover {
+  background-color: #8743bf;
+} 
+
+.book-button:focus {
+ background-color: #8743bf;
 }
 
 .total-amount {
@@ -465,7 +474,16 @@
     margin-top: 40px;
     margin-bottom: 40px;
     color: black;
+    transition: background-color 0.3s ease;
   }
+
+  .book-button:hover {
+     background-color: #8743bf;
+  } 
+  
+  .book-button:focus {
+    background-color: #8743bf;
+ }
 
   .clear-button {
     display: block;

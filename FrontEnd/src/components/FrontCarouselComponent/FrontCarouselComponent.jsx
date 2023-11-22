@@ -34,8 +34,6 @@ const FrontCarouselComponent = () => {
     slideTimer();
   };
 
-  console.log("Hej");
-
   const slideTimer = () => {
     interval.current = setInterval(() => {
       setCurrentSlide(

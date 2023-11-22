@@ -2,7 +2,6 @@
 export default function ClearSeatsButton({
   screeningId,
   setSeats,
-  setTickets,
   setSelectedSeats,
   selectedSeatsId,
 }) {
@@ -14,8 +13,8 @@ export default function ClearSeatsButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [],
-          selectedSeatsId, // Empty array to show removal
+          // seats: [], // Empty array to show removal
+          selectedSeatsId,
         }),
       });
 
@@ -25,12 +24,6 @@ export default function ClearSeatsButton({
 
       setSeats([]);
       setSelectedSeats([]);
-
-      setTickets((prev) => ({
-        adults: { ...prev.adults, quantity: 0 },
-        seniors: { ...prev.seniors, quantity: 0 },
-        children: { ...prev.children, quantity: 0 },
-      }));
     } catch (error) {
       console.error("Error clearing selected seats:", error);
     }

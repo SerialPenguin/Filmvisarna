@@ -400,6 +400,7 @@
 
 .seat-select-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -415,11 +416,22 @@
   margin-bottom: 5px;
 }
 
+.seat-select-label-not-happy {
+  display: flex;
+  margin-right: 10px;
+  font-size: 18px;
+  color: #ba7e36;
+  font-weight: 330;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
 .seat-select {
   width: 20px;
   height: 20px;
   cursor: pointer;
   accent-color: #ba7e36;
+  margin-left: 10px;
 }
 
 @media (min-width: 768px) {

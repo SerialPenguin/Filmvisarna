@@ -122,7 +122,7 @@ function Booking() {
 
   let clickedRowNumber = 0;
 
-  function findContiguousSeats(initialSeatNumber, totalTicketCount) {
+  function findContiguousSeats(initialSeatNumber, totalTicketCount = 3) {
     const result = [];
     let seatsNeeded = totalTicketCount;
 
@@ -608,17 +608,21 @@ function Booking() {
                   htmlFor="grouped-seats-checkbox"
                   className="seat-select-label">
                   Välj grupperade säten
+                  <input
+                    type="checkbox"
+                    id="grouped-seats-checkbox"
+                    className="seat-select"
+                    name="Select Grouped Seats"
+                    checked={groupSeats}
+                    onChange={(e) => {
+                      setGroupSeats(e.target.checked);
+                    }}
+                  />
                 </label>
-                <input
-                  type="checkbox"
-                  id="grouped-seats-checkbox"
-                  className="seat-select"
-                  name="Select Grouped Seats"
-                  checked={groupSeats}
-                  onChange={(e) => {
-                    setGroupSeats(e.target.checked);
-                  }}
-                />
+
+                <h3 className="seat-select-label-not-happy">
+                  Inte nöjd med placeringen? Fyll på med individuella säten
+                </h3>
               </div>
               <div className="theatre">
                 <div className="movie-screen">

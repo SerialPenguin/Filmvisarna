@@ -14,6 +14,8 @@ export default function Profile() {
 
   const currentDate = new Date();
 
+  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -37,7 +39,7 @@ export default function Profile() {
       }
     };
 
-    fetchUser();
+    if(token) fetchUser();
   }, [token]);
 
   useEffect(() => {

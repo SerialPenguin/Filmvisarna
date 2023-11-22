@@ -72,9 +72,14 @@
 .user-confirmation-email,
 .user-seats,
 .user-tickets,
+.user-price,
 .user-salon {
   font-size: 1.2rem;
   color: #ba7e36;
+}
+.booking-search-btn {
+  margin-top: 1em;
+  font-size: 0.8rem;
 }
 
 @media screen and (min-width: 800px) {

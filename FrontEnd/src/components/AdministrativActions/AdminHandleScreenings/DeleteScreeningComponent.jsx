@@ -20,7 +20,7 @@ export default function DeleteMovieComponent(props) {
     setParam(e.target.id);
     setScreenings(
       await authGet(
-        "/api/search/auth/admin/getScreening/" + e.target.id,
+        "/api/auth/admin/getScreening/" + e.target.id,
         props.token
       )
     );
@@ -34,11 +34,9 @@ export default function DeleteMovieComponent(props) {
 
   async function deleteScreening() {
     const result = await del(
-      "/api/screenings/auth/admin/deleteScreening/" + param,
+      "/api/auth/admin/deleteScreening/" + param,
       props.token
     );
-
-    console.log(result)
     
     if(result.status === 200) {
       dialogRef.current?.close();

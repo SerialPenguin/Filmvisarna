@@ -52,6 +52,7 @@ function MovieInfo() {
 
   useGet(`/api/search/movies/${movieId}`, setMovie);
   useGet(`/api/screenings`, setScreenings);
+  window.scrollTo(0, 0);
 
   const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
 

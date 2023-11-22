@@ -16,9 +16,34 @@
   width: 90vw;
 }
 
-@media (min-width: 830px) {
+@media (min-width: 420px){
   .movie-bg-img {
-    margin-top: -8em;
-    width: 80%;
+    width: 90%; 
+    transform: scale(0.9)
   }
 }
+
+@media (min-width: 760px) {
+  .movie-bg-img {
+    width: 80%;
+    transform: scale(0.9)
+  }
+
+  .movie-bg-img:hover {
+    transform: scale(1.2);
+  }
+}
+
+@media screen and (max-device-width: 700px) 
+    and (orientation: landscape) {
+    .movie-bg-img {
+        width: 60%;
+    }
+}
+
+@media (min-width: 2300px) {
+    .movie-bg-img{
+      transform: scale(1.4);
+    }
+}
+ 

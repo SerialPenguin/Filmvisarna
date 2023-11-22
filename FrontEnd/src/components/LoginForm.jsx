@@ -1,3 +1,5 @@
+/** @format */
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../service/authService";
@@ -22,21 +24,20 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!credentials.emailAdress || !credentials.password) {
-      setLoginMessage(
-        "Alla fält måste vara ifyllda"
-      );
+      setLoginMessage("Alla fält måste vara ifyllda");
       return;
     }
 
+    authService.handleLogin(e, credentials, handleLoginCallback);
     await authService.handleLogin(e, credentials, handleLoginCallback);
   };
 
   return (
     <>
       <form className="form-container">
-        {loginMessage && <p className="login-msg">{loginMessage}</p>} 
+        {loginMessage && <p className="login-msg">{loginMessage}</p>}
         <div className="input-container">
           <label className="login-lbl">E-postadress</label>
           <input
@@ -60,7 +61,10 @@ function LoginForm() {
             }
           />
           <p className="register-p">
-            Inte medlem ännu? <Link to={"/registrera"} className="register-p-link">Klicka här</Link>
+            Inte medlem ännu?{" "}
+            <Link to={"/registrera"} className="register-p-link">
+              Klicka här
+            </Link>
           </p>
         </div>
       </form>
@@ -73,7 +77,6 @@ function LoginForm() {
         </Link>
       </div>
     </>
-    
   );
 }
 

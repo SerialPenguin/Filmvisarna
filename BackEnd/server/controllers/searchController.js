@@ -44,7 +44,7 @@ export const getResourceById = async (req, res) => {
 
       res.json(movie);
     }catch(err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -57,7 +57,7 @@ export const getResourceById = async (req, res) => {
       res.json(salon);
       
     }catch(err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -73,7 +73,7 @@ export const getResourceById = async (req, res) => {
 
       res.json(screenings);
     }catch(err){
-      console.log(err)
+      console.error(err)
     }
   }
 
@@ -92,14 +92,12 @@ export const getResourceById = async (req, res) => {
       }
 
     }catch(err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
   export const getUserById = async (req, res) => {
     const param = req.params;
-
-    console.log(new mongoose.Types.ObjectId(param.id))
 
     try {
 
@@ -114,6 +112,6 @@ export const getResourceById = async (req, res) => {
         res.status(404).send({msg: "Could not find a user"});
       }
     }catch(err) {
-      console.log(err)
+      console.error(err)
     }
   }

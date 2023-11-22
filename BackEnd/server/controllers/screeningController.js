@@ -82,15 +82,13 @@ export const addScreenings = async (req, res) => {
       res.status(200).send({ msg: `New screening added to database`});  
     }
   }catch(err) {
-    console.log(err)
+    console.error(err)
   }
 };
 
 export const deleteScreening = async (req, res) => {
 
   const param = req.params.id;
-
-  console.log("Para: ", param)
 
   try{
 
@@ -113,6 +111,6 @@ export const deleteScreening = async (req, res) => {
     }
 
   }catch(err){
-    console.log(err);
+    console.error(err);
   }
 } 

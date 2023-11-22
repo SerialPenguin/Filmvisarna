@@ -22,7 +22,7 @@ async function verifyJwt(authHeader) {
       return user;
     }
   } catch (err) {
-    return console.log(err);
+    return console.error(err);
   }
 }
 

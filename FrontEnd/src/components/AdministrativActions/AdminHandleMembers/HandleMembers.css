@@ -14,8 +14,9 @@
 .add-member-btn,
 .edit-member-btn {
   align-self: center;
-  width: fit-content;
+  width: max-content;
   margin-top: 1em;
+  font-size: 0.9rem;
 }
 .edit-member-btn {
   width: max-content;

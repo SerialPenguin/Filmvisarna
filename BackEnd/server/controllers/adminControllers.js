@@ -4,6 +4,7 @@ import Screening from "../models/screeningModel.js";
 import User from "../models/userModel.js";
 import generatorService from "../service/generatorService.js.js";
 import bcrypt from "bcrypt";
+import { sendNewMember } from "../service/mailService.js";
 
  //GET REQUESTS
  export const getMovieByTitle = async (req, res) => {
@@ -204,8 +205,6 @@ export const addMember = async (req, res) => {
     const collection = mongoose.connection.collection('users');
     const user = await collection.findOne({ emailAdress: emailAdress });
 
-    console.log(user);
-
     if(user) return res.status(403).send({status: 403, msg: "Den här e-posten är redan i bruk, var god välj en annan"});
 
     const newUser = new User({
@@ -219,7 +218,10 @@ export const addMember = async (req, res) => {
 
     await newUser.save()
 
-    if(newUser) res.status(200).send({status: 200, msg: "Ny användare skapad"});
+    if(newUser) {
+      res.status(200).send({status: 200, msg: "Ny användare skapad"});
+      sendNewMember({emailAdress, generatedPassword});
+    }
     else res.status(500).send({msg: "Något gick snett"});
 
   }catch(err) {
@@ -243,8 +245,9 @@ export const editMovie = async (req, res) => {
 
     delete body.title;
 
-    await collection.updateOne({ _id: movie._id },{$set: body});
+    const update = await collection.updateOne({ _id: movie._id },{$set: body});
 
+    if(update)
     res.status(200).send({ msg: `Redigering av filmen ${movie.title} lyckades`});
 
   }catch(err) {
@@ -260,8 +263,6 @@ export const editMember = async (req, res) => {
 
     const id = new mongoose.Types.ObjectId(body._id);
 
-    console.log("ID: ", id)
-
     const collection = mongoose.connection.collection('users');
     const user = await collection.findOne({_id: id});
 
@@ -269,17 +270,11 @@ export const editMember = async (req, res) => {
       return res.status(404).json({ error: 'Användaren kunde inte hittas, kontrollera stavningen' });
     }
 
-    console.log("1: ",body)
-
     delete body._id; 
     delete body.password;
     delete body.bookingHistory;
 
-    console.log("2: ", body)
-    console.log("ID 2: ", id)
-
     const result = await collection.updateOne({ _id: id },{$set: body});
-    console.log("result: ", result);
     if(result.modifiedCount > 0) res.status(200).send({ status: 200, msg: `Redigering av medlem lyckades`});
     else res.status(500).send({status: 500, msg: "Något gick snett"});
 
@@ -325,8 +320,6 @@ export const deleteScreening = async (req, res) => {
 
   const param = req.params.id;
 
-  console.log("Para: ", param)
-
   try{
 
     const id = new mongoose.Types.ObjectId(param);
@@ -355,14 +348,11 @@ export const deleteScreening = async (req, res) => {
 export const deleteUser = async (req, res) => {
 
   const param = req.params;
-  console.log("PARAM: ", param)
 
   try{
     const collection = mongoose.connection.collection('users');
 
     const id = new mongoose.Types.ObjectId(param.id);
-    
-    console.log("id: ", id);
 
     const user = await collection.deleteOne({_id: id});
 

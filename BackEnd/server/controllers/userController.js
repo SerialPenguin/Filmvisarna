@@ -3,6 +3,7 @@ import User from "../models/userModel.js";
 import Booking from "../models/bookingModel.js";
 import Screening from "../models/screeningModel.js";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 const secretKey = process.env.SECRET;
 
@@ -49,7 +50,7 @@ export const login = async (req, res) => {
   }
 
   // Compare the provided password with the hashed password in the database
-  const passwordMatch = bcrypt.compare(password, user.password);
+  const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
     res.status(401).json({ error: "Fel lösenord eller e-postadress" });
@@ -129,3 +130,21 @@ export const deleteBooking = async (req, res) => {
   }
 };
 
+export const changePassword = async (req, res) => {
+  const body = req.body;
+
+  const collection = mongoose.connection.collection('users');
+  const user = await collection.findOne({emailAdress: body.emailAdress});
+
+  if(!user) res.status(400).send({status: 400, msg: "Hittade ingen användare med den mailen"});
+
+  delete body.emailAdress
+
+  const hashedPassword = await bcrypt.hash(body.password, 10);
+
+  const update = await collection.updateOne({_id: user._id},{$set:{password: hashedPassword}});
+
+  if(update.modifiedCount > 0) res.status(200).send({status: 200, msg: "Lösenordet är ändrat"});
+  else res.status(500).send({status: 500, msg: "Något gick snett"});
+
+}

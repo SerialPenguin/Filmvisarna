@@ -49,7 +49,7 @@ export default function BookingConfirmation(props) {
     
     async function getProfile() {
       let user = await authGet("/api/auth/profile", token)
-      setProfile(user.userRole);
+      setProfile(user);
     }
     if(token)getProfile();
 
@@ -171,6 +171,7 @@ export default function BookingConfirmation(props) {
           {displayInput === true && (
             <div className="email-container">
               <input
+                autoComplete="off"
                 required
                 type="email"
                 className="email-field"

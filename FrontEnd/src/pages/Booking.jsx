@@ -9,6 +9,7 @@ import TicketCounter from "../components/TicketCounterComponent";
 import ClearSeatsButton from "../components/ClearSeatsButtonComponent";
 import { getWeekNumber } from "../hooksAndUtils/weekUtil";
 import SeatReleaseOnUnload from "../components/SeatReleaseOnUnload";
+import useFetchMovies from "../hooksAndUtils/useFetchMovies";
 import "./Booking.css";
 
 function Booking() {
@@ -23,7 +24,7 @@ function Booking() {
     return defaultValue;
   };
   const [movie, setMovie] = useState(null);
-  const [movies, setMovies] = useState([]);
+  const movies = useFetchMovies();
   const [screening, setScreening] = useState(null);
   const [screenings, setScreenings] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(() =>
@@ -49,7 +50,7 @@ function Booking() {
   const [chosenScreening, setChosenScreening] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [groupSeats, setGroupSeats] = useState(false);
-  const [selectedSeatsId, setSelectedSeatsId] = useState();
+  const [selectedSeatsId, setSelectedSeatsId] = useState([]);
 
   const selectedMovieRef = useRef(null);
 
@@ -67,21 +68,6 @@ function Booking() {
     };
     return () => eventSource.close();
   }, [screeningId]);
-
-  // Fetch movies for dropdown
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const response = await fetch("/api/movies");
-        if (!response.ok) throw new Error("Failed to fetch movies");
-        const data = await response.json();
-        setMovies(data);
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      }
-    };
-    fetchMovies();
-  }, []);
 
   useEffect(() => {
     if (selectedMovie) {
@@ -122,7 +108,7 @@ function Booking() {
 
   let clickedRowNumber = 0;
 
-  function findContiguousSeats(initialSeatNumber, totalTicketCount) {
+  function findContiguousSeats(initialSeatNumber, totalTicketCount = 3) {
     const result = [];
     let seatsNeeded = totalTicketCount;
 
@@ -214,17 +200,23 @@ function Booking() {
     if (totalTicketCount <= 0) {
       return;
     }
-    if (groupSeats && selectedSeatsId) {
+    if (groupSeats) {
       setSeats(findContiguousSeats(seatNumber, totalTicketCount));
-      fetch(`/api/deleteSeats`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          screeningId,
-          // seats: [],
-          selectedSeatsId, // Empty array to show removal
-        }),
-      });
+      if (selectedSeatsId.length > 0) {
+        for (let id of selectedSeatsId) {
+          fetch(`/api/deleteSeats`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              screeningId,
+              // seats: [],
+              selectedSeatsId: id, // Empty array to show removal
+            }),
+          });
+        }
+      }
+
+      setSelectedSeatsId([]);
     } else {
       // Use this to check against the number of selected seats
       if (seats.length >= totalTicketCount) {
@@ -255,7 +247,7 @@ function Booking() {
 
       if (!res.ok) throw new Error("Error reserving seat");
       const data = await res.json();
-      setSelectedSeatsId(data.selectedSeatsId);
+      setSelectedSeatsId([...selectedSeatsId, data.selectedSeatsId]);
 
       if (groupSeats) {
         setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));
@@ -598,6 +590,7 @@ function Booking() {
                   setTickets={setTickets}
                   setSelectedSeats={setSelectedSeats}
                   selectedSeatsId={selectedSeatsId}
+                  setSelectedSeatsId={setSelectedSeatsId}
                 />
               )}
               <div className="total-amount">
@@ -608,17 +601,21 @@ function Booking() {
                   htmlFor="grouped-seats-checkbox"
                   className="seat-select-label">
                   Välj grupperade säten
+                  <input
+                    type="checkbox"
+                    id="grouped-seats-checkbox"
+                    className="seat-select"
+                    name="Select Grouped Seats"
+                    checked={groupSeats}
+                    onChange={(e) => {
+                      setGroupSeats(e.target.checked);
+                    }}
+                  />
                 </label>
-                <input
-                  type="checkbox"
-                  id="grouped-seats-checkbox"
-                  className="seat-select"
-                  name="Select Grouped Seats"
-                  checked={groupSeats}
-                  onChange={(e) => {
-                    setGroupSeats(e.target.checked);
-                  }}
-                />
+
+                <h3 className="seat-select-label-not-happy">
+                  Inte nöjd med placeringen? Fyll på med individuella säten
+                </h3>
               </div>
               <div className="theatre">
                 <div className="movie-screen">

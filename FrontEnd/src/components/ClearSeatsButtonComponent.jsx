@@ -2,35 +2,32 @@
 export default function ClearSeatsButton({
   screeningId,
   setSeats,
-  setTickets,
   setSelectedSeats,
   selectedSeatsId,
+  setSelectedSeatsId,
 }) {
   const handleClearSelectedSeats = async () => {
     try {
       // Clear all selected seats in the backend by sending an empty array
-      const res = await fetch(`/api/deleteSeats`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          screeningId,
-          seats: [],
-          selectedSeatsId, // Empty array to show removal
-        }),
-      });
+      for (let id of selectedSeatsId) {
+        const res = await fetch(`/api/deleteSeats`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            screeningId,
+            // seats: [], // Empty array to show removal
+            selectedSeatsId: id,
+          }),
+        });
 
-      if (!res.ok) {
-        throw new Error("Error clearing selected seats");
+        if (!res.ok) {
+          throw new Error("Error clearing selected seats");
+        }
       }
 
+      setSelectedSeatsId([]);
       setSeats([]);
       setSelectedSeats([]);
-
-      setTickets((prev) => ({
-        adults: { ...prev.adults, quantity: 0 },
-        seniors: { ...prev.seniors, quantity: 0 },
-        children: { ...prev.children, quantity: 0 },
-      }));
     } catch (error) {
       console.error("Error clearing selected seats:", error);
     }

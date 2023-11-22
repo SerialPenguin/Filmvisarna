@@ -19,24 +19,23 @@ export default function EditMemberComponent(props) {
 
   useEffect(() => {
     async function getBooking() {
-      const result = await authGet("/api/auth/admin/getUserByEmail/"
-        + debounceSearch,
+      const result = await authGet(
+        "/api/auth/admin/getUserByEmail/" + debounceSearch,
         props.token
-      )
-      if(result.status === 200) {
+      );
+      if (result.status === 200) {
         setFormBody(result.user);
-        setChanges({ ...changes, _id: formBody._id});
         setFormState("found");
-      }else{
+      } else {
         setMessage(result.msg);
         setTimeout(() => {
           setMessage("");
           setFormBody();
-        }, 3000); 
+        }, 3000);
       }
     }
 
-    if(search) getBooking();
+    if (search) getBooking();
   }, [debounceSearch]);
 
   useEffect(() => {
@@ -52,9 +51,10 @@ export default function EditMemberComponent(props) {
   }, [key, value]);
 
   useEffect(() => {
-    if(formBody?.userRole === "ADMIN") setCheckboxChecked(true)
+    setChanges({ ...changes, _id: formBody._id });
+    if (formBody?.userRole === "ADMIN") setCheckboxChecked(true);
     else setCheckboxChecked(false);
-  }, [formBody])
+  }, [formBody]);
 
   function handleInputChange(e) {
     setKey(e.target.name);
@@ -62,37 +62,39 @@ export default function EditMemberComponent(props) {
   }
 
   function handleUserRole() {
-    if(checkboxChecked) setCheckboxChecked(false);
+    if (checkboxChecked) setCheckboxChecked(false);
     else setCheckboxChecked(true);
   }
 
   useEffect(() => {
-    if(checkboxChecked) setChanges({ ...changes, userRole: "ADMIN"});
-    else setChanges({ ...changes, userRole: "USER"});
-    console.log(changes);
-  }, [checkboxChecked])
+    if (checkboxChecked) setChanges({ ...changes, userRole: "ADMIN" });
+    else setChanges({ ...changes, userRole: "USER" });
+  }, [checkboxChecked]);
 
   function handleRadioCheck() {
-    if(radioChecked) {
+    if (radioChecked) {
       setDisabled(true);
       setRadioChecked(false);
-    }else {
+    } else {
       setDisabled(false);
       setRadioChecked(true);
     }
   }
 
   async function deleteMember() {
-    const result = await del('/api/auth/admin/deleteUser/' + formBody._id, props.token)
+    const result = await del(
+      "/api/auth/admin/deleteUser/" + formBody._id,
+      props.token
+    );
 
-    if(result.status === 200) {
+    if (result.status === 200) {
       props.memberRef.close();
       props.setOptionState("non");
-    }else {
+    } else {
       setMessage(result.msg);
       setTimeout(() => {
         setMessage();
-      }, 2000)
+      }, 2000);
     }
   }
 
@@ -104,23 +106,25 @@ export default function EditMemberComponent(props) {
       }
     }
 
+    console.log("changes: ", changes);
+
     const result = await patch(
       "/api/auth/admin/editMember",
       changes,
       props.token
     );
-    
-    if(result.status === 200) {
-      setMessage(result.msg)
+
+    if (result.status === 200) {
+      setMessage(result.msg);
       setTimeout(() => {
         props.memberRef.close();
         props.setOptionState("non");
-      }, 2000)
-    }else {
+      }, 2000);
+    } else {
       setMessage(result.msg);
       setTimeout(() => {
         setMessage();
-      }, 2000)
+      }, 2000);
     }
   }
 
@@ -132,51 +136,82 @@ export default function EditMemberComponent(props) {
             <div className="find-member-container">
               <form className="search-form">
                 <label className="lbl">Sök på email</label>
-                <input autoFocus className="member-email-input" value={search || ""} name="emailAdress" onChange={(e) => setSearch(e.target.value)}></input>
+                <input
+                  autoFocus
+                  className="member-email-input"
+                  value={search || ""}
+                  name="emailAdress"
+                  onChange={(e) => setSearch(e.target.value)}></input>
               </form>
             </div>
           )}
           {formState === "found" && (
             <form className="edit-member-form" onSubmit={editMember}>
-              <label className="lbl" htmlFor="firstName">Förnamn:</label>
+              <label className="lbl" htmlFor="firstName">
+                Förnamn:
+              </label>
               <input
                 value={formBody.firstName || ""}
                 onChange={handleInputChange}
                 className="input"
                 name="firstName"></input>
-              <label className="lbl" htmlFor="lastName">Efternamn:</label>
+              <label className="lbl" htmlFor="lastName">
+                Efternamn:
+              </label>
               <input
                 value={formBody.lastName || ""}
                 onChange={handleInputChange}
                 className="input"
                 name="lastName"></input>
-              <label className="lbl" htmlFor="emailAdress">Email:</label>
+              <label className="lbl" htmlFor="emailAdress">
+                Email:
+              </label>
               <input
                 type="email"
                 value={formBody.emailAdress || ""}
                 onChange={handleInputChange}
                 className="input"
                 name="emailAdress"></input>
-              <div className="custom-btns-container"> 
+              <div className="custom-btns-container">
                 <div className="custom-checkbox" onClick={handleUserRole}>
-                  <input className="checkbox" name="checkbox" type="checkbox" checked={checkboxChecked} readOnly></input>
+                  <input
+                    className="checkbox"
+                    name="checkbox"
+                    type="checkbox"
+                    checked={checkboxChecked}
+                    readOnly></input>
                   <label htmlFor="checkbox" className="checkbox-lbl"></label>
                 </div>
-                <div className="custom-radio"  onClick={handleRadioCheck}>
-                  <input className="radio" name="radio" type="checkbox" checked={radioChecked} readOnly></input>
+                <div className="custom-radio" onClick={handleRadioCheck}>
+                  <input
+                    className="radio"
+                    name="radio"
+                    type="checkbox"
+                    checked={radioChecked}
+                    readOnly></input>
                   <label htmlFor="radio" className="radio-lbl"></label>
-                  <button disabled={disabled} className="delete-member-btn" onClick={deleteMember}>Radera användare</button>
+                  <button
+                    disabled={disabled}
+                    className="delete-member-btn"
+                    onClick={deleteMember}>
+                    Radera användare
+                  </button>
                 </div>
               </div>
               <button className="edit-member-btn">Spara ändringar</button>
-              <button className="member-back-btn" onClick={() => {setSearch(""); setFormState("searching")}}>Backa</button>
+              <button
+                className="member-back-btn"
+                onClick={() => {
+                  setSearch("");
+                  setFormState("searching");
+                }}>
+                Backa
+              </button>
             </form>
           )}
         </div>
       )}
-      {message && (
-        <p>{message}</p>
-      )}
+      {message && <p>{message}</p>}
     </div>
-  )
+  );
 }

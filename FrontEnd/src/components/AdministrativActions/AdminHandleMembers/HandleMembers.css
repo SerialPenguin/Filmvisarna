@@ -38,7 +38,8 @@
   font-size: 1.3rem;
   color: #c699ea;
 }
-.user-email-input {
+.user-email-input,
+.member-email-input {
   margin: 1em 0;
   border-radius: 9px;
   color: #ba7e36;
@@ -48,7 +49,11 @@
 .user-email-input:-webkit-autofill,
 .user-email-input:-webkit-autofill:hover,
 .user-email-input:-webkit-autofill:focus,
-.user-email-input:-webkit-autofill:active {
+.user-email-input:-webkit-autofill:active,
+.member-email-input:-webkit-autofill,
+.member-email-input:-webkit-autofill:hover,
+.member-email-input:-webkit-autofill:focus,
+.member-email-input:-webkit-autofill:active {
   transition: background-color 5000000s ease-in-out 0s;
   -webkit-text-fill-color: #ba7e36;
   outline: none;

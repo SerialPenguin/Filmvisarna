@@ -101,6 +101,22 @@
   max-width: 768px;
 }
 
+.btn-container .main-btn,
+.btn-container .sec-btn {
+  border: none;
+  box-shadow: none;
+}
+
+.btn-container .main-btn:hover {
+  background-color: #d19dfb;
+  transition: .1s;
+}
+
+.btn-container .sec-btn:hover {
+  background-color: #8743bf;
+  transition: .1s;
+}
+
 .copyright {
   font-size: 14px;
   color: #c699ea;

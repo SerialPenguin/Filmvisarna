@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TicketFront from "../../assets/img/ticketFront.png";
 import TicketBack from "../../assets/img/ticketBack.png";
-import { patch } from "../../hooksAndUtils/fetchUtil";
-import { useAuthGet } from "../../hooksAndUtils/useFetch";
+import { authGet, patch } from "../../hooksAndUtils/fetchUtil";
 
 export default function BookingConfirmation(props) {
   const navigate = useNavigate();
@@ -46,9 +45,15 @@ export default function BookingConfirmation(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useAuthGet("/api/auth/profile", token, (data) => {
-    setProfile(data);
-  });
+  useEffect(() => {
+    
+    async function getProfile() {
+      let user = await authGet("/api/auth/profile", token)
+      setProfile(user.userRole);
+    }
+    if(token)getProfile();
+
+  }, [token]);
 
   useEffect(() => {
     if (profile) {

@@ -6,7 +6,7 @@ import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
 import menu from "../../assets/img/menu.png";
 import NavComponent from "../NavComponent/NavComponent.jsx";
 import "./HeaderNavComponent.css";
-import { useAuthGet } from "../../hooksAndUtils/useFetch.js";
+import { authGet } from "../../hooksAndUtils/fetchUtil.js";
 
 export default function HeaderNavComponent() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
@@ -15,9 +15,15 @@ export default function HeaderNavComponent() {
 
   const token = sessionStorage.getItem("JWT_TOKEN");
 
-  useAuthGet("/api/auth/profile", token, (data) => {
-    setUserRole(data.userRole);
-  })
+  useEffect(() => {
+    
+    async function getProfile() {
+      let user = await authGet("/api/auth/profile", token)
+      setUserRole(user.userRole);
+    }
+    if(token)getProfile();
+
+  }, [token]);
 
   const showMenu = () => {
     setActiveMenu(true);

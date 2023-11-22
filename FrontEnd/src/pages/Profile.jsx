@@ -18,6 +18,8 @@ export default function Profile() {
 
   const currentDate = new Date();
 
+  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {

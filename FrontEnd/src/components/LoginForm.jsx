@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../service/authService";
@@ -60,12 +58,21 @@ function LoginForm() {
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
-          <p className="register-p">
-            Inte medlem ännu?{" "}
-            <Link to={"/registrera"} className="register-p-link">
-              Klicka här
-            </Link>
-          </p>
+          <div className="links-container">
+            <p className="change-pw">
+              Har du{" "}
+              <Link to={"/byt-losen"} className="change-pw-link">
+                glömt lösenordet
+              </Link>
+              ?
+            </p>
+            <p className="register-p">
+              Inte medlem ännu?{" "}
+              <Link to={"/registrera"} className="register-p-link">
+                Klicka här
+              </Link>
+            </p>
+          </div>
         </div>
       </form>
       <div className="btn-container">

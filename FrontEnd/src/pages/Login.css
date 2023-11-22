@@ -58,15 +58,30 @@
 .login-wrapper .first {
   margin-bottom: 16px;
 }
-
-.register-p {
-  color: #ba7e36;
-  align-self: flex-end;
-  margin-top: 8px;
+.links-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: start;
 }
-
+.change-pw {
+  color: #ba7e36;
+  margin-left: 2em;
+}
+.change-pw-link {
+  color: #ba7e36;
+  text-decoration: underline;
+}
+.change-pw-link:hover {
+  color: #e0a966;
+}
+.register-p {
+  margin-right: 2em;
+  color: #ba7e36;
+}
 .register-p-link {
   color: #ba7e36;
+  text-decoration: underline;
 }
 
 .login-field:focus {

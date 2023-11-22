@@ -122,50 +122,24 @@ function Booking() {
 
   let clickedRowNumber = 0;
 
-  // function findContiguousSeats(seatNumber, totalTicketCount) {
-  //   const result = [];
-  //   const seatsInSameRow = salonLayout.rows[clickedRowNumber - 1].seats;
-  //   const seatIndex = seatsInSameRow.indexOf(seatNumber);
-  //   // loop to the right
-  //   for (let i = seatIndex; i < seatsInSameRow.length; i++) {
-  //     if (
-  //       result.length >= totalTicketCount ||
-  //       isSeatBooked(seatsInSameRow[i])
-  //     ) {
-  //       break;
-  //     }
-  //     result.push(seatsInSameRow[i]);
-  //   }
-  //   // loop to the left
-  //   for (let i = seatIndex - 1; i >= 0; i--) {
-  //     if (
-  //       result.length >= totalTicketCount ||
-  //       isSeatBooked(seatsInSameRow[i])
-  //     ) {
-  //       break;
-  //     }
-  //     result.push(seatsInSameRow[i]);
-  //   }
-  //   return result;
-  // }
-
-  function findContiguousSeats(seatNumber, totalTicketCount) {
+  function findContiguousSeats(initialSeatNumber, totalTicketCount) {
     const result = [];
     let seatsNeeded = totalTicketCount;
 
-    // Function to find seats in a row
-    function findSeatsInRow(row, referenceSeatNumber) {
+    function findSeatsInRow(row, relativeIndex) {
       const seatsInRow = salonLayout.rows[row - 1].seats;
-      // Find the seat index closest to the reference seat number
-      let closestIndex = seatsInRow.reduce((closest, seat, index) => {
-        return Math.abs(seat - referenceSeatNumber) <
-          Math.abs(seatsInRow[closest] - referenceSeatNumber)
-          ? index
-          : closest;
-      }, 0);
+      let searchIndex =
+        row === clickedRowNumber
+          ? seatsInRow.indexOf(initialSeatNumber)
+          : relativeIndex !== undefined
+          ? Math.min(
+              Math.max(Math.round(seatsInRow.length * relativeIndex), 0),
+              seatsInRow.length - 1
+            )
+          : 0; // Start from the beginning of the row if it's not the clicked row
 
-      let leftIndex = closestIndex - 1;
-      let rightIndex = closestIndex;
+      let leftIndex = searchIndex - 1;
+      let rightIndex = searchIndex;
       while (
         seatsNeeded > 0 &&
         (leftIndex >= 0 || rightIndex < seatsInRow.length)
@@ -188,20 +162,23 @@ function Booking() {
     }
 
     // Start with the clicked row
-    findSeatsInRow(clickedRowNumber, seatNumber);
+    findSeatsInRow(clickedRowNumber, undefined);
 
     // Check adjacent rows if needed
     let offset = 1;
+    let initialRowRelativeIndex =
+      salonLayout.rows[clickedRowNumber - 1].seats.indexOf(initialSeatNumber) /
+      salonLayout.rows[clickedRowNumber - 1].seats.length;
+
     while (seatsNeeded > 0 && offset < salonLayout.rows.length) {
-      // Check rows above and below alternately
       if (clickedRowNumber - offset > 0) {
-        findSeatsInRow(clickedRowNumber - offset, seatNumber);
+        findSeatsInRow(clickedRowNumber - offset, initialRowRelativeIndex);
       }
       if (
         seatsNeeded > 0 &&
         clickedRowNumber + offset <= salonLayout.rows.length
       ) {
-        findSeatsInRow(clickedRowNumber + offset, seatNumber);
+        findSeatsInRow(clickedRowNumber + offset, initialRowRelativeIndex);
       }
       offset++;
     }

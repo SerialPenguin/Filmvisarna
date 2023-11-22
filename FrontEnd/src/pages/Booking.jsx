@@ -565,7 +565,7 @@ function Booking() {
                   placeholder="Välj visning"
                   onChangeHandler={(newScreeningId) => {
                     if (newScreeningId === "") return;
-                    history(`/booking/${newScreeningId}`);
+                    history(`/bokning/${newScreeningId}`);
                   }}
                 />
               </div>

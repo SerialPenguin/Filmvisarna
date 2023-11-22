@@ -276,11 +276,12 @@ export const editMember = async (req, res) => {
     delete body.bookingHistory;
 
     console.log("2: ", body)
+    console.log("ID 2: ", id)
 
-    const result = await collection.updateOne({ _id: user._id },{$set: body});
-
-    if(user.modifiedCount > 0) res.status(200).send({ status: 200, msg: `Redigering av medlem ${body.firstName} ${body.lastName} lyckades`});
-    else res.send(500).send({status: 500, msg: "Något gick snett"});
+    const result = await collection.updateOne({ _id: id },{$set: body});
+    console.log("result: ", result);
+    if(result.modifiedCount > 0) res.status(200).send({ status: 200, msg: `Redigering av medlem lyckades`});
+    else res.status(500).send({status: 500, msg: "Något gick snett"});
 
   }catch(err) {
     console.log(err);
@@ -309,9 +310,9 @@ export const deleteMovie = async (req, res) => {
       const movie = await movieCollection.deleteOne({title: param.title});
 
       if(movie.deletedCount === 1) {
-        res.status(200).send({ msg: `Borttagning av filmen ${param.title} lyckades`});
+        res.status(200).send({status: 200, msg: `Borttagning av filmen ${param.title} lyckades`});
       }else {
-        res.status(500).send({ msg: `Något gick snett` })
+        res.status(500).send({status: 500, msg: `Något gick snett` })
       }
     }
     
@@ -340,7 +341,7 @@ export const deleteScreening = async (req, res) => {
       if(deleteScreening.deletedCount === 1) {
         res.status(200).send({ status: 200, msg: `Borttagning av visning ${param} lyckades`});
       }else {
-        res.status(500).send({ msg: `Något gick snett` });
+        res.status(500).send({status: 500, msg: `Något gick snett` });
       }
     }else {
       res.status(403).send({ status: 403, msg: `Visning ${param} innehåller kundbokningar och kan därför inte tas bort` });
@@ -349,4 +350,28 @@ export const deleteScreening = async (req, res) => {
   }catch(err){
     console.log(err);
   }
-} 
+}
+
+export const deleteUser = async (req, res) => {
+
+  const param = req.params;
+  console.log("PARAM: ", param)
+
+  try{
+    const collection = mongoose.connection.collection('users');
+
+    const id = new mongoose.Types.ObjectId(param.id);
+    
+    console.log("id: ", id);
+
+    const user = await collection.deleteOne({_id: id});
+
+    if(user.deletedCount === 1) {
+      res.status(200).send({status: 200, msg: `Borttagning av användare ${param._id} lyckades`});
+    }else {
+      res.status(500).send({status: 500, msg: `Något gick snett` })
+    }
+  }catch(err){
+    console.log(err)
+  }
+}

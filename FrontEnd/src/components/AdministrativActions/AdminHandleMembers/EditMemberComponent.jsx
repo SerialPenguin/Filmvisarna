@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { authGet, patch } from "../../../hooksAndUtils/fetchUtil";
+import { authGet, del, patch } from "../../../hooksAndUtils/fetchUtil";
 import { useDebounce } from "../../../hooksAndUtils/debounce";
+import { set } from "mongoose";
 
 export default function EditMemberComponent(props) {
   const [value, setValue] = useState();
@@ -24,6 +25,7 @@ export default function EditMemberComponent(props) {
       )
       if(result.status === 200) {
         setFormBody(result.user);
+        setChanges({ ...changes, _id: formBody._id});
         setFormState("found");
       }else{
         setMessage(result.msg);
@@ -50,7 +52,7 @@ export default function EditMemberComponent(props) {
   }, [key, value]);
 
   useEffect(() => {
-    if(formBody?.userRole === "ADMIN") setCheckboxChecked(true);
+    if(formBody?.userRole === "ADMIN") setCheckboxChecked(true)
     else setCheckboxChecked(false);
   }, [formBody])
 
@@ -60,27 +62,38 @@ export default function EditMemberComponent(props) {
   }
 
   function handleUserRole() {
-    if(checkboxChecked) {
-      setChanges({ ...changes, userRole: "USER"});
-      setCheckboxChecked(false);
-    }else {
-      setChanges({ ...changes, userRole: "ADMIN"});  
-      setCheckboxChecked(true);
-    }
+    if(checkboxChecked) setCheckboxChecked(false);
+    else setCheckboxChecked(true);
   }
+
+  useEffect(() => {
+    if(checkboxChecked) setChanges({ ...changes, userRole: "ADMIN"});
+    else setChanges({ ...changes, userRole: "USER"});
+    console.log(changes);
+  }, [checkboxChecked])
 
   function handleRadioCheck() {
     if(radioChecked) {
       setDisabled(true);
       setRadioChecked(false);
     }else {
-      setDisabled(false); 
+      setDisabled(false);
       setRadioChecked(true);
     }
   }
 
   async function deleteMember() {
-    
+    const result = await del('/api/auth/admin/deleteUser/' + formBody._id, props.token)
+
+    if(result.status === 200) {
+      props.memberRef.close();
+      props.setOptionState("non");
+    }else {
+      setMessage(result.msg);
+      setTimeout(() => {
+        setMessage();
+      }, 2000)
+    }
   }
 
   async function editMember(e) {
@@ -91,8 +104,6 @@ export default function EditMemberComponent(props) {
       }
     }
 
-    setChanges({ ...changes, _id: formBody._id})
-
     const result = await patch(
       "/api/auth/admin/editMember",
       changes,
@@ -100,11 +111,15 @@ export default function EditMemberComponent(props) {
     );
     
     if(result.status === 200) {
-      props.memberRef.close();
-      props.setOptionState("non");
-    }else {
+      setMessage(result.msg)
       setTimeout(() => {
-        setMessage(result.msg);
+        props.memberRef.close();
+        props.setOptionState("non");
+      }, 2000)
+    }else {
+      setMessage(result.msg);
+      setTimeout(() => {
+        setMessage();
       }, 2000)
     }
   }

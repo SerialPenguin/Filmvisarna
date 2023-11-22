@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { authGet } from "../../../hooksAndUtils/fetchUtil";
 import { useDebounce } from "../../../hooksAndUtils/debounce";
 import './HandleBookings.css';
@@ -11,8 +11,11 @@ export default function HandleBookings(props) {
   const [seats, setSeats] = useState([]);
   const [salon, setSalon] = useState();
   const [tickets, setTickets] = useState([]);
+  const [price, setPrice] = useState();
   const [user, setUser] = useState();
   const [formState, setFormState] = useState("searching");
+  
+  const sum = [];
 
   const debounceSearch = useDebounce(search);
 
@@ -56,6 +59,21 @@ export default function HandleBookings(props) {
 
   }, [booking])
 
+  useEffect(() => {
+    tickets?.forEach(ticket => {
+      if(ticket.ticketType === "adult") {
+        sum.push(140);
+      }
+      if(ticket.ticketType === "senior") {
+        sum.push(120);
+      }
+      if(ticket.ticketType === "child") {
+        sum.push(80);
+      }
+      return setPrice(sum.reduce((accumulator, currentValue) => accumulator + currentValue, 0));
+    })
+  }, [tickets])
+
   return (
     <div>
       {!message && (
@@ -86,9 +104,10 @@ export default function HandleBookings(props) {
                 <div className="specs-container">
                   <h6 className="booking-info-header">Specifikation:</h6>
                   <p className="user-confirmation-email">Bekräftelsen till: {booking?.bookedBy.email}</p>
+                  <p className="user-salon">{salon?.name === "Large salon" ? "Stora salongen" : "Lilla salongen"}</p>
                   <p className="user-seats">Stolar: {seats?.length <= 2 ? seats?.join(" & ") : seats?.reduce((text, value, i, array) => text + (i < array.length - 1 ? ', ' : ' & ') + value)}</p>
                   <p className="user-tickets">Biljetter: {tickets?.map((value) => {return `${value.ticketType === "adult" ? "Vuxen" : value.ticketType === "senior" ? "Pensionär" : "Barn"}: ${value.quantity}st. `})}</p>
-                  <p className="user-salon">{salon?.name === "Large salon" ? "Stora salongen" : "Lilla salongen"}</p>
+                  <p className="user-price">Pris: {price} kr</p>
                 </div>
                 <button className="booking-search-btn" onClick={() => {setSearch(""); setFormState("searching")}}>Sök på nytt</button>
               </div>

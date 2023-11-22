@@ -1,5 +1,5 @@
 import express from "express";
-import { addMember, addMovie, addScreening, deleteMovie, deleteScreening, editMember, editMovie, getBookingByQuery, getMovieByTitle, getSalon, getScreeningByTitle, getUserByEmail, getUserById } from "../controllers/adminControllers.js";
+import { addMember, addMovie, addScreening, deleteMovie, deleteScreening, deleteUser, editMember, editMovie, getBookingByQuery, getMovieByTitle, getSalon, getScreeningByTitle, getUserByEmail, getUserById } from "../controllers/adminControllers.js";
 
 const router = express.Router();
 
@@ -23,6 +23,7 @@ router.patch('/editMember', editMember);
 //DELETE REQUESTS
 router.delete('/deleteMovie/:title', deleteMovie);
 router.delete('/deleteScreening/:id', deleteScreening);
+router.delete('/deleteUser/:id', deleteUser);
 
 
 export default router;

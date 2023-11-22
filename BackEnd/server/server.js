@@ -9,7 +9,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
 import { getSeats } from "./controllers/seatsController.js";
 import Booking from "./models/bookingModel.js";
-import { reserveSeats } from "./controllers/temporarySeatsController.js";
+import { reserveSeats, deleteSeats } from "./controllers/temporarySeatsController.js";
 import TemporaryBooking from "./models/temporaryBookingModel.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -23,7 +23,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-
+app.use(express.static(path.join(__dirname, "../FrontEnd/src/service")));
 app.use(express.static(path.join(__dirname, "dist")));
 
 app.use("/api/movies", movieRoutes);
@@ -34,6 +34,7 @@ app.use("/api/search", searchRoutes);
 app.use("/api/seats", getSeats);
 app.use("/api/reserveSeats", reserveSeats);
 app.use("/api/auth/admin", authFilter.admin, adminRoutes);
+app.delete("/api/deleteSeats", deleteSeats)
 
 app.get("/api/events/:screeningId", async (req, res) => {
   const { screeningId } = req.params;

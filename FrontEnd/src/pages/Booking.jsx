@@ -49,6 +49,7 @@ function Booking() {
   const [chosenScreening, setChosenScreening] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [groupSeats, setGroupSeats] = useState(false);
+  const [selectedSeatsId, setSelectedSeatsId] = useState();
 
   const selectedMovieRef = useRef(null);
 
@@ -104,7 +105,7 @@ function Booking() {
             if (!isScreeningAvailable) {
               // If the current screeningId isn't available, navigate to the first screening of the first week
               const targetScreeningId = groupedScreenings[0].screenings[0]._id;
-              history(`/booking/${targetScreeningId}`);
+              history(`/bokning/${targetScreeningId}`);
             }
           } else {
             setScreenings([]);
@@ -121,49 +122,82 @@ function Booking() {
 
   let clickedRowNumber = 0;
 
-  function findContiguousSeats(seatNumber, totalTicketCount) {
+  function findContiguousSeats(initialSeatNumber, totalTicketCount) {
     const result = [];
-    const seatsInSameRow = salonLayout.rows[clickedRowNumber - 1].seats;
-    const seatIndex = seatsInSameRow.indexOf(seatNumber);
-    // loop to the right
-    for (let i = seatIndex; i < seatsInSameRow.length; i++) {
-      if (
-        result.length >= totalTicketCount ||
-        isSeatBooked(seatsInSameRow[i])
+    let seatsNeeded = totalTicketCount;
+
+    function findSeatsInRow(row, relativeIndex) {
+      const seatsInRow = salonLayout.rows[row - 1].seats;
+      let searchIndex =
+        row === clickedRowNumber
+          ? seatsInRow.indexOf(initialSeatNumber)
+          : relativeIndex !== undefined
+          ? Math.min(
+              Math.max(Math.round(seatsInRow.length * relativeIndex), 0),
+              seatsInRow.length - 1
+            )
+          : 0; // Start from the beginning of the row if it's not the clicked row
+
+      let leftIndex = searchIndex - 1;
+      let rightIndex = searchIndex;
+      while (
+        seatsNeeded > 0 &&
+        (leftIndex >= 0 || rightIndex < seatsInRow.length)
       ) {
-        break;
+        if (
+          rightIndex < seatsInRow.length &&
+          !isSeatBooked(seatsInRow[rightIndex])
+        ) {
+          result.push(seatsInRow[rightIndex]);
+          seatsNeeded--;
+          rightIndex++;
+        } else if (leftIndex >= 0 && !isSeatBooked(seatsInRow[leftIndex])) {
+          result.unshift(seatsInRow[leftIndex]);
+          seatsNeeded--;
+          leftIndex--;
+        } else {
+          break; // No more seats to check in this row
+        }
       }
-      result.push(seatsInSameRow[i]);
     }
-    // loop to the left
-    for (let i = seatIndex - 1; i >= 0; i--) {
+
+    // Start with the clicked row
+    findSeatsInRow(clickedRowNumber, undefined);
+
+    // Check adjacent rows if needed
+    let offset = 1;
+    let initialRowRelativeIndex =
+      salonLayout.rows[clickedRowNumber - 1].seats.indexOf(initialSeatNumber) /
+      salonLayout.rows[clickedRowNumber - 1].seats.length;
+
+    while (seatsNeeded > 0 && offset < salonLayout.rows.length) {
+      if (clickedRowNumber - offset > 0) {
+        findSeatsInRow(clickedRowNumber - offset, initialRowRelativeIndex);
+      }
       if (
-        result.length >= totalTicketCount ||
-        isSeatBooked(seatsInSameRow[i])
+        seatsNeeded > 0 &&
+        clickedRowNumber + offset <= salonLayout.rows.length
       ) {
-        break;
+        findSeatsInRow(clickedRowNumber + offset, initialRowRelativeIndex);
       }
-      result.push(seatsInSameRow[i]);
+      offset++;
     }
+
     return result;
   }
 
   const handleSeatClick = async (rowNumber, seatNumber) => {
     const totalTicketCount = getTotalTicketCount();
     if (isSeatBooked(seatNumber)) {
-      console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
       return;
     }
 
     clickedRowNumber = rowNumber;
-    console.log(clickedRowNumber);
 
     if (groupSeats) {
       const desiredSeats = findContiguousSeats(seatNumber, totalTicketCount);
-      console.log(desiredSeats);
       for (let seat of desiredSeats) {
         if (isSeatBooked(seat)) {
-          console.log(`Seat ${seat} in row ${rowNumber} is already booked.`);
           return;
         }
       }
@@ -178,17 +212,17 @@ function Booking() {
     // Determine if we should remove an existing seat from selection
     let seatToRemove = null;
     if (totalTicketCount <= 0) {
-      console.log("Please select a ticket before choosing a seat.");
       return;
     }
-    if (groupSeats) {
+    if (groupSeats && selectedSeatsId) {
       setSeats(findContiguousSeats(seatNumber, totalTicketCount));
-      fetch(`/api/reserveSeats`, {
-        method: "POST",
+      fetch(`/api/deleteSeats`, {
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           screeningId,
-          seats: [], // Empty array to show removal
+          // seats: [],
+          selectedSeatsId, // Empty array to show removal
         }),
       });
     } else {
@@ -198,7 +232,6 @@ function Booking() {
         setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
       }
       setSeats((prevSeats) => [...prevSeats, seatNumber]);
-      console.log(`Seat ${seatNumber} is now temporarily reserved.`);
     }
 
     try {
@@ -222,13 +255,14 @@ function Booking() {
 
       if (!res.ok) throw new Error("Error reserving seat");
       const data = await res.json();
+      setSelectedSeatsId(data.selectedSeatsId);
 
       if (data && data.success) {
-        console.log(
-          `Seats ${selectedSeatsArray
-            .map((seat) => seat.seatNumber)
-            .join(", ")} are now confirmed as reserved.`
-        );
+        // console.log(
+        //   `Seats ${selectedSeatsArray
+        //     .map((seat) => seat.seatNumber)
+        //     .join(", ")} are now confirmed as reserved.`
+        // );
       }
       if (groupSeats) {
         setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));
@@ -570,6 +604,7 @@ function Booking() {
                   setSeats={setSeats}
                   setTickets={setTickets}
                   setSelectedSeats={setSelectedSeats}
+                  selectedSeatsId={selectedSeatsId}
                 />
               )}
               <div className="total-amount">

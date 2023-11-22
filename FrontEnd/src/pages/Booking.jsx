@@ -152,19 +152,15 @@ function Booking() {
   const handleSeatClick = async (rowNumber, seatNumber) => {
     const totalTicketCount = getTotalTicketCount();
     if (isSeatBooked(seatNumber)) {
-      console.log(`Seat ${seatNumber} in row ${rowNumber} is already booked.`);
       return;
     }
 
     clickedRowNumber = rowNumber;
-    console.log(clickedRowNumber);
 
     if (groupSeats) {
       const desiredSeats = findContiguousSeats(seatNumber, totalTicketCount);
-      console.log(desiredSeats);
       for (let seat of desiredSeats) {
         if (isSeatBooked(seat)) {
-          console.log(`Seat ${seat} in row ${rowNumber} is already booked.`);
           return;
         }
       }
@@ -179,11 +175,9 @@ function Booking() {
     // Determine if we should remove an existing seat from selection
     let seatToRemove = null;
     if (totalTicketCount <= 0) {
-      console.log("Please select a ticket before choosing a seat.");
       return;
     }
     if (groupSeats && selectedSeatsId) {
-      console.log("Selected Seats:", selectedSeatsId);
       setSeats(findContiguousSeats(seatNumber, totalTicketCount));
       fetch(`/api/deleteSeats`, {
         method: "DELETE",
@@ -201,7 +195,6 @@ function Booking() {
         setSeats((prevSeats) => prevSeats.slice(1)); // Remove the first seat
       }
       setSeats((prevSeats) => [...prevSeats, seatNumber]);
-      console.log(`Seat ${seatNumber} is now temporarily reserved.`);
     }
 
     try {
@@ -225,16 +218,14 @@ function Booking() {
 
       if (!res.ok) throw new Error("Error reserving seat");
       const data = await res.json();
-
-      console.log(data);
       setSelectedSeatsId(data.selectedSeatsId);
 
       if (data && data.success) {
-        console.log(
-          `Seats ${selectedSeatsArray
-            .map((seat) => seat.seatNumber)
-            .join(", ")} are now confirmed as reserved.`
-        );
+        // console.log(
+        //   `Seats ${selectedSeatsArray
+        //     .map((seat) => seat.seatNumber)
+        //     .join(", ")} are now confirmed as reserved.`
+        // );
       }
       if (groupSeats) {
         setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));

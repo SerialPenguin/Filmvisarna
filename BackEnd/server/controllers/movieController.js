@@ -49,7 +49,7 @@ export const addMovies = async (req, res) => {
     res.status(200).send({msg: `New movie, ${newMovie.title} added to database`});
 
   }catch(err) {
-    console.log(err)
+    console.error(err)
   }
 };
 
@@ -72,7 +72,7 @@ export const editMovies = async (req, res) => {
     res.status(200).send({ msg: `Movie ${movie.title} edited succesfully`});
 
   }catch(err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
@@ -103,6 +103,6 @@ export const deleteMovies = async (req, res) => {
     }
     
   }catch(err){
-    console.log(err)
+    console.error(err)
   }
 } 

@@ -37,6 +37,6 @@ export default async function sendConfirmation({ bookingNumber, email, totalPric
 
         await sendEmail({ from, to, replyTo, subject, text, html, attachments });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
     }
 }

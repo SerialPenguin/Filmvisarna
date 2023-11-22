@@ -27,12 +27,8 @@ export const getTemporaryBookings = async (req, res) => {
 export const deleteSeats = async (req, res) => {
 
   const { selectedSeatsId } = req.body;
-
-    console.log("Trying to remove temporary seats:")
-    const deleteResult = await TemporaryBooking.deleteOne({ _id: new mongoose.Types.ObjectId(selectedSeatsId) }); // Delete all reservations for the screeningId
-    console.log(deleteResult);
+    await TemporaryBooking.deleteOne({ _id: new mongoose.Types.ObjectId(selectedSeatsId) }); // Delete all reservations for the screeningId
     return res.status(200).json({ msg: "Selected seats cleared successfully." });
-  
 }
 
 export const reserveSeats = async (req, res) => {
@@ -53,7 +49,6 @@ export const reserveSeats = async (req, res) => {
     if (existingReservations.length > 0) {
       return res.status(400).json({ msg: "Some of the seats are already reserved." });
     }
-    console.log("Seats", seats);
     // If seats are not empty, create a new reservation
     const newReservation = new TemporaryBooking({
       screeningId,
@@ -61,8 +56,6 @@ export const reserveSeats = async (req, res) => {
     });
 
     await newReservation.save();
-
-    console.log(newReservation);
 
     return res.status(200).json({ msg: "Seats reserved successfully.", selectedSeatsId: newReservation._id });
   } catch (error) {

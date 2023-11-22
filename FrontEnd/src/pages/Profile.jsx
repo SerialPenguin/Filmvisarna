@@ -1,9 +1,5 @@
-/** @format */
-
 import { useEffect, useState } from "react";
 import "./profile.css";
-// import { getProfile } from "../hooksAndUtils/fetchUtil.js";
-// const token = sessionStorage.getItem("JWT_TOKEN");
 
 export default function Profile() {
   const [token] = useState(sessionStorage.getItem("JWT_TOKEN"));
@@ -63,7 +59,6 @@ export default function Profile() {
 
         setBookingData(allBookings);
         setScreeningId(screeningId);
-        // console.log(screeningId);
       } catch (error) {
         console.error(error);
       }
@@ -113,10 +108,6 @@ export default function Profile() {
           seats: bookingData[index].seats,
         }));
 
-        // if (combinedData.length === 0) {
-        //   setCombinedData("Inga bokningar hittades");
-        // }
-
         setCombinedData(combinedData);
       } catch (error) {
         console.error(error);
@@ -127,6 +118,10 @@ export default function Profile() {
   }, [movieId, screeningData, bookingData]);
 
   const deleteBooking = async (bookingId) => {
+
+    const confirmDeleteBooking = window.confirm(`Är du säker att du vill ta bort bokningen? Det går inte att ångra detta val`)
+
+    if(confirmDeleteBooking){
     try {
       const response = await fetch(`/api/auth/bookings/`, {
         method: "DELETE",
@@ -149,14 +144,17 @@ export default function Profile() {
     } catch (error) {
       console.error(error);
     }
+    }
   };
 
   return (
     <section className="profile-page-container">
       <h2 className="profile-h2">Profil</h2>
       <div className="profilepage-content">
+        <h3 className="profile-h3">Dina uppgifter</h3>
         <table className="profile-table">
           <tbody className="profile-tbody">
+            
             <tr>
               <td className="profile-first-row">Förnamn:</td>
               <td className="profile-second-row">{userData.firstName}</td>
@@ -172,8 +170,10 @@ export default function Profile() {
           </tbody>
         </table>
 
+        <h3 className="profile-h3">Aktuella bokningar</h3>
+
         <ul className="booking-history-ul">
-          <h3 className="profile-h3">Bokningshistorik</h3>
+
           {combinedData.length === 0 ? (
             <li className="no-bookings-found-text">
               Inga aktuella bokningar hittades
@@ -190,11 +190,6 @@ export default function Profile() {
 
                     <div className="booking-history-card-text">
                       <div className="history-card-title">
-                        {/* <p className="card-title">
-                          {item.title.length > 15
-                            ? `${item.title.substring(0, 13)}...`
-                            : item.title}
-                        </p> */}
                         <p className="card-title">{item.title}</p>
                         <div className="genre-title-container">
                           <p className="card-genre">{item.genre}</p>
@@ -204,7 +199,7 @@ export default function Profile() {
 
                       <div className="history-card-booking-number">
                         <p className="card-bookingnumber-title">
-                          Bokningsnummer
+                          Bokningsnummer:
                         </p>
                         <p className="card-bookingnumber">
                           {item.bookingNumber}
@@ -217,32 +212,30 @@ export default function Profile() {
                           <p>{item.startTime.slice(0, -14)}</p>
                         </div>
                         <div className="history-seat">
-                          <p>Platser:</p>
-                          {item.seats.map((seat, i) => (
+                          <p className="history-seat-title">Platser:</p>
+                          <div className="history-seat-container">      {item.seats.map((seat, i) => (
                             <p className="history-seat-numbers" key={i}>
-                              {seat.seatNumber},
+                              {seat.seatNumber}
                             </p>
-                          ))}
+                          ))}</div>
+                    
                         </div>
                       </div>
 
                       <button
-                        className="delete-current-booking-btn"
+                        className="delete-booking-btn"
                         onClick={() => deleteBooking(item.bookingId)}>
-                        Ta bort bokning
+                        Avboka
                       </button>
                     </div>
                   </div>
                 </li>
               ))
           )}
-
-          {combinedData.length === 0 ? (
-            <li className="booking-history-check">
-              Inga tidigare bokningar hittades
-            </li>
-          ) : (
-            combinedData
+          </ul>
+          <h3 className="profile-h3">Tidigare bokningar</h3>
+          <ul className="booking-history-ul">
+          {combinedData
               .filter((item) => new Date(item.startTime) < currentDate)
               .map((item, i) => (
                 <li className="booking-history-li" key={i}>
@@ -253,12 +246,9 @@ export default function Profile() {
 
                     <div className="booking-history-card-text">
                       <div className="history-card-title">
-                        <p className="card-title">
-                          {item.title.length > 15
-                            ? `${item.title.substring(0, 13)}...`
-                            : item.title}
-                        </p>
-                        <div className="genre-title-container">
+                      <p className="card-title">{item.title}</p>
+
+                          <div className="genre-title-container">
                           <p className="card-genre">{item.genre}</p>
                           <p className="card-year">{item.productionYear}</p>
                         </div>
@@ -279,27 +269,28 @@ export default function Profile() {
                           <p>{item.startTime.slice(0, -14)}</p>
                         </div>
                         <div className="history-seat">
-                          <p>Platser:</p>
-                          {item.seats.map((seat, i) => (
+                          <p className="history-seat-title">Platser:</p>
+                              <div className="history-seat-container">      {item.seats.map((seat, i) => (
                             <p className="history-seat-numbers" key={i}>
-                              {seat.seatNumber},
+                              {seat.seatNumber}
                             </p>
-                          ))}
+                          ))}</div>
                         </div>
                       </div>
 
                       <button
-                        className="booking-history-btn"
+                        className="delete-booking-btn"
                         onClick={() => deleteBooking(item.bookingId)}>
-                        Ta bort bokning
+                        Ta bort
                       </button>
                     </div>
                   </div>
                 </li>
-              ))
-          )}
+                ))}
         </ul>
       </div>
     </section>
   );
 }
+
+

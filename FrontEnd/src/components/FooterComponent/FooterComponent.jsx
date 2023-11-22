@@ -50,8 +50,8 @@ const FooterComponent = () => {
     const result = await authService.handleRegister(e, credentials);
 
     if (result === true) {
-      setTimeout(() => navigate("/logga-in"), 1500);
-      window.location.reload();
+      setTimeout(() => navigate("/profil"), 1500);
+      setTimeout(() => window.location.reload(), 2000);
       setRegisterMessage("Du har blivit medlem!");
     } else {
       console.error();
@@ -115,7 +115,7 @@ const FooterComponent = () => {
             setCredentials({ ...credentials, password: e.target.value })
           }
         />
-        <label>Lösenord</label>
+        <label>Bekräfta lösenord</label>
         <input
           type="password"
           name="password"

@@ -257,13 +257,6 @@ function Booking() {
       const data = await res.json();
       setSelectedSeatsId(data.selectedSeatsId);
 
-      if (data && data.success) {
-        // console.log(
-        //   `Seats ${selectedSeatsArray
-        //     .map((seat) => seat.seatNumber)
-        //     .join(", ")} are now confirmed as reserved.`
-        // );
-      }
       if (groupSeats) {
         setSelectedSeats(findContiguousSeats(seatNumber, totalTicketCount));
       } else {
@@ -651,23 +644,7 @@ function Booking() {
               </p>
             </div>
           </div>
-          {/* <div className="seat-select-container">
-            <label
-              htmlFor="grouped-seats-checkbox"
-              className="seat-select-label">
-              Välj grupperade säten
-            </label>
-            <input
-              type="checkbox"
-              id="grouped-seats-checkbox"
-              className="seat-select"
-              name="Select Grouped Seats"
-              checked={groupSeats}
-              onChange={(e) => {
-                setGroupSeats(e.target.checked);
-              }}
-            />
-          </div> */}
+          {}
           <button className="book-button" onClick={handleScreeningInput}>
             Boka biljetter
           </button>

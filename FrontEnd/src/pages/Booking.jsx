@@ -607,7 +607,6 @@ function Booking() {
                 <label
                   htmlFor="grouped-seats-checkbox"
                   className="seat-select-label">
-                  Välj grupperade säten
                   <input
                     type="checkbox"
                     id="grouped-seats-checkbox"
@@ -618,6 +617,7 @@ function Booking() {
                       setGroupSeats(e.target.checked);
                     }}
                   />
+                  Välj grupperade säten
                 </label>
 
                 <h3 className="seat-select-label-not-happy">

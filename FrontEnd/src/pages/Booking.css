@@ -418,12 +418,11 @@
 
 .seat-select-label-not-happy {
   display: flex;
-  margin-right: 10px;
   font-size: 18px;
   color: #ba7e36;
   font-weight: 330;
-  font-size: 1.3rem;
-  margin-bottom: 5px;
+  font-size: 1rem;
+  margin-bottom: -10px;
 }
 
 .seat-select {
@@ -431,7 +430,8 @@
   height: 20px;
   cursor: pointer;
   accent-color: #ba7e36;
-  margin-left: 10px;
+  margin-right: 10px;
+
 }
 
 @media (min-width: 768px) {
@@ -645,5 +645,15 @@
     height: 20px;
     cursor: pointer;
     margin-top: 5px;
+  }
+
+  .seat-select-label-not-happy {
+    display: flex;
+    margin-right: 10px;
+    font-size: 18px;
+    color: #ba7e36;
+    font-weight: 330;
+    font-size: 1.3rem;
+    margin-bottom: 5px;
   }
 }

@@ -15,7 +15,7 @@ export default function Admin() {
   const movieRef = useRef();
   const screeningRef = useRef();
   const bookingRef = useRef();
-  const membersRef = useRef();
+  const memberRef = useRef();
 
   const navigate = useNavigate();
 
@@ -95,7 +95,7 @@ export default function Admin() {
                 />
               </dialog>
             </div>
-            <div className="option">
+            <div className="option" >
               <p
                 className="options-title"
                 onClick={() => {
@@ -113,23 +113,27 @@ export default function Admin() {
                   }}>
                   X
                 </button>
-                <HandleBookings token={token}/>
+                <HandleBookings 
+                  optionState={optionState}
+                  setOptionState={setOptionState} 
+                  bookingRef={bookingRef.current}
+                  token={token}/>
               </dialog>
             </div>
             <div className="option">
               <p
                 className="options-title"
                 onClick={() => {
-                  membersRef.current?.showModal();
+                  memberRef.current?.showModal();
                   setTopic("medlem");
                 }}>
                 Hantera medlemmar
               </p>
-              <dialog className="dialog" ref={membersRef}>
+              <dialog className="dialog" ref={memberRef}>
                 <button
                   className="close-ref-btn"
                   onClick={() => {
-                    membersRef.current?.close();
+                    memberRef.current?.close();
                     setOptionState("non");
                   }}>
                   X
@@ -139,6 +143,7 @@ export default function Admin() {
                   setOptionState={setOptionState}
                   token={token}
                   topic={topic}
+                  memberRef={memberRef.current}
                 />
               </dialog>
             </div>

@@ -5,6 +5,7 @@ export default function AddMovieComponent(props) {
   const [value, setValue] = useState();
   const [key, setKey] = useState();
   const [formBody, setFormBody] = useState({});
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     setFormBody({ ...formBody, [key]: value });
@@ -25,18 +26,23 @@ export default function AddMovieComponent(props) {
       }
     }
 
-    await adminPost(
-      "/api/movies/auth/admin/addMovie",
+    const result = await adminPost(
+      "/api/auth/admin/addMovie",
       formBody,
       props.token
     );
     
-    props.movieRef.close();
-    props.setOptionState("non");
+    if(result.status === 200){
+      props.movieRef.close();
+      props.setOptionState("non");
+    }else {
+      setMessage(result.msg);
+    }
   }
 
   return (
     <div className="add-movie-container">
+    {!message && (
       <form onSubmit={addMovie} className="add-movie-form">
         <label className="lbl" htmlFor="title">
           Titel:
@@ -153,6 +159,10 @@ export default function AddMovieComponent(props) {
           name="age"></input>
         <button className="add-movie-btn">Lägg till film</button>
       </form>
-    </div>
+      )}
+      {message && (
+        <p>{message}</p>
+      )}
+      </div>
   );
 }

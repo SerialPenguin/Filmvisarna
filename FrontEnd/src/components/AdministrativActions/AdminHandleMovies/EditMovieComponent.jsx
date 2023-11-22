@@ -34,7 +34,7 @@ export default function EditMovieComponent(props) {
     setChanges({ ...changes, title: e.target.id });
     setFormBody(
       await authGet(
-        "/api/search/auth/admin/getMovie/" + e.target.id,
+        "/api/auth/admin/getMovie/" + e.target.id,
         props.token
       )
     );
@@ -52,7 +52,7 @@ export default function EditMovieComponent(props) {
       }
 
       await patch(
-        "/api/movies/auth/admin/editMovie",
+        "/api/auth/admin/editMovie",
         changes,
         props.token
       );

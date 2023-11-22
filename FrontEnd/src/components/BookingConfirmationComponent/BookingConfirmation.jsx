@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TicketFront from "../../assets/img/ticketFront.png";
 import TicketBack from "../../assets/img/ticketBack.png";
-import { patch } from "../../hooksAndUtils/fetchUtil";
-import { useAuthGet } from "../../hooksAndUtils/useFetch";
+import { authGet, patch } from "../../hooksAndUtils/fetchUtil";
 
 export default function BookingConfirmation(props) {
   const navigate = useNavigate();
@@ -46,9 +45,15 @@ export default function BookingConfirmation(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useAuthGet("/api/auth/profile", token, (data) => {
-    setProfile(data);
-  });
+  useEffect(() => {
+    
+    async function getProfile() {
+      let user = await authGet("/api/auth/profile", token)
+      setProfile(user.userRole);
+    }
+    if(token)getProfile();
+
+  }, [token]);
 
   useEffect(() => {
     if (profile) {
@@ -176,6 +181,11 @@ export default function BookingConfirmation(props) {
                 id="email"></input>
             </div>
           )}
+           {animationStage === "start" && (
+            <button className="cancel-btn" onClick={handleCanceling}>
+              Backa
+            </button>
+          )}
           {displayConfirmBtn === true && email?.includes("@") && (
             <button
               className="send-btn"
@@ -188,11 +198,6 @@ export default function BookingConfirmation(props) {
                 }, 600);
               }}>
               Till bekräftelse
-            </button>
-          )}
-          {animationStage === "start" && (
-            <button className="cancel-btn" onClick={handleCanceling}>
-              Backa
             </button>
           )}
           <img className="ticket-front" src={TicketFront} />
@@ -220,13 +225,13 @@ export default function BookingConfirmation(props) {
                           .join(", ")}`}
                   </p>
                   <p className="date">Datum: {date.slice(0, -8)}</p>
+                  <button className="back-middle-btn" onClick={handleBacking}>
+                    Backa
+                  </button>
                   <button
                     className="confirm-btn"
                     onClick={handleSendConfirmation}>
                     Bekräfta
-                  </button>
-                  <button className="back-middle-btn" onClick={handleBacking}>
-                    Backa
                   </button>
                 </div>
               )}

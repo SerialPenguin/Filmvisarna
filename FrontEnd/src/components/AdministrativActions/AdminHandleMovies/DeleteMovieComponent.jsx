@@ -19,7 +19,7 @@ export default function DeleteMovieComponent(props) {
 
   async function deleteMovie() {
     await del(
-      "/api/movies/auth/admin/deleteMovie/" + param,
+      "/api/auth/admin/deleteMovie/" + param,
       props.token
     );
     

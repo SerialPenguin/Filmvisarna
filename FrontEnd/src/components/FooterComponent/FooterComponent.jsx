@@ -115,7 +115,7 @@ const FooterComponent = () => {
             setCredentials({ ...credentials, password: e.target.value })
           }
         />
-        <label>Lösenord</label>
+        <label>Bekräfta lösenord</label>
         <input
           type="password"
           name="password"

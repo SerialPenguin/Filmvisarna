@@ -124,15 +124,18 @@
   text-align: center;
 }
 
-.history-card-title,
+.history-card-title{
+  color: #ffffff;
+}
+
 .history-card-booking-number,
 .history-card-booking-info {
-  color: #ffffff;
+  color: #c699ea;
 }
 
 .history-seat {
   display: flex;
-  color: #ffffff;
+  color: #c699ea;
 }
 
 .history-seat-numbers {
@@ -159,7 +162,6 @@
 }
 
 .history-card-title{
-
   width: 100%;
 }
 
@@ -171,7 +173,6 @@ margin-top: .5em;
 .booking-history-card-text{
   width: 100%;
   background-color: rgba(198, 153, 234, 0.04)
-
 }
 
 .card-title{
@@ -200,19 +201,20 @@ margin-top: .5em;
 .profilepage-content{
   width: 80%;
   margin: 0 auto;
+  /* background-color: #db00ff; */
 }
 
 .profilepage-content p,
 .profile-table td{
-font-size: 90%;
+  font-size: 90%;
 }
 
 .delete-booking-btn {
-font-size: 80%;
-margin-top: .5em;
+  font-size: 80%;
+  margin-top: .5em;
 }
 
-  .booking-history-li {
+.booking-history-li {
   flex: 0 0 30%;
 }
 

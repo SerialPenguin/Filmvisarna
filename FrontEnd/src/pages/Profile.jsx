@@ -1,5 +1,3 @@
-/** @format */
-
 import { useEffect, useState } from "react";
 import "./profile.css";
 
@@ -118,6 +116,10 @@ export default function Profile() {
   }, [movieId, screeningData, bookingData]);
 
   const deleteBooking = async (bookingId) => {
+
+    const confirmDeleteBooking = window.confirm(`Är du säker att du vill ta bort bokningen? Det går inte att ångra detta val`)
+
+    if(confirmDeleteBooking){
     try {
       const response = await fetch(`/api/auth/bookings/`, {
         method: "DELETE",
@@ -139,6 +141,7 @@ export default function Profile() {
       );
     } catch (error) {
       console.error(error);
+    }
     }
   };
 
@@ -164,7 +167,8 @@ export default function Profile() {
             </tr>
           </tbody>
         </table>
-                  <h3 className="profile-h3">Aktuella bokningar</h3>
+
+        <h3 className="profile-h3">Aktuella bokningar</h3>
 
         <ul className="booking-history-ul">
 
@@ -184,11 +188,6 @@ export default function Profile() {
 
                     <div className="booking-history-card-text">
                       <div className="history-card-title">
-                        {/* <p className="card-title">
-                          {item.title.length > 15
-                            ? `${item.title.substring(0, 13)}...`
-                            : item.title}
-                        </p> */}
                         <p className="card-title">{item.title}</p>
                         <div className="genre-title-container">
                           <p className="card-genre">{item.genre}</p>
@@ -198,7 +197,7 @@ export default function Profile() {
 
                       <div className="history-card-booking-number">
                         <p className="card-bookingnumber-title">
-                          Bokningsnummer
+                          Bokningsnummer:
                         </p>
                         <p className="card-bookingnumber">
                           {item.bookingNumber}

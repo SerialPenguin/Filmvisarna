@@ -28,7 +28,7 @@ const MovieCardComponent = () => {
   const handleBookingClick = (id) => {
     screenings.forEach((screening) => {
       if (id === screening.movieId) {
-        navigate(`/booking/${screening._id}`);
+        navigate(`/bokning/${screening._id}`);
       }
     });
   };
@@ -82,7 +82,7 @@ const MovieCardComponent = () => {
                     Boka
                   </button>
 
-                  <Link to={`/search/movies/${movie._id}`}>
+                  <Link to={`/sok/filmer/${movie._id}`}>
                     <p className="moviecard-showmore-link">visa mer...</p>
                   </Link>
                 </div>

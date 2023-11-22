@@ -35,18 +35,17 @@
     min-height: 100vh; 
 }
 .screenings-p{
-    color: #BA7E36;
+    color: #DB00FF;
 }
 .date-title{
     color: #BA7E36;
     font-size: 2em;
 }
 .list-movie-title, .screenings-p{
-    width: 25%;
     margin: 0px auto;
 }
 .list-movie-title{
-    width: 35%;
+    width: 40%;
 }
 .seperator{
     margin: auto;
@@ -84,7 +83,7 @@
     height: 100vh;
 }
 .link-color{
-    color:#C699EA;
+    color:#BA7E36;
     font-size: large;
 }
 .movie-poster-img{
@@ -123,7 +122,19 @@
     justify-content: space-evenly;
     width: 80%;
 }
+.no-results-text, .clear-filters-text, .Laddar{
+    color: #ba7e36;
+    text-align: center;
+    font-size: large;
+    margin-top: 2em;
+}
+.clear-filters-text{
+    text-decoration-line: underline;
+}
 @media (max-width: 350px){
+    .return-container{
+        margin-top: 6em;
+    }
     .screenings-selectors{
         padding-left: 0px;
     }
@@ -186,7 +197,7 @@
     }
     .visa-mer{
         width: 4em;
-        margin-top: 30%;
+        margin-top: 20%;
         color:#BA7E36;
         margin-left: auto;
     }

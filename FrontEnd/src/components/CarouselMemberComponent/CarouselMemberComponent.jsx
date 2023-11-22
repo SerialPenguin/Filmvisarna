@@ -8,7 +8,7 @@ const CarouselMemberComponent = () => {
       <h2 className="member-carousel-title">BLI NY MEDLEM</h2>
       <p className="member-carousel-text">Som medlem får du härliga erbjudanden och andra fördelar.</p>
        <p className="member-carousel-text"> Tryck på knappen för att registrera dig!</p>
-      <Link to={'/register'}>
+      <Link to={'/registrera'}>
       <button className="member-carousel-btn">Bli medlem</button>
       </Link>
       </div>

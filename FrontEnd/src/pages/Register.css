@@ -1,9 +1,10 @@
 
 .register-wrapper {
-  /* background: linear-gradient(#150316, #3F1441) ; */
   z-index: 1001;
   width: 90%;
   height: calc(100vh - 4em);
+  /* max-height: calc(100vh - 4em);
+  overflow-x: scroll; */
   display: flex;
   margin: 0 auto;
   margin-top: 4em;
@@ -19,7 +20,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1%;
   height: 100%;
   width: 100%;
 }
@@ -34,7 +34,6 @@
 .form-container {
   width: 100%;
   max-width: 768px;
-  /* padding: 0 8px; */
   display: flex;
   flex-direction: column;
 }
@@ -44,25 +43,46 @@
   flex-direction: column;
 }
 
-.login-lbl {
-  font-size: 16px;
-  font-weight: 500;
+.register-wrapper .login-lbl {
+  font-size: 14px;
+  font-weight: 600;
   color: #c699ea;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 
-.login-field {
+.register-wrapper .login-field {
   background-color: #2d142e;
   color: #c699ea;
-  height: 44px;
+  height: 36px;
   padding: 0 8px;
   font-size: 16px;
   border: 1px solid #c699ea;
   border-radius: 8px;
 }
 
-.first {
-  margin-bottom: 16px;
+.password-container {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  gap: 16px;
+}
+
+.password-left,
+.password-right {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-wrapper .first {
+  margin-bottom: 8px;
 }
 
 .register-p {
@@ -93,9 +113,26 @@
   -webkit-box-shadow: 0 0 0px 1000px #2d142e inset !important;
 }
 
-.register-msg {
-  color: rgb(182, 37, 71);
-  font-size: 16px;
+.register-error {
+  max-width: 768px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #b85252;
+  box-shadow: 0 10px 15px #fb69691e;
+}
+
+.register-success {
+  max-width: 768px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #4a9d67;
+  box-shadow: 0 10px 15px #69fba61e;
 }
 
 .btn-container {

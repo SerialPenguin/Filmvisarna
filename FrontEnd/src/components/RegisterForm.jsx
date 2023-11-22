@@ -11,6 +11,11 @@ function RegisterForm() {
     password: "",
   });
 
+  // Password comfirmation
+  const [confirmedPassword, setConfirmedPassword] = useState({
+    password: "",
+  })
+
   const navigate = useNavigate();
   const [registerMessage, setRegisterMessage] = useState("");
 
@@ -22,7 +27,8 @@ function RegisterForm() {
       !credentials.firstName ||
       !credentials.lastName ||
       !credentials.emailAdress ||
-      !credentials.password
+      !credentials.password ||
+      !confirmedPassword.password
     ) {
       setRegisterMessage("Alla fält måste vara korrekt ifyllda");
       return;
@@ -45,6 +51,14 @@ function RegisterForm() {
       return;
     }
 
+    // Password comfirmation check
+    if (confirmedPassword.password !== credentials.password) {
+      setRegisterMessage(
+        "De angivna lösenorden matchar inte, försök igen"
+      );
+      return;
+    }
+
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {
@@ -60,7 +74,11 @@ function RegisterForm() {
   return (
     <>
        <form className="form-container">
-        {registerMessage && <p className="register-msg">{registerMessage}</p>}
+        {registerMessage && (
+          <p className={`register-msg ${registerMessage.startsWith("Du har blivit medlem!") ? "register-success" : "register-error"}`}>
+            {registerMessage}
+          </p>
+        )}
         <div className="input-container">
           <label className="login-lbl">Förnamn</label>
           <input
@@ -92,19 +110,35 @@ function RegisterForm() {
               setCredentials({ ...credentials, emailAdress: e.target.value })
             }
           />
-          <label className="login-lbl">Lösenord</label>
-          <input
-            required
-            type="password"
-            name="password"
-            className="login-field"
-            onChange={(e) =>
-              setCredentials({ ...credentials, password: e.target.value })
-            }
-          />
+          <div className="password-container">
+            <div className="password-left">
+              <label className="login-lbl">Lösenord</label>
+              <input
+                required
+                type="password"
+                name="password"
+                className="login-field"
+                onChange={(e) =>
+                  setCredentials({ ...credentials, password: e.target.value })
+                }
+              />
+            </div>
+            <div className="password-right">
+              <label className="login-lbl">Bekräfta lösenord</label>
+              <input
+                required
+                type="password"
+                name="password"
+                className="login-field"
+                onChange={(e) =>
+                  setConfirmedPassword({ ...confirmedPassword, password: e.target.value })
+                }
+              />
+            </div>
+          </div>
         </div>
         <p className="register-p">
-          Redan medlem? <Link to={"/login"} className="register-p-link">Klicka här</Link>
+          Redan medlem? <Link to={"/logga-in"} className="register-p-link">Klicka här</Link>
         </p>  
       </form>
       <div className="btn-container">

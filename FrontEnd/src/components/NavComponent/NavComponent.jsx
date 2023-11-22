@@ -14,7 +14,7 @@ const NavComponent = ({ onCloseClick, userRole }) => {
     setScreenings(data);
   });
   const firstScreeningId =
-    screening.length > 0 ? "/booking/" + screening[0]._id : "";
+    screening.length > 0 ? "/bokning/" + screening[0]._id : "";
   const location = useLocation();
   const jwtToken = sessionStorage.getItem("JWT_TOKEN");
 
@@ -52,7 +52,7 @@ const NavComponent = ({ onCloseClick, userRole }) => {
               <Link to={`${firstScreeningId}`}>
                 <li
                   className={`nav-list-item ${
-                    location.pathname.includes("/booking") ? "active" : ""
+                    location.pathname.includes("/bokning") ? "active" : ""
                   }`}
                   onClick={onCloseClick}>
                   BOKA
@@ -62,26 +62,26 @@ const NavComponent = ({ onCloseClick, userRole }) => {
               <div>
                 <li
                   className={`nav-list-item ${
-                    location.pathname.includes("/booking") ? "active" : ""
+                    location.pathname.includes("/bokning") ? "active" : ""
                   }`}
                   onClick={onCloseClick}>
                   BOKA
                 </li>
               </div>
             )}
-            <Link to={"/screenings"}>
+            <Link to={"/visningar"}>
               <li
                 className={`nav-list-item ${
-                  location.pathname === "/screenings" ? "active" : ""
+                  location.pathname === "/visningar" ? "active" : ""
                 }`}
                 onClick={onCloseClick}>
                 VISNINGAR
               </li>
             </Link>
-            <Link to={"/aboutUs"}>
+            <Link to={"/om-oss"}>
               <li
                 className={`nav-list-item ${
-                  location.pathname === "/aboutUs" ? "active" : ""
+                  location.pathname === "/om-oss" ? "active" : ""
                 }`}
                 onClick={onCloseClick}>
                 OM OSS
@@ -98,20 +98,20 @@ const NavComponent = ({ onCloseClick, userRole }) => {
                 </li>
               </Link>
             ) : userRole === "USER" ? (
-              <Link to={"/profile"}>
+              <Link to={"/profil"}>
                 <li
                   className={`nav-list-item ${
-                    location.pathname === "/profile" ? "active" : ""
+                    location.pathname === "/profil" ? "active" : ""
                   }`}
                   onClick={onCloseClick}>
                   PROFIL
                 </li>
               </Link>
             ) : (
-              <Link to={"/register"}>
+              <Link to={"/registrera"}>
                 <li
                   className={`nav-list-item ${
-                    location.pathname === "/register" ? "active" : ""
+                    location.pathname === "/registrera" ? "active" : ""
                   }`}
                   onClick={onCloseClick}>
                   BLI MEDLEM
@@ -128,10 +128,10 @@ const NavComponent = ({ onCloseClick, userRole }) => {
             </Link>
           ) : (
             // Om jwtToken inte finns, visa login-knapp som länkar till /login
-            <Link to="/login">
+            <Link to="/logga-in">
               <button
                 className={`nav-login-btn ${
-                  location.pathname === "/login" ? "active" : ""
+                  location.pathname === "/logga-in" ? "active" : ""
                 }`}
                 onClick={onCloseClick}>
                 Logga In

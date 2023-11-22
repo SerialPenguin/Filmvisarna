@@ -43,7 +43,7 @@ export default function Profile() {
       }
     };
 
-    fetchUser();
+    if(token) fetchUser();
   }, [token]);
 
   useEffect(() => {

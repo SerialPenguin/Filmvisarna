@@ -1,6 +1,6 @@
 /** @format */
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGet } from "../../hooksAndUtils/useFetch";
 import close from "../../assets/img/close.png";
 import logo from "../../assets/img/FilmvisarnaLogoTwo.png";
@@ -9,6 +9,7 @@ import { useState } from "react";
 
 const NavComponent = ({ onCloseClick, userRole }) => {
   const [screening, setScreenings] = useState([]);
+  const navigate = useNavigate();
 
   useGet("/api/screenings", (data) => {
     setScreenings(data);
@@ -21,6 +22,7 @@ const NavComponent = ({ onCloseClick, userRole }) => {
   const handleLogout = () => {
     // Ta bort JWT-token från sessionStorage vid utloggning
     sessionStorage.removeItem("JWT_TOKEN");
+    navigate("/")
     window.location.reload();
     onCloseClick();
   };

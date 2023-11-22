@@ -49,7 +49,7 @@ export const login = async (req, res) => {
   }
 
   // Compare the provided password with the hashed password in the database
-  const passwordMatch = await bcrypt.compare(password, user.password);
+  const passwordMatch = bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
     res.status(401).json({ error: "Fel lösenord eller e-postadress" });

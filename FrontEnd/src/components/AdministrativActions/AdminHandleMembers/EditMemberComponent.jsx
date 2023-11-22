@@ -18,7 +18,7 @@ export default function EditMemberComponent(props) {
 
   useEffect(() => {
     async function getBooking() {
-      const result = await authGet("/api/auth/admin/getUserByEmail/" 
+      const result = await authGet("/api/auth/admin/getUserByEmail/"
         + debounceSearch,
         props.token
       )
@@ -142,14 +142,16 @@ export default function EditMemberComponent(props) {
                 onChange={handleInputChange}
                 className="input"
                 name="emailAdress"></input>
-              <div className="custom-checkbox" onClick={handleUserRole}>
-                <input className="checkbox" name="checkbox" type="checkbox" checked={checkboxChecked} readOnly></input>
-                <label htmlFor="checkbox" className="checkbox-lbl"></label>
-              </div>
-              <div className="custom-radio"  onClick={handleRadioCheck}>
-                <input className="radio" name="radio" type="checkbox" checked={radioChecked} readOnly></input>
-                <label htmlFor="radio" className="radio-lbl"></label>
-                <button disabled={disabled} className="delete-member-btn" onClick={deleteMember}>Radera användare</button>
+              <div className="custom-btns-container"> 
+                <div className="custom-checkbox" onClick={handleUserRole}>
+                  <input className="checkbox" name="checkbox" type="checkbox" checked={checkboxChecked} readOnly></input>
+                  <label htmlFor="checkbox" className="checkbox-lbl"></label>
+                </div>
+                <div className="custom-radio"  onClick={handleRadioCheck}>
+                  <input className="radio" name="radio" type="checkbox" checked={radioChecked} readOnly></input>
+                  <label htmlFor="radio" className="radio-lbl"></label>
+                  <button disabled={disabled} className="delete-member-btn" onClick={deleteMember}>Radera användare</button>
+                </div>
               </div>
               <button className="edit-member-btn">Spara ändringar</button>
               <button className="member-back-btn" onClick={() => {setSearch(""); setFormState("searching")}}>Backa</button>

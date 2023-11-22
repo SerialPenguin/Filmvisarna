@@ -62,10 +62,6 @@ function LoginForm() {
           />
           <p className="register-p">
             Inte medlem ännu?{" "}
-            <Link to={"/register"} className="register-p-link">
-              Klicka här
-            </Link>
-            Inte medlem ännu?{" "}
             <Link to={"/registrera"} className="register-p-link">
               Klicka här
             </Link>

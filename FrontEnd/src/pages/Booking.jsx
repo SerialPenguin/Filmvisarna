@@ -122,30 +122,90 @@ function Booking() {
 
   let clickedRowNumber = 0;
 
+  // function findContiguousSeats(seatNumber, totalTicketCount) {
+  //   const result = [];
+  //   const seatsInSameRow = salonLayout.rows[clickedRowNumber - 1].seats;
+  //   const seatIndex = seatsInSameRow.indexOf(seatNumber);
+  //   // loop to the right
+  //   for (let i = seatIndex; i < seatsInSameRow.length; i++) {
+  //     if (
+  //       result.length >= totalTicketCount ||
+  //       isSeatBooked(seatsInSameRow[i])
+  //     ) {
+  //       break;
+  //     }
+  //     result.push(seatsInSameRow[i]);
+  //   }
+  //   // loop to the left
+  //   for (let i = seatIndex - 1; i >= 0; i--) {
+  //     if (
+  //       result.length >= totalTicketCount ||
+  //       isSeatBooked(seatsInSameRow[i])
+  //     ) {
+  //       break;
+  //     }
+  //     result.push(seatsInSameRow[i]);
+  //   }
+  //   return result;
+  // }
+
   function findContiguousSeats(seatNumber, totalTicketCount) {
     const result = [];
-    const seatsInSameRow = salonLayout.rows[clickedRowNumber - 1].seats;
-    const seatIndex = seatsInSameRow.indexOf(seatNumber);
-    // loop to the right
-    for (let i = seatIndex; i < seatsInSameRow.length; i++) {
-      if (
-        result.length >= totalTicketCount ||
-        isSeatBooked(seatsInSameRow[i])
+    let seatsNeeded = totalTicketCount;
+
+    // Function to find seats in a row
+    function findSeatsInRow(row, referenceSeatNumber) {
+      const seatsInRow = salonLayout.rows[row - 1].seats;
+      // Find the seat index closest to the reference seat number
+      let closestIndex = seatsInRow.reduce((closest, seat, index) => {
+        return Math.abs(seat - referenceSeatNumber) <
+          Math.abs(seatsInRow[closest] - referenceSeatNumber)
+          ? index
+          : closest;
+      }, 0);
+
+      let leftIndex = closestIndex - 1;
+      let rightIndex = closestIndex;
+      while (
+        seatsNeeded > 0 &&
+        (leftIndex >= 0 || rightIndex < seatsInRow.length)
       ) {
-        break;
+        if (
+          rightIndex < seatsInRow.length &&
+          !isSeatBooked(seatsInRow[rightIndex])
+        ) {
+          result.push(seatsInRow[rightIndex]);
+          seatsNeeded--;
+          rightIndex++;
+        } else if (leftIndex >= 0 && !isSeatBooked(seatsInRow[leftIndex])) {
+          result.unshift(seatsInRow[leftIndex]);
+          seatsNeeded--;
+          leftIndex--;
+        } else {
+          break; // No more seats to check in this row
+        }
       }
-      result.push(seatsInSameRow[i]);
     }
-    // loop to the left
-    for (let i = seatIndex - 1; i >= 0; i--) {
+
+    // Start with the clicked row
+    findSeatsInRow(clickedRowNumber, seatNumber);
+
+    // Check adjacent rows if needed
+    let offset = 1;
+    while (seatsNeeded > 0 && offset < salonLayout.rows.length) {
+      // Check rows above and below alternately
+      if (clickedRowNumber - offset > 0) {
+        findSeatsInRow(clickedRowNumber - offset, seatNumber);
+      }
       if (
-        result.length >= totalTicketCount ||
-        isSeatBooked(seatsInSameRow[i])
+        seatsNeeded > 0 &&
+        clickedRowNumber + offset <= salonLayout.rows.length
       ) {
-        break;
+        findSeatsInRow(clickedRowNumber + offset, seatNumber);
       }
-      result.push(seatsInSameRow[i]);
+      offset++;
     }
+
     return result;
   }
 

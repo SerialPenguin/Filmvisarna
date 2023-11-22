@@ -12,10 +12,7 @@ const MovieCardComponent = () => {
   const navigate = useNavigate();
 
   useGet("/api/movies", setMovies);
-  console.log(movies);
-
   useGet("/api/screenings", setScreenings);
-  console.log(screenings);
 
   const handleMouseEnter = (cardId) => {
     setIsHovered(cardId);

@@ -1,12 +1,12 @@
 .member-carousel-container {
   font-family: "Jost", sans-serif;
   width: 70%;
-  max-height: 110%;
+  /* max-height: 110%; */
   background: transparent;
-  margin: 0 auto;
-  text-align: center;
+  margin: 2em auto;
+  /* text-align: center; */
   color: white;
-  border: 2px solid #ba7e36;
+  border: .1px solid #c699ea68;
   padding: 0 1em 0 1em;
   border-radius: 8px;
   box-shadow: 0px 0px 100px 10px #c699ea68;
@@ -22,18 +22,23 @@
 
 .member-carousel-title {
   color: white;
-  font-size: 1.7em;
+  font-size: 1em;
   font-weight: 600;
   letter-spacing: 0.2rem;
+  border-bottom: 1px solid #ba7e36;
+  width: 100%;
+  text-align: center;
 }
 
 .member-carousel-text {
+  width: 100%; 
   color: #c699ea;
+  font-size: .9em;
 }
 
 .member-carousel-btn {
   background-color: #ba7e36;
-  margin: 3em 1em 3em 1em;
+  margin: 1em 1em 2em 1em;
   width: 240px;
   padding: 0.3em;
   font-weight: 400;
@@ -44,33 +49,14 @@
 @media (min-width: 768px) {
   /*min height*/
   .member-carousel-container {
-    width: 60%;
+    width: 55%;
+    margin-top: -5em; 
+   
   }
   .member-carousel-box {
     margin: 0 auto;
-    width: 60%;
+    width: 70%;
     padding: 1em 1em 2em 1em;
-    border-radius: 8px;
-  }
-
-  .member-carousel-title {
-    font-size: 3em;
-    margin-bottom: 1em;
-    text-shadow: 1px 3px 3px 1px #000;
-  }
-
-  .member-carousel-text {
-    font-size: 1.8em;
-  }
-}
-
-@media all and (orientation: landscape) and (min-device-height: 319px) and (max-device-height: 480px) {
-  /* Style adjustments for landscape mode goes here */
-  .member-carousel-box {
-    /* border: 3px solid #C699EA; */
-    margin: 0 auto;
-    width: 60%;
-    padding: 1em;
     border-radius: 8px;
   }
 
@@ -78,11 +64,26 @@
     font-size: 2em;
     margin-bottom: 1em;
     text-shadow: 1px 3px 3px 1px #000;
+    width: 100%;
+    text-align: center;
   }
 
   .member-carousel-text {
-    font-size: 1em;
+    font-size: 1.2em;
+    font-weight: 300;
   }
+
+  .member-carousel-btn:hover {
+    transform: scale(1.1);
+  }
+}
+
+
+@media screen and (max-device-width: 700px) 
+    and (orientation: landscape) {
+      .member-carousel-container {
+        transform: scale(0.7);
+      }
 }
 
 @media (min-width: 1768px) {
@@ -91,3 +92,10 @@
     margin-top: -5em;
   }
 }
+
+@media (min-width: 2300px) {
+  .member-carousel-container{
+    transform: scale(1.4);
+  }
+}
+

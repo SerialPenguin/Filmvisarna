@@ -6,8 +6,8 @@ import "../CarouselEventComponent/CarouselEventComponent.css";
 const CarouselEventComponent = () => {
   return (
     <div className="event-carousel-container">
-      <Link to={"/events"}>
-      <img src={movieEventImg} alt="" className="movie-bg-img"/>
+      <Link to={"/evenemang"}>
+      <img src={movieEventImg} title="Klicka för mer information" className="movie-bg-img"/>
       </Link>
     </div>
   );

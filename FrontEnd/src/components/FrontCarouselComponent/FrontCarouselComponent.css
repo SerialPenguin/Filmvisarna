@@ -17,11 +17,15 @@
 
   @media (min-width: 800px) {
     .front-carousel {
-      height: 90vh;
+      height: 95vh;
       width: 100%;
     }
   
     .front-carousel-icon {
       top: 50%;
+    }
+
+    .front-carousel-icon:hover {
+      transform: scale(2);
     }
 }

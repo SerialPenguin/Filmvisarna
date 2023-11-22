@@ -8,17 +8,17 @@ router.get('/getMovie/:title', getMovieByTitle);
 router.get('/getSalon', getSalon);
 router.get('/getScreening/:title', getScreeningByTitle);
 router.get('/getBooking/:query', getBookingByQuery);
-router.get('/hamta-anvandare-med-id/:id', getUserById);
-router.get('/hamta-medlem/:email', getUserByEmail);
+router.get('/getUserById/:id', getUserById);
+router.get('/getUserByEmail/:email', getUserByEmail);
 
 //POST REQUESTS
 router.post('/addScreening', addScreening);
 router.post('/addMovie', addMovie);
-router.post("/lagg-till-medlem", addMember);
+router.post("/addMember", addMember);
 
 //PATCH REQUESTS
 router.patch('/editMovie', editMovie);
-router.patch('/redigera-medlem', editMember);
+router.patch('/editMember', editMember);
 
 //DELETE REQUESTS
 router.delete('/deleteMovie/:title', deleteMovie);

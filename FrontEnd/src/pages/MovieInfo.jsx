@@ -35,7 +35,7 @@ function findAScreeningUrl(movieId, screenings) {
 
   let bookingLink = "";
   if (screeningsForMovie) {
-    bookingLink = `/booking/${screeningsForMovie._id}`;
+    bookingLink = `/bokning/${screeningsForMovie._id}`;
   } else {
     bookingLink = ""; // Default link if no matching screening is found
   }
@@ -52,6 +52,7 @@ function MovieInfo() {
 
   useGet(`/api/search/movies/${movieId}`, setMovie);
   useGet(`/api/screenings`, setScreenings);
+  window.scrollTo(0, 0);
 
   const hasTrailers = movie.youtubeTrailers && movie.youtubeTrailers.length > 0;
 

@@ -28,7 +28,7 @@ export default function AddMemberComponent(props) {
     }
 
     const result = await adminPost(
-      "/api/auth/admin/lagg-till-medlem",
+      "/api/auth/admin/addMember",
       formBody,
       props.token
     );

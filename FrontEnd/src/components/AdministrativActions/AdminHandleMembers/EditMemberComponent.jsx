@@ -18,7 +18,7 @@ export default function EditMemberComponent(props) {
 
   useEffect(() => {
     async function getBooking() {
-      const result = await authGet("/api/auth/admin/hamta-medlem/" 
+      const result = await authGet("/api/auth/admin/getUserByEmail/" 
         + debounceSearch,
         props.token
       )
@@ -94,7 +94,7 @@ export default function EditMemberComponent(props) {
     setChanges({ ...changes, _id: formBody._id})
 
     const result = await patch(
-      "/api/auth/admin/redigera-medlem",
+      "/api/auth/admin/editMember",
       changes,
       props.token
     );

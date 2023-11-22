@@ -48,7 +48,7 @@ export default function HandleBookings(props) {
     }));
 
     async function getUserInfo() {
-      setUser(await authGet('/api/auth/admin/hamta-anvandare-med-id/' + booking?.bookedBy.user, props.token))
+      setUser(await authGet('/api/auth/admin/getUserById/' + booking?.bookedBy.user, props.token))
       setSalon(await authGet('/api/search/seats/' + booking?.salonId));
     }
 

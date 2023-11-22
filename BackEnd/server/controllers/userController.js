@@ -52,7 +52,7 @@ export const login = async (req, res) => {
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if (!passwordMatch) {
-    res.status(401).json({ error: "Fel lösenord" });
+    res.status(401).json({ error: "Fel lösenord eller e-postadress" });
     return;
   }
 

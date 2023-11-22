@@ -12,10 +12,7 @@ const MovieCardComponent = () => {
   const navigate = useNavigate();
 
   useGet("/api/movies", setMovies);
-  console.log(movies);
-
   useGet("/api/screenings", setScreenings);
-  console.log(screenings);
 
   const handleMouseEnter = (cardId) => {
     setIsHovered(cardId);
@@ -28,7 +25,7 @@ const MovieCardComponent = () => {
   const handleBookingClick = (id) => {
     screenings.forEach((screening) => {
       if (id === screening.movieId) {
-        navigate(`/booking/${screening._id}`);
+        navigate(`/bokning/${screening._id}`);
       }
     });
   };
@@ -82,7 +79,7 @@ const MovieCardComponent = () => {
                     Boka
                   </button>
 
-                  <Link to={`/search/movies/${movie._id}`}>
+                  <Link to={`/sok/filmer/${movie._id}`}>
                     <p className="moviecard-showmore-link">visa mer...</p>
                   </Link>
                 </div>

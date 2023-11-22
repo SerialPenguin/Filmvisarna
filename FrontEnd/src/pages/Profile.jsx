@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import "./profile.css";
-// import { getProfile } from "../hooksAndUtils/fetchUtil.js";
-// const token = sessionStorage.getItem("JWT_TOKEN");
 
 export default function Profile() {
   const [token] = useState(sessionStorage.getItem("JWT_TOKEN"));
@@ -61,7 +59,6 @@ export default function Profile() {
 
         setBookingData(allBookings);
         setScreeningId(screeningId);
-        // console.log(screeningId);
       } catch (error) {
         console.error(error);
       }
@@ -110,10 +107,6 @@ export default function Profile() {
           bookingId: bookingData[index]._id,
           seats: bookingData[index].seats,
         }));
-
-        // if (combinedData.length === 0) {
-        //   setCombinedData("Inga bokningar hittades");
-        // }
 
         setCombinedData(combinedData);
       } catch (error) {
@@ -239,14 +232,9 @@ export default function Profile() {
               ))
           )}
           </ul>
-<h3 className="profile-h3">Tidigare bokningar</h3>
-<ul className="booking-history-ul">
-          {combinedData.length === 0 ? (
-            <li className="booking-history-check">
-              Inga tidigare bokningar hittades
-            </li>
-          ) : (
-            combinedData
+          <h3 className="profile-h3">Tidigare bokningar</h3>
+          <ul className="booking-history-ul">
+          {combinedData
               .filter((item) => new Date(item.startTime) < currentDate)
               .map((item, i) => (
                 <li className="booking-history-li" key={i}>
@@ -259,12 +247,7 @@ export default function Profile() {
                       <div className="history-card-title">
                       <p className="card-title">{item.title}</p>
 
-                        {/* <p className="card-title">
-                          {item.title.length > 15
-                            ? `${item.title.substring(0, 13)}...`
-                            : item.title}
-                        </p> */}
-                        <div className="genre-title-container">
+                          <div className="genre-title-container">
                           <p className="card-genre">{item.genre}</p>
                           <p className="card-year">{item.productionYear}</p>
                         </div>
@@ -302,10 +285,11 @@ export default function Profile() {
                     </div>
                   </div>
                 </li>
-              ))
-          )}
+                ))}
         </ul>
       </div>
     </section>
   );
 }
+
+

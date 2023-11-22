@@ -620,4 +620,50 @@
   }
 }
 
+@media (min-width: 1366px){
+ 
+.movie-screen{
+  /* width: 30em;
+  height: 5em;
+  margin-bottom: 2em; */
+  /* border-top: 50px solid #555;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	height: 0;
+	width: 125px;
+  overflow: hidden; */
+}
 
+.seats-grid button {
+  margin: .2em;
+  padding: 0;
+}
+
+.booked,
+.available,
+.temporary-selected {
+  border-radius: 5em 5em 0 0;
+  max-width: 1.5em;
+  max-height: 1.5em;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  overflow: hidden;
+}
+
+.booked {
+  background-color: #412349;
+  color: #412349;
+}
+
+.temporary-selected{
+  background-color: #ba7e36;
+  color: #ba7e36;
+}
+
+.available {
+  background-color: #ffffff;
+  background-image: none;
+}
+
+
+}

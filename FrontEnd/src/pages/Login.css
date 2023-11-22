@@ -92,6 +92,7 @@
   padding: 8px;
   border-radius: 8px;
   background-color: #b85252;
+  box-shadow: 0 10px 15px #fb69691e;
 }
 
 .btn-container {

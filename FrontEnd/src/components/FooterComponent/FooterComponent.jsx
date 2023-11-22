@@ -32,11 +32,12 @@ const FooterComponent = () => {
       if (!passwordRegEx.test(credentials.password)) {
         setRegisterMessage("Lösenordet måste innehålla minst 8 tecken, en bokstav, en siffra och en stor bokstav")
       }
-      
+
     const result = await authService.handleRegister(e, credentials);
     
     if (result === true) {
       setTimeout(() => navigate("/logga-in"), 1500);
+      window.location.reload();
       setRegisterMessage("Du har blivit medlem!");
     } else {
       console.error();

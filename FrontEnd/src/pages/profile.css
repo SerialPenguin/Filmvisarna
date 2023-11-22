@@ -204,9 +204,15 @@ margin-top: .5em;
   /* background-color: #db00ff; */
 }
 
-.profilepage-content p,
-.profile-table td{
-  font-size: 90%;
+.genre-title-container,
+.history-card-booking-number,
+.history-card-booking-info,
+.profile-table td {
+  font-size: 80%;
+}
+
+.card-title{
+  font-size: 1.1rem
 }
 
 .delete-booking-btn {
@@ -215,7 +221,7 @@ margin-top: .5em;
 }
 
 .booking-history-li {
-  flex: 0 0 30%;
+  flex: 0 0 26%;
 }
 
 }

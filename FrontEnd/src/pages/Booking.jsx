@@ -104,7 +104,7 @@ function Booking() {
             if (!isScreeningAvailable) {
               // If the current screeningId isn't available, navigate to the first screening of the first week
               const targetScreeningId = groupedScreenings[0].screenings[0]._id;
-              history(`/booking/${targetScreeningId}`);
+              history(`/bokning/${targetScreeningId}`);
             }
           } else {
             setScreenings([]);

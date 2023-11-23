@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Jost:wght@200;300;400&display=swap");
+
+.error-msg {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ba7e36;
+}
+.admin-welcome-header {
+  color: #ba7e36;
+  font-size: 2.5rem;
+  font-weight: 100;
+  text-align: center;
+}
+.admin-landing-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 80%;
+  min-height: 100vh;
+}
+.admin-options-header {
+  color: white;
+  font-weight: 300;
+  margin-top: -1em;
+  font-size: 1.8rem;
+}
+.options-list {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.option {
+  border: 1px solid #ba7e36;
+  text-align: center;
+  flex: 1 1 15em;
+  padding: 1em 1em;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px black;
+}
+.options-title {
+  position: relative;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ba7e36;
+}
+.options-title:after {
+  content: "";
+  position: absolute;
+  top: -30px;
+  bottom: -30px;
+  right: -10px;
+  left: -10px;
+}
+.close-ref-btn {
+  background-color: #c699ea;
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  font-size: 0.5rem;
+  margin-bottom: 2em;
+}
+.close-ref-btn:focus {
+  outline: none;
+}
+.dialog {
+  min-width: 60%;
+  max-width: max-content;
+  padding: 1em 2em;
+  background-color: #ba7f3600;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ba7e36;
+  border-radius: 10px;
+}
+.no-auth-container {
+  height: 70vh;
+  text-align: center;
+  font-weight: 700;
+  color: #ba7e36;
+  font-size: 1.6rem;
+  margin-top: 10em;
+}
+.return-home-btn {
+  font-size: 1rem;
+}
+@media screen and (min-width: 700px) {
+  .admin-landing-page {
+    max-width: 60%;
+    margin: 0 auto;
+  }
+  .dialog {
+    min-width: 30%;
+  }
+}
+@media screen and (min-width: 1290px) {
+  .admin-landing-page {
+    max-width: 45%;
+    margin: 0 auto;
+  }
+}
+
+@media (orientation: landscape) {
+  .admin-landing-page {
+    margin-top: 3em;
+    height: 100%;
+  }
+
+  .dialog {
+    max-width: 40%;
+  }
+}

@@ -1,0 +1,31 @@
+.front-carousel {
+    width: 100vw;
+    height: 45vh;
+    /* background: black; */
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 6em;
+  }
+  
+  .front-carousel-icon {
+    position: absolute;
+    top: 40%;
+    width: 25px;
+  }
+  
+
+  @media (min-width: 800px) {
+    .front-carousel {
+      height: 95vh;
+      width: 100%;
+    }
+  
+    .front-carousel-icon {
+      top: 50%;
+    }
+
+    .front-carousel-icon:hover {
+      transform: scale(2);
+    }
+}

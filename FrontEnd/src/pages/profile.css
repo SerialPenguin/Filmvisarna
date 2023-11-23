@@ -1,0 +1,236 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Inter:wght@200;300&family=Jost:wght@200;300;400&display=swap");
+
+.profile-page-container {
+  margin-top: 3.5rem;
+  font-family: "Jost", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.profile-h2,
+.profile-h3 {
+  font-family: "Jost", sans-serif;
+}
+
+.profile-h2 {
+  text-transform: uppercase;
+  color: #ba7e36;
+  font-weight: 400;
+  text-align: center;
+}
+
+.profile-h3 {
+  color: #ba7e36;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 1.3rem;
+  margin-left: 1em;
+}
+
+.profile-table {
+  margin-left: 1.4em;
+}
+
+.profile-first-row,
+.profile-second-row,
+.no-bookings-found-text {
+  color: #c699ea;
+  font-size: 1.2rem;
+}
+
+.profile-first-row {
+  padding-right: 1em;
+
+}
+
+.booking-history-card-img-container {
+  flex: 0 0 50%;
+}
+
+.booking-history-li {
+  list-style: none;
+  margin-right: 1em;
+  margin-bottom: 1.5em;
+
+}
+
+.profilepage-content img {
+  width: 100%;
+}
+
+.booking-history-card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title,
+.genre-title-container,
+.history-seat,
+.card-bookingnumber,
+.card-bookingnumber-title {
+  display: flex;
+  justify-content: space-around;
+}
+
+.history-time {
+  display: flex;
+  width: 9em;
+  justify-content: space-between;
+}
+
+.history-seat{
+  margin-top: .5em;
+}
+
+.history-seat-container{
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.history-seat-numbers {
+  color: #db00ff;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+}
+
+.booking-history-card-text p {
+  margin: 0;
+}
+
+.card-bookingnumber {
+  font-size: 1.4rem;
+  color: #db00ff;
+}
+
+.genre-title-container {
+  color: #db00ff;
+  display: flex;
+  justify-content: space-around;
+}
+
+.booking-history-card {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-title {
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.history-card-title{
+  color: #ffffff;
+}
+
+.history-card-booking-number,
+.history-card-booking-info {
+  color: #c699ea;
+}
+
+.history-seat {
+  display: flex;
+  color: #c699ea;
+}
+
+.history-seat-numbers {
+  margin-left: 0.8em;
+}
+
+.delete-booking-btn {
+  margin-bottom: 0.5em;
+  max-width: 10rem;
+}
+
+.booking-history-btn {
+  visibility: hidden;
+}
+
+.booking-history-check {
+  visibility: hidden;
+}
+
+@media (min-width: 768px){
+
+.booking-history-card-img-container{
+  display: flex;
+}
+
+.history-card-title{
+  width: 100%;
+}
+
+.delete-booking-btn {
+font-size: 80%;
+margin-top: .5em;
+}
+
+.booking-history-card-text{
+  width: 100%;
+  background-color: rgba(198, 153, 234, 0.04)
+}
+
+.card-title{
+  font-size: 1.2rem;
+}
+
+.card-bookingnumber{
+  font-size: 1.3rem;
+}
+
+.booking-history-ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+  .booking-history-li {
+  flex: 0 0 45%;
+  display: flex;
+}
+
+}
+
+
+@media (min-width: 1366px){
+
+.profilepage-content{
+  width: 80%;
+  margin: 0 auto;
+  /* background-color: #db00ff; */
+}
+
+.genre-title-container,
+.history-card-booking-number,
+.history-card-booking-info,
+.profile-table td {
+  font-size: 80%;
+}
+
+.card-title{
+  font-size: 1.1rem
+}
+
+.delete-booking-btn {
+  font-size: 80%;
+  margin-top: .5em;
+}
+
+.booking-history-li {
+  flex: 0 0 26%;
+}
+
+}
+
+@media (min-width: 1920px){
+ 
+  .booking-history-li {
+  flex: 0 0 20%;
+  margin-right: 2em;
+}
+
+}

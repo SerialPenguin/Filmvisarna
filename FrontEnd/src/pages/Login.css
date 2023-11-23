@@ -1,0 +1,184 @@
+.login-wrapper {
+  width: 90%;
+  height: calc(100vh - 4em);
+  display: flex;
+  margin: 0 auto;
+  margin-top: 4em;
+  box-sizing: border-box;
+}
+
+.right-section {
+  display: none;
+}
+
+.login-wrapper .left-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7%;
+  height: 100%;
+  width: 100%;
+}
+
+.welcome-text {
+  color: #c699ea;
+  font-size: 36px;
+  font-weight: 400;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-wrapper .login-lbl {
+  font-size: 14px;
+  font-weight: 600;
+  color: #c699ea;
+}
+
+.login-wrapper .login-field {
+  background-color: #2d142e;
+  color: #c699ea;
+  height: 36px;
+  padding: 0 8px;
+  font-size: 16px;
+  border: 1px solid #c699ea;
+  border-radius: 8px;
+}
+
+.login-wrapper .first {
+  margin-bottom: 16px;
+}
+.links-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: start;
+}
+.change-pw {
+  color: #ba7e36;
+  font-size: 0.9rem;
+  margin-left: 1em;
+}
+.change-pw-link {
+  color: #ba7e36;
+  text-decoration: underline;
+}
+.change-pw-link:hover {
+  color: #e0a966;
+}
+.register-p {
+  text-align: end;
+  width: 40%;
+  margin-top: 1.1em;
+  margin-right: 1em;
+  font-size: 0.9rem;
+  color: #ba7e36;
+}
+.register-p-link {
+  color: #ba7e36;
+  text-decoration: underline;
+}
+
+.login-field:focus {
+  outline: none;
+  border: 2px solid #ba7e36;
+}
+
+.login-field::placeholder {
+  color: #c699ea5e;
+}
+
+.login-field:-webkit-autofill {
+  -webkit-text-fill-color: #c699ea;
+  -webkit-box-shadow: 0 0 0px 1000px #2d142e inset !important;
+}
+
+.login-msg {
+  max-width: 768px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #b85252;
+  box-shadow: 0 10px 15px #fb69691e;
+}
+
+.btn-container {
+  width: 100%;
+  padding: 0 8px;
+  max-width: 768px;
+}
+
+.btn-container .main-btn,
+.btn-container .sec-btn {
+  border: none;
+  box-shadow: none;
+}
+
+.btn-container .main-btn:hover {
+  background-color: #d19dfb;
+  transition: 0.1s;
+}
+
+.btn-container .sec-btn:hover {
+  background-color: #8743bf;
+  transition: 0.1s;
+}
+
+.copyright {
+  font-size: 14px;
+  color: #c699ea;
+}
+
+@media (min-width: 1200px) {
+  .login-wrapper .left-section {
+    width: 50%;
+    gap: 5%;
+    align-items: center;
+  }
+
+  .right-section {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 1em;
+  }
+
+  .login-bg {
+    background-image: url(../assets/img/filmvisarna-bg.png);
+    background-size: cover;
+    background-position: top;
+    width: 100%;
+    height: 90%;
+    border-radius: 16px;
+  }
+
+  .form-container {
+    max-width: 600px;
+  }
+
+  .btn-container {
+    max-width: 600px;
+  }
+  .register-p {
+    font-size: 1.1rem;
+  }
+
+  .change-pw {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya&family=Inter:wght@200;300&family=Jost:wght@200;300;400&display=swap");
+
+.about-us-h2 {
+  text-transform: uppercase;
+  color: #ba7e36;
+  font-weight: 400;
+  font-family: "Jost", sans-serif;
+  margin: 0em;
+}
+
+.about-us-p {
+  margin-top: 0; 
+  margin-bottom: 4em; 
+  font-family: "Jost", serif;
+  font-weight: 300;
+  color: #c699ea;
+  font-size: 1.2rem; 
+}
+
+.about-us-content {
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+  align-items: center;
+  margin: 4.5em auto;
+}
+
+.find-us-section {
+  width: 100%; 
+  display: flex; 
+  flex-direction: column;
+}
+
+.cinema-img,
+.counter-img {
+  width: 0%;
+}
+
+@media (min-width: 800px) {
+  .counter-img {
+    width: 90%;
+    border-radius: 1em;
+  }
+
+  .cinema-img {
+    width: 60%;
+    border-radius: 1em;
+  }
+
+  .about-us-section {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .img-h2-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column-reverse;
+    
+  }
+
+  .img-h2-container h2 {
+    margin: 2em 0em 0em 0em; 
+    text-align: center;
+    width: 90%;
+    border-bottom: 1px solid #DB00FF;
+    
+  }
+
+  .about-us-h2:nth-child(1) {
+    text-align: center;
+  }
+
+  .img-h2-text-container {
+    flex: 0 1 40%;
+    padding: 0em 0em 0em 2em; 
+    line-height: 2.1em;
+  }
+  .img-h2-text-container p {
+    padding: 1.3em;
+    margin: 0; 
+  }
+
+  .find-us-section {
+    margin-top: 5em;
+  }
+}

@@ -4,7 +4,7 @@ import counter from "../assets/img/counter.jpg";
 import "./aboutUs.css";
 
 export function AboutUs() {
-  
+  window.scrollTo(0, 0);
   return (
     <div className="about-us-content">
       <section className="about-us-section">

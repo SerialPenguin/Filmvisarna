@@ -207,19 +207,24 @@
 }
 
 .ticket-counter-text {
- font-weight: 600;
- font-style: normal;
+  font-weight: 600;
+  font-style: normal;
 }
 
 .ticket-counter-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   border-radius: 20px;
   /* padding: 5px 10px; */
-  width: 200px;
+  width: 70%;
   color: #c699ea;
-  margin-left: 25vw;
+  margin: 0 auto;
+}
+
+.plus-minus-container {
+  display: flex;
+  align-items: center;
 }
 
 .ticket-counter-arrow-plus {
@@ -282,10 +287,10 @@
 
 .book-button:hover {
   background-color: #8743bf;
-} 
+}
 
 .book-button:focus {
- background-color: #8743bf;
+  background-color: #8743bf;
 }
 
 .total-amount {
@@ -431,11 +436,16 @@
   cursor: pointer;
   accent-color: #ba7e36;
   margin-left: 9px;
+}
 
+@media (min-width: 500px) {
+  .ticket-counter-container {
+    margin: 0 auto;
+    width: 50%;
+  }
 }
 
 @media (min-width: 768px) {
-
   .booking-page-container {
     font-family: "Jost", sans-serif;
   }
@@ -454,11 +464,11 @@
   .ticket-counter-text {
     font-weight: 600;
     font-style: normal;
-   }
+  }
 
   .ticket-counter-container {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+    width: 30%;
   }
 
   .seats-grid {
@@ -490,12 +500,12 @@
   }
 
   .book-button:hover {
-     background-color: #8743bf;
-  } 
-  
+    background-color: #8743bf;
+  }
+
   .book-button:focus {
     background-color: #8743bf;
- }
+  }
 
   .clear-button {
     display: block;
@@ -655,5 +665,17 @@
     font-weight: 330;
     font-size: 1.3rem;
     margin-bottom: 5px;
+  }
+}
+@media (min-width: 1125px) {
+  .ticket-counter-container {
+    margin: 0 auto;
+    max-width: 20%;
+  }
+}
+@media (min-width: 2000px) {
+  .ticket-counter-container {
+    margin: 0 auto;
+    max-width: 15%;
   }
 }

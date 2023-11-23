@@ -10,6 +10,7 @@
   color: #ba7e36;
   font-size: 2.5rem;
   font-weight: 100;
+  text-align: center;
 }
 .admin-landing-page {
   display: flex;
@@ -75,10 +76,12 @@
   border-radius: 10px;
 }
 .no-auth-container {
+  height: 70vh;
   text-align: center;
   font-weight: 700;
   color: #ba7e36;
   font-size: 1.6rem;
+  margin-top: 10em;
 }
 .return-home-btn {
   font-size: 1rem;

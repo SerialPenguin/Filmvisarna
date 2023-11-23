@@ -1,7 +1,9 @@
+/** @format */
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../service/authService";
-import '../pages/Register.css'
+import "../pages/Register.css";
 
 function RegisterForm() {
   const [credentials, setCredentials] = useState({
@@ -14,7 +16,7 @@ function RegisterForm() {
   // Password comfirmation
   const [confirmedPassword, setConfirmedPassword] = useState({
     password: "",
-  })
+  });
 
   const navigate = useNavigate();
   const [registerMessage, setRegisterMessage] = useState("");
@@ -53,14 +55,12 @@ function RegisterForm() {
 
     // Password comfirmation check
     if (confirmedPassword.password !== credentials.password) {
-      setRegisterMessage(
-        "De angivna lösenorden matchar inte, försök igen"
-      );
+      setRegisterMessage("De angivna lösenorden matchar inte, försök igen");
       return;
     }
 
     const result = await authService.handleRegister(e, credentials);
-    
+
     if (result === true) {
       setTimeout(() => navigate("/"), 1500);
       setRegisterMessage("Du har blivit medlem!");
@@ -73,9 +73,14 @@ function RegisterForm() {
 
   return (
     <>
-       <form className="form-container">
+      <form className="form-container">
         {registerMessage && (
-          <p className={`register-msg ${registerMessage.startsWith("Du har blivit medlem!") ? "register-success" : "register-error"}`}>
+          <p
+            className={`register-msg ${
+              registerMessage.startsWith("Du har blivit medlem!")
+                ? "register-success"
+                : "register-error"
+            }`}>
             {registerMessage}
           </p>
         )}
@@ -131,15 +136,21 @@ function RegisterForm() {
                 name="password"
                 className="login-field"
                 onChange={(e) =>
-                  setConfirmedPassword({ ...confirmedPassword, password: e.target.value })
+                  setConfirmedPassword({
+                    ...confirmedPassword,
+                    password: e.target.value,
+                  })
                 }
               />
             </div>
           </div>
         </div>
         <p className="register-p">
-          Redan medlem? <Link to={"/logga-in"} className="register-p-link">Klicka här</Link>
-        </p>  
+          Redan medlem?{" "}
+          <Link to={"/logga-in"} className="register-p-link">
+            Klicka här
+          </Link>
+        </p>
       </form>
       <div className="btn-container">
         <button className="main-btn" type="submit" onClick={handleSubmit}>

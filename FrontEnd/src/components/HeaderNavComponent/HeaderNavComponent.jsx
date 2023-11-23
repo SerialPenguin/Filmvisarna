@@ -16,13 +16,11 @@ export default function HeaderNavComponent() {
   const token = sessionStorage.getItem("JWT_TOKEN");
 
   useEffect(() => {
-    
     async function getProfile() {
-      let user = await authGet("/api/auth/profile", token)
+      let user = await authGet("/api/auth/profile", token);
       setUserRole(user.userRole);
     }
-    if(token)getProfile();
-
+    if (token) getProfile();
   }, [token]);
 
   const showMenu = () => {
@@ -61,7 +59,9 @@ export default function HeaderNavComponent() {
         </>
       )}
 
-      {(activeMenu || isDesktop) && <NavComponent onCloseClick={closeMenu} userRole={userRole} />}
+      {(activeMenu || isDesktop) && (
+        <NavComponent onCloseClick={closeMenu} userRole={userRole} />
+      )}
     </div>
   );
 }

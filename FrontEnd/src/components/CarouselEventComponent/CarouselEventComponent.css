@@ -2,7 +2,7 @@
   font-family: "Jost", sans-serif;
   width: 70%;
   height: 100%;
-  margin: -4em auto;
+  margin: -5em auto;
   text-align: center;
   display: flex;
   justify-content: space-evenly;
@@ -25,6 +25,7 @@
 
 @media (min-width: 760px) {
   .movie-bg-img {
+    margin-top: -9em; 
     width: 80%;
     transform: scale(0.9)
   }

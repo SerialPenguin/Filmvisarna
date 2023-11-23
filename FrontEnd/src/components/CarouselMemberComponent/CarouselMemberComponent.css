@@ -50,7 +50,7 @@
   /*min height*/
   .member-carousel-container {
     width: 55%;
-    margin-top: -5em; 
+    margin-top: -9em; 
    
   }
   .member-carousel-box {
@@ -89,7 +89,7 @@
 @media (min-width: 1768px) {
   .member-carousel-container {
     width: 40%;
-    margin-top: -5em;
+    margin-top: -8em;
   }
 }
 

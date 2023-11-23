@@ -23,7 +23,7 @@ function SeatReleaseOnUnload({ screeningId, selectedSeats }) {
           const data = await res.json();
 
           if (data && data.success) {
-            console.log("Selected seats released.");
+            console.error("Selected seats released.");
           }
         } catch (error) {
           console.error("Error releasing seats:", error);

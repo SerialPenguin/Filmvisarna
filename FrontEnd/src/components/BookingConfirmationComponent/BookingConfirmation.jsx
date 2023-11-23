@@ -29,13 +29,12 @@ export default function BookingConfirmation(props) {
       ? "Kontrollera att uppgifterna stämmer"
       : "Tack för din boking!";
 
-
-    const token = sessionStorage.getItem("JWT_TOKEN");
+  const token = sessionStorage.getItem("JWT_TOKEN");
 
   useEffect(() => {
     async function getBody() {
       const body = await JSON.parse(sessionStorage.getItem("bookingData"));
-      
+
       delete body.selectedMovie;
       delete body.selectedWeek;
 
@@ -46,18 +45,15 @@ export default function BookingConfirmation(props) {
   }, []);
 
   useEffect(() => {
-    
     async function getProfile() {
-      let user = await authGet("/api/auth/profile", token)
+      let user = await authGet("/api/auth/profile", token);
       setProfile(user);
     }
-    if(token)getProfile();
-
+    if (token) getProfile();
   }, [token]);
 
   useEffect(() => {
     if (profile) {
-      console.log(profile)
       if (profile.msg !== "jwt malformed") {
         setDisplayInput(false);
         setEmail(profile.emailAdress);
@@ -66,7 +62,7 @@ export default function BookingConfirmation(props) {
     } else {
       setDisplayInput(true);
     }
-  }, [profile])
+  }, [profile]);
 
   useEffect(() => {
     props.filter[0].map((screening) => {
@@ -103,7 +99,6 @@ export default function BookingConfirmation(props) {
     }
   }
   async function handleSendConfirmation() {
-
     try {
       let bodyCopy = JSON.parse(JSON.stringify(bookingBody));
 
@@ -134,7 +129,7 @@ export default function BookingConfirmation(props) {
 
   function handleBacking() {
     setToggleClassName("ticket-spin-back");
-    
+
     setTimeout(() => {
       setAnimationStage("start");
       if (token) {
@@ -152,18 +147,18 @@ export default function BookingConfirmation(props) {
       <h2 className="book-page_header">Boka biljetter</h2>
       {displayInput === false && token ? (
         <div className="change-email-container">
-         <h3 className="second-header">Bekräftelsen skickas till</h3>
-         <h3 className="second-header-email">{email}</h3>
-         <button
-           className="change-email-btn"
-           onClick={() => {
-             setDisplayInput(true);
-             setEmail();
-           }}>
-           Ändra email
-         </button>
-       </div>
-        ) : (
+          <h3 className="second-header">Bekräftelsen skickas till</h3>
+          <h3 className="second-header-email">{email}</h3>
+          <button
+            className="change-email-btn"
+            onClick={() => {
+              setDisplayInput(true);
+              setEmail();
+            }}>
+            Ändra email
+          </button>
+        </div>
+      ) : (
         <h3 className="second-header">{secondHeader}</h3>
       )}
       <div className="ticket-container">
@@ -182,7 +177,7 @@ export default function BookingConfirmation(props) {
                 id="email"></input>
             </div>
           )}
-           {animationStage === "start" && (
+          {animationStage === "start" && (
             <button className="cancel-btn" onClick={handleCanceling}>
               Backa
             </button>

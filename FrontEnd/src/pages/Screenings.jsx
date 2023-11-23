@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useGet } from "../hooksAndUtils/useFetch";
 import { Link, useLocation } from "react-router-dom";
-import "./Screenings.css"
+import "./Screenings.css";
 
-function GetDayFromDate(date){
+function GetDayFromDate(date) {
   const options = { weekday: "long" };
   const day = new Date(date).toLocaleDateString("sv-SE", options);
   return day.charAt(0).toUpperCase() + day.slice(1);
@@ -16,7 +16,7 @@ function GetDateFromDate(date) {
   const dayNumber = new Date(date).getDate();
   const ordinalSuffix = getOrdinalSuffix(dayNumber);
   const month = new Date(date).toLocaleDateString("sv-SE", options);
-  const formattedDate = dayNumber + ordinalSuffix + " " + month
+  const formattedDate = dayNumber + ordinalSuffix + " " + month;
   return formattedDate;
 }
 
@@ -28,13 +28,12 @@ function getOrdinalSuffix(day) {
   }
 }
 
-function getUpdatedDate(date){
-  const day = GetDayFromDate(date)
-  const month = GetDateFromDate(date)
-  const updatedDate = day + " " + month
-  return updatedDate
+function getUpdatedDate(date) {
+  const day = GetDayFromDate(date);
+  const month = GetDateFromDate(date);
+  const updatedDate = day + " " + month;
+  return updatedDate;
 }
-
 
 function formatTimeToHHMM(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -72,7 +71,7 @@ function organizeScreeningsByDate(screenings) {
   screenings.forEach((screening) => {
     // Extract date and time components
     const date = new Date(screening.startTime);
-    const dateString = date.toISOString().split('T')[0];
+    const dateString = date.toISOString().split("T")[0];
 
     // Check if the date exists in the object, if not, create an array for it
     if (!screeningsByDate[dateString]) {
@@ -141,7 +140,7 @@ function Screenings() {
         (screening) => screening.movie.title === selectedFilterOption
       );
     }
-    return screenings
+    return screenings;
   }
   // ----------------- FILTER LOGIC FOR AGE -----------------
   function filterByAge(screenings, selectedAgeOption) {
@@ -150,7 +149,7 @@ function Screenings() {
         (screening) => screening.movie.age === parseInt(selectedAgeOption)
       );
     }
-    return screenings
+    return screenings;
   }
   // ----------------- FILTER LOGIC FOR WEEK -----------------
   function filterByWeek(screenings, selectedWeek) {
@@ -163,21 +162,18 @@ function Screenings() {
     } else {
       setSelectedDate(ALL_DATES_OPTION);
     }
-    return screenings
+    return screenings;
   }
   // ----------------- FILTER LOGIC FOR DATE -----------------
   function filterByDate(screenings, selectedDate) {
     if (selectedDate !== ALL_DATES_OPTION) {
       screenings = screenings.filter((screening) => {
-        console.log(fixDateStartTime(screening.startTime) + " -  " + selectedDate)
-        return (
-          fixDateStartTime(screening.startTime) === selectedDate
-        );
+        return fixDateStartTime(screening.startTime) === selectedDate;
       });
     }
     return screenings;
   }
- // ----------------- FILTER RESET FOR OPTIONS -----------------
+  // ----------------- FILTER RESET FOR OPTIONS -----------------
   const resetFilters = () => {
     // Reset all filter options to their default values
     setSelectedFilterOption(ALL_MOVIES_OPTION);
@@ -190,7 +186,7 @@ function Screenings() {
   useEffect(() => {
     // Uppdatera den filtrerade listan när selectedFilterOption, selectedAgeOption, selectedDate  eller selectedWeek ändras
     let filteredList = screenings;
-    
+
     filteredList = filterByMovieTitle(filteredList, selectedFilterOption);
     filteredList = filterByAge(filteredList, selectedAgeOption);
     filteredList = filterByWeek(filteredList, selectedWeek);
@@ -217,12 +213,10 @@ function Screenings() {
           value={selectedFilterOption}
           onChange={(e) => setSelectedFilterOption(e.target.value)}>
           <option key={ALL_MOVIES_OPTION} value={ALL_MOVIES_OPTION}>
-          {ALL_MOVIES_OPTION}
+            {ALL_MOVIES_OPTION}
           </option>
           {[
-            ...new Set(
-              screenings.map((screening) => screening.movie.title)
-            ),
+            ...new Set(screenings.map((screening) => screening.movie.title)),
           ].map((title) => (
             <option key={title} value={title}>
               {title}
@@ -244,8 +238,7 @@ function Screenings() {
         <select
           className="screenings-selectors"
           value={selectedWeek}
-          onChange={(e) => setSelectedWeek(e.target.value)}
-        >
+          onChange={(e) => setSelectedWeek(e.target.value)}>
           <option value={ALL_WEEKS_OPTION}>{ALL_WEEKS_OPTION}</option>
           {[
             ...new Set(
@@ -266,8 +259,7 @@ function Screenings() {
           <select
             className="screenings-selectors"
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          >
+            onChange={(e) => setSelectedDate(e.target.value)}>
             <option value={ALL_DATES_OPTION}>{ALL_DATES_OPTION}</option>
             {Object.keys(screeningsByDate)
               .sort((a, b) => new Date(a) - new Date(b)) // Sort keys in ascending order
@@ -285,7 +277,9 @@ function Screenings() {
         <>
           {Object.keys(screeningsByDate).length === 0 ? (
             <div>
-              <p className="no-results-text">Inga visningar matchar dina filter.</p>
+              <p className="no-results-text">
+                Inga visningar matchar dina filter.
+              </p>
               <p className="clear-filters-text" onClick={resetFilters}>
                 Klicka här för att återställa filtreringen
               </p>
@@ -303,36 +297,45 @@ function Screenings() {
                     <div className="seperator"></div>
                     {screeningsByDate[date].map((screening) => (
                       <li key={screening._id} className="screenings-list">
-                        <img src={screening.movie.images[0]} className="movie-poster-img"></img> 
-                          <div className="list-item-container">
-                            <h3 className="list-movie-title">
-                              <Link
-                                to={`/sok/filmer/${screening.movie._id}`}
-                                state={{ from: location.pathname }}
-                                className="link-color">
-                                {screening.movie.title}
-                              </Link>
-                            </h3>
-                              <div className="screenings-info-container">
-                              {screening.salon.name === "Small salon" ? (
-                                <p className="screenings-p">Lilla salongen</p>
-                              ) : (
-                                <p className="screenings-p">Stora salongen</p>
-                              )}
-                              <p className="screenings-p">
-                                {formatTimeToHHMM(screening.startTime)}
-                              </p>
-                              <p className="screenings-p desktopvye">{screening.movie.age} år</p>
-                              </div>
-                          </div>
-                          <div className="link-container">
-                            <Link to={`/bokning/${screening._id}`} className="main-btn-container">
-                              <button className="main-btn-color">Boka</button>
+                        <img
+                          src={screening.movie.images[0]}
+                          className="movie-poster-img"></img>
+                        <div className="list-item-container">
+                          <h3 className="list-movie-title">
+                            <Link
+                              to={`/sok/filmer/${screening.movie._id}`}
+                              state={{ from: location.pathname }}
+                              className="link-color">
+                              {screening.movie.title}
                             </Link>
-                            <Link to={`/sok/filmer/${screening.movie._id}`} state={{ from: location.pathname }} className="visa-mer desktopvye">
-                                Visa mer
-                            </Link>
+                          </h3>
+                          <div className="screenings-info-container">
+                            {screening.salon.name === "Small salon" ? (
+                              <p className="screenings-p">Lilla salongen</p>
+                            ) : (
+                              <p className="screenings-p">Stora salongen</p>
+                            )}
+                            <p className="screenings-p">
+                              {formatTimeToHHMM(screening.startTime)}
+                            </p>
+                            <p className="screenings-p desktopvye">
+                              {screening.movie.age} år
+                            </p>
                           </div>
+                        </div>
+                        <div className="link-container">
+                          <Link
+                            to={`/bokning/${screening._id}`}
+                            className="main-btn-container">
+                            <button className="main-btn-color">Boka</button>
+                          </Link>
+                          <Link
+                            to={`/sok/filmer/${screening.movie._id}`}
+                            state={{ from: location.pathname }}
+                            className="visa-mer desktopvye">
+                            Visa mer
+                          </Link>
+                        </div>
                       </li>
                     ))}
                     <div className="seperator"></div>

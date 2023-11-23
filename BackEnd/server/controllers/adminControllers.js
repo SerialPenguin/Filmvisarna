@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import Movie from "../models/movieModel.js";
 import Screening from "../models/screeningModel.js";
+import Booking from "../models/bookingModel.js";
 import User from "../models/userModel.js";
 import generatorService from "../service/generatorService.js.js";
 import bcrypt from "bcrypt";
@@ -62,7 +63,7 @@ export const getBookingByQuery = async (req, res) => {
     const booking = await bookingCollection.findOne({bookingNumber: param.query});
 
     if(!booking) {
-      res.status(404).send({ msg: "Bookningen hittades inte, var god kontrollera bokningsnumret"});
+      res.status(404).send({ msg: "Bokningen hittades inte, var god kontrollera bokningsnumret"});
     }else {
       res.status(200).send({ status: 200, booking: booking});     
     }
@@ -364,4 +365,36 @@ export const deleteUser = async (req, res) => {
   }catch(err){
     console.log(err)
   }
+}
+
+export const adminDeleteBooking = async (req, res) => {
+
+  const param = req.params;
+
+  try {
+    let bookingId = new mongoose.Types.ObjectId(param?.id);
+
+    const bookingCollection = mongoose.connection.collection('bookings');
+    const booking = await bookingCollection.findOne({_id: bookingId});
+
+    if(!booking) return res.status(400).send({ msg: "Ingen bokning hittades"});
+
+    if(booking.bookedBy.user !== "GUEST") {
+
+      const userCollection = mongoose.connection.collection('users');
+      const user = await userCollection.findOne({bookingHistory: bookingId});
+
+      if(!user) res.status(400).send({ msg: "Ingen användare hittades"});
+
+      await User.updateOne({_id: user._id}, {$pull: {bookingHistory: bookingId}});
+    }
+
+    const updateBooking = await Booking.findByIdAndDelete(bookingId);
+
+    if(updateBooking) res.status(200).send({status: 200, msg: "Bokningen avbokad."});
+    else res.status(400).send({status: 400, msg: "Kunde inte avboka."});
+
+  }catch(err) {
+    res.status(500).send({msg: err});
+  }  
 }

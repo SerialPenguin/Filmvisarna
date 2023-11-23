@@ -51,7 +51,7 @@ export default function EditMemberComponent(props) {
   }, [key, value]);
 
   useEffect(() => {
-    setChanges({ ...changes, _id: formBody._id });
+    setChanges({ ...changes, _id: formBody?._id });
     if (formBody?.userRole === "ADMIN") setCheckboxChecked(true);
     else setCheckboxChecked(false);
   }, [formBody]);

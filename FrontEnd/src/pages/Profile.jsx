@@ -14,7 +14,7 @@ export default function Profile() {
 
   const currentDate = new Date();
 
-  
+  window.scrollTo(0, 0);
 
   useEffect(() => {
     const fetchUser = async () => {

@@ -554,8 +554,6 @@ function Booking() {
                   }}
                 />
               </div>
-              <div className="ticket-counter"></div>
-
               {movie && movie.age <= 14 && (
                 <TicketCounter
                   type="children"

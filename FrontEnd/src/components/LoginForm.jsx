@@ -60,9 +60,8 @@ function LoginForm() {
           />
           <div className="links-container">
             <p className="change-pw">
-              Har du{" "}
               <Link to={"/byt-losen"} className="change-pw-link">
-                glömt lösenordet
+                Glömt lösenordet
               </Link>
               ?
             </p>

@@ -63,10 +63,9 @@ const NavComponent = ({ onCloseClick, userRole }) => {
             ) : (
               <div>
                 <li
-                  className={`nav-list-item ${
+                  className={`nav-list-item loading-cursor ${
                     location.pathname.includes("/bokning") ? "active" : ""
-                  }`}
-                  onClick={onCloseClick}>
+                  }`}>
                   BOKA
                 </li>
               </div>

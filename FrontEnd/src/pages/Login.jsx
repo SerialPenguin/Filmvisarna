@@ -4,14 +4,15 @@ import LoginForm from "../components/LoginForm";
 import "./Login.css";
 
 function Login() {
+  window.scrollTo(0, 0);
   return (
     <div className="login-wrapper">
       <div className="left-section">
-        <h2 className="welcome-text">Välkommen! Logga in här</h2>
+        <h2 className="welcome-text">Välkommen!<br/> Logga in här</h2>
         <LoginForm />
-        <p className="copyright">
+        {/* <p className="copyright">
           Filmvisarna AB <span>&copy;</span>2023
-        </p>
+        </p> */}
       </div>
       <div className="right-section">
         <div className="login-bg"></div>

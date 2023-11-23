@@ -42,7 +42,7 @@ export async function sendConfirmation({ bookingNumber, email, totalPrice, seati
 }
 
 
-export async function sendNewMember({emailAdress, generatedPassword}) {
+export async function sendNewMember({ emailAdress, generatedPassword }) {
 
     try {
         const to = emailAdress;

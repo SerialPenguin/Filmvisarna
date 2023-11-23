@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { authGet } from "../../../hooksAndUtils/fetchUtil";
+import { authGet, del } from "../../../hooksAndUtils/fetchUtil";
 import { useDebounce } from "../../../hooksAndUtils/debounce";
 import './HandleBookings.css';
 
@@ -74,6 +74,22 @@ export default function HandleBookings(props) {
     })
   }, [tickets])
 
+  async function deleteBooking() {
+
+    const result = await del('/api/auth/admin/deleteBooking/' + booking?._id, props.token);
+
+    if(result.status === 200) {
+      setMessage(result.msg);
+      setTimeout(() => {
+        setMessage();
+        setSearch();
+        setBooking();
+        setUser();
+        setFormState("searching");
+      }, 3000);
+    }
+  }
+
   return (
     <div>
       {!message && (
@@ -88,7 +104,7 @@ export default function HandleBookings(props) {
             </div>
             ) : (
               <div>
-                <h4 className="booking-num-header">{booking.bookingNumber}</h4>
+                <h4 className="booking-num-header">{booking?.bookingNumber}</h4>
                 {user?.status === 200 ? (
                   <div className="booked_by-container">
                     <h6 className="booked_by-header">Bokad av:</h6>
@@ -98,7 +114,7 @@ export default function HandleBookings(props) {
                 ) : (
                   <div className="booked_by-container">
                     <h6 className="booked_by-header">Bokad av:</h6>
-                    <p className="user-guest">Användare: {booking.bookedBy.user === "GUEST" ? "Gäst" : "Guest"}</p>
+                    <p className="user-guest">Användare: {booking?.bookedBy.user === "GUEST" ? "Gäst" : "Guest"}</p>
                   </div>
                 )}
                 <div className="specs-container">
@@ -109,7 +125,8 @@ export default function HandleBookings(props) {
                   <p className="user-tickets">Biljetter: {tickets?.map((value) => {return `${value.ticketType === "adult" ? "Vuxen" : value.ticketType === "senior" ? "Pensionär" : "Barn"}: ${value.quantity}st. `})}</p>
                   <p className="user-price">Pris: {price} kr</p>
                 </div>
-                <button className="booking-search-btn" onClick={() => {setSearch(""); setFormState("searching")}}>Sök på nytt</button>
+                <button className="booking-search-btn" onClick={() => {setSearch(""); setFormState("searching"); setBooking(); setUser();}}>Sök på nytt</button>
+                <button className="booking-delete-btn" onClick={deleteBooking}>Avboka</button>
               </div>
             )}
           </div>

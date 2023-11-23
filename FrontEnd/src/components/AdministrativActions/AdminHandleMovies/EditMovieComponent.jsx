@@ -51,11 +51,7 @@ export default function EditMovieComponent(props) {
         }
       }
 
-      await patch(
-        "/api/auth/admin/editMovie",
-        changes,
-        props.token
-      );
+      await patch("/api/auth/admin/editMovie", changes, props.token);
      
       props.movieRef.close();
       props.setOptionState("non");

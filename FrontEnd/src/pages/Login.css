@@ -1,4 +1,3 @@
-
 .login-wrapper {
   width: 90%;
   height: calc(100vh - 4em);
@@ -59,15 +58,30 @@
 .login-wrapper .first {
   margin-bottom: 16px;
 }
-
-.register-p {
-  color: #ba7e36;
-  align-self: flex-end;
-  margin-top: 8px;
+.links-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: start;
 }
-
+.change-pw {
+  color: #ba7e36;
+  margin-left: 2em;
+}
+.change-pw-link {
+  color: #ba7e36;
+  text-decoration: underline;
+}
+.change-pw-link:hover {
+  color: #e0a966;
+}
+.register-p {
+  margin-right: 2em;
+  color: #ba7e36;
+}
 .register-p-link {
   color: #ba7e36;
+  text-decoration: underline;
 }
 
 .login-field:focus {
@@ -109,12 +123,12 @@
 
 .btn-container .main-btn:hover {
   background-color: #d19dfb;
-  transition: .1s;
+  transition: 0.1s;
 }
 
 .btn-container .sec-btn:hover {
   background-color: #8743bf;
-  transition: .1s;
+  transition: 0.1s;
 }
 
 .copyright {
@@ -123,7 +137,6 @@
 }
 
 @media (min-width: 1200px) {
-
   .login-wrapper .left-section {
     width: 50%;
     gap: 5%;
@@ -156,4 +169,3 @@
     max-width: 600px;
   }
 }
-

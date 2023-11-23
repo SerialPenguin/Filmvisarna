@@ -130,6 +130,7 @@
 }
 .clear-filters-text{
     text-decoration-line: underline;
+    cursor: pointer;
 }
 @media (max-width: 350px){
     .return-container{
